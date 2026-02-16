@@ -27,7 +27,7 @@ class UpdateUserRoleRequest extends FormRequest
             'role' => ['required', 'string', 'exists:roles,name', function ($attribute, $value, $fail) {
                 // Privilege Escalation Prevention
                 // A user cannot assign a role that is 'higher' than their own.
-                // In this system: super-admin > admin > validator > pengusul
+                // In this system: super-admin > validator > pengusul
                 
                 $currentUser = $this->user();
                 

@@ -1,0 +1,9 @@
+Current Roles:
+ID: 1 - Name: super-admin
+ID: 2 - Name: validator
+ID: 3 - Name: pengusul
+
+Role Assignments (model_has_roles):
+Role ID: 1 - Model ID: 1
+Role ID: 3 - Model ID: 3
+Role ID: 3 - Model ID: 6
