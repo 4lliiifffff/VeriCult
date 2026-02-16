@@ -27,7 +27,15 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
 
 
 Route::get('/dashboard', function () {
-    return view('users.pengusul.dashboard');
+    $user = auth()->user();
+    if ($user->hasRole('super-admin')) {
+        return redirect()->route('super-admin_dashboard');
+    } elseif ($user->hasRole('validator')) {
+        return redirect()->route('validator_dashboard');
+    } elseif ($user->hasRole('pengusul')) {
+        return redirect()->route('pengusul_dashboard');
+    }
+    return view('dashboard'); // Fallback if no role
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
