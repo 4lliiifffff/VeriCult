@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'suspended' => \App\Http\Middleware\CheckSuspendedUser::class,
         ]);
         
     })
