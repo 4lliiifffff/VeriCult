@@ -94,11 +94,15 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        @foreach($user->roles as $role)
+                                        @forelse($user->roles as $role)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize {{ $role->name == 'super-admin' ? 'bg-purple-100 text-purple-800' : ($role->name == 'validator' ? 'bg-indigo-100 text-indigo-800' : 'bg-green-100 text-green-800') }}">
                                                 {{ str_replace('-', ' ', $role->name) }}
                                             </span>
-                                        @endforeach
+                                        @empty
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 capitalize">
+                                                {{ str_replace('-', ' ', $user->role ?? 'N/A') }}
+                                            </span>
+                                        @endforelse
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if(!$user->hasRole('super-admin'))
