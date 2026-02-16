@@ -43,13 +43,13 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-4 py-2 border border-[#0077B6]/30 text-sm leading-4 font-medium rounded-full text-slate-200 bg-[#023E8A]/50 hover:bg-[#0077B6] hover:text-white focus:outline-none transition ease-in-out duration-150 shadow-sm backdrop-blur-sm">
+                        <button class="inline-flex items-center px-4 py-2 border border-[#0077B6]/30 text-sm leading-4 font-medium rounded-full text-slate-200 bg-[#023E8A]/30 hover:bg-white/10 hover:text-white focus:outline-none transition ease-in-out duration-300 shadow-sm backdrop-blur-md">
                             <div class="mr-2">{{ Auth::user()->name }}</div>
-                            <div class="h-6 w-6 rounded-full bg-slate-200 text-[#03045E] flex items-center justify-center text-xs font-bold ring-2 ring-[#00B4D8]/50">
+                            <div class="h-6 w-6 rounded-full bg-slate-200/90 text-[#03045E] flex items-center justify-center text-xs font-bold ring-2 ring-[#00B4D8]/50">
                                 {{ substr(Auth::user()->name, 0, 1) }}
                             </div>
                             <div class="ms-2">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg class="fill-current h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
@@ -57,8 +57,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <div class="border-t-4 border-[#00B4D8] rounded-t-md"></div>
-                        <x-dropdown-link :href="route('profile.edit')" class="hover:bg-blue-50 text-slate-700">
+                        <div class="px-4 py-3 border-b border-slate-50 mb-1">
+                            <p class="text-xs font-bold text-[#023E8A] uppercase tracking-wider">Manage Account</p>
+                        </div>
+
+                        <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -66,7 +69,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')" class="hover:bg-red-50 text-red-600 hover:text-red-700"
+                            <x-dropdown-link :href="route('logout')" class="text-red-500 hover:bg-red-50 hover:text-red-600"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}

@@ -15,18 +15,18 @@
         </div>
     </x-slot>
 
-    <div class="py-12 bg-[#F8FAFC] min-h-screen font-sans">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+    <div class="py-6 bg-[#F8FAFC] min-h-screen font-sans">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
             <!-- Stats Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                  <!-- Pending Tasks -->
-                 <div class="group bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 relative overflow-hidden">
+                 <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-all duration-300 relative overflow-hidden">
                     <div class="flex justify-between items-start relative z-10">
                         <div>
-                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Usulan Saya</p>
-                            <h3 class="text-3xl font-extrabold text-[#03045E] mt-2">0</h3>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Usulan Saya</p>
+                            <h3 class="text-2xl font-black text-[#023E8A] mt-1">0</h3>
                         </div>
-                        <div class="p-3 bg-sky-50 rounded-xl text-sky-600 transition-colors duration-300">
+                        <div class="p-3 bg-sky-50/50 rounded-xl text-sky-600 transition-colors duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         </div>
                     </div>
