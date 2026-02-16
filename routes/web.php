@@ -9,9 +9,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified', 'role:super-admin'])
-    ->get('/users/super-admin/dashboard', [SuperAdminController::class, 'index'])
-    ->name('super-admin_dashboard');
+Route::middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
+    Route::get('/users/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super-admin_dashboard');
+    Route::post('/users/{user}/suspend', [SuperAdminController::class, 'suspend'])->name('users.suspend');
+    Route::post('/users/{user}/unsuspend', [SuperAdminController::class, 'unsuspend'])->name('users.unsuspend');
+});
 
 Route::middleware(['auth', 'verified', 'role:validator'])
     ->get('/users/validator/dashboard', function () {
