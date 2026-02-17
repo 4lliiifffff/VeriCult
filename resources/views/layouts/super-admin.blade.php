@@ -23,6 +23,18 @@
         }
     }">
         <div class="flex h-screen overflow-hidden">
+            <!-- Mobile Sidebar Backdrop -->
+            <div x-show="sidebarOpen" 
+                 x-transition:enter="transition-opacity ease-linear duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition-opacity ease-linear duration-300"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="sidebarOpen = false"
+                 class="fixed inset-0 bg-slate-900/80 z-40 lg:hidden backdrop-blur-sm"
+                 style="display: none;"></div>
+
             <!-- Sidebar -->
             @include('super-admin.partials.sidebar')
 
