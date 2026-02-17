@@ -25,6 +25,9 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     // Audit Logs
     Route::get('/audit-logs', [App\Http\Controllers\SuperAdmin\AuditLogController::class, 'index'])->name('audit-logs.index');
     Route::get('/audit-logs/{auditLog}', [App\Http\Controllers\SuperAdmin\AuditLogController::class, 'show'])->name('audit-logs.show');
+
+    // Notifications
+    Route::post('/users/{user}/notify', [App\Http\Controllers\SuperAdmin\NotificationController::class, 'store'])->name('users.notify');
 });
 
 // Legacy routes (Redirect or keep for backward compatibility if needed, but we are switching dashboard)
