@@ -28,6 +28,9 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
 
     // Notifications
     Route::post('/users/{user}/notify', [App\Http\Controllers\SuperAdmin\NotificationController::class, 'store'])->name('users.notify');
+    
+    // Live Monitoring API
+    Route::get('/api/online-users', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'getOnlineUsers'])->name('api.online-users');
 });
 
 // Legacy routes (Redirect or keep for backward compatibility if needed, but we are switching dashboard)

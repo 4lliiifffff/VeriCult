@@ -38,6 +38,21 @@ class DashboardController extends Controller
         // Unverified Users
         $unverifiedUsersCount = User::whereNull('email_verified_at')->count();
 
+        // Online Users Monitoring
+        $onlineUserIds = \Illuminate\Support\Facades\Cache::get('online-users', []);
+        $onlineUsers = collect();
+        
+        foreach ($onlineUserIds as $id) {
+            $userData = \Illuminate\Support\Facades\Cache::get('user-online-' . $id);
+            if ($userData) {
+                // Calculate status based on last activity
+                $lastActivity = \Illuminate\Support\Carbon::createFromTimestamp($userData['last_activity']);
+                $userData['status'] = $lastActivity->diffInMinutes(now()) < 5 ? 'Online' : 'Idle';
+                $userData['last_activity_human'] = $lastActivity->diffForHumans();
+                $onlineUsers->push((object) $userData);
+            }
+        }
+
         // Return existing view but now it will use the new layout
         return view('super-admin.dashboard', compact(
             'totalUsers', 
@@ -47,7 +62,28 @@ class DashboardController extends Controller
             'usersByRole', 
             'recentUsers',
             'auditLogs',
-            'suspendedUsers'
+            'suspendedUsers',
+            'onlineUsers'
         ));
+    }
+
+    public function getOnlineUsers()
+    {
+        // Online Users Monitoring (same logic as index)
+        $onlineUserIds = \Illuminate\Support\Facades\Cache::get('online-users', []);
+        $onlineUsers = collect();
+        
+        foreach ($onlineUserIds as $id) {
+            $userData = \Illuminate\Support\Facades\Cache::get('user-online-' . $id);
+            if ($userData) {
+                // Calculate status based on last activity
+                $lastActivity = \Illuminate\Support\Carbon::createFromTimestamp($userData['last_activity']);
+                $userData['status'] = $lastActivity->diffInMinutes(now()) < 5 ? 'Online' : 'Idle';
+                $userData['last_activity_human'] = $lastActivity->diffForHumans();
+                $onlineUsers->push((object) $userData);
+            }
+        }
+
+        return response()->json($onlineUsers);
     }
 }
