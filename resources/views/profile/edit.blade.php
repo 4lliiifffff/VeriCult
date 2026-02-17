@@ -1,4 +1,15 @@
-<x-dynamic-component :component="auth()->user()->hasRole('super-admin') ? 'layouts.super-admin' : 'app-layout'">
+@php
+    $layout = 'app-layout';
+    if (auth()->user()->hasRole('super-admin')) {
+        $layout = 'layouts.super-admin';
+    } elseif (auth()->user()->hasRole('validator')) {
+        $layout = 'layouts.validator';
+    } elseif (auth()->user()->hasRole('pengusul')) {
+        $layout = 'layouts.pengusul';
+    }
+@endphp
+
+<x-dynamic-component :component="$layout">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-[#03045E] leading-tight">
             {{ __('Profile Settings') }}

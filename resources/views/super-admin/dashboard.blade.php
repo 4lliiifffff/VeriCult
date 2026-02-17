@@ -49,6 +49,20 @@
                     </div>
                 </div>
 
+                <!-- Unverified Users -->
+                <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-shadow duration-300 relative overflow-hidden">
+                     <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-amber-500/5 to-transparent rounded-full blur-2xl"></div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unverified</p>
+                            <h3 class="text-2xl font-black text-[#0077B6] mt-1">{{ $unverifiedUsersCount }}</h3>
+                        </div>
+                        <div class="p-2.5 bg-amber-50/50 rounded-xl text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Role Stats (Dynamic) -->
                 @php
                     $roleColors = [
@@ -131,6 +145,8 @@
                                     <td class="px-5 py-3.5 text-center">
                                         @if($user->is_suspended)
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-50 text-red-600">Suspended</span>
+                                        @elseif(is_null($user->email_verified_at))
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-600">Unverified</span>
                                         @else
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600">Active</span>
                                         @endif

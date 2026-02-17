@@ -35,11 +35,15 @@ class DashboardController extends Controller
         // Suspended Users List
         $suspendedUsers = User::where('is_suspended', true)->with('roles')->get();
 
+        // Unverified Users
+        $unverifiedUsersCount = User::whereNull('email_verified_at')->count();
+
         // Return existing view but now it will use the new layout
         return view('super-admin.dashboard', compact(
             'totalUsers', 
             'newUsersThisMonth', 
             'suspendedUsersCount',
+            'unverifiedUsersCount',
             'usersByRole', 
             'recentUsers',
             'auditLogs',

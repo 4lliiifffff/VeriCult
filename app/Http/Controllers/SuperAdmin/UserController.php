@@ -75,7 +75,8 @@ class UserController extends Controller
     public function storeValidator(\App\Http\Requests\StoreValidatorRequest $request)
     {
         try {
-            $password = $request->password ?? \Illuminate\Support\Str::random(10);
+            // Generate a secure password if not provided
+            $password = $request->password ?? \Illuminate\Support\Str::password(12);
             
             $user = User::create([
                 'name' => $request->name,
@@ -87,9 +88,25 @@ class UserController extends Controller
 
             $user->assignRole('validator');
 
-            // ... (log action) ...
+            // Log action
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'created_validator',
+                'model_type' => get_class($user),
+                'model_id' => $user->id,
+                'new_data' => ['email' => $user->email, 'role' => 'validator'],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
+
+            // Create a clear success message with the password
+            $message = 'Validator created successfully.';
+            $message .= ' <strong>Password: ' . $password . '</strong>';
+            $message .= ' (Please copy this password immediately)';
+
+            return redirect()->route('super-admin.users.index')->with('success', $message);
         } catch (\Exception $e) {
-            // ...
+            return back()->with('error', 'Failed to create validator: ' . $e->getMessage())->withInput();
         }
     }
 
