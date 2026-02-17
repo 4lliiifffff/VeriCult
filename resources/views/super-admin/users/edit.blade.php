@@ -36,14 +36,21 @@
 
                     <div>
                         <x-input-label for="role" :value="__('Role')" />
-                        <select id="role" name="role" class="mt-1 block w-full border-slate-200 focus:border-[#0077B6] focus:ring-4 focus:ring-[#00B4D8]/10 rounded-xl shadow-sm text-slate-700">
-                            @foreach($roles as $role)
-                                <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
-                                    {{ ucfirst(str_replace('-', ' ', $role->name)) }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <x-input-error class="mt-2" :messages="$errors->get('role')" />
+                        @if($user->id === 1)
+                            <div class="px-3 py-2 border border-slate-200 bg-slate-100 text-slate-500 rounded-xl text-sm font-medium">
+                                Super Admin (Master Administrator - Cannot be changed)
+                            </div>
+                            <input type="hidden" name="role" value="super-admin">
+                        @else
+                            <select id="role" name="role" class="mt-1 block w-full border-slate-200 focus:border-[#0077B6] focus:ring-4 focus:ring-[#00B4D8]/10 rounded-xl shadow-sm text-slate-700">
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                        {{ ucfirst(str_replace('-', ' ', $role->name)) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('role')" />
+                        @endif
                     </div>
 
                     <div class="pt-4 border-t border-slate-100">
