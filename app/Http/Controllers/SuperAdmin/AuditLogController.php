@@ -27,4 +27,9 @@ class AuditLogController extends Controller
 
         return view('super-admin.audit-logs.index', compact('logs'));
     }
+
+    public function show(AuditLog $auditLog)
+    {
+        return view('super-admin.audit-logs.show', compact('auditLog'));
+    }
 }

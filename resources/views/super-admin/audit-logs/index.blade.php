@@ -67,9 +67,9 @@
                             <div class="text-[10px] text-slate-400">{{ $log->created_at->diffForHumans() }}</div>
                         </td>
                         <td class="px-6 py-4 text-right">
-                           <button class="text-xs font-bold text-slate-400 hover:text-[#0077B6] transition-colors" title="View Details">
+                           <a href="{{ route('super-admin.audit-logs.show', $log) }}" class="text-xs font-bold text-slate-400 hover:text-[#0077B6] transition-colors" title="View Details">
                                Show Data
-                           </button>
+                           </a>
                         </td>
                     </tr>
                     @empty
