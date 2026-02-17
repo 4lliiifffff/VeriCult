@@ -92,6 +92,97 @@
                 @endforeach
             </div>
 
+            <!-- Live User Monitoring -->
+            <div x-data="{
+                    onlineUsers: {{ json_encode($onlineUsers) }},
+                    loading: false,
+                    
+                    async fetchOnlineUsers() {
+                        try {
+                            const response = await fetch('{{ route('super-admin.api.online-users') }}');
+                            this.onlineUsers = await response.json();
+                        } catch (error) {
+                            console.error('Failed to fetch online users:', error);
+                        }
+                    },
+                    
+                    init() {
+                        // Auto-refresh every 5 seconds
+                        setInterval(() => {
+                            this.fetchOnlineUsers();
+                        }, 5000);
+                    }
+                }" 
+                class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 overflow-hidden relative">
+                 <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-[#03045E] flex items-center gap-2">
+                             <span class="relative flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                            </span>
+                            Live User Monitoring
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Real-time user activity tracking (Auto-refresh every 5 seconds).</p>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                             <tr class="text-[11px] font-bold text-slate-400 uppercase bg-slate-50/30 border-b border-slate-100">
+                                <th class="px-5 py-3 tracking-wider">User</th>
+                                <th class="px-5 py-3 tracking-wider">Role</th>
+                                <th class="px-5 py-3 tracking-wider">Current Page</th>
+                                <th class="px-5 py-3 tracking-wider text-center">Last Activity</th>
+                                <th class="px-5 py-3 tracking-wider text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            <template x-if="onlineUsers.length > 0">
+                                <template x-for="online in onlineUsers" :key="online.id">
+                                    <tr class="hover:bg-slate-50/50 transition-colors">
+                                        <td class="px-5 py-3">
+                                            <div class="font-bold text-sm text-[#03045E]" x-text="online.name"></div>
+                                        </td>
+                                        <td class="px-5 py-3">
+                                            <span class="text-[10px] font-semibold uppercase text-slate-500 bg-slate-100 px-2 py-0.5 rounded" x-text="online.role.replace('-', ' ')"></span>
+                                        </td>
+                                        <td class="px-5 py-3">
+                                            <div class="flex flex-col">
+                                                <span class="text-xs font-mono text-slate-600 truncate max-w-[300px]" x-text="online.current_url" :title="online.current_url"></span>
+                                                <span class="text-[10px] text-slate-400 font-bold" x-text="online.method"></span>
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-3 text-center text-xs text-slate-500">
+                                            <span x-text="online.last_activity_human"></span>
+                                        </td>
+                                        <td class="px-5 py-3 text-center">
+                                            <span x-show="online.status === 'Online'" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                                Online
+                                            </span>
+                                            <span x-show="online.status !== 'Online'" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-600 border border-amber-100">
+                                                Idle
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+                            <template x-if="onlineUsers.length === 0">
+                                <tr>
+                                    <td colspan="5" class="px-5 py-8 text-center text-slate-400 text-xs text-center">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <svg class="w-8 h-8 text-slate-200 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                            No active users found at the moment.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Recent Users Table (Width: 2/3) -->
                 <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100/60 overflow-hidden">
