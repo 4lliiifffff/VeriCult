@@ -9,27 +9,52 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'index'])->name('dashboard');
+    
+    // User Management
+    Route::get('/users/create-validator', [App\Http\Controllers\SuperAdmin\UserController::class, 'createValidator'])->name('users.create-validator');
+    Route::post('/users/store-validator', [App\Http\Controllers\SuperAdmin\UserController::class, 'storeValidator'])->name('users.store-validator');
+    
+    Route::resource('users', App\Http\Controllers\SuperAdmin\UserController::class);
+    Route::post('/users/{user}/suspend', [App\Http\Controllers\SuperAdmin\UserController::class, 'suspend'])->name('users.suspend');
+    Route::post('/users/{user}/unsuspend', [App\Http\Controllers\SuperAdmin\UserController::class, 'unsuspend'])->name('users.unsuspend');
+    
+    // Audit Logs
+    Route::get('/audit-logs', [App\Http\Controllers\SuperAdmin\AuditLogController::class, 'index'])->name('audit-logs.index');
+});
+
+// Legacy routes (Redirect or keep for backward compatibility if needed, but we are switching dashboard)
+// Route::get('/users/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super-admin_dashboard'); 
+// commented out to force new route usage if we change route('super-admin_dashboard') calls.
+
+// We need to support the old route name 'super-admin_dashboard' temporarily or update all references.
+// Let's add a redirect or alias.
+Route::get('/users/super-admin/dashboard', function() {
+    return redirect()->route('super-admin.dashboard');
+})->middleware(['auth', 'role:super-admin'])->name('super-admin_dashboard');
+
+
 Route::middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
-    Route::get('/users/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super-admin_dashboard');
     Route::post('/users/{user}/suspend', [SuperAdminController::class, 'suspend'])->name('users.suspend');
     Route::post('/users/{user}/unsuspend', [SuperAdminController::class, 'unsuspend'])->name('users.unsuspend');
 });
 
 Route::middleware(['auth', 'verified', 'role:validator'])
     ->get('/users/validator/dashboard', function () {
-        return view('users.validator.dashboard');
+        return view('validator.dashboard');
     })->name('validator_dashboard');
 
 Route::middleware(['auth', 'verified', 'role:pengusul'])
     ->get('/users/pengusul/dashboard', function () {
-        return view('users.pengusul.dashboard');
+        return view('pengusul.dashboard');
     })->name('pengusul_dashboard');
 
 
 Route::get('/dashboard', function () {
     $user = auth()->user();
     if ($user->hasRole('super-admin')) {
-        return redirect()->route('super-admin_dashboard');
+        return redirect()->route('super-admin.dashboard');
     } elseif ($user->hasRole('validator')) {
         return redirect()->route('validator_dashboard');
     } elseif ($user->hasRole('pengusul')) {

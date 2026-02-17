@@ -1,21 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\SuperAdmin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Models\AuditLog;
+use Illuminate\Http\Request;
 
-class SuperAdminController extends Controller
+class DashboardController extends Controller
 {
-    protected $governanceService;
-
-    public function __construct(\App\Services\GovernanceService $governanceService)
-    {
-        $this->governanceService = $governanceService;
-    }
-
     public function index()
     {
         // Statistics
@@ -33,7 +27,7 @@ class SuperAdminController extends Controller
             ->get();
 
         // Audit Logs
-        $auditLogs = \App\Models\AuditLog::with('user')
+        $auditLogs = AuditLog::with('user')
             ->latest()
             ->take(10)
             ->get();
@@ -41,6 +35,7 @@ class SuperAdminController extends Controller
         // Suspended Users List
         $suspendedUsers = User::where('is_suspended', true)->with('roles')->get();
 
+        // Return existing view but now it will use the new layout
         return view('super-admin.dashboard', compact(
             'totalUsers', 
             'newUsersThisMonth', 
@@ -50,25 +45,5 @@ class SuperAdminController extends Controller
             'auditLogs',
             'suspendedUsers'
         ));
-    }
-
-    public function suspend(User $user)
-    {
-        try {
-            $this->governanceService->suspendUser($user, auth()->user());
-            return back()->with('success', 'User suspended successfully.');
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
-
-    public function unsuspend(User $user)
-    {
-        try {
-            $this->governanceService->unsuspendUser($user, auth()->user());
-            return back()->with('success', 'User unsuspended successfully.');
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
     }
 }
