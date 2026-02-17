@@ -34,10 +34,10 @@
                 <thead>
                     <tr class="text-[11px] font-bold text-slate-400 uppercase bg-slate-50/50 border-b border-slate-100">
                         <th class="px-6 py-4 tracking-wider">User</th>
-                        <th class="px-6 py-4 tracking-wider">Action</th>
+                        <th class="px-6 py-4 tracking-wider">Aksi</th>
                         <th class="px-6 py-4 tracking-wider">Target</th>
-                        <th class="px-6 py-4 tracking-wider">Timestamp</th>
-                        <th class="px-6 py-4 tracking-wider text-right">Details</th>
+                        <th class="px-6 py-4 tracking-wider">Tanggal dan Waktu</th>
+                        <th class="px-6 py-4 tracking-wider text-right">Detail</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">

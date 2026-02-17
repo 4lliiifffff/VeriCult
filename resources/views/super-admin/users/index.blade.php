@@ -61,8 +61,8 @@
                         <th class="px-6 py-4 tracking-wider">User Info</th>
                         <th class="px-6 py-4 tracking-wider">Role</th>
                         <th class="px-6 py-4 tracking-wider text-center">Status</th>
-                        <th class="px-6 py-4 tracking-wider text-center">Joined</th>
-                        <th class="px-6 py-4 tracking-wider text-right">Actions</th>
+                        <th class="px-6 py-4 tracking-wider text-center">Bergabung</th>
+                        <th class="px-6 py-4 tracking-wider text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
