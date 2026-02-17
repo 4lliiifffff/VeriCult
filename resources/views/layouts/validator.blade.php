@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'VeriCult Admin') }} - Super Admin</title>
+        <title>{{ config('app.name', 'VeriCult') }} - Validator</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -36,13 +36,13 @@
                  style="display: none;"></div>
 
             <!-- Sidebar -->
-            @include('super-admin.partials.sidebar')
+            @include('validator.partials.sidebar')
 
             <!-- Main Content Wrapper -->
             <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300"
                  :class="sidebarMinimized ? 'lg:pl-20' : 'lg:pl-64'">
                 <!-- Navbar -->
-                @include('super-admin.partials.navbar')
+                @include('validator.partials.navbar')
 
                 <!-- Main Content -->
                 <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8FAFC] p-6">

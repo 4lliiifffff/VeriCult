@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts.validator>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
@@ -42,4 +42,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-layouts.validator>

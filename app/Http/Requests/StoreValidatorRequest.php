@@ -24,7 +24,7 @@ class StoreValidatorRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'password' => ['nullable', \Illuminate\Validation\Rules\Password::min(8)->mixedCase()->numbers(), 'confirmed'],
             // Add institution and region if we have fields for them later
         ];
     }
