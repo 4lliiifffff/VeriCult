@@ -109,49 +109,54 @@
                         </td>
                         <td class="px-6 py-4 text-right">
                            <div class="flex items-center justify-end gap-2">
-                                @if(!$user->hasRole('super-admin'))
+                                @if($user->id !== 1)
                                     <div class="flex items-center gap-2">
-                                        @if(!$user->hasVerifiedEmail())
-                                            <form action="{{ route('super-admin.users.verify-email', $user) }}" method="POST" class="inline" onsubmit="return confirm('Manually verify this user\'s email?');">
-                                                @csrf
-                                                <button type="submit" class="text-xs font-bold text-sky-600 hover:text-sky-800 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-lg transition-colors border border-sky-100" title="Manually Verify Email">
-                                                    Verify
-                                                </button>
-                                            </form>
-                                        @endif
+                                        {{-- Only show verification/suspension for non-super-admins --}}
+                                        @if(!$user->hasRole('super-admin'))
+                                            @if(!$user->hasVerifiedEmail())
+                                                <form action="{{ route('super-admin.users.verify-email', $user) }}" method="POST" class="inline" onsubmit="return confirm('Manually verify this user\'s email?');">
+                                                    @csrf
+                                                    <button type="submit" class="text-xs font-bold text-sky-600 hover:text-sky-800 bg-sky-50 hover:bg-sky-100 px-3 py-1.5 rounded-lg transition-colors border border-sky-100" title="Manually Verify Email">
+                                                        Verify
+                                                    </button>
+                                                </form>
+                                            @endif
 
-                                        @if($user->is_suspended)
-                                            <form action="{{ route('super-admin.users.unsuspend', $user) }}" method="POST" class="inline">
-                                                @csrf
-                                                <button type="submit" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors border border-emerald-100">
-                                                    Unsuspend
-                                                </button>
-                                            </form>
-                                        @else
-                                            <form action="{{ route('super-admin.users.suspend', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to suspend this user?');">
-                                                @csrf
-                                                <button type="submit" class="text-xs font-bold text-orange-500 hover:text-orange-700 hover:bg-orange-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-orange-100">
-                                                    Suspend
-                                                </button>
-                                            </form>
+                                            @if($user->is_suspended)
+                                                <form action="{{ route('super-admin.users.unsuspend', $user) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <button type="submit" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors border border-emerald-100">
+                                                        Unsuspend
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('super-admin.users.suspend', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to suspend this user?');">
+                                                    @csrf
+                                                    <button type="submit" class="text-xs font-bold text-orange-500 hover:text-orange-700 hover:bg-orange-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-orange-100">
+                                                        Suspend
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
 
                                         <a href="{{ route('super-admin.users.edit', $user) }}" class="text-xs font-bold text-slate-500 hover:text-[#0077B6] bg-slate-50 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors border border-slate-100">
                                             Edit
                                         </a>
 
-                                        <form action="{{ route('super-admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('WARNING: Are you sure you want to PERMANENTLY delete this user? This action cannot be undone.');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-red-100" title="Delete User">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </button>
-                                        </form>
+                                        @if($user->id !== auth()->id())
+                                            <form action="{{ route('super-admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('WARNING: Are you sure you want to PERMANENTLY delete this user? This action cannot be undone.');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors border border-transparent hover:border-red-100" title="Delete User">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 @else
                                     <span class="text-[10px] text-slate-300 italic flex items-center gap-1 justify-end">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                        Protected
+                                        Protected Master
                                     </span>
                                 @endif
                            </div>

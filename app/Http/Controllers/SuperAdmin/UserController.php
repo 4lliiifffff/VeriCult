@@ -147,12 +147,30 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        // Protect Master Admin from being edited
+        if ($user->id === 1 && $user->id !== auth()->id()) {
+            return redirect()->route('super-admin.users.index')->with('error', 'The Master Administrator account cannot be edited.');
+        }
+
         $roles = Role::all();
         return view('super-admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
     {
+        // Protect Master Admin from modifications
+        if ($user->id === 1 && $user->id !== auth()->id()) {
+             // Allow Master Admin to update their own profile, but maybe restrict role changes?
+             // Actually, usually Master Admin updates via Profile Controller, not User Management.
+             // But if another admin tries to edit ID 1, block it.
+             return back()->with('error', 'The Master Administrator account cannot be modified by others.');
+        }
+        
+        // If it is ID 1 updating themselves here (rare), ensure they don't lose super-admin role.
+        if ($user->id === 1 && $request->role !== 'super-admin') {
+             return back()->with('error', 'The Master Administrator cannot change their own role.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
@@ -194,9 +212,17 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->hasRole('super-admin')) {
-            return back()->with('error', 'Cannot delete a Super Admin user.');
+        // Protect Master Admin (ID 1)
+        if ($user->id === 1) {
+            return back()->with('error', 'The Master Administrator account cannot be deleted.');
         }
+
+        // Prevent self-deletion
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'You cannot delete your own account.');
+        }
+
+        // Removed generic Super Admin restriction to allow managing other admins
 
         try {
             $user->delete();
