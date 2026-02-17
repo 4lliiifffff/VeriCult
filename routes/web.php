@@ -54,9 +54,22 @@ Route::middleware(['auth', 'verified', 'role:validator'])
         return view('validator.dashboard');
     })->name('validator_dashboard');
 
+// Pengusul Routes
 Route::middleware(['auth', 'verified', 'role:pengusul'])
-    ->get('/users/pengusul/dashboard', function () {
-        return view('pengusul.dashboard');
+    ->prefix('pengusul')
+    ->name('pengusul.')
+    ->group(function () {
+        Route::get('/dashboard', [App\Http\Controllers\Users\Pengusul\DashboardController::class, 'index'])->name('dashboard');
+        
+        Route::resource('submissions', App\Http\Controllers\Users\Pengusul\SubmissionController::class);
+        Route::post('/submissions/{submission}/submit', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'submit'])->name('submissions.submit');
+        Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
+    });
+
+// Legacy pengusul dashboard redirect
+Route::middleware(['auth', 'verified', 'role:pengusul'])
+    ->get('/users/pengusul/dashboard-old', function () {
+        return redirect()->route('pengusul.dashboard');
     })->name('pengusul_dashboard');
 
 
@@ -67,7 +80,7 @@ Route::get('/dashboard', function () {
     } elseif ($user->hasRole('validator')) {
         return redirect()->route('validator_dashboard');
     } elseif ($user->hasRole('pengusul')) {
-        return redirect()->route('pengusul_dashboard');
+        return redirect()->route('users.pengusul.dashboard');
     }
     return view('dashboard'); // Fallback if no role
 })->middleware(['auth', 'verified'])->name('dashboard');
