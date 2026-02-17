@@ -1,11 +1,11 @@
-<x-app-layout>
+<x-layouts.super-admin>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
                 <h2 class="font-bold text-2xl text-[#03045E] leading-tight tracking-tight">
                     {{ __('Dashboard Overview') }}
                 </h2>
-                <p class="text-sm text-slate-500 mt-1">Selamat datang kembali, Super Admin.</p>
+                <p class="text-sm text-slate-500  mt-1">Selamat datang kembali, Super Admin.</p>
             </div>
             <div class="mt-4 md:mt-0">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-[#0077B6] border border-blue-100">
@@ -27,7 +27,7 @@
                     <div class="flex justify-between items-start relative z-10">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total User</p>
-                            <h3 class="text-2xl font-black text-[#023E8A] mt-1">{{ $totalUsers }}</h3>
+                            <h3 class="text-2xl font-black text-[#0077B6] mt-1">{{ $totalUsers }}</h3>
                         </div>
                         <div class="p-2.5 bg-blue-50/50 rounded-xl text-[#0077B6] group-hover:bg-[#0077B6] group-hover:text-white transition-colors duration-300">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -41,7 +41,7 @@
                     <div class="flex justify-between items-start relative z-10">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Suspended</p>
-                            <h3 class="text-2xl font-black text-[#023E8A] mt-1">{{ $suspendedUsersCount }}</h3>
+                            <h3 class="text-2xl font-black text-[#0077B6] mt-1">{{ $suspendedUsersCount }}</h3>
                         </div>
                         <div class="p-2.5 bg-red-50/50 rounded-xl text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors duration-300">
                              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -68,7 +68,7 @@
                         <div class="flex justify-between items-start relative z-10">
                             <div>
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ str_replace('-', ' ', $role->name) }}</p>
-                                <h3 class="text-2xl font-black text-[#023E8A] mt-1">{{ $role->users_count }}</h3>
+                                <h3 class="text-2xl font-black text-[#0077B6] mt-1">{{ $role->users_count }}</h3>
                             </div>
                             <div class="p-2.5 {{ $colors['bg'] }} {{ $colors['text'] }} rounded-xl {{ $colors['hover'] }} group-hover:text-white transition-colors duration-300">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -153,7 +153,10 @@
                                                 </form>
                                             @endif
                                         @else
-                                            <span class="text-[10px] text-slate-300 italic">Protected</span>
+                                            <span class="text-[10px] text-slate-300 italic flex items-center gap-1 justify-end">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                        Protected
+                                    </span>
                                         @endif
                                     </td>
                                 </tr>
@@ -215,4 +218,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-layouts.super-admin>
