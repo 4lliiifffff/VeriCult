@@ -43,6 +43,7 @@
     <nav class="mt-5 px-3 space-y-2">
         <!-- Dashboard -->
         <a href="{{ route('super-admin.dashboard') }}" 
+           @click="sidebarOpen = false"
            class="flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative"
            :class="request()->routeIs('super-admin.dashboard') ? 'bg-[#0077B6] text-white shadow-lg shadow-blue-900/50' : 'text-slate-100 hover:bg-white/5 hover:text-white'">
             
@@ -72,6 +73,7 @@
 
         <!-- User Management -->
         <a href="{{ route('super-admin.users.index') }}" 
+           @click="sidebarOpen = false"
            class="flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative"
            :class="request()->routeIs('super-admin.users.*') ? 'bg-[#0077B6] text-white shadow-lg shadow-blue-900/50' : 'text-slate-100 hover:bg-white/5 hover:text-white'">
             
@@ -100,6 +102,7 @@
 
         <!-- Audit Logs -->
         <a href="{{ route('super-admin.audit-logs.index') }}" 
+           @click="sidebarOpen = false"
            class="flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative"
            :class="request()->routeIs('super-admin.audit-logs.*') ? 'bg-[#0077B6] text-white shadow-lg shadow-blue-900/50' : 'text-slate-100 hover:bg-white/5 hover:text-white'">
             
