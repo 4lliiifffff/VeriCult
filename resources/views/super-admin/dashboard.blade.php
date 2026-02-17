@@ -86,9 +86,9 @@
                             <h3 class="text-base font-bold text-[#03045E]">Pengguna Terbaru</h3>
                             <p class="text-xs text-slate-400 mt-0.5">Daftar pengguna yang baru bergabung.</p>
                         </div>
-                        <button class="text-xs font-medium text-[#0077B6] hover:text-[#0096C7] transition-colors bg-blue-50/50 hover:bg-blue-100 px-3 py-1.5 rounded-lg">
-                            Lihat Semua
-                        </button>
+                        <a href="{{ route('super-admin.users.index') }}" class="text-xs font-medium text-[#0077B6] hover:text-[#0096C7] transition-colors bg-blue-50/50 hover:bg-blue-100 px-3 py-1.5 rounded-lg">
+                            Lihat Semua &rarr;
+                        </a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                     <div class="p-3 bg-slate-50 border-t border-slate-100 text-center">
-                        <a href="#" class="text-[10px] font-medium text-[#0077B6] hover:text-[#0096C7]">Lihat Log Lengkap &rarr;</a>
+                        <a href="{{ route('super-admin.audit-logs.index') }}" class="text-[10px] font-medium text-[#0077B6] hover:text-[#0096C7]">Lihat Log Lengkap &rarr;</a>
                     </div>
                 </div>
             </div>
