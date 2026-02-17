@@ -19,9 +19,12 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     Route::resource('users', App\Http\Controllers\SuperAdmin\UserController::class);
     Route::post('/users/{user}/suspend', [App\Http\Controllers\SuperAdmin\UserController::class, 'suspend'])->name('users.suspend');
     Route::post('/users/{user}/unsuspend', [App\Http\Controllers\SuperAdmin\UserController::class, 'unsuspend'])->name('users.unsuspend');
+    Route::post('/users/{user}/verify-email', [App\Http\Controllers\SuperAdmin\UserController::class, 'verifyEmail'])->name('users.verify-email');
+    Route::post('/users/{user}/resend-verification-email', [App\Http\Controllers\SuperAdmin\UserController::class, 'resendVerificationEmail'])->name('users.resend-verification-email');
     
     // Audit Logs
     Route::get('/audit-logs', [App\Http\Controllers\SuperAdmin\AuditLogController::class, 'index'])->name('audit-logs.index');
+    Route::get('/audit-logs/{auditLog}', [App\Http\Controllers\SuperAdmin\AuditLogController::class, 'show'])->name('audit-logs.show');
 });
 
 // Legacy routes (Redirect or keep for backward compatibility if needed, but we are switching dashboard)

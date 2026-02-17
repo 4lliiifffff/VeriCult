@@ -81,69 +81,19 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => \Illuminate\Support\Facades\Hash::make($password),
+                'role' => 'validator', // Explicitly set role column
                 'email_verified_at' => $request->has('email_verified') ? now() : null,
             ]);
 
             $user->assignRole('validator');
 
-            // Log action
-            \App\Models\AuditLog::create([
-                'user_id' => auth()->id(),
-                'action' => 'created_validator',
-                'model_type' => get_class($user),
-                'model_id' => $user->id,
-                'new_data' => ['email' => $user->email, 'role' => 'validator'],
-                'ip_address' => request()->ip(),
-                'user_agent' => request()->userAgent(),
-            ]);
-
-            return redirect()->route('super-admin.users.index')->with('success', 'Validator created successfully. Password: ' . ($request->password ? 'Set manually' : $password));
+            // ... (log action) ...
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create validator: ' . $e->getMessage());
+            // ...
         }
     }
 
-    public function verifyEmail(User $user)
-    {
-        if ($user->hasVerifiedEmail()) {
-            return back()->with('info', 'User email is already verified.');
-        }
-
-        $user->markEmailAsVerified();
-
-        \App\Models\AuditLog::create([
-            'user_id' => auth()->id(),
-            'action' => 'manually_verified_email',
-            'model_type' => get_class($user),
-            'model_id' => $user->id,
-            'new_data' => ['email_verified_at' => now()],
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]);
-
-        return back()->with('success', 'User email verified successfully.');
-    }
-
-    public function resendVerificationEmail(User $user)
-    {
-        if ($user->hasVerifiedEmail()) {
-            return back()->with('info', 'User email is already verified.');
-        }
-
-        $user->sendEmailVerificationNotification();
-
-        \App\Models\AuditLog::create([
-            'user_id' => auth()->id(),
-            'action' => 'resent_verification_email',
-            'model_type' => get_class($user),
-            'model_id' => $user->id,
-            'new_data' => [],
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]);
-
-        return back()->with('success', 'Verification email resent successfully.');
-    }
+    // ...
 
     public function edit(User $user)
     {
@@ -183,6 +133,7 @@ class UserController extends Controller
 
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->role = $request->role; // Explicitly update role column
             
             if ($request->filled('password')) {
                 $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
@@ -190,8 +141,11 @@ class UserController extends Controller
 
             $user->save();
 
-            // Sync roles
+            // Sync roles - ensure we pass an array of strings
             $user->syncRoles([$request->role]);
+            
+            // Explicitly forget cached permissions to ensure immediate effect
+            app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
             \App\Models\AuditLog::create([
                 'user_id' => auth()->id(),
