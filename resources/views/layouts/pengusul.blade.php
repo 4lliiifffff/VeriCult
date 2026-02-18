@@ -56,6 +56,7 @@
                     <!-- Flash Messages Modal -->
                     <x-flash-modal />
 
+                    {{ $slot ?? '' }}
                     @yield('content')
                 </main>
             </div>
