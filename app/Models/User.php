@@ -52,4 +52,22 @@ class User extends Authenticatable implements MustVerifyEmail
             'last_seen_at' => 'datetime',
         ];
     }
+
+    /**
+     * Get the route name for the user's dashboard based on their role.
+     *
+     * @return string
+     */
+    public function getDashboardRoute(): string
+    {
+        if ($this->hasRole('super-admin')) {
+            return 'super-admin.dashboard';
+        } elseif ($this->hasRole('validator')) {
+            return 'validator_dashboard';
+        } elseif ($this->hasRole('pengusul')) {
+            return 'pengusul.dashboard';
+        }
+
+        return 'dashboard';
+    }
 }
