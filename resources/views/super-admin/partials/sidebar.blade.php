@@ -40,38 +40,45 @@
     </div>
 
     <!-- Nav Links -->
-    <nav class="mt-5 px-3 space-y-2">
+    <nav class="mt-8 px-4 space-y-3">
+        <!-- Section Label -->
+        <h3 x-show="!sidebarMinimized" class="px-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4"
+            x-transition:enter="transition ease-out duration-300 delay-100"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100">
+            Menu Utama
+        </h3>
+
         <!-- Dashboard -->
         <a href="{{ route('super-admin.dashboard') }}" 
            @click="sidebarOpen = false"
            :class="sidebarMinimized ? 'justify-center !px-0' : ''"
            @class([
-               'flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative',
-               'bg-[#0077B6] text-white shadow-lg shadow-blue-900/50' => request()->routeIs('super-admin.dashboard'),
-               'text-slate-100 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.dashboard')
+               'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative overflow-hidden',
+               'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('super-admin.dashboard'),
+               'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.dashboard')
            ])>
             
-           
-            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.dashboard') ? 'text-white' : 'text-slate-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+                <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.dashboard') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                 </svg>
             </div>
             
             <span x-show="!sidebarMinimized"
-                  style="color: white !important;"
                   x-transition:enter="transition ease-out duration-300 delay-100"
                   x-transition:enter-start="opacity-0 translate-x-2"
                   x-transition:enter-end="opacity-100 translate-x-0"
-                  x-transition:leave="transition ease-in duration-100"
-                  x-transition:leave-start="opacity-100 translate-x-0"
-                  x-transition:leave-end="opacity-0 translate-x-2"
-                  class="ml-3 whitespace-nowrap !text-white">
+                  class="ml-3 whitespace-nowrap relative z-10 transition-colors">
                 Dashboard 
             </span>
+
+            @if(request()->routeIs('super-admin.dashboard'))
+                <div class="absolute right-0 top-0 bottom-0 w-1 bg-white rounded-l-full"></div>
+            @endif
             
             <!-- Tooltip for minimized state -->
-            <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap z-50">
+            <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
                 Dashboard
             </div>
         </a>
@@ -81,31 +88,31 @@
            @click="sidebarOpen = false"
            :class="sidebarMinimized ? 'justify-center !px-0' : ''"
            @class([
-               'flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative',
-               'bg-[#0077B6] text-white shadow-lg shadow-blue-900/50' => request()->routeIs('super-admin.users.*'),
-               'text-slate-100 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.users.*')
+               'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative overflow-hidden',
+               'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('super-admin.users.*'),
+               'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.users.*')
            ])>
             
-            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.users.*') ? 'text-white' : 'text-slate-300 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+                <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.users.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
             </div>
 
             <span x-show="!sidebarMinimized"
-                  style="color: white !important;"
                   x-transition:enter="transition ease-out duration-300 delay-100"
                   x-transition:enter-start="opacity-0 translate-x-2"
                   x-transition:enter-end="opacity-100 translate-x-0"
-                  x-transition:leave="transition ease-in duration-100"
-                  x-transition:leave-start="opacity-100 translate-x-0"
-                  x-transition:leave-end="opacity-0 translate-x-2"
-                  class="ml-3 whitespace-nowrap !text-white">
-                User Management
+                  class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                Kelola Pengguna
             </span>
 
-             <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap z-50">
-                User Management
+            @if(request()->routeIs('super-admin.users.*'))
+                <div class="absolute right-0 top-0 bottom-0 w-1 bg-white rounded-l-full"></div>
+            @endif
+
+             <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                Kelola Pengguna
             </div>
         </a>
 
@@ -114,31 +121,31 @@
            @click="sidebarOpen = false"
            :class="sidebarMinimized ? 'justify-center !px-0' : ''"
            @class([
-               'flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative',
-               'bg-[#0077B6] text-white shadow-lg shadow-blue-900/50' => request()->routeIs('super-admin.audit-logs.*'),
-               'text-slate-100 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.audit-logs.*')
+               'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative overflow-hidden',
+               'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('super-admin.audit-logs.*'),
+               'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.audit-logs.*')
            ])>
             
-            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
                 <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.audit-logs.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                 </svg>
             </div>
 
             <span x-show="!sidebarMinimized"
-                  style="color: white !important;"
                   x-transition:enter="transition ease-out duration-300 delay-100"
                   x-transition:enter-start="opacity-0 translate-x-2"
                   x-transition:enter-end="opacity-100 translate-x-0"
-                  x-transition:leave="transition ease-in duration-100"
-                  x-transition:leave-start="opacity-100 translate-x-0"
-                  x-transition:leave-end="opacity-0 translate-x-2"
-                  class="ml-3 whitespace-nowrap !text-white">
-                Audit Logs 
+                  class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                Log Audit
             </span>
 
-             <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap z-50">
-                Audit Logs
+            @if(request()->routeIs('super-admin.audit-logs.*'))
+                <div class="absolute right-0 top-0 bottom-0 w-1 bg-white rounded-l-full"></div>
+            @endif
+
+             <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                Log Audit
             </div>
         </a>
     </nav>
