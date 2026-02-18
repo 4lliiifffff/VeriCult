@@ -8,6 +8,7 @@ use App\Models\SubmissionFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class SubmissionController extends Controller
 {
@@ -63,12 +64,12 @@ class SubmissionController extends Controller
                 
                 // Video files: max 1GB (1073741824 bytes)
                 if (str_starts_with($mimeType, 'video/') && $fileSize > 1073741824) {
-                    return back()->withErrors(['files' => 'Video files must not exceed 1GB.'])->withInput();
+                    return back()->withErrors(['files' => 'File video tidak boleh melebihi 1GB.'])->withInput();
                 }
                 
                 // Documents and images: max 10MB (10485760 bytes)
                 if (!str_starts_with($mimeType, 'video/') && $fileSize > 10485760) {
-                    return back()->withErrors(['files' => 'Documents and images must not exceed 10MB.'])->withInput();
+                    return back()->withErrors(['files' => 'Dokumen dan gambar tidak boleh melebihi 10MB.'])->withInput();
                 }
             }
         }
@@ -90,7 +91,7 @@ class SubmissionController extends Controller
         }
 
         return redirect()->route('pengusul.submissions.show', $submission)
-            ->with('success', 'Draft submission created successfully.');
+            ->with('success', 'Draft pengajuan berhasil dibuat.');
     }
 
     /**
@@ -98,10 +99,7 @@ class SubmissionController extends Controller
      */
     public function show(CulturalSubmission $submission)
     {
-        // Ensure user can only view their own submissions
-        if ($submission->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized access');
-        }
+        $this->authorize('view', $submission);
 
         return view('pengusul.submissions.show', compact('submission'));
     }
@@ -111,15 +109,12 @@ class SubmissionController extends Controller
      */
     public function edit(CulturalSubmission $submission)
     {
-        // Ensure user can only edit their own submissions
-        if ($submission->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized access');
-        }
+        $this->authorize('update', $submission);
 
         // Check if submission is editable
         if (!$submission->isEditable()) {
             return redirect()->route('pengusul.submissions.show', $submission)
-                ->with('error', 'This submission cannot be edited in its current status.');
+                ->with('error', 'Pengajuan ini tidak dapat diubah pada status saat ini.');
         }
 
         return view('pengusul.submissions.edit', compact('submission'));
@@ -130,10 +125,7 @@ class SubmissionController extends Controller
      */
     public function update(Request $request, CulturalSubmission $submission)
     {
-        // Ensure user can only update their own submissions
-        if ($submission->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized access');
-        }
+        $this->authorize('update', $submission);
 
         // Check if submission is editable
         if (!$submission->isEditable()) {
@@ -162,7 +154,7 @@ class SubmissionController extends Controller
             $totalFiles = $submission->files()->count() + count($files);
             
             if ($totalFiles > 5) {
-                return back()->withErrors(['files' => 'Maximum 5 files allowed total. You already has ' . $submission->files()->count() . ' files.'])->withInput();
+                return back()->withErrors(['files' => 'Maksimal 5 file diperbolehkan. Anda sudah memiliki ' . $submission->files()->count() . ' file.'])->withInput();
             }
 
             foreach ($files as $file) {
@@ -171,12 +163,12 @@ class SubmissionController extends Controller
                 
                 // Video files: max 1GB
                 if (str_starts_with($mimeType, 'video/') && $fileSize > 1073741824) {
-                    return back()->withErrors(['files' => 'Video files must not exceed 1GB.'])->withInput();
+                    return back()->withErrors(['files' => 'File video tidak boleh melebihi 1GB.'])->withInput();
                 }
                 
                 // Documents and images: max 10MB
                 if (!str_starts_with($mimeType, 'video/') && $fileSize > 10485760) {
-                    return back()->withErrors(['files' => 'Documents and images must not exceed 10MB.'])->withInput();
+                    return back()->withErrors(['files' => 'Dokumen dan gambar tidak boleh melebihi 10MB.'])->withInput();
                 }
             }
         }
@@ -189,7 +181,7 @@ class SubmissionController extends Controller
         }
 
         return redirect()->route('pengusul.submissions.show', $submission)
-            ->with('success', 'Submission updated successfully.');
+            ->with('success', 'Pengajuan berhasil diperbarui.');
     }
 
     /**
@@ -201,12 +193,12 @@ class SubmissionController extends Controller
             abort(403, 'Hanya draft yang dapat dihapus.');
         }
 
-        $this->authorize('delete', $submission);
+        Gate::authorize('delete', $submission);
 
         $submission->delete();
 
         return redirect()->route('pengusul.submissions.index')
-            ->with('success', 'Draft submission deleted successfully.');
+            ->with('success', 'Draft pengajuan berhasil dihapus.');
     }
 
     /**
@@ -214,10 +206,10 @@ class SubmissionController extends Controller
      */
     public function submit(CulturalSubmission $submission)
     {
-        $this->authorize('update', $submission);
+        Gate::authorize('update', $submission);
 
         if (!$submission->canBeSubmitted()) {
-            return back()->with('error', 'Submission cannot be submitted at this stage.');
+            return back()->with('error', 'Pengajuan tidak dapat dikirim pada tahap ini.');
         }
 
         $submission->update([
@@ -226,7 +218,7 @@ class SubmissionController extends Controller
         ]);
 
         return redirect()->route('pengusul.submissions.show', $submission)
-            ->with('success', 'Submission has been submitted for review.');
+            ->with('success', 'Pengajuan telah dikirim untuk ditinjau.');
     }
 
     /**
@@ -234,7 +226,7 @@ class SubmissionController extends Controller
      */
     public function destroyFile(CulturalSubmission $submission, SubmissionFile $file)
     {
-        $this->authorize('update', $submission);
+        Gate::authorize('update', $submission);
         
         if (!$submission->isEditable()) {
             abort(403, 'Submission is not editable.');
@@ -246,7 +238,7 @@ class SubmissionController extends Controller
 
         $file->delete();
 
-        return back()->with('success', 'File deleted successfully.');
+        return back()->with('success', 'File berhasil dihapus.');
     }
 
     /**
