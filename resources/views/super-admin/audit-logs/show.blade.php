@@ -62,12 +62,12 @@
                     <!-- Actor -->
                     <div class="flex items-start gap-5">
                         <div class="h-14 w-14 rounded-2xl bg-[#03045E] flex items-center justify-center shadow-lg shadow-blue-900/20 order-last md:order-first">
-                             <span class="text-xl font-black text-white uppercase">{{ substr($auditLog->user->name ?? 'S', 0, 1) }}</span>
+                             <span class="text-xl font-black text-white uppercase">{{ substr($auditLog->user?->name ?? 'S', 0, 1) }}</span>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Pelaku Sistem</h3>
-                            <p class="text-lg font-black text-[#03045E] line-clamp-1">{{ $auditLog->user->name ?? 'System Process' }}</p>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter mt-1">{{ $auditLog->user->roles->first()->name ?? 'Core Service' }}</p>
+                            <p class="text-lg font-black text-[#03045E] line-clamp-1">{{ $auditLog->user?->name ?? 'System Process' }}</p>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-tighter mt-1">{{ $auditLog->user?->roles?->first()?->name ?? 'Core Service' }}</p>
                         </div>
                     </div>
                     <!-- Target -->
