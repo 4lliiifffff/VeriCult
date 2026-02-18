@@ -70,7 +70,10 @@ class CulturalSubmissionPolicy
     public function review(User $user, CulturalSubmission $submission): bool
     {
         return $user->hasRole('validator') && 
-               $submission->status === CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW && 
+               in_array($submission->status, [
+                   CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, 
+                   CulturalSubmission::STATUS_FIELD_VERIFICATION
+               ]) && 
                $submission->reviewed_by === $user->id;
     }
 

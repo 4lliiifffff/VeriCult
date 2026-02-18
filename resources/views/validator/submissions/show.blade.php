@@ -45,140 +45,27 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-12">
         <!-- Main Content -->
         <div class="lg:col-span-2 space-y-10">
-            <!-- Review Form / Status Alert -->
-            @if($submission->reviewed_by === Auth::id() && $submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
-                <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border-2 border-[#0077B6]/20 overflow-hidden relative group">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-500"></div>
-                    <div class="p-10 relative">
-                        <h3 class="font-black text-xl text-[#03045E] tracking-tight mb-8">Formulir Review Administratif</h3>
-                        
-                        <form action="{{ route('validator.submissions.review', $submission) }}" method="POST" class="space-y-8">
-                            @csrf
-                            <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Keputusan Review</label>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <label class="relative cursor-pointer group">
-                                        <input type="radio" name="action" value="forwarded" class="peer sr-only" required>
-                                        <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 text-center transition-all peer-checked:border-emerald-500 peer-checked:bg-emerald-50 hover:bg-white group-hover:shadow-lg">
-                                            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 mx-auto mb-3 peer-checked:text-emerald-500">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                                            </div>
-                                            <span class="block font-black text-[10px] uppercase tracking-widest text-[#03045E]">Forward Lapangan</span>
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer group">
-                                        <input type="radio" name="action" value="revision" class="peer sr-only">
-                                        <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 text-center transition-all peer-checked:border-amber-500 peer-checked:bg-amber-50 hover:bg-white group-hover:shadow-lg">
-                                            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 mx-auto mb-3 peer-checked:text-amber-500">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                            </div>
-                                            <span class="block font-black text-[10px] uppercase tracking-widest text-[#03045E]">Minta Revisi</span>
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer group">
-                                        <input type="radio" name="action" value="rejected" class="peer sr-only">
-                                        <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 text-center transition-all peer-checked:border-rose-500 peer-checked:bg-rose-50 hover:bg-white group-hover:shadow-lg">
-                                            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 mx-auto mb-3 peer-checked:text-rose-500">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                            </div>
-                                            <span class="block font-black text-[10px] uppercase tracking-widest text-[#03045E]">Tolak Pengajuan</span>
-                                        </div>
-                                    </label>
+            <!-- Review Workspace Call to Action -->
+            @if($submission->reviewed_by === Auth::id() && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]))
+                <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
+                                <span class="font-black tracking-widest text-xs uppercase opacity-80">Workspace Aktif</span>
                             </div>
-
-                            <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Catatan Review (Wajib)</label>
-                                <textarea name="notes" rows="5" class="w-full rounded-[2rem] border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 font-medium text-slate-700 transition-all placeholder:text-slate-300" placeholder="Berikan alasan atau instruksi revisi secara mendetail..." required></textarea>
-                            </div>
-
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:shadow-blue-900/40 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center gap-3">
-                                    Simpan Review Selesai
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            @elseif($submission->reviewed_by === Auth::id() && $submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION)
-                <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border-2 border-indigo-500/20 overflow-hidden relative group">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-500"></div>
-                    <div class="p-10 relative">
-                        <div class="flex items-center gap-4 mb-8">
-                            <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
-                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            </div>
-                            <div>
-                                <h3 class="font-black text-xl text-[#03045E] tracking-tight">Formulir Verifikasi Lapangan</h3>
-                                <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Lengkapi data setelah kunjungan lapangan</p>
-                            </div>
+                            <h3 class="text-3xl font-black tracking-tight leading-tight">Siap Untuk <br><span class="text-[#00B4D8]">Validasi Data?</span></h3>
+                            <p class="mt-4 text-blue-100/70 text-xs font-bold uppercase tracking-widest italic">
+                                Masuki ruang kerja terfokus untuk memberikan keputusan atau verifikasi lapangan.
+                            </p>
                         </div>
-                        
-                        <form action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-8">
-                            @csrf
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div>
-                                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Tanggal Kunjungan</label>
-                                    <input type="date" name="visit_date" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 font-bold text-[#03045E] transition-all" required>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Lat Terverifikasi</label>
-                                        <input type="number" step="any" name="verified_latitude" value="{{ $submission->latitude }}" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 font-mono text-xs text-slate-600 transition-all">
-                                    </div>
-                                    <div>
-                                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Long Terverifikasi</label>
-                                        <input type="number" step="any" name="verified_longitude" value="{{ $submission->longitude }}" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 font-mono text-xs text-slate-600 transition-all">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Hasil Verifikasi & Rekomendasi</label>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <label class="relative cursor-pointer group">
-                                        <input type="radio" name="recommendation" value="verified" class="peer sr-only" required>
-                                        <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 text-center transition-all peer-checked:border-emerald-500 peer-checked:bg-emerald-50 hover:bg-white group-hover:shadow-lg">
-                                            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 mx-auto mb-3 peer-checked:text-emerald-500">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            </div>
-                                            <span class="block font-black text-[10px] uppercase tracking-widest text-[#03045E]">Layak / Terverifikasi</span>
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer group">
-                                        <input type="radio" name="recommendation" value="revision" class="peer sr-only">
-                                        <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 text-center transition-all peer-checked:border-amber-500 peer-checked:bg-amber-50 hover:bg-white group-hover:shadow-lg">
-                                            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 mx-auto mb-3 peer-checked:text-amber-500">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                            </div>
-                                            <span class="block font-black text-[10px] uppercase tracking-widest text-[#03045E]">Perlu Revisi</span>
-                                        </div>
-                                    </label>
-                                    <label class="relative cursor-pointer group">
-                                        <input type="radio" name="recommendation" value="rejected" class="peer sr-only">
-                                        <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 text-center transition-all peer-checked:border-rose-500 peer-checked:bg-rose-50 hover:bg-white group-hover:shadow-lg">
-                                            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 mx-auto mb-3 peer-checked:text-rose-500">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                            </div>
-                                            <span class="block font-black text-[10px] uppercase tracking-widest text-[#03045E]">Tidak Layak</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">Catatan Verifikasi (Wajib)</label>
-                                <textarea name="notes" rows="5" class="w-full rounded-[2rem] border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 font-medium text-slate-700 transition-all placeholder:text-slate-300" placeholder="Jelaskan temuan di lapangan..." required></textarea>
-                            </div>
-
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-gradient-to-r from-indigo-700 to-blue-600 text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-indigo-900/20 hover:shadow-indigo-900/40 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center gap-3">
-                                    Simpan Verifikasi Lapangan
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                </button>
-                            </div>
-                        </form>
+                        <a href="{{ route('validator.submissions.review-form', $submission) }}" class="bg-white text-[#03045E] px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 shrink-0">
+                            Masuk Ruang Review
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
                 </div>
             @elseif($submission->reviewed_by && $submission->reviewed_by !== Auth::id())

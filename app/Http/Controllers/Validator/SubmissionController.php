@@ -97,6 +97,18 @@ class SubmissionController extends Controller
     }
 
     /**
+     * Show the review workspace.
+     */
+    public function reviewForm(CulturalSubmission $submission)
+    {
+        Gate::authorize('review', $submission);
+
+        $submission->load(['user', 'files', 'administrativeReviews.validator', 'fieldVerifications.validator']);
+
+        return view('validator.submissions.review', compact('submission'));
+    }
+
+    /**
      * Store an administrative review.
      */
     public function review(Request $request, CulturalSubmission $submission)
