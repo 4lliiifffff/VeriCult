@@ -67,6 +67,32 @@ class UserController extends Controller
         }
     }
 
+    public function verifyEmail(User $user)
+    {
+        if ($user->hasVerifiedEmail()) {
+            return back()->with('info', 'Email pengguna sudah terverifikasi.');
+        }
+
+        try {
+            $user->email_verified_at = now();
+            $user->save();
+
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'verified_email',
+                'model_type' => get_class($user),
+                'model_id' => $user->id,
+                'new_data' => ['email' => $user->email, 'verified_at' => $user->email_verified_at],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
+
+            return back()->with('success', 'Email pengguna berhasil diverifikasi secara manual.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memverifikasi email: ' . $e->getMessage());
+        }
+    }
+
     public function createValidator()
     {
         return view('super-admin.users.create-validator');

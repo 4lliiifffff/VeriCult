@@ -53,7 +53,8 @@ class CulturalSubmissionPolicy
      */
     public function claim(User $user, CulturalSubmission $submission): bool
     {
-        return $user->hasRole('validator') && $submission->canBeClaimed();
+        return $user->hasRole('validator') && 
+               ($submission->canBeClaimed() || $submission->reviewed_by == $user->id);
     }
 
     /**

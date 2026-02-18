@@ -21,22 +21,105 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4" x-data="{ showClaimModal: false, showUnclaimModal: false }">
                 @if($submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED && $submission->reviewed_by === null)
-                    <form action="{{ route('validator.submissions.claim', $submission) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-[#03045E] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#023E8A] transition-all transform hover:-translate-y-1 active:scale-95">
-                            Mulai Review
-                        </button>
-                    </form>
+                    <button @click="showClaimModal = true" class="bg-[#03045E] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#023E8A] transition-all transform hover:-translate-y-1 active:scale-95">
+                        Mulai Review
+                    </button>
+
+                    <!-- Claim Confirmation Modal -->
+                    <template x-teleport="body">
+                        <div x-show="showClaimModal" x-cloak style="display: none;" class="fixed inset-0 flex items-center justify-center z-50"
+                             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                            <div class="absolute inset-0 bg-[#03045E]/30 backdrop-blur-sm" @click="showClaimModal = false"></div>
+                            <div class="relative bg-white rounded-[2rem] w-full max-w-md mx-4 shadow-2xl shadow-slate-900/20 overflow-hidden"
+                                 x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90 translate-y-8" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-8">
+                                <div class="p-8">
+                                    <div class="flex items-center gap-4 mb-6">
+                                        <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0077B6] flex items-center justify-center shadow-lg shadow-blue-100">
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-black text-xl text-[#03045E] tracking-tight">Mulai Review?</h3>
+                                            <p class="text-xs font-bold text-slate-400 mt-0.5">Klaim pengajuan ini</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 mb-6">
+                                        <p class="text-sm font-black text-[#03045E] mb-1">{{ $submission->name }}</p>
+                                        <p class="text-xs text-slate-400 font-bold">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }} • {{ $submission->category }}</p>
+                                    </div>
+                                    <p class="text-sm text-slate-500 font-medium leading-relaxed mb-8">
+                                        Anda akan mengklaim pengajuan ini dan langsung diarahkan ke <strong class="text-[#03045E]">Ruang Review</strong> untuk memulai proses validasi.
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <button @click="showClaimModal = false"
+                                            class="flex-1 py-4 rounded-2xl border-2 border-slate-100 bg-white text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 active:scale-95">
+                                            Batal
+                                        </button>
+                                        <form action="{{ route('validator.submissions.claim', $submission) }}" method="POST" class="flex-1">
+                                            @csrf
+                                            <button type="submit" class="w-full py-4 rounded-2xl bg-[#03045E] text-white font-black text-xs uppercase tracking-widest hover:bg-[#023E8A] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                                Ya, Mulai Review
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
                 @elseif($submission->reviewed_by === Auth::id() && $submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
-                    <form action="{{ route('validator.submissions.unclaim', $submission) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-white border-2 border-slate-100 text-rose-500 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-rose-50 hover:border-rose-100 transition-all flex items-center gap-2 group">
-                            <svg class="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            Batalkan Klaim
-                        </button>
-                    </form>
+                    <button @click="showUnclaimModal = true" class="bg-white border-2 border-slate-100 text-rose-500 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-rose-50 hover:border-rose-100 transition-all flex items-center gap-2 group">
+                        <svg class="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        Batalkan Klaim
+                    </button>
+
+                    <!-- Unclaim Confirmation Modal -->
+                    <template x-teleport="body">
+                        <div x-show="showUnclaimModal" x-cloak style="display: none;" class="fixed inset-0 flex items-center justify-center z-50"
+                             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                            <div class="absolute inset-0 bg-[#03045E]/30 backdrop-blur-sm" @click="showUnclaimModal = false"></div>
+                            <div class="relative bg-white rounded-[2rem] w-full max-w-md mx-4 shadow-2xl shadow-slate-900/20 overflow-hidden"
+                                 x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90 translate-y-8" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-8">
+                                <div class="p-8">
+                                    <div class="flex items-center gap-4 mb-6">
+                                        <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center shadow-lg shadow-rose-100">
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-black text-xl text-[#03045E] tracking-tight">Batalkan Klaim?</h3>
+                                            <p class="text-xs font-bold text-slate-400 mt-0.5">Lepaskan pengajuan ini</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-rose-50/50 rounded-2xl p-5 border border-rose-100 mb-6">
+                                        <p class="text-sm font-black text-[#03045E] mb-1">{{ $submission->name }}</p>
+                                        <p class="text-xs text-slate-400 font-bold">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }} • {{ $submission->category }}</p>
+                                    </div>
+                                    <p class="text-sm text-slate-500 font-medium leading-relaxed mb-8">
+                                        Pengajuan ini akan dikembalikan ke antrian dan dapat diklaim oleh <strong class="text-rose-500">validator lain</strong>. Progress review Anda tidak akan disimpan.
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <button @click="showUnclaimModal = false"
+                                            class="flex-1 py-4 rounded-2xl border-2 border-slate-100 bg-white text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 active:scale-95">
+                                            Tidak, Tetap Klaim
+                                        </button>
+                                        <form action="{{ route('validator.submissions.unclaim', $submission) }}" method="POST" class="flex-1">
+                                            @csrf
+                                            <button type="submit" class="w-full py-4 rounded-2xl bg-rose-500 text-white font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-rose-200">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                Ya, Batalkan
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
                 @endif
             </div>
         </div>
@@ -123,7 +206,7 @@
                     </h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         @foreach($submission->files as $file)
-                            <a href="{{ Storage::url($file->file_path) }}" target="_blank" class="flex items-center p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#00B4D8] hover:shadow-lg hover:shadow-blue-500/5 transition-all group">
+                            <a href="{{ $file->url }}" target="_blank" class="flex items-center p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#00B4D8] hover:shadow-lg hover:shadow-blue-500/5 transition-all group">
                                 <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#00B4D8] shadow-sm mr-4 group-hover:bg-[#00B4D8] group-hover:text-white transition-colors">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                                 </div>
