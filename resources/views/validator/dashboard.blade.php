@@ -1,11 +1,5 @@
 <x-layouts.validator>
     <x-slot name="header">
-        <!-- Breadcrumbs -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8">
-            <a href="{{ route('validator_dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Overview</span>
-        </nav>
 
         <!-- Header Section -->
         <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-10 overflow-hidden shadow-2xl shadow-blue-900/20 mb-10 group">
