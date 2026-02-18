@@ -59,11 +59,11 @@
                         <td class="px-8 py-5">
                             <div class="flex items-center">
                                 <div class="h-10 w-10 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center font-black text-xs group-hover/row:bg-[#03045E] group-hover/row:text-white transition-all duration-300 shadow-sm border border-slate-100/50">
-                                    {{ substr($log->user->name ?? 'S', 0, 1) }}
+                                    {{ substr($log->user?->name ?? 'S', 0, 1) }}
                                 </div>
                                 <div class="ml-4">
-                                    <div class="font-bold text-sm text-[#03045E] group-hover/row:text-[#0077B6] transition-colors line-clamp-1">{{ $log->user->name ?? 'System Process' }}</div>
-                                    <div class="text-[10px] text-slate-400 uppercase tracking-widest font-black">{{ $log->user->roles->first()->name ?? 'CORE' }}</div>
+                                    <div class="font-bold text-sm text-[#03045E] group-hover/row:text-[#0077B6] transition-colors line-clamp-1">{{ $log->user?->name ?? 'System Process' }}</div>
+                                    <div class="text-[10px] text-slate-400 uppercase tracking-widest font-black">{{ $log->user?->roles?->first()?->name ?? 'CORE' }}</div>
                                 </div>
                             </div>
                         </td>
