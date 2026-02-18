@@ -6,7 +6,7 @@
             <span class="text-[#03045E]">Antrian Validasi</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-3">
             <div>
                 <h2 class="font-black text-3xl text-[#03045E] leading-tight tracking-tight">
                     Manajemen <span class="text-[#0077B6]">Validasi</span>
@@ -18,7 +18,7 @@
 
     <div class="space-y-8 pb-12">
         <!-- Filter Card -->
-        <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white p-8">
+        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-10">
             <form action="{{ route('validator.submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Status</label>
@@ -59,25 +59,25 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
-                            <th class="px-8 py-5">Kebudayaan</th>
-                            <th class="px-8 py-5">Pengusul</th>
-                            <th class="px-8 py-5">Status</th>
-                            <th class="px-8 py-5">Reviewer</th>
-                            <th class="px-8 py-5 text-right">Aksi</th>
+                            <th class="px-10 py-6">Kebudayaan</th>
+                            <th class="px-10 py-6">Pengusul</th>
+                            <th class="px-10 py-6">Status</th>
+                            <th class="px-10 py-6">Reviewer</th>
+                            <th class="px-10 py-6 text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50 text-sm">
                         @forelse($submissions as $submission)
                         <tr class="group hover:bg-slate-50/30 transition-all duration-200">
-                            <td class="px-8 py-6">
+                            <td class="px-10 py-8">
                                 <div class="font-black text-[#03045E] text-base group-hover:text-[#0077B6] transition-colors">{{ $submission->name }}</div>
                                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] mt-1">{{ $submission->category }}</div>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-10 py-8">
                                 <div class="text-xs font-bold text-slate-600">{{ $submission->user->name }}</div>
                                 <div class="text-[10px] font-medium text-slate-400 mt-1">{{ $submission->created_at->format('d M Y') }}</div>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-10 py-8">
                                 <span @class([
                                     'inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border',
                                     'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === 'submitted',
@@ -88,7 +88,7 @@
                                     {{ $submission->status_label }}
                                 </span>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-10 py-8">
                                 @if($submission->reviewed_by)
                                     <div class="flex items-center">
                                         <div @class([
@@ -106,7 +106,7 @@
                                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Belum Diklaim</span>
                                 @endif
                             </td>
-                            <td class="px-8 py-6 text-right whitespace-nowrap">
+                            <td class="px-10 py-8 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-2">
                                     @if(!$submission->reviewed_by && $submission->status === 'submitted')
                                         <form action="{{ route('validator.submissions.claim', $submission) }}" method="POST" class="inline">
