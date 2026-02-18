@@ -20,12 +20,22 @@
             <!-- Text -->
             <div x-show="!sidebarMinimized"
                  x-transition:enter="transition ease-out duration-300 delay-100"
+                 x-transition:enter-start="opacity-0 translate-x-2"
+                 x-transition:enter-end="opacity-100 translate-x-0"
+                 x-transition:leave="transition ease-in duration-100"
+                 x-transition:leave-start="opacity-100 translate-x-0"
+                 x-transition:leave-end="opacity-0 translate-x-2"
                  class="whitespace-nowrap overflow-hidden flex flex-col justify-center ml-2">
                  <div class="flex flex-col">
                     <span class="font-bold text-xl text-white tracking-tight leading-none group-hover:text-[#ADE8F4] transition-colors">VeriCult</span>
                     <span class="text-[#48CAE4] text-[10px] font-medium tracking-wider uppercase leading-none mt-0.5">Validator</span>
                  </div>
             </div>
+        </div>
+
+        <!-- Hint Icon -->
+        <div class="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" x-show="!sidebarMinimized">
+             <svg class="w-4 h-4 text-[#48CAE4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
         </div>
     </div>
 
@@ -47,7 +57,7 @@
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
-                   'bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('validator.dashboard'),
+                   'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('validator.dashboard'),
                    'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('validator.dashboard')
                ])>
                 
@@ -61,7 +71,7 @@
                       x-transition:enter="transition ease-out duration-300 delay-100"
                       x-transition:enter-start="opacity-0 translate-x-2"
                       x-transition:enter-end="opacity-100 translate-x-0"
-                      class="ml-3 whitespace-nowrap relative z-10">
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
                     Dashboard 
                 </span>
 
@@ -81,7 +91,7 @@
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
-                   'bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('validator.submissions.*'),
+                   'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('validator.submissions.*'),
                    'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('validator.submissions.*')
                ])>
                 
@@ -90,12 +100,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-
+ 
                 <span x-show="!sidebarMinimized"
                       x-transition:enter="transition ease-out duration-300 delay-100"
                       x-transition:enter-start="opacity-0 translate-x-2"
                       x-transition:enter-end="opacity-100 translate-x-0"
-                      class="ml-3 whitespace-nowrap relative z-10">
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
                     Validasi Objek
                 </span>
 
