@@ -42,21 +42,19 @@ class CulturalSubmission extends Model
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'latitude' => 'decimal:8',
-            'longitude' => 'decimal:8',
-            'reviewed_by' => 'integer',
-            'submitted_at' => 'datetime',
-            'verified_at' => 'datetime',
-            'published_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
+        'reviewed_by' => 'integer',
+        'review_started_at' => 'datetime',
+        'submitted_at' => 'datetime',
+        'verified_at' => 'datetime',
+        'published_at' => 'datetime',
+    ];
 
     /**
      * Get the user that owns the submission.
