@@ -197,111 +197,110 @@
             </div>
         </x-modal>
     </div>
-</x-layouts.pengusul>
 
-<style>
-    @keyframes bounce-slow {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-    .animate-bounce-slow {
-        animation: bounce-slow 3s ease-in-out infinite;
-    }
-</style>
+    <style>
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 3s ease-in-out infinite;
+        }
+    </style>
 
-<script>
-    function submissionForm() {
-        return {
-            loading: false,
-            files: [],
-            dragover: false,
-            
-            init() {
-                // Initialize component
-            },
+    <script>
+        function submissionForm() {
+            return {
+                loading: false,
+                files: [],
+                dragover: false,
+                
+                init() {
+                    // Initialize component
+                },
 
-            handleFileSelect(e) {
-                const newFiles = Array.from(e.target.files);
-                this.addFiles(newFiles);
-            },
+                handleFileSelect(e) {
+                    const newFiles = Array.from(e.target.files);
+                    this.addFiles(newFiles);
+                },
 
-            handleDrop(e) {
-                const droppedFiles = Array.from(e.dataTransfer.files);
-                this.addFiles(droppedFiles);
-            },
+                handleDrop(e) {
+                    const droppedFiles = Array.from(e.dataTransfer.files);
+                    this.addFiles(droppedFiles);
+                },
 
-            addFiles(newFiles) {
-                const dt = new DataTransfer();
-                this.files.forEach(f => dt.items.add(f));
+                addFiles(newFiles) {
+                    const dt = new DataTransfer();
+                    this.files.forEach(f => dt.items.add(f));
 
-                newFiles.forEach(f => {
-                    if (!this.files.some(existing => 
-                        existing.name === f.name && 
-                        existing.size === f.size && 
-                        existing.lastModified === f.lastModified
-                    )) {
-                        dt.items.add(f);
+                    newFiles.forEach(f => {
+                        if (!this.files.some(existing => 
+                            existing.name === f.name && 
+                            existing.size === f.size && 
+                            existing.lastModified === f.lastModified
+                        )) {
+                            dt.items.add(f);
+                        }
+                    });
+
+                    // Calculate total files including existing ones from DB
+                    const existingFilesCount = {{ $submission->files->count() }};
+                    if (dt.items.length + existingFilesCount > 5) {
+                        this.$dispatch('open-modal', 'max-file-warning');
+                        const availableSlots = 5 - existingFilesCount;
+                        const limitedDt = new DataTransfer();
+                        for (let i = 0; i < Math.min(dt.items.length, availableSlots); i++) {
+                            limitedDt.items.add(dt.files[i]);
+                        }
+                        this.updateFiles(limitedDt);
+                    } else {
+                        this.updateFiles(dt);
                     }
-                });
+                },
 
-                // Calculate total files including existing ones from DB
-                const existingFilesCount = {{ $submission->files->count() }};
-                if (dt.items.length + existingFilesCount > 5) {
-                    this.$dispatch('open-modal', 'max-file-warning');
-                    const availableSlots = 5 - existingFilesCount;
-                    const limitedDt = new DataTransfer();
-                    for (let i = 0; i < Math.min(dt.items.length, availableSlots); i++) {
-                        limitedDt.items.add(dt.files[i]);
-                    }
-                    this.updateFiles(limitedDt);
-                } else {
+                removeFile(index) {
+                    const dt = new DataTransfer();
+                    this.files.filter((_, i) => i !== index).forEach(f => dt.items.add(f));
                     this.updateFiles(dt);
+                },
+
+                updateFiles(dt) {
+                    this.files = Array.from(dt.files);
+                    const input = document.getElementById('files');
+                    if (input) input.files = dt.files;
+                },
+
+                formatSize(bytes) {
+                    if (bytes === 0) return '0 Bytes';
+                    const k = 1024;
+                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + ['Bytes', 'KB', 'MB', 'GB'][i];
+                },
+
+                calculateProgress() {
+                    const fields = ['name', 'category', 'address', 'description'];
+                    let filledCount = 0;
+                    fields.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && el.value.trim() !== '') filledCount++;
+                    });
+                    // Check files (either existing or new)
+                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledCount++;
+                    return Math.round((filledCount / (fields.length + 1)) * 100);
+                },
+
+                openConfirm() {
+                    this.$dispatch('open-modal', 'confirm-update-submission');
+                },
+
+                doSubmit() {
+                    this.loading = true;
+                    this.$dispatch('close');
+                    this.$nextTick(() => {
+                        this.$refs.editForm.submit();
+                    });
                 }
-            },
-
-            removeFile(index) {
-                const dt = new DataTransfer();
-                this.files.filter((_, i) => i !== index).forEach(f => dt.items.add(f));
-                this.updateFiles(dt);
-            },
-
-            updateFiles(dt) {
-                this.files = Array.from(dt.files);
-                const input = document.getElementById('files');
-                if (input) input.files = dt.files;
-            },
-
-            formatSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + ['Bytes', 'KB', 'MB', 'GB'][i];
-            },
-
-            calculateProgress() {
-                const fields = ['name', 'category', 'address', 'description'];
-                let filledCount = 0;
-                fields.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el && el.value.trim() !== '') filledCount++;
-                });
-                // Check files (either existing or new)
-                if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledCount++;
-                return Math.round((filledCount / (fields.length + 1)) * 100);
-            },
-
-            openConfirm() {
-                this.$dispatch('open-modal', 'confirm-update-submission');
-            },
-
-            doSubmit() {
-                this.loading = true;
-                this.$dispatch('close');
-                this.$nextTick(() => {
-                    this.$refs.editForm.submit();
-                });
             }
         }
-    }
-</script>
-@endsection
+    </script>
+</x-layouts.pengusul>
