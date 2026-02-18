@@ -1,6 +1,6 @@
 <x-layouts.validator>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mb-3">
             <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 overflow-x-auto whitespace-nowrap">
                 <a href="{{ route('validator.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -41,13 +41,13 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 items-start"
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 items-start"
          x-data="reviewWorkspace()">
 
         <!-- Left: Submission Details & Files -->
-        <div class="lg:col-span-7 space-y-10">
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden hover:shadow-2xl transition-shadow duration-500">
-                <div class="p-10 border-b border-slate-50 flex items-center justify-between bg-gradient-to-r from-slate-50/80 to-white">
+        <div class="lg:col-span-7 space-y-12">
+            <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden hover:shadow-2xl transition-shadow duration-500">
+                <div class="p-8 lg:p-10 border-b border-slate-50 flex items-center justify-between bg-gradient-to-r from-slate-50/80 to-white">
                     <div>
                         <h3 class="font-black text-xl text-[#03045E] tracking-tight">Informasi Pengajuan</h3>
                         <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</p>
@@ -60,7 +60,7 @@
                         {{ $submission->status_label }}
                     </span>
                 </div>
-                <div class="p-10 space-y-8">
+                <div class="p-8 lg:p-10 space-y-8">
                     <!-- Info Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
@@ -128,7 +128,7 @@
             </div>
 
             <!-- Pengusul Info Card -->
-            <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white p-8 hover:shadow-2xl transition-shadow duration-500">
+            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-10 hover:shadow-2xl transition-shadow duration-500">
                 <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
                     <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     Informasi Pengusul
@@ -148,7 +148,7 @@
         <!-- Right: Review Actions -->
         <div class="lg:col-span-5 space-y-10">
             <!-- Focused Review Form -->
-            <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden sticky top-8 hover:border-[#0077B6]/40 transition-colors duration-500">
+            <div class="bg-white rounded-[3rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden sticky top-8 hover:border-[#0077B6]/40 transition-colors duration-500">
                 <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-8 text-white relative overflow-hidden">
                     <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
                     <div class="absolute -left-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
@@ -165,59 +165,56 @@
                     </div>
                 </div>
 
-                <div class="p-10">
+                <div class="p-8 lg:p-10">
                     @if($submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
                         <!-- Administrative Review Form -->
-                        <form id="reviewForm" action="{{ route('validator.submissions.review', $submission) }}" method="POST" class="space-y-8" @submit.prevent="confirmSubmit">
+                        <form id="reviewForm" action="{{ route('validator.submissions.review', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
                             <div>
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Keputusan Review</label>
-                                <div class="grid grid-cols-1 gap-3">
+                                <div class="grid grid-cols-1 gap-2.5">
                                     <!-- Forward -->
-                                    <label class="relative cursor-pointer group" @click="selectAction('forwarded')">
+                                    <label class="relative cursor-pointer group/opt" @click="selectAction('forwarded')">
                                         <input type="radio" name="action" value="forwarded" class="peer sr-only" required x-model="selectedAction">
-                                        <div class="p-5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 peer-checked:shadow-lg peer-checked:shadow-emerald-100/50 hover:bg-white hover:border-slate-200 hover:shadow-md flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 transition-all duration-300">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-emerald-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 transition-all duration-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                             </div>
                                             <div class="flex-1">
-                                                <span class="block font-black text-xs uppercase tracking-widest text-[#03045E]">Forward Lapangan</span>
-                                                <span class="text-[10px] text-slate-400 font-medium leading-relaxed">Lanjutkan ke tahap pemeriksaan fisik di lokasi</span>
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Forward Lapangan</span>
                                             </div>
-                                            <div class="w-5 h-5 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
                                     <!-- Revision -->
-                                    <label class="relative cursor-pointer group" @click="selectAction('revision')">
+                                    <label class="relative cursor-pointer group/opt" @click="selectAction('revision')">
                                         <input type="radio" name="action" value="revision" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 transition-all duration-300 peer-checked:border-amber-500 peer-checked:bg-amber-50 peer-checked:shadow-lg peer-checked:shadow-amber-100/50 hover:bg-white hover:border-slate-200 hover:shadow-md flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-amber-500 peer-checked:bg-amber-50 peer-checked:border-amber-200 transition-all duration-300">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-amber-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-amber-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-amber-500 peer-checked:bg-amber-50 peer-checked:border-amber-200 transition-all duration-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                             </div>
                                             <div class="flex-1">
-                                                <span class="block font-black text-xs uppercase tracking-widest text-[#03045E]">Minta Revisi</span>
-                                                <span class="text-[10px] text-slate-400 font-medium leading-relaxed">Ada berkas yang perlu diperbaiki / dilengkapi</span>
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Minta Revisi</span>
                                             </div>
-                                            <div class="w-5 h-5 rounded-full border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
                                     <!-- Reject -->
-                                    <label class="relative cursor-pointer group" @click="selectAction('rejected')">
+                                    <label class="relative cursor-pointer group/opt" @click="selectAction('rejected')">
                                         <input type="radio" name="action" value="rejected" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-rose-50 peer-checked:shadow-lg peer-checked:shadow-rose-100/50 hover:bg-white hover:border-slate-200 hover:shadow-md flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 transition-all duration-300">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-rose-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 transition-all duration-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                                             </div>
                                             <div class="flex-1">
-                                                <span class="block font-black text-xs uppercase tracking-widest text-[#03045E]">Tolak Pengajuan</span>
-                                                <span class="text-[10px] text-slate-400 font-medium leading-relaxed">Pengajuan tidak memenuhi persyaratan</span>
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tolak Pengajuan</span>
                                             </div>
-                                            <div class="w-5 h-5 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
@@ -251,7 +248,7 @@
 
                     @elseif($submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION)
                         <!-- Field Verification Form -->
-                        <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-8" @submit.prevent="confirmSubmit">
+                        <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
                             <div class="grid grid-cols-1 gap-6">
                                 <div class="group">
@@ -287,36 +284,34 @@
 
                             <div>
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Rekomendasi Akhir</label>
-                                <div class="grid grid-cols-1 gap-3">
+                                <div class="grid grid-cols-1 gap-2.5">
                                     <!-- Verified -->
-                                    <label class="relative cursor-pointer group" @click="selectAction('verified')">
+                                    <label class="relative cursor-pointer group/opt" @click="selectAction('verified')">
                                         <input type="radio" name="recommendation" value="verified" class="peer sr-only" required x-model="selectedAction">
-                                        <div class="p-5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 peer-checked:shadow-lg peer-checked:shadow-emerald-100/50 hover:bg-white hover:border-slate-200 hover:shadow-md flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 transition-all duration-300">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-emerald-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 transition-all duration-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             </div>
                                             <div class="flex-1">
-                                                <span class="block font-black text-xs uppercase tracking-widest text-[#03045E]">Validkan & Verifikasi</span>
-                                                <span class="text-[10px] text-slate-400 font-medium leading-relaxed">Data sesuai dengan kondisi di lapangan</span>
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Validkan & Verifikasi</span>
                                             </div>
-                                            <div class="w-5 h-5 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
                                     <!-- Reject -->
-                                    <label class="relative cursor-pointer group" @click="selectAction('rejected')">
+                                    <label class="relative cursor-pointer group/opt" @click="selectAction('rejected')">
                                         <input type="radio" name="recommendation" value="rejected" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-rose-50 peer-checked:shadow-lg peer-checked:shadow-rose-100/50 hover:bg-white hover:border-slate-200 hover:shadow-md flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 transition-all duration-300">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-rose-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 transition-all duration-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                                             </div>
                                             <div class="flex-1">
-                                                <span class="block font-black text-xs uppercase tracking-widest text-[#03045E]">Tolak Permanen</span>
-                                                <span class="text-[10px] text-slate-400 font-medium leading-relaxed">Data tidak ditemukan atau palsu di lapangan</span>
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tolak Permanen</span>
                                             </div>
-                                            <div class="w-5 h-5 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
@@ -339,7 +334,7 @@
 
             <!-- Review History -->
             @if($submission->administrativeReviews->isNotEmpty() || $submission->fieldVerifications->isNotEmpty())
-            <div class="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-shadow duration-500">
+            <div class="bg-white rounded-[3rem] p-12 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-shadow duration-500">
                 <h3 class="font-black text-sm text-[#03045E] uppercase tracking-widest mb-8 flex items-center gap-3">
                     <div class="w-6 h-6 rounded-lg bg-[#0077B6]/10 flex items-center justify-center">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#0077B6]"></span>
