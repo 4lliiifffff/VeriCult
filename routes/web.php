@@ -33,15 +33,6 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     Route::get('/api/online-users', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'getOnlineUsers'])->name('api.online-users');
 });
 
-// Legacy routes (Redirect or keep for backward compatibility if needed, but we are switching dashboard)
-// Route::get('/users/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super-admin_dashboard'); 
-// commented out to force new route usage if we change route('super-admin_dashboard') calls.
-
-// We need to support the old route name 'super-admin_dashboard' temporarily or update all references.
-// Let's add a redirect or alias.
-Route::get('/users/super-admin/dashboard', function() {
-    return redirect()->route('super-admin.dashboard');
-})->middleware(['auth', 'role:super-admin'])->name('super-admin_dashboard');
 
 
 Route::middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
@@ -50,9 +41,18 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:validator'])
-    ->get('/users/validator/dashboard', function () {
-        return view('validator.dashboard');
-    })->name('validator_dashboard');
+    ->prefix('validator')
+    ->name('validator.')
+    ->group(function () {
+        Route::get('/dashboard', [App\Http\Controllers\Validator\DashboardController::class, 'index'])->name('dashboard');
+        
+        Route::get('/submissions', [App\Http\Controllers\Validator\SubmissionController::class, 'index'])->name('submissions.index');
+        Route::get('/submissions/{submission}', [App\Http\Controllers\Validator\SubmissionController::class, 'show'])->name('submissions.show');
+        Route::post('/submissions/{submission}/claim', [App\Http\Controllers\Validator\SubmissionController::class, 'claim'])->name('submissions.claim');
+        Route::post('/submissions/{submission}/unclaim', [App\Http\Controllers\Validator\SubmissionController::class, 'unclaim'])->name('submissions.unclaim');
+        Route::post('/submissions/{submission}/review', [App\Http\Controllers\Validator\SubmissionController::class, 'review'])->name('submissions.review');
+        Route::post('/submissions/{submission}/field-verification', [App\Http\Controllers\Validator\SubmissionController::class, 'storeFieldVerification'])->name('submissions.field-verification');
+    });
 
 // Pengusul Routes
 Route::middleware(['auth', 'verified', 'role:pengusul'])
@@ -66,11 +66,6 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
         Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
     });
 
-// Legacy pengusul dashboard redirect
-Route::middleware(['auth', 'verified', 'role:pengusul'])
-    ->get('/users/pengusul/dashboard-old', function () {
-        return redirect()->route('pengusul.dashboard');
-    })->name('pengusul_dashboard');
 
 
 Route::get('/dashboard', function () {
@@ -78,7 +73,7 @@ Route::get('/dashboard', function () {
     if ($user->hasRole('super-admin')) {
         return redirect()->route('super-admin.dashboard');
     } elseif ($user->hasRole('validator')) {
-        return redirect()->route('validator_dashboard');
+        return redirect()->route('validator.dashboard');
     } elseif ($user->hasRole('pengusul')) {
         return redirect()->route('pengusul.dashboard');
     }

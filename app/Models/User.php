@@ -63,7 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($this->hasRole('super-admin')) {
             return 'super-admin.dashboard';
         } elseif ($this->hasRole('validator')) {
-            return 'validator_dashboard';
+            return 'validator.dashboard';
         } elseif ($this->hasRole('pengusul')) {
             return 'pengusul.dashboard';
         }
