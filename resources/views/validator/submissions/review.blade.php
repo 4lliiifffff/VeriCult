@@ -176,45 +176,45 @@
                                     <!-- Forward -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('forwarded')">
                                         <input type="radio" name="action" value="forwarded" class="peer sr-only" required x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-emerald-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 transition-all duration-300">
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-emerald-100/30 peer-checked:ring-4 peer-checked:ring-emerald-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 peer-checked:scale-110 transition-all duration-300">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Forward Lapangan</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
                                     <!-- Revision -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('revision')">
                                         <input type="radio" name="action" value="revision" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-amber-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-amber-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-amber-500 peer-checked:bg-amber-50 peer-checked:border-amber-200 transition-all duration-300">
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-amber-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-amber-100/30 peer-checked:ring-4 peer-checked:ring-amber-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-amber-500 peer-checked:bg-amber-50 peer-checked:border-amber-200 peer-checked:scale-110 transition-all duration-300">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Minta Revisi</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
                                     <!-- Reject -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('rejected')">
                                         <input type="radio" name="action" value="rejected" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-rose-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 transition-all duration-300">
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-rose-100/30 peer-checked:ring-4 peer-checked:ring-rose-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 peer-checked:scale-110 transition-all duration-300">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tolak Pengajuan</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
@@ -288,30 +288,30 @@
                                     <!-- Verified -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('verified')">
                                         <input type="radio" name="recommendation" value="verified" class="peer sr-only" required x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-emerald-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 transition-all duration-300">
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-emerald-100/30 peer-checked:ring-4 peer-checked:ring-emerald-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 peer-checked:scale-110 transition-all duration-300">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Validkan & Verifikasi</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
                                     <!-- Reject -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('rejected')">
                                         <input type="radio" name="recommendation" value="rejected" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-white peer-checked:shadow-lg peer-checked:shadow-rose-100/50 hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 transition-all duration-300">
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-rose-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-rose-100/30 peer-checked:ring-4 peer-checked:ring-rose-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-rose-500 peer-checked:bg-rose-50 peer-checked:border-rose-200 peer-checked:scale-110 transition-all duration-300">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tolak Permanen</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
