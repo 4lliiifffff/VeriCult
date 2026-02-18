@@ -34,6 +34,8 @@ class CulturalSubmission extends Model
         'latitude',
         'longitude',
         'status',
+        'reviewed_by',
+        'review_started_at',
         'submitted_at',
         'verified_at',
         'published_at',
@@ -49,6 +51,7 @@ class CulturalSubmission extends Model
         return [
             'latitude' => 'decimal:8',
             'longitude' => 'decimal:8',
+            'reviewed_by' => 'integer',
             'submitted_at' => 'datetime',
             'verified_at' => 'datetime',
             'published_at' => 'datetime',

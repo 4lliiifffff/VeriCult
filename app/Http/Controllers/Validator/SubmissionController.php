@@ -77,7 +77,8 @@ class SubmissionController extends Controller
             'status' => CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
         ]);
 
-        return redirect()->back()->with('success', 'Berhasil mengklaim submission. Status kini dalam tinjauan administratif.');
+        return redirect()->route('validator.submissions.review-form', $submission)
+            ->with('success', 'Berhasil mengklaim submission. Anda kini berada di ruang kerja review.');
     }
 
     /**
