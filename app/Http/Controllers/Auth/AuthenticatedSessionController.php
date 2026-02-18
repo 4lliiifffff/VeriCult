@@ -31,15 +31,15 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
 
         if ($user->role === 'super-admin') {
-            return redirect()->route('super-admin_dashboard');
+            return redirect()->route('super-admin.dashboard');
         }
 
         if ($user->role === 'validator') {
-            return redirect()->route('validator_dashboard');
+            return redirect()->route('validator.dashboard');
         }
 
         if ($user->role === 'pengusul') {
-            return redirect()->route('pengusul_dashboard');
+            return redirect()->route('pengusul.dashboard');
         }
 
         return redirect('/dashboard');

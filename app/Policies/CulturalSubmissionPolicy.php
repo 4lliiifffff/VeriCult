@@ -13,7 +13,7 @@ class CulturalSubmissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('pengusul') || $user->hasRole('super-admin');
+        return $user->hasRole('pengusul') || $user->hasRole('super-admin') || $user->hasRole('validator');
     }
 
     /**
@@ -21,7 +21,7 @@ class CulturalSubmissionPolicy
      */
     public function view(User $user, CulturalSubmission $submission): bool
     {
-        return $user->id == $submission->user_id || $user->hasRole('super-admin');
+        return $user->id == $submission->user_id || $user->hasRole('super-admin') || $user->hasRole('validator');
     }
 
     /**
@@ -46,6 +46,32 @@ class CulturalSubmissionPolicy
     public function delete(User $user, CulturalSubmission $submission): bool
     {
         return $user->id == $submission->user_id && $submission->status == CulturalSubmission::STATUS_DRAFT;
+    }
+
+    /**
+     * Determine whether the user can claim the mission.
+     */
+    public function claim(User $user, CulturalSubmission $submission): bool
+    {
+        return $user->hasRole('validator') && $submission->canBeClaimed();
+    }
+
+    /**
+     * Determine whether the user can unclaim the mission.
+     */
+    public function unclaim(User $user, CulturalSubmission $submission): bool
+    {
+        return $user->hasRole('validator') && $submission->canBeUnclaimed($user->id);
+    }
+
+    /**
+     * Determine whether the user can review the mission.
+     */
+    public function review(User $user, CulturalSubmission $submission): bool
+    {
+        return $user->hasRole('validator') && 
+               $submission->status === CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW && 
+               $submission->reviewed_by === $user->id;
     }
 
     /**

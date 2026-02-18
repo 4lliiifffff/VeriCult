@@ -72,6 +72,30 @@ class CulturalSubmission extends Model
     }
 
     /**
+     * Get the validator who is currently reviewing the submission.
+     */
+    public function reviewedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    /**
+     * Get the administrative reviews for the submission.
+     */
+    public function administrativeReviews(): HasMany
+    {
+        return $this->hasMany(AdministrativeReview::class, 'submission_id');
+    }
+
+    /**
+     * Get the field verifications for the submission.
+     */
+    public function fieldVerifications(): HasMany
+    {
+        return $this->hasMany(FieldVerification::class, 'submission_id');
+    }
+
+    /**
      * Scope to filter by status.
      */
     public function scopeStatus($query, string $status)
@@ -113,6 +137,22 @@ class CulturalSubmission extends Model
     public function canBeSubmitted(): bool
     {
         return in_array($this->status, [self::STATUS_DRAFT, self::STATUS_REVISION]);
+    }
+
+    /**
+     * Check if the submission can be claimed for review.
+     */
+    public function canBeClaimed(): bool
+    {
+        return $this->status === self::STATUS_SUBMITTED && is_null($this->reviewed_by);
+    }
+
+    /**
+     * Check if the submission can be unclaimed.
+     */
+    public function canBeUnclaimed(int $userId): bool
+    {
+        return $this->status === self::STATUS_ADMINISTRATIVE_REVIEW && $this->reviewed_by === $userId;
     }
 
     /**

@@ -20,19 +20,19 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @role('super-admin')
-                        <x-nav-link :href="route('super-admin_dashboard')" :active="request()->routeIs('super-admin_dashboard')" class="text-slate-300 hover:text-white focus:text-white border-transparent hover:border-[#00B4D8] focus:border-[#00B4D8]">
+                        <x-nav-link :href="route('super-admin.dashboard')" :active="request()->routeIs('super-admin.dashboard')" class="text-slate-300 hover:text-white focus:text-white border-transparent hover:border-[#00B4D8] focus:border-[#00B4D8]">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endrole
 
                     @role('validator')
-                        <x-nav-link :href="route('validator_dashboard')" :active="request()->routeIs('validator_dashboard')" class="text-slate-300 hover:text-white focus:text-white border-transparent hover:border-[#00B4D8] focus:border-[#00B4D8]">
+                        <x-nav-link :href="route('validator.dashboard')" :active="request()->routeIs('validator.dashboard')" class="text-slate-300 hover:text-white focus:text-white border-transparent hover:border-[#00B4D8] focus:border-[#00B4D8]">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endrole
 
                     @role('pengusul')
-                        <x-nav-link :href="route('pengusul_dashboard')" :active="request()->routeIs('pengusul_dashboard')" class="text-slate-300 hover:text-white focus:text-white border-transparent hover:border-[#00B4D8] focus:border-[#00B4D8]">
+                        <x-nav-link :href="route('pengusul.dashboard')" :active="request()->routeIs('pengusul.dashboard')" class="text-slate-300 hover:text-white focus:text-white border-transparent hover:border-[#00B4D8] focus:border-[#00B4D8]">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endrole
@@ -95,19 +95,19 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-[#023E8A]">
         <div class="pt-2 pb-3 space-y-1">
             @role('super-admin')
-            <x-responsive-nav-link :href="route('super-admin_dashboard')" :active="request()->routeIs('super-admin_dashboard')" class="text-slate-200 hover:text-[#00B4D8] hover:bg-[#03045E] border-l-4 border-transparent hover:border-[#00B4D8]">
+            <x-responsive-nav-link :href="route('super-admin.dashboard')" :active="request()->routeIs('super-admin.dashboard')" class="text-slate-200 hover:text-[#00B4D8] hover:bg-[#03045E] border-l-4 border-transparent hover:border-[#00B4D8]">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @endrole
 
             @role('validator')
-            <x-responsive-nav-link :href="route('validator_dashboard')" :active="request()->routeIs('validator_dashboard')" class="text-slate-200 hover:text-[#00B4D8] hover:bg-[#03045E] border-l-4 border-transparent hover:border-[#00B4D8]">
+            <x-responsive-nav-link :href="route('validator.dashboard')" :active="request()->routeIs('validator.dashboard')" class="text-slate-200 hover:text-[#00B4D8] hover:bg-[#03045E] border-l-4 border-transparent hover:border-[#00B4D8]">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @endrole
 
             @role('pengusul')
-            <x-responsive-nav-link :href="route('pengusul_dashboard')" :active="request()->routeIs('pengusul_dashboard')" class="text-slate-200 hover:text-[#00B4D8] hover:bg-[#03045E] border-l-4 border-transparent hover:border-[#00B4D8]">
+            <x-responsive-nav-link :href="route('pengusul.dashboard')" :active="request()->routeIs('pengusul.dashboard')" class="text-slate-200 hover:text-[#00B4D8] hover:bg-[#03045E] border-l-4 border-transparent hover:border-[#00B4D8]">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @endrole
