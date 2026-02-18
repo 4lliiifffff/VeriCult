@@ -80,7 +80,7 @@ Route::get('/dashboard', function () {
     } elseif ($user->hasRole('validator')) {
         return redirect()->route('validator_dashboard');
     } elseif ($user->hasRole('pengusul')) {
-        return redirect()->route('users.pengusul.dashboard');
+        return redirect()->route('pengusul.dashboard');
     }
     return view('dashboard'); // Fallback if no role
 })->middleware(['auth', 'verified'])->name('dashboard');

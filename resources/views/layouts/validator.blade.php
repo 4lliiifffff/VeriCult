@@ -45,11 +45,9 @@
                 @include('validator.partials.navbar')
 
                 <!-- Main Content -->
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8FAFC] p-6">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8FAFC] p-8">
                     @if (isset($header))
-                        <header class="mb-6">
-                            <h1 class="text-2xl font-bold text-[#0077B6]">{{ $header }}</h1>
-                        </header>
+                        {{ $header }}
                     @endif
 
                     <!-- Flash Messages -->
