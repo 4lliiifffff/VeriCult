@@ -12,7 +12,7 @@ class UserObserver
     public function created(User $user): void
     {
         \App\Models\AuditLog::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->check() ? auth()->id() : null,
             'action' => 'created',
             'model_type' => get_class($user),
             'model_id' => $user->id,
@@ -39,7 +39,7 @@ class UserObserver
         }
 
         \App\Models\AuditLog::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->check() ? auth()->id() : null,
             'action' => 'updated',
             'model_type' => get_class($user),
             'model_id' => $user->id,
@@ -56,7 +56,7 @@ class UserObserver
     public function deleted(User $user): void
     {
         \App\Models\AuditLog::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->check() ? auth()->id() : null,
             'action' => 'deleted',
             'model_type' => get_class($user),
             'model_id' => $user->id,
@@ -72,7 +72,7 @@ class UserObserver
     public function restored(User $user): void
     {
         \App\Models\AuditLog::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->check() ? auth()->id() : null,
             'action' => 'restored',
             'model_type' => get_class($user),
             'model_id' => $user->id,
