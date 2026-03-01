@@ -69,8 +69,9 @@
                               @submit.prevent="openConfirm()">
                             @csrf
                             @method('PUT')
+                            <input type="hidden" name="category" value="{{ $submission->category }}">
                             
-                            @include('pengusul.submissions.partials.form')
+                            @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category])
 
                             <!-- Footer Actions -->
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
@@ -116,7 +117,10 @@
                                 <div class="h-full bg-gradient-to-r from-[#00B4D8] to-[#0077B6] rounded-full transition-all duration-1000" :style="'width: ' + calculateProgress() + '%'"></div>
                             </div>
                         </div>
-                        <p class="mt-8 text-blue-200/60 text-[10px] font-black uppercase tracking-widest leading-relaxed italic">
+                        <div class="mt-6 px-4 py-2 rounded-xl bg-white/10 border border-white/10">
+                            <p class="text-white/80 text-xs font-bold">Kategori: {{ $submission->category }}</p>
+                        </div>
+                        <p class="mt-6 text-blue-200/60 text-[10px] font-black uppercase tracking-widest leading-relaxed italic">
                             Pastikan lampiran dokumen harian lengkap sebelum diajukan.
                         </p>
                     </div>
@@ -278,15 +282,23 @@
                 },
 
                 calculateProgress() {
-                    const fields = ['name', 'category', 'address', 'description'];
+                    const baseFields = ['name', 'address', 'description'];
+                    const categoryFields = document.querySelectorAll('[data-category-field]');
+                    const totalFields = baseFields.length + categoryFields.length + 1;
                     let filledCount = 0;
-                    fields.forEach(id => {
+                    
+                    baseFields.forEach(id => {
                         const el = document.getElementById(id);
                         if (el && el.value.trim() !== '') filledCount++;
                     });
+                    
+                    categoryFields.forEach(el => {
+                        if (el.value && el.value.trim() !== '') filledCount++;
+                    });
+                    
                     // Check files (either existing or new)
                     if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledCount++;
-                    return Math.round((filledCount / (fields.length + 1)) * 100);
+                    return Math.round((filledCount / totalFields) * 100);
                 },
 
                 openConfirm() {

@@ -25,11 +25,38 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the category selection page.
      */
     public function create()
     {
-        return view('pengusul.submissions.create');
+        $categories = CulturalSubmission::CATEGORY_SLUGS;
+        $descriptions = CulturalSubmission::CATEGORY_DESCRIPTIONS;
+        $icons = CulturalSubmission::CATEGORY_ICONS;
+
+        return view('pengusul.submissions.create', compact('categories', 'descriptions', 'icons'));
+    }
+
+    /**
+     * Show the form for a specific category.
+     */
+    public function createForm(string $category)
+    {
+        // Validate category slug
+        if (!array_key_exists($category, CulturalSubmission::CATEGORY_SLUGS)) {
+            abort(404, 'Kategori tidak ditemukan.');
+        }
+
+        $categoryName = CulturalSubmission::CATEGORY_SLUGS[$category];
+        $categorySlug = $category;
+        $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
+        $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$categoryName] ?? '';
+
+        return view('pengusul.submissions.create-form', compact(
+            'categoryName',
+            'categorySlug',
+            'categoryFields',
+            'categoryDescription'
+        ));
     }
 
     /**
@@ -37,16 +64,25 @@ class SubmissionController extends Controller
      */
     public function store(Request $request)
     {
+        // Base validation rules
+        $rules = [
+            'name' => ['required', 'string', 'max:255'],
+            'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
+            'address' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:50'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
+        ];
+
+        // Add category-specific validation rules
+        $categoryFields = CulturalSubmission::getCategoryFields($request->input('category', ''));
+        foreach ($categoryFields as $key => $field) {
+            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        }
+
         try {
-            $validated = $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'category' => ['required', 'string'],
-                'address' => ['required', 'string'],
-                'description' => ['required', 'string', 'min:50'],
-                'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-                'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-                'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
-            ]);
+            $validated = $request->validate($rules);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
         }
@@ -74,12 +110,17 @@ class SubmissionController extends Controller
             }
         }
 
+        // Clean category_data — remove empty values
+        $categoryData = $request->input('category_data', []);
+        $categoryData = array_filter($categoryData, fn($v) => !is_null($v) && $v !== '');
+
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
             'name' => $validated['name'],
             'category' => $validated['category'],
             'address' => $validated['address'],
             'description' => $validated['description'],
+            'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,
             'longitude' => $validated['longitude'] ?? null,
             'status' => CulturalSubmission::STATUS_DRAFT,
@@ -101,7 +142,9 @@ class SubmissionController extends Controller
     {
         $this->authorize('view', $submission);
 
-        return view('pengusul.submissions.show', compact('submission'));
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+
+        return view('pengusul.submissions.show', compact('submission', 'categoryFields'));
     }
 
     /**
@@ -117,7 +160,11 @@ class SubmissionController extends Controller
                 ->with('error', 'Pengajuan ini tidak dapat diubah pada status saat ini.');
         }
 
-        return view('pengusul.submissions.edit', compact('submission'));
+        $categorySlug = CulturalSubmission::getCategorySlug($submission->category);
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$submission->category] ?? '';
+
+        return view('pengusul.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription'));
     }
 
     /**
@@ -133,16 +180,25 @@ class SubmissionController extends Controller
                 ->with('error', 'This submission cannot be edited in its current status.');
         }
 
+        // Base validation rules
+        $rules = [
+            'name' => ['required', 'string', 'max:255'],
+            'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
+            'address' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:50'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
+        ];
+
+        // Add category-specific validation rules
+        $categoryFields = CulturalSubmission::getCategoryFields($request->input('category', ''));
+        foreach ($categoryFields as $key => $field) {
+            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        }
+
         try {
-            $validated = $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'category' => ['required', 'string'],
-                'address' => ['required', 'string'],
-                'description' => ['required', 'string', 'min:50'],
-                'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-                'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-                'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
-            ]);
+            $validated = $request->validate($rules);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
         }
@@ -173,7 +229,19 @@ class SubmissionController extends Controller
             }
         }
 
-        $submission->update($validated);
+        // Clean category_data — remove empty values
+        $categoryData = $request->input('category_data', []);
+        $categoryData = array_filter($categoryData, fn($v) => !is_null($v) && $v !== '');
+
+        $submission->update([
+            'name' => $validated['name'],
+            'category' => $validated['category'],
+            'address' => $validated['address'],
+            'description' => $validated['description'],
+            'category_data' => !empty($categoryData) ? $categoryData : null,
+            'latitude' => $validated['latitude'] ?? null,
+            'longitude' => $validated['longitude'] ?? null,
+        ]);
 
         // Handle file uploads
         if ($request->hasFile('files')) {

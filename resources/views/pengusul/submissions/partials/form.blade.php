@@ -24,82 +24,13 @@
                 @enderror
             </div>
 
-            <!-- Category -->
-            <div class="space-y-2 group" 
-                 x-data="{ 
-                    open: false, 
-                    selected: '{{ old('category', $submission->category ?? '') }}',
-                    options: [
-                        'Tradisi Lisan',
-                        'Seni Pertunjukan',
-                        'Adat Istiadat',
-                        'Pengetahuan Tradisional',
-                        'Keterampilan Tradisional',
-                        'Lainnya'
-                    ],
-                    selectOption(option) {
-                        this.selected = option;
-                        this.open = false;
-                        // For form compatibility
-                        $refs.nativeSelect.value = option;
-                        $refs.nativeSelect.dispatchEvent(new Event('change'));
-                    }
-                 }"
-                 @click.away="open = false">
-                <label class="block text-sm font-bold text-slate-700 transition-colors group-focus-within:text-[#0077B6]">Kategori <span class="text-red-500">*</span></label>
-                
-                <div class="relative">
-                    <!-- Hidden Native Select (for form submission) -->
-                    <select name="category" x-ref="nativeSelect" class="hidden" required>
-                        <option value="">Pilih Kategori</option>
-                        <template x-for="option in options">
-                            <option :value="option" x-text="option" :selected="selected === option"></option>
-                        </template>
-                    </select>
-
-                    <!-- Custom Dropdown Trigger -->
-                    <button type="button" 
-                        @click="open = !open"
-                        class="w-full flex items-center justify-between px-5 py-4 bg-slate-50 border-2 border-transparent rounded-[1.25rem] focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/5 hover:bg-slate-100/50 transition-all duration-300 outline-none group/trigger"
-                        :class="open ? 'bg-white border-[#0077B6] ring-4 ring-[#0077B6]/5' : ''">
-                        <span class="font-medium" :class="selected ? 'text-slate-700' : 'text-slate-400'" x-text="selected || 'Pilih Kategori'"></span>
-                        <svg class="w-5 h-5 text-slate-400 group-hover/trigger:text-[#0077B6] transition-all duration-300" 
-                             :class="open ? 'rotate-180 text-[#0077B6]' : ''" 
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-
-                    <!-- Dropdown Menu -->
-                    <div x-show="open" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95 translate-y-2"
-                         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                         x-transition:leave-end="opacity-0 scale-95 translate-y-2"
-                         class="absolute z-50 w-full mt-3 bg-white border border-slate-100 rounded-[1.5rem] shadow-2xl shadow-[#03045E]/10 overflow-hidden py-2"
-                         style="display: none;">
-                        <template x-for="option in options">
-                            <button type="button" 
-                                @click="selectOption(option)"
-                                class="w-full text-left px-5 py-3.5 text-sm font-bold transition-all duration-200 flex items-center justify-between group/opt"
-                                :class="selected === option ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
-                                <span x-text="option"></span>
-                                <template x-if="selected === option">
-                                    <svg class="w-4 h-4 text-[#0077B6]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                </template>
-                            </button>
-                        </template>
-                    </div>
+            <!-- Category Display (Read-only badge) -->
+            <div class="space-y-2">
+                <label class="block text-sm font-bold text-slate-700">Kategori</label>
+                <div class="w-full px-5 py-4 bg-[#03045E]/5 border-2 border-[#03045E]/10 rounded-[1.25rem] font-bold text-[#03045E] flex items-center gap-3">
+                    <svg class="w-5 h-5 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                    {{ $categoryName ?? ($submission->category ?? '') }}
                 </div>
-
-                @error('category')
-                    <p class="flex items-center gap-2 mt-1 text-xs text-red-600 font-medium animate-shake">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                        {{ $message }}
-                    </p>
-                @enderror
             </div>
         </div>
 
@@ -150,6 +81,103 @@
             @enderror
         </div>
     </div>
+
+    <!-- Category-Specific Fields Section -->
+    @if(!empty($categoryFields))
+    <div class="space-y-6">
+        <h3 class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-3">
+            <span>Detail {{ $categoryName ?? ($submission->category ?? 'Kategori') }}</span>
+            <div class="flex-1 h-px bg-slate-100"></div>
+        </h3>
+
+        <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[1.5rem] p-6 sm:p-8 border border-slate-100 space-y-6">
+            @php
+                $categoryDataValues = old('category_data', $submission->category_data ?? []);
+                if (!is_array($categoryDataValues)) $categoryDataValues = [];
+            @endphp
+
+            @foreach($categoryFields as $fieldKey => $field)
+                <div class="space-y-2 group">
+                    <label for="category_data_{{ $fieldKey }}" class="block text-sm font-bold text-slate-700 transition-colors group-focus-within:text-[#0077B6]">
+                        {{ $field['label'] }}
+                    </label>
+
+                    @if($field['type'] === 'select')
+                        <div x-data="{ 
+                                open: false, 
+                                selected: '{{ $categoryDataValues[$fieldKey] ?? '' }}',
+                                options: @js($field['options'] ?? []),
+                                selectOption(option) {
+                                    this.selected = option;
+                                    this.open = false;
+                                }
+                             }"
+                             @click.away="open = false"
+                             class="relative">
+                            
+                            <!-- Hidden input for form submission -->
+                            <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="selected" data-category-field>
+                            
+                            <!-- Custom Dropdown Trigger -->
+                            <button type="button" 
+                                @click="open = !open"
+                                class="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-transparent rounded-[1.25rem] focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/5 hover:bg-slate-50 transition-all duration-300 outline-none"
+                                :class="open ? 'border-[#0077B6] ring-4 ring-[#0077B6]/5' : ''">
+                                <span class="font-medium" :class="selected ? 'text-slate-700' : 'text-slate-400'" x-text="selected || '{{ $field['placeholder'] ?? 'Pilih opsi...' }}'"></span>
+                                <svg class="w-5 h-5 text-slate-400 transition-all duration-300" 
+                                     :class="open ? 'rotate-180 text-[#0077B6]' : ''" 
+                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div x-show="open" 
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+                                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                                 class="absolute z-50 w-full mt-3 bg-white border border-slate-100 rounded-[1.5rem] shadow-2xl shadow-[#03045E]/10 overflow-hidden py-2"
+                                 style="display: none;">
+                                <template x-for="option in options">
+                                    <button type="button" 
+                                        @click="selectOption(option)"
+                                        class="w-full text-left px-5 py-3.5 text-sm font-bold transition-all duration-200 flex items-center justify-between"
+                                        :class="selected === option ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
+                                        <span x-text="option"></span>
+                                        <template x-if="selected === option">
+                                            <svg class="w-4 h-4 text-[#0077B6]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                        </template>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    @elseif($field['type'] === 'textarea')
+                        <textarea name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" rows="4" 
+                            data-category-field
+                            class="w-full px-5 py-4 bg-white border-2 border-transparent rounded-[1.25rem] focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/5 hover:bg-slate-50 transition-all duration-300 font-medium placeholder:text-slate-400 outline-none resize-none leading-relaxed"
+                            placeholder="{{ $field['placeholder'] ?? '' }}">{{ $categoryDataValues[$fieldKey] ?? '' }}</textarea>
+                    @else
+                        <input type="text" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" 
+                            value="{{ $categoryDataValues[$fieldKey] ?? '' }}"
+                            data-category-field
+                            class="w-full px-5 py-4 bg-white border-2 border-transparent rounded-[1.25rem] focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/5 hover:bg-slate-50 transition-all duration-300 font-medium placeholder:text-slate-400 outline-none"
+                            placeholder="{{ $field['placeholder'] ?? '' }}">
+                    @endif
+
+                    @error('category_data.' . $fieldKey)
+                        <p class="flex items-center gap-2 mt-1 text-xs text-red-600 font-medium animate-shake">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
 
     <!-- Media Upload Section -->
     <div class="space-y-6">

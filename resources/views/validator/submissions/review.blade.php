@@ -91,8 +91,32 @@
                             {{ $submission->description }}
                         </div>
                     </div>
++
++                    <!-- Category-Specific Data -->
++                    @if(!empty($categoryFields) && !empty($submission->category_data))
++                    <div class="p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
++                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
++                            <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
++                            Detail {{ $submission->category }}
++                        </label>
++                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
++                            @foreach($categoryFields as $fieldKey => $field)
++                                @if(!empty($submission->category_data[$fieldKey]))
++                                <div class="space-y-1 {{ $field['type'] === 'textarea' ? 'md:col-span-2' : '' }}">
++                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] }}</p>
++                                    @if($field['type'] === 'textarea')
++                                        <p class="text-slate-700 font-medium text-xs leading-relaxed whitespace-pre-wrap italic">"{{ $submission->category_data[$fieldKey] }}"</p>
++                                    @else
++                                        <p class="text-[#03045E] font-bold text-sm">{{ $submission->category_data[$fieldKey] }}</p>
++                                    @endif
++                                </div>
++                                @endif
++                            @endforeach
++                        </div>
++                    </div>
++                    @endif
 
-                    <!-- Files Section -->
+                     <!-- Files Section -->
                     <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
                             <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>

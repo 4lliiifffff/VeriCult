@@ -61,7 +61,9 @@ class SubmissionController extends Controller
 
         $submission->load(['user', 'files', 'reviewedBy', 'administrativeReviews.validator']);
 
-        return view('validator.submissions.show', compact('submission'));
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+
+        return view('validator.submissions.show', compact('submission', 'categoryFields'));
     }
 
     /**
@@ -106,7 +108,9 @@ class SubmissionController extends Controller
 
         $submission->load(['user', 'files', 'administrativeReviews.validator', 'fieldVerifications.validator']);
 
-        return view('validator.submissions.review', compact('submission'));
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+
+        return view('validator.submissions.review', compact('submission', 'categoryFields'));
     }
 
     /**
