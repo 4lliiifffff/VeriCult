@@ -95,6 +95,32 @@
                                 </div>
                             </div>
 
+                            <!-- Category-Specific Data -->
+                            @if(!empty($categoryFields) && !empty($submission->category_data))
+                            <div class="space-y-6">
+                                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
+                                    <span class="shrink-0">Detail {{ $submission->category }}</span>
+                                    <div class="flex-1 h-px bg-slate-100"></div>
+                                </h3>
+                                <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] p-8 border border-slate-100">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        @foreach($categoryFields as $fieldKey => $field)
+                                            @if(!empty($submission->category_data[$fieldKey]))
+                                            <div class="space-y-1 {{ $field['type'] === 'textarea' ? 'sm:col-span-2' : '' }}">
+                                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] }}</p>
+                                                @if($field['type'] === 'textarea')
+                                                    <p class="text-slate-700 font-medium text-sm leading-relaxed whitespace-pre-wrap">{{ $submission->category_data[$fieldKey] }}</p>
+                                                @else
+                                                    <p class="text-slate-700 font-bold text-base">{{ $submission->category_data[$fieldKey] }}</p>
+                                                @endif
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <!-- Files Section -->
                             <div class="space-y-6">
                                 <div class="flex items-center justify-between">

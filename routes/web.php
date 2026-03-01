@@ -62,6 +62,9 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
     ->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Users\Pengusul\DashboardController::class, 'index'])->name('dashboard');
         
+        // Category-specific form route (must be before resource route)
+        Route::get('/submissions/create/{category}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'createForm'])->name('submissions.create-form');
+        
         Route::resource('submissions', App\Http\Controllers\Users\Pengusul\SubmissionController::class);
         Route::post('/submissions/{submission}/submit', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'submit'])->name('submissions.submit');
         Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
