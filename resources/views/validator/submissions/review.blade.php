@@ -41,8 +41,8 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 items-start"
-         x-data="reviewWorkspace()">
+    <div x-data="reviewWorkspace()">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 items-start">
 
         <!-- Left: Submission Details & Files -->
         <div class="lg:col-span-7 space-y-12">
@@ -87,34 +87,35 @@
 
                     <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Deskripsi</label>
-                        <div class="prose prose-slate prose-sm font-medium text-slate-600 leading-relaxed max-w-none">
+                        <div class="prose prose-slate prose-sm font-medium text-slate-600 leading-relaxed max-w-none w-full break-words break-all overflow-hidden">
                             {{ $submission->description }}
                         </div>
                     </div>
-+
-+                    <!-- Category-Specific Data -->
-+                    @if(!empty($categoryFields) && !empty($submission->category_data))
-+                    <div class="p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
-+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
-+                            <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-+                            Detail {{ $submission->category }}
-+                        </label>
-+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-+                            @foreach($categoryFields as $fieldKey => $field)
-+                                @if(!empty($submission->category_data[$fieldKey]))
-+                                <div class="space-y-1 {{ $field['type'] === 'textarea' ? 'md:col-span-2' : '' }}">
-+                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] }}</p>
-+                                    @if($field['type'] === 'textarea')
-+                                        <p class="text-slate-700 font-medium text-xs leading-relaxed whitespace-pre-wrap italic">"{{ $submission->category_data[$fieldKey] }}"</p>
-+                                    @else
-+                                        <p class="text-[#03045E] font-bold text-sm">{{ $submission->category_data[$fieldKey] }}</p>
-+                                    @endif
-+                                </div>
-+                                @endif
-+                            @endforeach
-+                        </div>
-+                    </div>
-+                    @endif
+
+                    <!-- Category-Specific Data -->
+                    @if(!empty($categoryFields) && !empty($submission->category_data))
+                    <div class="p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
+                            <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            Detail {{ $submission->category }}
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @foreach($categoryFields as $fieldKey => $field)
+                                @php $value = $submission->category_data[$fieldKey] ?? null; @endphp
+                                @if(!empty($value))
+                                <div class="space-y-1 {{ $field['type'] === 'textarea' ? 'md:col-span-2' : '' }}">
+                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] }}</p>
+                                    @if($field['type'] === 'textarea')
+                                        <p class="text-slate-700 font-medium text-xs leading-relaxed whitespace-pre-wrap italic">"{{ $value }}"</p>
+                                    @else
+                                        <p class="text-[#03045E] font-bold text-sm">{{ $value }}</p>
+                                    @endif
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
 
                      <!-- Files Section -->
                     <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
@@ -183,14 +184,14 @@
                         <div>
                             <h2 class="font-black text-xl tracking-tight">Keputusan Validasi</h2>
                             <p class="text-[10px] font-bold uppercase tracking-widest text-blue-200 mt-0.5">
-                                Tahap: {{ $submission->status === 'administrative_review' ? 'Review Administratif' : 'Verifikasi Lapangan' }}
+                                Tahap: {{ in_array($submission->status, ['administrative_review', 'submitted']) ? 'Review Administratif' : 'Verifikasi Lapangan' }}
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <div class="p-8 lg:p-10">
-                    @if($submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
+                    @if(in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_SUBMITTED]))
                         <!-- Administrative Review Form -->
                         <form id="reviewForm" action="{{ route('validator.submissions.review', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
@@ -517,6 +518,7 @@
                     Ya, Konfirmasi
                 </button>
             </div>
+        </div>
         </div>
     </div>
 

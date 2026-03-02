@@ -118,9 +118,9 @@
                                         </form>
                                     @endif
 
-                                    @if($submission->reviewed_by === Auth::id() && in_array($submission->status, ['administrative_review', 'field_verification']))
+                                    @if($submission->reviewed_by === Auth::id() && in_array($submission->status, ['administrative_review', 'field_verification', 'submitted']))
                                         <a href="{{ route('validator.submissions.review-form', $submission) }}" class="inline-flex items-center px-4 py-2.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group/btn shadow-md">
-                                            Lanjutkan Review
+                                            Lanjutkan Review {{ $submission->status === 'submitted' ? '(Revisi)' : '' }}
                                             <svg class="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                         </a>
                                     @endif
