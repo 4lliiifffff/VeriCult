@@ -26,6 +26,8 @@ class SubmissionController extends Controller
             CulturalSubmission::STATUS_SUBMITTED,
             CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
             CulturalSubmission::STATUS_FIELD_VERIFICATION,
+            CulturalSubmission::STATUS_VERIFIED,
+            CulturalSubmission::STATUS_PUBLISHED,
             CulturalSubmission::STATUS_REVISION,
             CulturalSubmission::STATUS_REJECTED
         ]);
@@ -195,5 +197,26 @@ class SubmissionController extends Controller
 
         return redirect()->route('validator.submissions.index')
             ->with('success', 'Verifikasi lapangan berhasil disimpan.');
+    }
+
+    /**
+     * Publish a verified submission.
+     */
+    public function publish(CulturalSubmission $submission)
+    {
+        Gate::authorize('publish', $submission);
+
+        if ($submission->status !== CulturalSubmission::STATUS_VERIFIED) {
+            return redirect()->back()->with('error', 'Hanya pengajuan berstatus "Verified" yang dapat dipublikasikan.');
+        }
+
+        $submission->update([
+            'status' => CulturalSubmission::STATUS_PUBLISHED,
+            'slug' => CulturalSubmission::generateUniqueSlug($submission->name),
+            'published_at' => now(),
+        ]);
+
+        return redirect()->route('validator.submissions.show', $submission)
+            ->with('success', 'Objek kebudayaan berhasil dipublikasikan ke profil publik!');
     }
 }

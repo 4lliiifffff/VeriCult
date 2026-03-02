@@ -6,8 +6,23 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $stats = [
+        'total' => \App\Models\CulturalSubmission::whereIn('status', [\App\Models\CulturalSubmission::STATUS_PUBLISHED, \App\Models\CulturalSubmission::STATUS_VERIFIED])->count(),
+        'published' => \App\Models\CulturalSubmission::published()->count(),
+        'users' => \App\Models\User::role('pengusul')->count(),
+        'pending' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_SUBMITTED)->count(),
+        'revision' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_REVISION)->count(),
+        'validators' => \App\Models\User::role('validator')->count(),
+    ];
+
+    $recentDiscoveries = \App\Models\CulturalSubmission::published()->with('files')->latest('published_at')->take(3)->get();
+
+    return view('welcome', compact('stats', 'recentDiscoveries'));
 });
+
+// Public Cultural Profile Routes
+Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
+Route::get('/profil-kebudayaan/{slug}', [\App\Http\Controllers\PublicCulturalController::class, 'show'])->name('profil-kebudayaan.show');
 
 Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'index'])->name('dashboard');
@@ -53,6 +68,7 @@ Route::middleware(['auth', 'verified', 'role:validator'])
         Route::get('/submissions/{submission}/review', [App\Http\Controllers\Validator\SubmissionController::class, 'reviewForm'])->name('submissions.review-form');
         Route::post('/submissions/{submission}/review', [App\Http\Controllers\Validator\SubmissionController::class, 'review'])->name('submissions.review');
         Route::post('/submissions/{submission}/field-verification', [App\Http\Controllers\Validator\SubmissionController::class, 'storeFieldVerification'])->name('submissions.field-verification');
+        Route::post('/submissions/{submission}/publish', [App\Http\Controllers\Validator\SubmissionController::class, 'publish'])->name('submissions.publish');
     });
 
 // Pengusul Routes

@@ -86,9 +86,9 @@
                                     <span class="shrink-0">Narasi Kebudayaan</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
-                                <div class="p-10 rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30">
-                                    <div class="prose prose-slate max-w-none">
-                                        <p class="text-slate-700 leading-[2] font-medium text-lg whitespace-pre-wrap italic">
+                                <div class="p-10 rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
+                                    <div class="prose prose-slate max-w-none w-full break-words break-all">
+                                        <p class="text-slate-700 leading-[2] font-medium text-lg italic">
                                             "{{ $submission->description }}"
                                         </p>
                                     </div>
@@ -200,16 +200,19 @@
                 </div>
 
                 <!-- Admin Remarks Section (If exists) -->
-                @if($submission->remarks)
+                @php
+                    $latestReview = $submission->administrativeReviews->first();
+                @endphp
+                @if($latestReview && in_array($submission->status, ['revision', 'rejected']))
                 <div class="bg-amber-50/50 rounded-[2.5rem] p-10 border border-amber-100 shadow-sm relative overflow-hidden group">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-100/40 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
                     <div class="relative z-10">
                         <h3 class="text-[11px] font-black text-amber-600 uppercase tracking-[0.25em] mb-6 flex items-center gap-4">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                            Evaluasi Reviewer
+                            Catatan {{ $submission->status === 'revision' ? 'Revisi' : 'Penolakan' }} ({{ $latestReview->created_at->format('d M Y') }})
                         </h3>
-                        <div class="p-8 rounded-[1.5rem] bg-white border border-amber-200/50 text-slate-700 leading-relaxed font-bold italic text-lg shadow-sm">
-                            "{{ $submission->remarks }}"
+                        <div class="p-8 rounded-[1.5rem] bg-white border border-amber-200/50 text-slate-700 leading-relaxed font-bold italic text-base shadow-sm break-words">
+                            "{{ $latestReview->notes }}"
                         </div>
                     </div>
                 </div>
@@ -240,7 +243,7 @@
                                 <button type="button" 
                                         @click="$dispatch('open-modal', 'confirm-final-submission')" 
                                         class="flex items-center justify-center gap-4 w-full px-8 py-6 rounded-[1.25rem] bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white font-black text-xs tracking-[0.25em] uppercase shadow-2xl shadow-blue-900/40 hover:shadow-blue-900/50 hover:-translate-y-1 transition-all active:scale-95 group/submit">
-                                    <svg class="w-6 h-6 group-hover/submit:translate-x-1 group-hover/submit:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                                     Kirim Final
                                 </button>
                             @endif

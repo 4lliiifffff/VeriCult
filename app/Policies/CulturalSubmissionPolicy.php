@@ -72,10 +72,19 @@ class CulturalSubmissionPolicy
     {
         return $user->hasRole('validator') && 
                in_array($submission->status, [
+                   CulturalSubmission::STATUS_SUBMITTED,
                    CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, 
                    CulturalSubmission::STATUS_FIELD_VERIFICATION
                ]) && 
                $submission->reviewed_by === $user->id;
+    }
+
+    /**
+     * Determine whether the user can publish the submission.
+     */
+    public function publish(User $user, CulturalSubmission $submission): bool
+    {
+        return $user->hasRole('validator') && $submission->status === CulturalSubmission::STATUS_VERIFIED;
     }
 
     /**

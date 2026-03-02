@@ -142,9 +142,114 @@ class SubmissionController extends Controller
     {
         $this->authorize('view', $submission);
 
+        $submission->load(['administrativeReviews', 'fieldVerifications']);
+
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
 
-        return view('pengusul.submissions.show', compact('submission', 'categoryFields'));
+        // Build chronological timeline
+        $timeline = collect();
+
+        // 1. Draft Created
+        $timeline->push([
+            'type' => 'status',
+            'status' => 'draft',
+            'title' => 'Draft Dibuat',
+            'date' => $submission->created_at,
+            'description' => null,
+            'icon' => 'draft',
+            'color' => 'gray'
+        ]);
+
+        // 2. Submitted
+        if ($submission->submitted_at) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => 'submitted',
+                'title' => 'Dikirim untuk Review',
+                'date' => $submission->submitted_at,
+                'description' => null,
+                'icon' => 'submitted',
+                'color' => 'blue'
+            ]);
+        }
+
+        // 3. Administrative Reviews
+        foreach ($submission->administrativeReviews as $review) {
+            $actionTitles = [
+                'forwarded' => 'Diteruskan ke Lapangan (Review Administratif)',
+                'revision' => 'Butuh Revisi (Review Administratif)',
+                'rejected' => 'Ditolak (Review Administratif)'
+            ];
+            $actionColors = [
+                'forwarded' => 'indigo',
+                'revision' => 'amber',
+                'rejected' => 'red'
+            ];
+            $timeline->push([
+                'type' => 'review',
+                'status' => $review->action,
+                'title' => $actionTitles[$review->action] ?? 'Review Administratif',
+                'date' => $review->created_at,
+                'description' => $review->notes,
+                'icon' => $review->action,
+                'color' => $actionColors[$review->action] ?? 'indigo'
+            ]);
+        }
+
+        // 4. Field Verifications
+        foreach ($submission->fieldVerifications as $review) {
+            $actionTitles = [
+                'verified' => 'Verifikasi Lapangan Disetujui',
+                'revision' => 'Butuh Revisi (Verifikasi Lapangan)',
+                'rejected' => 'Ditolak (Verifikasi Lapangan)'
+            ];
+            $actionColors = [
+                'verified' => 'emerald',
+                'revision' => 'amber',
+                'rejected' => 'red'
+            ];
+            $timeline->push([
+                'type' => 'review',
+                'status' => $review->action,
+                'title' => $actionTitles[$review->action] ?? 'Verifikasi Lapangan',
+                'date' => $review->created_at,
+                'description' => $review->notes,
+                'icon' => $review->action,
+                'color' => $actionColors[$review->action] ?? 'emerald'
+            ]);
+        }
+
+        // 5. Publisher / Verified At
+        if ($submission->verified_at) {
+            // Check if we don't already have a 'verified' from field verifications right at this exact time to avoid dupes,
+            // but normally it's fine.
+            $timeline->push([
+                'type' => 'status',
+                'status' => 'verified',
+                'title' => 'Diverifikasi',
+                'date' => $submission->verified_at,
+                'description' => null,
+                'icon' => 'verified',
+                'color' => 'emerald'
+            ]);
+        }
+
+        if ($submission->published_at) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => 'published',
+                'title' => 'Dipublikasikan',
+                'date' => $submission->published_at,
+                'description' => null,
+                'icon' => 'published',
+                'color' => 'green'
+            ]);
+        }
+
+        // Sort timeline by date ascending
+        $timeline = $timeline->sortBy('date')->values();
+
+        return view('pengusul.submissions.show', compact('submission', 'categoryFields', 'timeline'));
     }
 
     /**
@@ -283,6 +388,7 @@ class SubmissionController extends Controller
         $submission->update([
             'status' => CulturalSubmission::STATUS_SUBMITTED,
             'submitted_at' => now(),
+            // Remove the clear reviewer info block to preserve history
         ]);
 
         return redirect()->route('pengusul.submissions.show', $submission)

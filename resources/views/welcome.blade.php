@@ -103,6 +103,8 @@
                        :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Tentang</a>
                     <a href="#fitur" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
                        :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Fitur</a>
+                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
+                       :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Profil Budaya</a>
                     <a href="#statistik" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
                        :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Statistik</a>
                 </div>
@@ -379,17 +381,17 @@
                 <div class="relative z-10 grid md:grid-cols-3 gap-12 lg:gap-16 text-center text-white">
                     <div class="space-y-4">
                         <div class="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-white/60">Total Objek</div>
-                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">1.2k+</div>
+                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['total'] }}</div>
                         <p class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Warisan Budaya</p>
                     </div>
                     <div class="space-y-4 border-y md:border-y-0 md:border-x border-white/10 py-10 md:py-0">
                         <div class="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-white/60">Tervalidasi</div>
-                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">892</div>
+                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['published'] }}</div>
                         <p class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Objek Terverifikasi</p>
                     </div>
                     <div class="space-y-4">
                         <div class="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-white/60">Pengusul</div>
-                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">324</div>
+                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['users'] }}</div>
                         <p class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Kontributor Aktif</p>
                     </div>
                 </div>
@@ -397,19 +399,19 @@
                 <!-- Footer Summary Card Inside Stats -->
                 <div class="mt-16 md:mt-20 bg-white/10 backdrop-blur-3xl rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 border border-white/20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center items-center">
                     <div>
-                        <div class="text-xl md:text-2xl font-black text-white">156</div>
+                        <div class="text-xl md:text-2xl font-black text-white">{{ $stats['pending'] }}</div>
                         <div class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Pending Review</div>
                     </div>
                     <div>
-                        <div class="text-xl md:text-2xl font-black text-white">89</div>
+                        <div class="text-xl md:text-2xl font-black text-white">{{ $stats['revision'] }}</div>
                         <div class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Dalam Revisi</div>
                     </div>
                     <div>
-                        <div class="text-xl md:text-2xl font-black text-white">45</div>
+                        <div class="text-xl md:text-2xl font-black text-white">{{ $stats['validators'] }}</div>
                         <div class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Validator Aktif</div>
                     </div>
                     <div>
-                        <div class="text-xl md:text-2xl font-black text-[#90E0EF]">98.2%</div>
+                        <div class="text-xl md:text-2xl font-black text-[#90E0EF]">100%</div>
                         <div class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Success Rate</div>
                     </div>
                 </div>

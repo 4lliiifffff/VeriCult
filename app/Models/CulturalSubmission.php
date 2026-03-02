@@ -201,6 +201,7 @@ class CulturalSubmission extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'slug',
         'category',
         'description',
         'category_data',
@@ -277,6 +278,14 @@ class CulturalSubmission extends Model
     public function scopeStatus($query, string $status)
     {
         return $query->where('status', $status);
+    }
+
+    /**
+     * Scope to get only published submissions.
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('status', self::STATUS_PUBLISHED);
     }
 
     /**
@@ -364,5 +373,21 @@ class CulturalSubmission extends Model
             self::STATUS_REJECTED => 'red',
             default => 'gray',
         };
+    }
+
+    /**
+     * Generate unique slug for the submission.
+     */
+    public static function generateUniqueSlug(string $name): string
+    {
+        $slug = \Illuminate\Support\Str::slug($name);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (static::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
+        return $slug;
     }
 }
