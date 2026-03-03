@@ -33,29 +33,30 @@
             box-shadow: 0 30px 60px -15px rgba(3, 4, 94, 0.15);
         }
 
-        /* Animation Classes */
+        /* Animation Classes - Optimized for performance */
         .reveal {
             opacity: 0;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: transform, opacity;
         }
         .reveal-up {
-            transform: translateY(40px);
+            transform: translateY(20px);
         }
         .reveal-left {
-            transform: translateX(-40px);
+            transform: translateX(-20px);
         }
         .reveal-right {
-            transform: translateX(40px);
+            transform: translateX(20px);
         }
         .reveal-visible {
             opacity: 1;
             transform: translate(0, 0);
+            will-change: auto;
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
         .animate-float {
             animation: float 6s ease-in-out infinite;
@@ -181,8 +182,8 @@
     <section class="premium-gradient min-h-screen relative flex items-center pt-24 md:pt-32 overflow-hidden">
         <!-- Hero Pattern & Glow -->
         <div class="absolute inset-0 hero-pattern opacity-10"></div>
-        <div class="absolute -top-24 -right-1/4 w-[500px] h-[500px] bg-[#00B4D8] rounded-full blur-[160px] opacity-20 animate-pulse"></div>
-        <div class="absolute -bottom-24 -left-1/4 w-[500px] h-[500px] bg-[#48CAE4] rounded-full blur-[160px] opacity-20 animate-pulse delay-700"></div>
+        <div class="absolute -top-24 -right-1/4 w-[400px] h-[400px] bg-[#00B4D8] rounded-full blur-[80px] opacity-15"></div>
+        <div class="absolute -bottom-24 -left-1/4 w-[400px] h-[400px] bg-[#48CAE4] rounded-full blur-[80px] opacity-15"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -507,27 +508,19 @@
         </div>
     </footer>
 
-    <!-- Reveal Animations Script -->
+    <!-- Reveal Animations Script (Optimized) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                root: null,
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('reveal-visible');
-                        // Optional: unobserve after showing
-                        // observer.unobserve(entry.target);
+                        obs.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
+            }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
 
-            const revealElements = document.querySelectorAll('.reveal');
-            revealElements.forEach(el => observer.observe(el));
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
     </script>
 </body>

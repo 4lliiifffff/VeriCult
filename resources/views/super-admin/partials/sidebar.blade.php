@@ -51,6 +51,30 @@
                 Menu Utama
             </h3>
 
+            <!-- Beranda -->
+            <a href="{{ route('beranda') }}"
+               :class="sidebarMinimized ? 'justify-center !px-0' : ''"
+               class="flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative text-slate-300 hover:bg-white/5 hover:text-white">
+                
+                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </div>
+                
+                <span x-show="!sidebarMinimized"
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Beranda
+                </span>
+
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Beranda
+                </div>
+            </a>
+
             <!-- Dashboard -->
             <a href="{{ route('super-admin.dashboard') }}" 
                @click="sidebarOpen = false"

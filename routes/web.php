@@ -17,8 +17,8 @@ Route::get('/', function () {
 
     $recentDiscoveries = \App\Models\CulturalSubmission::published()->with('files')->latest('published_at')->take(3)->get();
 
-    return view('welcome', compact('stats', 'recentDiscoveries'));
-});
+    return view('index', compact('stats', 'recentDiscoveries'));
+})->name('beranda');
 
 // Public Cultural Profile Routes
 Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
