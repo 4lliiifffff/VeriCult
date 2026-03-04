@@ -43,7 +43,7 @@
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             class="fixed inset-0 bg-[#03045E]/10 backdrop-blur-md flex items-center justify-center z-[100]"
+             class="fixed inset-0 bg-slate-900/75 flex items-center justify-center z-[100]"
              style="display: none;">
             <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl flex flex-col items-center max-w-xs w-full mx-4 border border-white">
                 <div class="relative w-20 h-20 mb-8">

@@ -446,7 +446,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-[#03045E]/30 backdrop-blur-sm" @click="showModal = false"></div>
+        <div class="absolute inset-0 bg-slate-900/75" @click="showModal = false"></div>
 
         <!-- Modal Panel -->
         <div class="relative bg-white rounded-[2rem] w-full max-w-md mx-4 shadow-2xl shadow-slate-900/20 overflow-hidden"

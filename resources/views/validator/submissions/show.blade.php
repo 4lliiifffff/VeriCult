@@ -44,7 +44,7 @@
                         <div x-show="showClaimModal" x-cloak style="display: none;" class="fixed inset-0 flex items-center justify-center z-50"
                              x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                              x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-                            <div class="absolute inset-0 bg-[#03045E]/30 backdrop-blur-sm" @click="showClaimModal = false"></div>
+                            <div class="absolute inset-0 bg-slate-900/75" @click="showClaimModal = false"></div>
                             <div class="relative bg-white rounded-[2rem] w-full max-w-md mx-4 shadow-2xl shadow-slate-900/20 overflow-hidden"
                                  x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90 translate-y-8" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                                  x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-8">
@@ -94,7 +94,7 @@
                         <div x-show="showUnclaimModal" x-cloak style="display: none;" class="fixed inset-0 flex items-center justify-center z-50"
                              x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                              x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-                            <div class="absolute inset-0 bg-[#03045E]/30 backdrop-blur-sm" @click="showUnclaimModal = false"></div>
+                            <div class="absolute inset-0 bg-slate-900/75" @click="showUnclaimModal = false"></div>
                             <div class="relative bg-white rounded-[2rem] w-full max-w-md mx-4 shadow-2xl shadow-slate-900/20 overflow-hidden"
                                  x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90 translate-y-8" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                                  x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-8">
@@ -143,7 +143,7 @@
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             class="fixed inset-0 bg-[#03045E]/10 backdrop-blur-md flex items-center justify-center z-[100]"
+             class="fixed inset-0 bg-slate-900/75 flex items-center justify-center z-[100]"
              style="display: none;">
             <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl flex flex-col items-center max-w-xs w-full mx-4 border border-white">
                 <div class="relative w-20 h-20 mb-8">
