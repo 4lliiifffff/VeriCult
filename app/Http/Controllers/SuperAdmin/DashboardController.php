@@ -55,30 +55,64 @@ class DashboardController extends Controller
             }
         }
 
-        // --- NEW: Dashboard Charts Data ---
-        
+        // --- Dashboard Charts Data ---
+
+        // Get available years
+        $availableYears = CulturalSubmission::select('period_year')
+            ->whereNotNull('period_year')
+            ->distinct()
+            ->orderBy('period_year', 'desc')
+            ->pluck('period_year')
+            ->toArray();
+
+        // If availableYears is empty, fallback to current year
+        if (empty($availableYears)) {
+            $availableYears = [(int)date('Y')];
+        }
+
+        $defaultYear = $availableYears[0];
+        $activeYear = request('year', $defaultYear);
+
+        // Base query filtered by year
+        $yearQuery = CulturalSubmission::where('period_year', $activeYear);
+
+        // Basic Stats for active year
+        $totalSubmissionsThisYear = (clone $yearQuery)->count();
+        $verifiedThisYear = (clone $yearQuery)->where('status', CulturalSubmission::STATUS_VERIFIED)->count();
+        $publishedThisYear = (clone $yearQuery)->where('status', CulturalSubmission::STATUS_PUBLISHED)->count();
+
         // 1. Status Distribution Chart
-        $statusStats = CulturalSubmission::select('status', DB::raw('count(*) as count'))
+        $statusStats = (clone $yearQuery)->select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
             ->get()
             ->pluck('count', 'status')
             ->toArray();
         
         // 2. Category Distribution Chart (11 Categories)
-        $categoryStats = CulturalSubmission::select('category', DB::raw('count(*) as count'))
+        $categoryStats = (clone $yearQuery)->select('category', DB::raw('count(*) as count'))
             ->groupBy('category')
             ->get()
             ->pluck('count', 'category')
             ->toArray();
 
-        // 3. Monthly Trend (Last 6 Months)
-        $monthlyTrend = CulturalSubmission::select(
-            DB::raw('DATE_FORMAT(created_at, "%b %Y") as month'),
+        // 3. Monthly Trend (For selected year)
+        $monthlyTrend = (clone $yearQuery)->select(
+            DB::raw('DATE_FORMAT(created_at, "%b") as month_name'),
+            DB::raw('MONTH(created_at) as month_num'),
             DB::raw('count(*) as count')
         )
-        ->where('created_at', '>=', now()->subMonths(6))
-        ->groupBy('month')
-        ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+        ->groupBy('month_name', 'month_num')
+        ->orderBy('month_num', 'asc')
+        ->get();
+
+        // 4. Yearly Comparison
+        $yearlyComparison = CulturalSubmission::select(
+            'period_year',
+            DB::raw('count(*) as count')
+        )
+        ->whereNotNull('period_year')
+        ->groupBy('period_year')
+        ->orderBy('period_year', 'asc')
         ->get();
 
         // Return existing view with charts data
@@ -92,9 +126,15 @@ class DashboardController extends Controller
             'auditLogs',
             'suspendedUsers',
             'onlineUsers',
+            'availableYears',
+            'activeYear',
+            'totalSubmissionsThisYear',
+            'verifiedThisYear',
+            'publishedThisYear',
             'statusStats',
             'categoryStats',
-            'monthlyTrend'
+            'monthlyTrend',
+            'yearlyComparison'
         ));
     }
 

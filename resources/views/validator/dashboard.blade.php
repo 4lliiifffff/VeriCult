@@ -56,6 +56,29 @@
                 }
             }
         });
+        // 3. Yearly Comparison Chart
+        const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+        new Chart(yearlyCtx, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($yearlyComparison->pluck('period_year')) !!}.map(String),
+                datasets: [{
+                    label: 'Total Pengajuan',
+                    data: {!! json_encode($yearlyComparison->pluck('count')) !!},
+                    backgroundColor: '#00B4D8',
+                    borderRadius: 8,
+                    barThickness: 20
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
+                }
+            }
+        });
     });
 </script>
 @endpush
@@ -82,9 +105,20 @@
                     </p>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('validator.submissions.index') }}" class="bg-white text-[#03045E] px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-blue-50 transition-all duration-300 shadow-xl shadow-blue-900/10 hover:-translate-y-1">
-                        Mulai Review
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner">
+                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex flex-col gap-1 items-end">
+                        <label for="year" class="text-[9px] font-black text-[#00B4D8] uppercase tracking-[0.2em] pr-1">Periode</label>
+                        <select name="year" id="year" onchange="this.form.submit()" class="bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
+                            @foreach($availableYears as $year)
+                                <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }} class="text-slate-900">
+                                    {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                    <div class="h-10 w-px bg-white/20 mx-2 hidden sm:block"></div>
+                    <a href="{{ route('validator.submissions.index') }}" class="hidden sm:inline-block bg-white text-[#03045E] px-6 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        Review
                     </a>
                 </div>
             </div>
@@ -141,7 +175,7 @@
         </div>
 
         <!-- Analytics Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Pipa Review Saya (Beban Kerja)</h3>
                 <div class="h-64 relative">
@@ -153,6 +187,14 @@
                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Kategori Terpopuler (Global)</h3>
                 <div class="h-64 relative">
                     <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Yearly Comparison Chart -->
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Perbandingan Tahunan</h3>
+                <div class="h-64 relative">
+                    <canvas id="yearlyChart"></canvas>
                 </div>
             </div>
         </div>

@@ -62,7 +62,7 @@
         new Chart(trendCtx, {
             type: 'line',
             data: {
-                labels: {!! json_encode($monthlyTrend->pluck('month')) !!},
+                labels: {!! json_encode($monthlyTrend->pluck('month_name')) !!},
                 datasets: [{
                     label: 'Pengajuan Baru',
                     data: {!! json_encode($monthlyTrend->pluck('count')) !!},
@@ -83,6 +83,30 @@
                 scales: {
                     y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
                     x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 4. Yearly Comparison Chart
+        const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+        new Chart(yearlyCtx, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($yearlyComparison->pluck('period_year')) !!}.map(String),
+                datasets: [{
+                    label: 'Total Pengajuan',
+                    data: {!! json_encode($yearlyComparison->pluck('count')) !!},
+                    backgroundColor: '#00B4D8',
+                    borderRadius: 8,
+                    barThickness: 30
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
                 }
             }
         });
@@ -112,9 +136,17 @@
                     <p class="text-blue-100/70 text-lg font-medium">Selamat datang kembali di pusat kendali utama sistem.</p>
                 </div>
                 <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <div class="w-12 h-12 rounded-xl bg-[#00B4D8] flex items-center justify-center text-[#03045E] shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
+                    <form action="{{ route('super-admin.dashboard') }}" method="GET" class="flex flex-col gap-1 items-end">
+                        <label for="year" class="text-[10px] font-black text-[#00B4D8] uppercase tracking-[0.2em] pr-1">Filter Periode</label>
+                        <select name="year" id="year" onchange="this.form.submit()" class="bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
+                            @foreach($availableYears as $year)
+                                <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }} class="text-slate-900">
+                                    Tahun {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                    <div class="h-10 w-px bg-white/20 mx-2"></div>
                     <div>
                         <p class="text-[10px] font-black text-[#00B4D8] uppercase tracking-[0.2em] mb-0.5">System Status</p>
                         <div class="flex items-center gap-2">
@@ -194,6 +226,23 @@
             </div>
         </div>
 
+        <!-- Submission Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-[#03045E] rounded-[2rem] p-6 shadow-xl shadow-blue-900/10 relative overflow-hidden text-white border border-[#03045E]">
+                 <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+                 <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mb-1 z-10 relative">Total Pengajuan ({{ $activeYear }})</p>
+                 <h3 class="text-4xl font-black z-10 relative group hover:scale-105 transition-transform origin-left">{{ $totalSubmissionsThisYear }}</h3>
+            </div>
+            <div class="bg-white rounded-[2rem] p-6 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
+                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Telah Diverifikasi ({{ $activeYear }})</p>
+                 <h3 class="text-4xl font-black text-[#0077B6] group hover:scale-105 transition-transform origin-left">{{ $verifiedThisYear }}</h3>
+            </div>
+            <div class="bg-white rounded-[2rem] p-6 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
+                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Telah Dipublikasi ({{ $activeYear }})</p>
+                 <h3 class="text-4xl font-black text-emerald-500 group hover:scale-105 transition-transform origin-left">{{ $publishedThisYear }}</h3>
+            </div>
+        </div>
+
         <!-- Charts Row -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Status Distribution -->
@@ -218,10 +267,25 @@
         </div>
 
         <!-- Trend Row -->
-        <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8">Tren Pengajuan Objek Kebudayaan (6 Bulan Terakhir)</h3>
-            <div class="h-80 relative">
-                <canvas id="trendChart"></canvas>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Trend Chart -->
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Tren Pengajuan Bulanan (Tahun {{ $activeYear }})</h3>
+                </div>
+                <div class="h-80 relative">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Yearly Comparison Chart -->
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Perbandingan Pengajuan Tahunan</h3>
+                </div>
+                <div class="h-80 relative">
+                    <canvas id="yearlyChart"></canvas>
+                </div>
             </div>
         </div>
 

@@ -214,6 +214,7 @@ class CulturalSubmission extends Model
         'submitted_at',
         'verified_at',
         'published_at',
+        'period_year',
     ];
 
     /**
@@ -230,6 +231,7 @@ class CulturalSubmission extends Model
         'submitted_at' => 'datetime',
         'verified_at' => 'datetime',
         'published_at' => 'datetime',
+        'period_year' => 'integer',
     ];
 
     /**
@@ -254,6 +256,11 @@ class CulturalSubmission extends Model
                 if ($submission->status === static::STATUS_PUBLISHED && !$submission->published_at) {
                     $submission->published_at = now();
                 }
+            }
+
+            // Default period_year to current year
+            if (empty($submission->period_year)) {
+                $submission->period_year = date('Y');
             }
         });
     }
