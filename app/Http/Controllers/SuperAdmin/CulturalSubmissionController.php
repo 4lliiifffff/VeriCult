@@ -4,6 +4,8 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CulturalSubmission;
+use App\Models\User;
+use App\Notifications\SubmissionNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -65,6 +67,24 @@ class CulturalSubmissionController extends Controller
 
         $submission->status = $validated['status'];
         $submission->save();
+
+        // Notify the Pengusul
+        $actionTitles = [
+            CulturalSubmission::STATUS_PUBLISHED => 'Pengajuan Dipublikasikan (Super Admin)',
+            CulturalSubmission::STATUS_VERIFIED => 'Publikasi Ditarik (Dikembalikan ke Verified)',
+            CulturalSubmission::STATUS_REJECTED => 'Pengajuan Ditolak (Super Admin)'
+        ];
+        $actionTypes = [
+            CulturalSubmission::STATUS_PUBLISHED => 'success',
+            CulturalSubmission::STATUS_VERIFIED => 'warning',
+            CulturalSubmission::STATUS_REJECTED => 'error'
+        ];
+        
+        $title = $actionTitles[$submission->status] ?? 'Update Status Super Admin';
+        $message = 'Status pengajuan "' . $submission->name . '" telah diubah menjadi ' . $submission->status . ' oleh Super Admin.';
+        $url = route('pengusul.submissions.show', $submission);
+        
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$submission->status] ?? 'info'));
 
         return redirect()->route('super-admin.cultural-submissions.show', $submission)
             ->with('success', 'Status publikasi data kebudayaan berhasil diperbarui.');

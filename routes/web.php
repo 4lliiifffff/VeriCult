@@ -75,6 +75,11 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     Route::resource('cultural-submissions', \App\Http\Controllers\SuperAdmin\CulturalSubmissionController::class)->parameters([
         'cultural-submissions' => 'submission'
     ]);
+
+    // Notifications
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+    Route::post('/notifications/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
 });
 
 
@@ -98,6 +103,11 @@ Route::middleware(['auth', 'verified', 'role:validator'])
         Route::post('/submissions/{submission}/review', [App\Http\Controllers\Validator\SubmissionController::class, 'review'])->name('submissions.review');
         Route::post('/submissions/{submission}/field-verification', [App\Http\Controllers\Validator\SubmissionController::class, 'storeFieldVerification'])->name('submissions.field-verification');
         Route::post('/submissions/{submission}/publish', [App\Http\Controllers\Validator\SubmissionController::class, 'publish'])->name('submissions.publish');
+
+        // Notifications
+        Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+        Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
     });
 
 // Pengusul Routes
@@ -113,6 +123,11 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
         Route::resource('submissions', App\Http\Controllers\Users\Pengusul\SubmissionController::class);
         Route::post('/submissions/{submission}/submit', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'submit'])->name('submissions.submit');
         Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
+
+        // Notifications
+        Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+        Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
     });
 
 

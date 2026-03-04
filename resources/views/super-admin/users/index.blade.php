@@ -185,11 +185,11 @@
                                                 </button>
                                             @endif
                                         @endif
- 
+
                                         <a href="{{ route('super-admin.users.edit', $user) }}" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-500 hover:bg-[#03045E] hover:text-white transition-all duration-300 shadow-sm border border-slate-100" title="Edit Profil">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                         </a>
- 
+
                                         @if($user->id !== auth()->id())
                                             <button @click="openDeleteModal({{ json_encode($user) }}, '{{ route('super-admin.users.destroy', $user) }}')" 
                                                 class="w-9 h-9 flex items-center justify-center rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm border border-red-100" title="Hapus User Permenant">
@@ -200,10 +200,10 @@
                                 @else
                                     <span class="text-[10px] text-slate-300 font-black uppercase tracking-widest flex items-center gap-2 justify-end">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                        Locked Root
+                                        User Bawaan Terkunci
                                     </span>
                                 @endif
-                           </div>
+                            </div>
                         </td>
                     </tr>
                     @empty

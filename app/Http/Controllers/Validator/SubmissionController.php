@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Validator;
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeReview;
 use App\Models\CulturalSubmission;
+use App\Notifications\SubmissionNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -81,6 +82,12 @@ class SubmissionController extends Controller
             'status' => CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
         ]);
 
+        // Notify the Pengusul
+        $title = 'Pengajuan Diproses';
+        $message = 'Pengajuan "' . $submission->name . '" Anda sedang ditinjau oleh Validator.';
+        $url = route('pengusul.submissions.show', $submission);
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'info'));
+
         return redirect()->route('validator.submissions.review-form', $submission)
             ->with('success', 'Berhasil mengklaim submission. Anda kini berada di ruang kerja review.');
     }
@@ -148,6 +155,24 @@ class SubmissionController extends Controller
                 'status' => $status,
                 // We keep reviewed_by for history
             ]);
+
+            // Notify the Pengusul
+            $actionTitles = [
+                'forwarded' => 'Lolos Review Administratif',
+                'revision' => 'Revisi Diperlukan (Administratif)',
+                'rejected' => 'Pengajuan Ditolak (Administratif)'
+            ];
+            $actionTypes = [
+                'forwarded' => 'success',
+                'revision' => 'warning',
+                'rejected' => 'error'
+            ];
+            
+            $title = $actionTitles[$request->action] ?? 'Update Review';
+            $message = 'Hasil Review Administratif untuk "' . $submission->name . '" telah diperbarui.';
+            $url = route('pengusul.submissions.show', $submission);
+            
+            $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->action] ?? 'info'));
         });
 
         return redirect()->route('validator.submissions.index')
@@ -193,6 +218,24 @@ class SubmissionController extends Controller
                 'status' => $status,
                 'verified_at' => $status === CulturalSubmission::STATUS_VERIFIED ? now() : null,
             ]);
+
+            // Notify the Pengusul
+            $actionTitles = [
+                'verified' => 'Verifikasi Lapangan Disetujui',
+                'revision' => 'Revisi Diperlukan (Lapangan)',
+                'rejected' => 'Pengajuan Ditolak (Lapangan)'
+            ];
+            $actionTypes = [
+                'verified' => 'success',
+                'revision' => 'warning',
+                'rejected' => 'error'
+            ];
+            
+            $title = $actionTitles[$request->recommendation] ?? 'Update Verifikasi';
+            $message = 'Hasil Verifikasi Lapangan untuk "' . $submission->name . '" telah diperbarui.';
+            $url = route('pengusul.submissions.show', $submission);
+            
+            $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->recommendation] ?? 'info'));
         });
 
         return redirect()->route('validator.submissions.index')
@@ -215,6 +258,12 @@ class SubmissionController extends Controller
             'slug' => CulturalSubmission::generateUniqueSlug($submission->name),
             'published_at' => now(),
         ]);
+
+        // Notify the Pengusul
+        $title = 'Pengajuan Dipublikasikan!';
+        $message = 'Selamat! Objek budaya "' . $submission->name . '" telah resmi dipublikasikan.';
+        $url = route('pengusul.submissions.show', $submission);
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'success'));
 
         return redirect()->route('validator.submissions.show', $submission)
             ->with('success', 'Objek kebudayaan berhasil dipublikasikan ke profil publik!');
