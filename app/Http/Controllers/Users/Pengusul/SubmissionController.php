@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
 
+use App\Notifications\SubmissionNotification;
+use App\Models\User;
+
 class SubmissionController extends Controller
 {
     /**
@@ -390,6 +393,16 @@ class SubmissionController extends Controller
             'submitted_at' => now(),
             // Remove the clear reviewer info block to preserve history
         ]);
+
+        // Notify Validators and Super Admins
+        $admins = User::role(['super-admin', 'validator'])->get();
+        $title = 'Pengajuan Baru: ' . $submission->name;
+        $message = 'Objek budaya baru "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' dan menunggu review.';
+        $url = route('validator.submissions.show', $submission); // Most likely destination for review
+
+        foreach ($admins as $admin) {
+            $admin->notify(new SubmissionNotification($title, $message, $url, 'info'));
+        }
 
         return redirect()->route('pengusul.submissions.show', $submission)
             ->with('success', 'Pengajuan telah dikirim untuk ditinjau.');
