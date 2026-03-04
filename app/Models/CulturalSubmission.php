@@ -233,6 +233,32 @@ class CulturalSubmission extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted()
+    {
+        static::saving(function ($submission) {
+            // Slug generation
+            if (!$submission->slug || ($submission->isDirty('name') && !$submission->slug)) {
+                $submission->slug = static::generateUniqueSlug($submission->name);
+            }
+
+            // Status Timestamps
+            if ($submission->isDirty('status')) {
+                if ($submission->status === static::STATUS_SUBMITTED && !$submission->submitted_at) {
+                    $submission->submitted_at = now();
+                }
+                if ($submission->status === static::STATUS_VERIFIED && !$submission->verified_at) {
+                    $submission->verified_at = now();
+                }
+                if ($submission->status === static::STATUS_PUBLISHED && !$submission->published_at) {
+                    $submission->published_at = now();
+                }
+            }
+        });
+    }
+
+    /**
      * Get the user that owns the submission.
      */
     public function user(): BelongsTo

@@ -16,9 +16,28 @@ Route::get('/', function () {
     ];
 
     $recentDiscoveries = \App\Models\CulturalSubmission::published()->with('files')->latest('published_at')->take(3)->get();
+    
+    // CMS Content
+    $content = \Illuminate\Support\Facades\Cache::remember('site_content_beranda', 3600, function() {
+        return \App\Models\SiteContent::getContentForPage('beranda');
+    });
 
-    return view('index', compact('stats', 'recentDiscoveries'));
+    return view('index', compact('stats', 'recentDiscoveries', 'content'));
 })->name('beranda');
+
+Route::get('/tentang', function () {
+    $content = \Illuminate\Support\Facades\Cache::remember('site_content_tentang', 3600, function() {
+        return \App\Models\SiteContent::getContentForPage('tentang');
+    });
+    return view('tentang', compact('content'));
+})->name('tentang');
+
+Route::get('/fitur', function () {
+    $content = \Illuminate\Support\Facades\Cache::remember('site_content_fitur', 3600, function() {
+        return \App\Models\SiteContent::getContentForPage('fitur');
+    });
+    return view('fitur', compact('content'));
+})->name('fitur');
 
 // Public Cultural Profile Routes
 Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
@@ -46,6 +65,16 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     
     // Live Monitoring API
     Route::get('/api/online-users', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'getOnlineUsers'])->name('api.online-users');
+    
+    // Site Content Management
+    Route::get('/site-content', [\App\Http\Controllers\SuperAdmin\SiteContentController::class, 'index'])->name('site-content.index');
+    Route::get('/site-content/{page}/edit', [\App\Http\Controllers\SuperAdmin\SiteContentController::class, 'edit'])->name('site-content.edit');
+    Route::put('/site-content/{page}', [\App\Http\Controllers\SuperAdmin\SiteContentController::class, 'update'])->name('site-content.update');
+
+    // Cultural Submissions Management
+    Route::resource('cultural-submissions', \App\Http\Controllers\SuperAdmin\CulturalSubmissionController::class)->parameters([
+        'cultural-submissions' => 'submission'
+    ]);
 });
 
 

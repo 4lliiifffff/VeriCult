@@ -1,3 +1,65 @@
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Inter, sans-serif', weight: 'bold', size: 10 },
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        };
+
+        // 1. My Review Pipeline Chart
+        const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
+        new Chart(pipelineCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {!! json_encode(array_keys($myReviewStats)) !!}.map(s => s.replace('_', ' ').toUpperCase()),
+                datasets: [{
+                    data: {!! json_encode(array_values($myReviewStats)) !!},
+                    backgroundColor: ['#48CAE4', '#0077B6', '#023E8A', '#CAF0F8', '#90E0EF'],
+                    borderWidth: 0,
+                    hoverOffset: 15
+                }]
+            },
+            options: chartOptions
+        });
+
+        // 2. Global Category Distribution Chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode(array_keys($categoryStats)) !!},
+                datasets: [{
+                    label: 'Populasi Data',
+                    data: {!! json_encode(array_values($categoryStats)) !!},
+                    backgroundColor: '#03045E',
+                    borderRadius: 10,
+                    barThickness: 15
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { display: false } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }
+                }
+            }
+        });
+    });
+</script>
+@endpush
+
 <x-layouts.validator>
     <x-slot name="header">
         <!-- Header Section -->
@@ -78,6 +140,23 @@
             </div>
         </div>
 
+        <!-- Analytics Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Pipa Review Saya (Beban Kerja)</h3>
+                <div class="h-64 relative">
+                    <canvas id="pipelineChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Kategori Terpopuler (Global)</h3>
+                <div class="h-64 relative">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <!-- Recent Submissions Table -->
         <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
             <div class="p-10 border-b border-slate-50 overflow-x-auto whitespace-nowrap">
@@ -113,7 +192,7 @@
                                 </div>
                             </td>
                             <td class="px-8 py-5 text-center">
-                                <div class="text-xs font-bold text-[#03045E]">{{ $submission->created_at->format('d M Y') }}</div>
+                                <div class="text-xs font-bold text-[#03045E]">{{ $submission->created_at->translatedFormat('d M Y') }}</div>
                                 <div class="text-[10px] font-black text-slate-400 uppercase mt-0.5">{{ $submission->created_at->diffForHumans() }}</div>
                             </td>
                             <td class="px-10 py-6 text-right font-medium">

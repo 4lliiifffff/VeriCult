@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\Models\AuditLog;
+use App\Models\CulturalSubmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -53,7 +55,33 @@ class DashboardController extends Controller
             }
         }
 
-        // Return existing view but now it will use the new layout
+        // --- NEW: Dashboard Charts Data ---
+        
+        // 1. Status Distribution Chart
+        $statusStats = CulturalSubmission::select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->get()
+            ->pluck('count', 'status')
+            ->toArray();
+        
+        // 2. Category Distribution Chart (11 Categories)
+        $categoryStats = CulturalSubmission::select('category', DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->get()
+            ->pluck('count', 'category')
+            ->toArray();
+
+        // 3. Monthly Trend (Last 6 Months)
+        $monthlyTrend = CulturalSubmission::select(
+            DB::raw('DATE_FORMAT(created_at, "%b %Y") as month'),
+            DB::raw('count(*) as count')
+        )
+        ->where('created_at', '>=', now()->subMonths(6))
+        ->groupBy('month')
+        ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+        ->get();
+
+        // Return existing view with charts data
         return view('super-admin.dashboard', compact(
             'totalUsers', 
             'newUsersThisMonth', 
@@ -63,7 +91,10 @@ class DashboardController extends Controller
             'recentUsers',
             'auditLogs',
             'suspendedUsers',
-            'onlineUsers'
+            'onlineUsers',
+            'statusStats',
+            'categoryStats',
+            'monthlyTrend'
         ));
     }
 

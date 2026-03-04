@@ -209,7 +209,7 @@
                     <div class="relative z-10">
                         <h3 class="text-[11px] font-black text-amber-600 uppercase tracking-[0.25em] mb-6 flex items-center gap-4">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                            Catatan {{ $submission->status === 'revision' ? 'Revisi' : 'Penolakan' }} ({{ $latestReview->created_at->format('d M Y') }})
+                            Catatan {{ $submission->status === 'revision' ? 'Revisi' : 'Penolakan' }} ({{ $latestReview->created_at->translatedFormat('d M Y') }})
                         </h3>
                         <div class="p-8 rounded-[1.5rem] bg-white border border-amber-200/50 text-slate-700 leading-relaxed font-bold italic text-base shadow-sm break-words">
                             "{{ $latestReview->notes }}"

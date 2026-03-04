@@ -32,5 +32,21 @@ class AppServiceProvider extends ServiceProvider
         });
 
         \App\Models\User::observe(\App\Observers\UserObserver::class);
+
+        // CMS: Provide global settings to all views
+        view()->composer('*', function ($view) {
+            $site_global = \Illuminate\Support\Facades\Cache::remember('site_content_global', 3600, function() {
+                return \App\Models\SiteContent::getContentForPage('global');
+            });
+            $view->with('site_global', $site_global);
+        });
+
+        // CMS: Provide SEO metadata to specific public pages
+        view()->composer(['index', 'tentang', 'fitur', 'profil-kebudayaan.*'], function ($view) {
+            $site_seo = \Illuminate\Support\Facades\Cache::remember('site_content_seo', 3600, function() {
+                return \App\Models\SiteContent::getContentForPage('seo');
+            });
+            $view->with('site_seo', $site_seo);
+        });
     }
 }
