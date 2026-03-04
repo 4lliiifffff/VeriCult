@@ -248,7 +248,7 @@
             aria-labelledby="modal-title" role="dialog" aria-modal="true">
             
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div @click="notifyModalOpen = false" class="fixed inset-0 bg-[#03045E]/40 backdrop-blur-md transition-opacity" aria-hidden="true"></div>
+                <div @click="notifyModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity" aria-hidden="true"></div>
  
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
  
@@ -304,7 +304,7 @@
             aria-labelledby="modal-title" role="dialog" aria-modal="true">
             
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div @click="deleteModalOpen = false" class="fixed inset-0 bg-red-900/20 backdrop-blur-md transition-opacity" aria-hidden="true"></div>
+                <div @click="deleteModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity" aria-hidden="true"></div>
  
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
  
@@ -346,7 +346,7 @@
             class="fixed inset-0 z-50 overflow-y-auto">
             
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div @click="suspendModalOpen = false" class="fixed inset-0 bg-amber-900/20 backdrop-blur-md transition-opacity"></div>
+                <div @click="suspendModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
  
                 <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
@@ -383,7 +383,7 @@
             class="fixed inset-0 z-50 overflow-y-auto">
             
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div @click="unsuspendModalOpen = false" class="fixed inset-0 bg-emerald-900/20 backdrop-blur-md transition-opacity"></div>
+                <div @click="unsuspendModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
  
                 <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">

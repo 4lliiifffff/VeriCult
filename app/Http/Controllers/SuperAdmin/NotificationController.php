@@ -36,10 +36,10 @@ class NotificationController extends Controller
                 'user_agent' => request()->userAgent(),
             ]);
 
-            return back()->with('success', 'Notification sent successfully to ' . $user->email);
+            return back()->with('success', 'Notifikasi berhasil dikirim ke ' . $user->email);
         } catch (\Exception $e) {
-            Log::error('Failed to send notification: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send notification. Please check mail configuration.');
+            Log::error('Gagal mengirim notifikasi: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mengirim notifikasi. Silakan periksa konfigurasi email.');
         }
     }
 }
