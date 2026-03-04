@@ -142,6 +142,39 @@
                 </div>
             </a>
 
+            <!-- Cultural Submissions Management -->
+            <a href="{{ route('super-admin.cultural-submissions.index') }}" 
+               @click="sidebarOpen = false"
+               :class="sidebarMinimized ? 'justify-center !px-0' : ''"
+               @class([
+                   'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
+                   'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('super-admin.cultural-submissions.*'),
+                   'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.cultural-submissions.*')
+               ])>
+                
+                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.cultural-submissions.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+
+                <span x-show="!sidebarMinimized"
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Data Kebudayaan
+                </span>
+
+                @if(request()->routeIs('super-admin.cultural-submissions.*'))
+                    <div class="absolute right-0 top-0 bottom-0 w-1 bg-white rounded-l-full"></div>
+                @endif
+
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Data Kebudayaan
+                </div>
+            </a>
+
             <!-- Audit Logs -->
             <a href="{{ route('super-admin.audit-logs.index') }}" 
                @click="sidebarOpen = false"
@@ -170,8 +203,41 @@
                     <div class="absolute right-0 top-0 bottom-0 w-1 bg-white rounded-l-full"></div>
                 @endif
 
-                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
                     Log Audit
+                </div>
+            </a>
+
+            <!-- Site Content Management -->
+            <a href="{{ route('super-admin.site-content.index') }}" 
+               @click="sidebarOpen = false"
+               :class="sidebarMinimized ? 'justify-center !px-0' : ''"
+               @class([
+                   'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
+                   'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('super-admin.site-content.*'),
+                   'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('super-admin.site-content.*')
+               ])>
+                
+                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('super-admin.site-content.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </div>
+
+                <span x-show="!sidebarMinimized"
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Kelola Konten
+                </span>
+
+                @if(request()->routeIs('super-admin.site-content.*'))
+                    <div class="absolute right-0 top-0 bottom-0 w-1 bg-white rounded-l-full"></div>
+                @endif
+
+                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Kelola Konten
                 </div>
             </a>
         </nav>

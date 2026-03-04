@@ -22,28 +22,38 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.4);
         }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F8FAFC; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
-<body class="antialiased font-sans bg-[#F8FAFC]">
+<body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
     
-    <!-- Navbar (Same as index) -->
-    <nav class="fixed top-0 left-0 right-0 z-50 mt-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="premium-glass rounded-[2rem] shadow-2xl py-3 px-6 flex justify-between items-center">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" 
+         x-data="{ scrolled: false }" 
+         @scroll.window="scrolled = window.pageYOffset > 20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            <div class="rounded-[2rem] transition-all duration-300 px-6 py-4 flex justify-between items-center relative"
+                 :class="scrolled ? 'premium-glass shadow-2xl py-3 mt-0 mb-4' : 'premium-glass shadow-2xl py-3 mt-0 mb-4'">
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-3 group">
+                    <a href="{{ route('beranda') }}" class="flex items-center space-x-3 group">
                         <div class="w-10 h-10 bg-gradient-to-br from-[#0077B6] to-[#00B4D8] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                         </div>
                         <span class="text-2xl font-black text-[#03045E]">Veri<span class="text-[#00B4D8]">Cult</span></span>
                     </a>
                 </div>
-                <div class="hidden md:flex items-center space-x-10 px-8">
-                    <a href="/" class="text-[11px] font-black uppercase tracking-[0.2em] text-[#03045E]/60 hover:text-[#03045E]">Home</a>
-                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-[11px] font-black uppercase tracking-[0.2em] text-[#03045E]">Profil Budaya</a>
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="{{ route('beranda') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E] hover:text-[#00B4D8] transition-all duration-300 hover:scale-110">Beranda</a>
+                    <a href="{{ route('tentang') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E] hover:text-[#00B4D8] transition-all duration-300 hover:scale-110">Tentang</a>
+                    <a href="{{ route('fitur') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E] hover:text-[#00B4D8] transition-all duration-300 hover:scale-110">Fitur</a>
+                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-sm font-black uppercase tracking-widest text-[#00B4D8] transition-all duration-300 hover:scale-110">Profil Budaya</a>
                 </div>
                 <div>
-                    <a href="{{ route('profil-kebudayaan.index') }}" class="bg-[#03045E] text-white px-6 py-2.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
+                    <a href="{{ route('profil-kebudayaan.index') }}" class="bg-[#03045E] text-white px-6 py-2.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
                         Kembali
                     </a>
@@ -77,7 +87,9 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="p-2 bg-white/10 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
-                        <span class="text-sm font-bold uppercase tracking-widest">Dipublikasi: {{ $submission->published_at->translatedFormat('d F Y') }}</span>
+                        <span class="text-sm font-bold uppercase tracking-widest">
+                            Dipublikasi: {{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d F Y') }}
+                        </span>
                     </div>
                 </div>
             </div>

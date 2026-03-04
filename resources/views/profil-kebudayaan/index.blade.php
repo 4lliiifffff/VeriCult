@@ -25,38 +25,62 @@
         .hero-pattern {
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F8FAFC; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
-<body class="antialiased font-sans bg-[#F8FAFC] overflow-x-hidden" x-data="{ mobileMenu: false }">
+<body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
     
-    <!-- Navbar (Simplified from welcome) -->
-    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" 
+         x-data="{ scrolled: false, mobileMenu: false }" 
+         @scroll.window="scrolled = window.pageYOffset > 20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="premium-glass rounded-[2rem] shadow-2xl py-3 px-6 flex justify-between items-center relative">
+            <div class="rounded-[2rem] transition-all duration-300 px-6 py-4 flex justify-between items-center relative"
+                 :class="scrolled || mobileMenu ? 'premium-glass shadow-2xl py-3 mt-0 mb-4' : 'bg-transparent'">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-3 group">
+                    <a href="{{ route('beranda') }}" class="flex items-center space-x-3 group">
                         <div class="w-10 h-10 bg-gradient-to-br from-[#0077B6] to-[#00B4D8] rounded-xl flex items-center justify-center shadow-lg shadow-[#0077B6]/30 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
-                        <span class="text-2xl font-black tracking-tighter text-[#03045E]">Veri<span class="text-[#00B4D8]">Cult</span></span>
+                        <span class="text-2xl font-black tracking-tighter transition-colors duration-300"
+                              :class="scrolled || mobileMenu ? 'text-[#03045E]' : 'text-white'">Veri<span class="text-[#00B4D8]">Cult</span></span>
                     </a>
                 </div>
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-10">
-                    <a href="/" class="text-sm font-black uppercase tracking-widest text-[#03045E]/70 hover:text-[#03045E] transition-all">Home</a>
-                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E] border-b-2 border-[#00B4D8]">Profil Budaya</a>
+                    <a href="{{ route('beranda') }}" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
+                       :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Beranda</a>
+                    <a href="{{ route('tentang') }}" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
+                       :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Tentang</a>
+                    <a href="{{ route('fitur') }}" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
+                       :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Fitur</a>
+                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
+                       :class="scrolled || mobileMenu ? 'text-[#00B4D8]' : 'text-white'">Profil Budaya</a>
                 </div>
                 
-                <div class="flex items-center space-x-6">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white px-8 py-2.5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-all">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E] hover:text-[#00B4D8] transition-all">Masuk</a>
-                    @endauth
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4 md:space-x-6">
+                    <div class="hidden sm:flex items-center space-x-4 md:space-x-6">
+                        @if (Route::has('login'))
+                            @auth
+                                <a href="{{ url('/dashboard') }}" class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white px-6 md:px-8 py-2.5 rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-500/20 hover:shadow-xl hover:scale-105 transition-all duration-300">Dashboard</a>
+                            @else
+                                <a href="{{ route('login') }}" class="text-sm font-black uppercase tracking-widest transition-all duration-300 hover:scale-110"
+                                   :class="scrolled || mobileMenu ? 'text-[#03045E] hover:text-[#00B4D8]' : 'text-white/80 hover:text-white'">Masuk</a>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="bg-white text-[#03045E] px-6 md:px-8 py-2.5 rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-[0.2em] shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border border-slate-100">Daftar</a>
+                                @endif
+                            @endauth
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

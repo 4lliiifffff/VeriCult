@@ -1,3 +1,95 @@
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Inter, sans-serif', weight: 'bold', size: 10 },
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        };
+
+        // 1. Status Distribution Chart
+        const statusCtx = document.getElementById('statusChart').getContext('2d');
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {!! json_encode(array_keys($statusStats)) !!}.map(s => s.replace('_', ' ').toUpperCase()),
+                datasets: [{
+                    data: {!! json_encode(array_values($statusStats)) !!},
+                    backgroundColor: ['#48CAE4', '#0077B6', '#023E8A', '#03045E', '#CAF0F8', '#90E0EF', '#00B4D8'],
+                    borderWidth: 0,
+                    hoverOffset: 20
+                }]
+            },
+            options: chartOptions
+        });
+
+        // 2. Category Distribution Chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode(array_keys($categoryStats)) !!},
+                datasets: [{
+                    label: 'Jumlah Objek',
+                    data: {!! json_encode(array_values($categoryStats)) !!},
+                    backgroundColor: '#0077B6',
+                    borderRadius: 12,
+                    barThickness: 20
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { display: false } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }
+                }
+            }
+        });
+
+        // 3. Submission Trend Chart
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($monthlyTrend->pluck('month')) !!},
+                datasets: [{
+                    label: 'Pengajuan Baru',
+                    data: {!! json_encode($monthlyTrend->pluck('count')) !!},
+                    borderColor: '#48CAE4',
+                    backgroundColor: 'rgba(72, 202, 228, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 4,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#48CAE4',
+                    pointBorderWidth: 3
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    });
+</script>
+@endpush
+
 <x-layouts.super-admin>
     <x-slot name="header">
         <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
@@ -38,7 +130,6 @@
     <div class="space-y-8">
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Total Users -->
             <div class="group bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 border border-white hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-gradient-to-br from-[#0077B6]/10 to-transparent rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                 <div class="flex items-start justify-between relative z-10">
@@ -100,6 +191,37 @@
                         @endforeach
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Status Distribution -->
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white relative overflow-hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Distribusi Status Layanan</h3>
+                </div>
+                <div class="h-64 relative">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Category Distribution -->
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white lg:col-span-2 relative overflow-hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Populasi Kategori Budaya</h3>
+                </div>
+                <div class="h-64 relative">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trend Row -->
+        <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8">Tren Pengajuan Objek Kebudayaan (6 Bulan Terakhir)</h3>
+            <div class="h-80 relative">
+                <canvas id="trendChart"></canvas>
             </div>
         </div>
 
