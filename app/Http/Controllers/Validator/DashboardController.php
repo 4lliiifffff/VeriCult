@@ -15,28 +15,47 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        // Get available years
+        $availableYears = CulturalSubmission::select('period_year')
+            ->whereNotNull('period_year')
+            ->distinct()
+            ->orderBy('period_year', 'desc')
+            ->pluck('period_year')
+            ->toArray();
+
+        // If availableYears is empty, fallback to current year
+        if (empty($availableYears)) {
+            $availableYears = [(int)date('Y')];
+        }
+
+        $defaultYear = $availableYears[0];
+        $activeYear = request('year', $defaultYear);
+
+        // Base query filtered by year
+        $yearQuery = CulturalSubmission::where('period_year', $activeYear);
+
         $stats = [
-            'total_submitted' => CulturalSubmission::where('status', CulturalSubmission::STATUS_SUBMITTED)
+            'total_submitted' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_SUBMITTED)
                 ->whereNull('reviewed_by')
                 ->count(),
-            'my_reviews' => CulturalSubmission::where('reviewed_by', Auth::id())
+            'my_reviews' => (clone $yearQuery)->where('reviewed_by', Auth::id())
                 ->where('status', CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
                 ->count(),
-            'needs_revision' => CulturalSubmission::where('status', CulturalSubmission::STATUS_REVISION)->count(),
-            'forwarded' => CulturalSubmission::where('status', CulturalSubmission::STATUS_FIELD_VERIFICATION)->count(),
-            'rejected' => CulturalSubmission::where('status', CulturalSubmission::STATUS_REJECTED)->count(),
+            'needs_revision' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REVISION)->count(),
+            'forwarded' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_FIELD_VERIFICATION)->count(),
+            'rejected' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REJECTED)->count(),
         ];
 
-        $recentSubmissions = CulturalSubmission::with('user')
+        $recentSubmissions = (clone $yearQuery)->with('user')
             ->where('status', CulturalSubmission::STATUS_SUBMITTED)
             ->latest()
             ->limit(5)
             ->get();
 
-        // --- NEW: Dashboard Charts Data ---
+        // --- Dashboard Charts Data ---
         
         // 1. My Review Pipeline (Status of submissions reviewed by me)
-        $myReviewStats = CulturalSubmission::where('reviewed_by', Auth::id())
+        $myReviewStats = (clone $yearQuery)->where('reviewed_by', Auth::id())
             ->select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
             ->get()
@@ -44,7 +63,7 @@ class DashboardController extends Controller
             ->toArray();
             
         // 2. Global Category Distribution (Top performance areas)
-        $categoryStats = CulturalSubmission::select('category', DB::raw('count(*) as count'))
+        $categoryStats = (clone $yearQuery)->select('category', DB::raw('count(*) as count'))
             ->groupBy('category')
             ->orderBy('count', 'desc')
             ->limit(5)
@@ -52,6 +71,19 @@ class DashboardController extends Controller
             ->pluck('count', 'category')
             ->toArray();
 
-        return view('validator.dashboard', compact('stats', 'recentSubmissions', 'myReviewStats', 'categoryStats'));
+        // 3. Yearly Comparison
+        $yearlyComparison = CulturalSubmission::select(
+            'period_year',
+            DB::raw('count(*) as count')
+        )
+        ->whereNotNull('period_year')
+        ->groupBy('period_year')
+        ->orderBy('period_year', 'asc')
+        ->get();
+
+        return view('validator.dashboard', compact(
+            'stats', 'recentSubmissions', 'myReviewStats', 'categoryStats',
+            'availableYears', 'activeYear', 'yearlyComparison'
+        ));
     }
 }

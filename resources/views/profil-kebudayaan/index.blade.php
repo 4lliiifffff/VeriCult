@@ -119,18 +119,47 @@
                 </div>
             </div>
 
-            <!-- Search Form -->
-            <div class="mb-12 max-w-xl mx-auto">
-                <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="relative group">
+            <!-- Search & Year Filter Form -->
+            <div class="mb-12 max-w-3xl mx-auto text-center">
+                <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 w-full">
                     @if(request('category'))
                         <input type="hidden" name="category" value="{{ request('category') }}">
                     @endif
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
-                           class="w-full bg-white border-2 border-slate-100 rounded-[2rem] px-8 py-5 text-slate-700 font-bold focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm">
-                    <button type="submit" class="absolute right-3 top-3 bottom-3 px-6 bg-[#03045E] text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all">
-                        Cari
-                    </button>
+                    
+                    <!-- Year Filter -->
+                    <div class="relative min-w-[200px]">
+                        <select name="year" onchange="this.form.submit()" class="w-full bg-white border-2 border-slate-100 rounded-[2rem] px-6 py-5 text-[#03045E] font-black uppercase tracking-widest text-[10px] hover:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm appearance-none cursor-pointer">
+                            @if(empty($availableYears))
+                                <option value="{{ date('Y') }}">Periode {{ date('Y') }}</option>
+                            @else
+                                @foreach($availableYears as $year)
+                                    <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }}>
+                                        Periode {{ $year }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-6 text-[#0077B6]">
+                            <svg class="w-4 h-4" border="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="relative flex-1 group">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
+                               class="w-full h-full bg-white border-2 border-slate-100 rounded-[2rem] pl-8 pr-32 py-5 text-slate-700 font-bold focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm">
+                        <button type="submit" class="absolute right-2 top-2 bottom-2 px-8 bg-[#03045E] text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
+                            Cari
+                        </button>
+                    </div>
                 </form>
+
+                @if($activeYear != date('Y') && $activeYear == $defaultYear && !request()->has('year') && !empty($availableYears))
+                    <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Menampilkan data periode terbaru yang tersedia ({{ $activeYear }})
+                    </div>
+                @endif
             </div>
 
             <!-- Gallery Grid -->
