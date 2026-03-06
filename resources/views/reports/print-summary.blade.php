@@ -58,7 +58,7 @@
                     <td><strong>{{ $sub->name }}</strong></td>
                     <td>{{ $sub->address }}</td>
                     <td>{{ $sub->user->name ?? '-' }}</td>
-                    <td>{{ $sub->published_at ? $sub->published_at->format('d/m/Y') : '-' }}</td>
+                    <td>{{ $sub->published_at ? $sub->published_at->translatedFormat('d F Y') : '-' }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -68,7 +68,7 @@
     @endforelse
 
     <div class="footer page-break-inside-avoid">
-        <p>Dicetak pada: {{ date('d F Y') }}</p>
+        <p>Dicetak Pada: {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
         <p>VeriCult Verifier Team</p>
         <div class="sign-area">( ....................................... )</div>
     </div>
