@@ -27,10 +27,15 @@
                     data: {!! json_encode(array_values($statusStats)) !!},
                     backgroundColor: ['#48CAE4', '#0077B6', '#023E8A', '#03045E', '#CAF0F8', '#90E0EF', '#00B4D8'],
                     borderWidth: 0,
-                    hoverOffset: 20
+                    hoverOffset: 15,
                 }]
             },
-            options: chartOptions
+            options: {
+                ...chartOptions,
+                layout: {
+                    padding: 10
+                }
+            }
         });
 
         // 2. Category Distribution Chart
