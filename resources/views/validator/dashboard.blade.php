@@ -30,7 +30,12 @@
                     hoverOffset: 15
                 }]
             },
-            options: chartOptions
+            options: {
+                ...chartOptions,
+                layout: {
+                    padding: 10
+                }
+            }
         });
 
         // 2. Global Category Distribution Chart

@@ -74,7 +74,7 @@
                                 <span class="text-xs font-bold text-slate-700">{{ $sub->user->name ?? 'N/A' }}</span>
                             </td>
                             <td class="px-8 py-5 text-center">
-                                <span class="text-xs font-bold text-slate-500">{{ $sub->published_at ? $sub->published_at->format('d M Y') : '-' }}</span>
+                                <span class="text-xs font-bold text-slate-500">{{ $sub->published_at ? $sub->published_at->translatedFormat('d F Y') : '-' }}</span>
                             </td>
                         </tr>
                         @empty
