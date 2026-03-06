@@ -43,6 +43,12 @@ Route::get('/fitur', function () {
 Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
 Route::get('/profil-kebudayaan/{slug}', [\App\Http\Controllers\PublicCulturalController::class, 'show'])->name('profil-kebudayaan.show');
 
+// Reports (Super Admin & Validator)
+Route::middleware(['auth', 'role:super-admin|validator'])->group(function () {
+    Route::get('/laporan-kebudayaan', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/laporan-kebudayaan/print', [\App\Http\Controllers\ReportController::class, 'print'])->name('reports.print');
+});
+
 Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'index'])->name('dashboard');
     
