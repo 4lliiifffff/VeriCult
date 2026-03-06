@@ -6,12 +6,22 @@
             <span class="text-[#03045E]">Antrian Validasi</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-3">
-            <div>
-                <h2 class="font-black text-3xl text-[#03045E] leading-tight tracking-tight">
-                    Manajemen <span class="text-[#0077B6]">Validasi</span>
-                </h2>
-                <p class="text-sm text-slate-500 mt-2 font-medium">Kelola dan review seluruh pengajuan kebudayaan yang masuk.</p>
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            Antrian Validasi
+                        </span>
+                    </div>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Antrian <span class="text-[#00B4D8]">Validasi</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">Kelola dan review seluruh pengajuan kebudayaan yang masuk.</p>
+                </div>
             </div>
         </div>
     </x-slot>

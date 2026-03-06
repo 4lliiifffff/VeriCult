@@ -37,27 +37,33 @@
         </nav>
 
         <!-- Page Header -->
-        <div class="relative mb-10">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#03045E]/5 border border-[#03045E]/10 mb-4">
-                        <span class="relative flex h-2 w-2">
+        <div class="relative mb-10 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <div class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            <span class="relative inline-flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
-                        </span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#03045E]">Langkah 2 dari 2 &bull; {{ $categoryName }}</span>
+                            </span>
+                            <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 2 dari 2 &bull; {{ $categoryName }}</span>
+                        </div>
                     </div>
-                    <h1 class="text-4xl font-black text-[#03045E] tracking-tight mb-3">
-                        Daftarkan <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0077B6] to-[#00B4D8]">{{ $categoryName }}</span>
-                    </h1>
-                    <p class="text-slate-500 text-lg max-w-2xl leading-relaxed">
-                        {{ $categoryDescription }}
-                    </p>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Daftarkan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">{{ $categoryDescription }}</p>
                 </div>
-                <div class="flex items-center gap-4 shrink-0">
-                    <a href="{{ route('pengusul.submissions.create') }}" 
-                       class="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-sm tracking-wide hover:bg-white hover:border-slate-300 hover:shadow-sm transition-all active:scale-[0.98]">
-                        ← Ganti Kategori
+                    
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                    <a href="{{ route('pengusul.submissions.index') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 8l-4 4m0 0l4 4m-4-4h18"></path>
+                        </svg>
+                        Ganti Kategori
                     </a>
                 </div>
             </div>
