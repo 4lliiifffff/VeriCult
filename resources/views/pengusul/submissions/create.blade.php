@@ -1,8 +1,6 @@
-@extends('layouts.pengusul')
-
-@section('content')
-<div class="py-10 bg-[#F8FAFC] min-h-screen font-sans">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+<x-layouts.pengusul>
+    <x-slot name="header">
+        
         <!-- Breadcrumbs & Navigation -->
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
@@ -13,7 +11,7 @@
         </nav>
 
         <!-- Page Header -->
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
@@ -116,6 +114,5 @@
             </div>
         </div>
 
-    </div>
-</div>
-@endsection
+    </x-slot>
+</x-layouts.pengusul>
