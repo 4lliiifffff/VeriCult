@@ -91,7 +91,7 @@
 <x-layouts.validator>
     <x-slot name="header">
         <!-- Header Section -->
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[3rem] p-12 overflow-hidden shadow-2xl shadow-blue-900/20 mb-10 group">
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
             <!-- Decorative Elements -->
             <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-white/10 transition-colors duration-700"></div>
             <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-32 -mb-32 blur-2xl"></div>

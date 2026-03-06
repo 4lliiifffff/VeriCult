@@ -234,9 +234,9 @@
         <!-- Submission Stats Row -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-[#03045E] rounded-[2rem] p-6 shadow-xl shadow-blue-900/10 relative overflow-hidden text-white border border-[#03045E]">
-                 <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
-                 <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mb-1 z-10 relative">Total Pengajuan ({{ $activeYear }})</p>
-                 <h3 class="text-4xl font-black z-10 relative group hover:scale-105 transition-transform origin-left">{{ $totalSubmissionsThisYear }}</h3>
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+                <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mb-1 z-10 relative">Total Pengajuan ({{ $activeYear }})</p>
+                <h3 class="text-4xl font-black z-10 relative group hover:scale-105 transition-transform origin-left">{{ $totalSubmissionsThisYear }}</h3>
             </div>
             <div class="bg-white rounded-[2rem] p-6 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
                  <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Telah Diverifikasi ({{ $activeYear }})</p>
@@ -434,11 +434,11 @@
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                     @forelse($user->roles as $role)
+                                    @forelse($user->roles as $role)
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border
                                             {{ $role->name == 'super-admin' ? 'bg-purple-50 text-purple-700 border-purple-100' : 
-                                               ($role->name == 'validator' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 
-                                               'bg-sky-50 text-sky-700 border-sky-100') }}">
+                                            ($role->name == 'validator' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 
+                                            'bg-sky-50 text-sky-700 border-sky-100') }}">
                                             {{ str_replace('-', ' ', $role->name) }}
                                         </span>
                                     @empty

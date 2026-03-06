@@ -1,19 +1,17 @@
-@extends('layouts.pengusul')
-
-@section('content')
-<div class="py-10 bg-[#F8FAFC] min-h-screen font-sans" 
-     x-data="submissionForm()"
-     @dragover.prevent="dragover = true"
-     @dragleave.prevent="dragover = false"
-     @drop.prevent="dragover = false; handleDrop($event)">
+<x-layouts.pengusul>
+    <div x-data="submissionForm()"
+        class="pb-10"
+        @dragover.prevent="dragover = true"
+        @dragleave.prevent="dragover = false"
+        @drop.prevent="dragover = false; handleDrop($event)">
 
     <!-- Loading Overlay -->
     <div x-show="loading"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         class="fixed inset-0 bg-slate-900/75 flex items-center justify-center z-[100]"
-         style="display: none;">
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        class="fixed inset-0 bg-slate-900/75 flex items-center justify-center z-[100]"
+        style="display: none;">
         <div class="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center max-w-xs w-full mx-4 border border-white/20">
             <div class="relative w-20 h-20 mb-6">
                 <div class="absolute inset-0 border-4 border-[#0077B6]/20 rounded-full"></div>
@@ -24,50 +22,54 @@
         </div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
-            <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Kategori</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">{{ $categoryName }}</span>
-        </nav>
+        <x-slot name="header">
+            <!-- Breadcrumbs & Navigation -->
+            <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
+                <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <a href="{{ route('pengusul.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Kategori</a>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <span class="text-[#03045E]">{{ $categoryName }}</span>
+            </nav>
 
-        <!-- Page Header -->
-        <div class="relative mb-10 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-            
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3">
-                        <div class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
-                            <span class="relative inline-flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
-                            </span>
-                            <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 2 dari 2 &bull; {{ $categoryName }}</span>
+            <!-- Page Header -->
+            <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                                <span class="relative inline-flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
+                                </span>
+                                <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 2 dari 2 &bull; {{ $categoryName }}</span>
+                            </div>
                         </div>
+                        <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                            Daftarkan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
+                        </h2>
+                        <p class="text-blue-100/70 text-lg font-medium">{{ $categoryDescription }}</p>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
-                        Daftarkan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
-                    </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">{{ $categoryDescription }}</p>
-                </div>
-                    
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <a href="{{ route('pengusul.submissions.index') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 8l-4 4m0 0l4 4m-4-4h18"></path>
-                        </svg>
-                        Ganti Kategori
-                    </a>
+                        
+                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                        <a href="{{ route('pengusul.submissions.create') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                            <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            Ganti Kategori
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </x-slot>
+
+        <!-- Main Content -->
+        <div class="max-w-5xl mx-auto space-y-8">
 
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -77,10 +79,10 @@
                 <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
                     <div class="p-8 sm:p-10">
                         <form action="{{ route('pengusul.submissions.store') }}" 
-                              method="POST" 
-                              enctype="multipart/form-data" 
-                              x-ref="mainForm" 
-                              @submit.prevent="openConfirm()">
+                            method="POST" 
+                            enctype="multipart/form-data" 
+                            x-ref="mainForm" 
+                            @submit.prevent="openConfirm()">
                             @csrf
                             <input type="hidden" name="category" value="{{ $categoryName }}">
                             
@@ -350,4 +352,4 @@
         }
     }
 </script>
-@endsection
+</x-layouts.pengusul>

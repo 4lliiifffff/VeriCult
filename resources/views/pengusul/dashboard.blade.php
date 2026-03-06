@@ -1,10 +1,7 @@
-@extends('layouts.pengusul')
-
-@section('content')
 <!-- Header -->
-<div class="py-6 bg-[#F8FAFC] min-h-screen font-sans">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+<x-layouts.pengusul>
+    <x-slot name="header">
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
@@ -31,8 +28,9 @@
                 </div>
             </div>
         </div>
-        
+    </x-slot>
 
+    <div class="space-y-8">
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <!-- Total -->
@@ -100,7 +98,7 @@
                 </div>
             </div>
         </div>
-
+    
         <!-- Recent Submissions -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100/60 overflow-hidden">
             <div class="p-5 border-b border-slate-50 flex justify-between items-center">
@@ -151,7 +149,5 @@
                 </table>
             </div>
         </div>
-
-    </div>
 </div>
-@endsection
+</x-layouts.pengusul>

@@ -1,8 +1,5 @@
-@extends('layouts.pengusul')
-
-@section('content')
-<div class="py-10 bg-[#F8FAFC] min-h-screen font-sans">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+<x-layouts.pengusul>
+    <x-slot name="header">
         
         <!-- Breadcrumbs & Navigation -->
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
@@ -11,7 +8,7 @@
             <span class="text-[#03045E]">Pengajuan Saya</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
@@ -39,40 +36,8 @@
             </div>
         </div>
 
-        <!-- Premium Header Area -->
-        <!-- <div class="relative">
-            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 relative z-10">
-                <div class="space-y-2">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#03045E]/5 border border-[#03045E]/10 underline-none">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
-                        </span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#03045E]">Dashboard Pengusul</span>
-                    </div>
-                    <h2 class="font-extrabold text-4xl text-[#03045E] leading-tight tracking-tight">
-                        Daftar <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0077B6] to-[#00B4D8]">Pengajuan</span>
-                    </h2>
-                    <p class="text-slate-500 font-medium max-w-2xl">
-                        Pantau dan kelola seluruh inventarisasi data kebudayaan Anda dalam satu dasbor terpadu.
-                    </p>
-                </div>
-                
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('pengusul.submissions.create') }}" 
-                        class="group inline-flex items-center px-6 py-3.5 bg-[#03045E] text-white font-bold rounded-2xl shadow-xl shadow-[#03045E]/20 hover:bg-[#023A8A] hover:-translate-y-0.5 transition-all duration-300">
-                        <div class="mr-2.5 p-1 bg-white/10 rounded-lg group-hover:rotate-90 transition-transform duration-500">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
-                        <span class="tracking-wide">Buat Pengajuan Baru</span>
-                    </a>
-                </div>
-            </div>
-            <div class="absolute -top-10 -left-10 w-64 h-64 bg-[#0077B6]/5 rounded-full blur-3xl -z-0"></div>
-        </div> -->
-
         <!-- Stats Overview (Optional but adds premium feel) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-center gap-4">
                     <div class="p-3 bg-blue-50 text-[#0077B6] rounded-2xl">
@@ -222,6 +187,5 @@
             @endif
         </div>
 
-    </div>
-</div>
-@endsection
+    </x-slot>
+</x-layouts.pengusul>
