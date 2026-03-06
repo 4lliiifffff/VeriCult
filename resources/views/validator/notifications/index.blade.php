@@ -1,18 +1,34 @@
 <x-layouts.validator>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-black text-[#03045E] tracking-tighter">Pusat Notifikasi</h1>
-                <p class="text-slate-500 font-medium text-sm">Info terbaru seputar antrian dan review Anda.</p>
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            Aktivitas Sistem
+                        </span>
+                    </div>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Pusat <span class="text-[#00B4D8]">Notifikasi</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">Info terbaru seputar antrian dan review Anda.</p>
+                </div>
+                
+                @if(Auth::user()->unreadNotifications->count() > 0)
+                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                        <form action="{{ route('validator.notifications.mark-all-read') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                Tandai Semua Terbaca
+                            </button>
+                        </form>
+                    </div>
+                @endif
             </div>
-            @if(Auth::user()->unreadNotifications->count() > 0)
-                <form action="{{ route('validator.notifications.mark-all-read') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="px-6 py-2.5 bg-indigo-50 text-indigo-600 rounded-xl font-black text-xs uppercase tracking-widest border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">
-                        Tandai Semua Terbaca
-                    </button>
-                </form>
-            @endif
         </div>
     </x-slot>
 
