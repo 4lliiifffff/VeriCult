@@ -1,9 +1,28 @@
 <x-layouts.super-admin>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-                <h1 class="text-3xl font-black text-[#03045E] tracking-tighter mb-2">Kelola Konten Website</h1>
-                <p class="text-slate-500 font-medium">Pilih halaman yang ingin Anda perbarui kontennya secara dinamis.</p>
+        <!-- Breadcrumbs & Navigation -->
+        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
+            <a href="{{ route('super-admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">Kelola Konten Website</span>
+        </nav>
+
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            Kelola Konten Website
+                        </span>
+                    </div>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Kelola <span class="text-[#00B4D8]">Konten Website</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">Pilih halaman yang ingin Anda perbarui kontennya secara dinamis.</p>
+                </div>
             </div>
         </div>
     </x-slot>

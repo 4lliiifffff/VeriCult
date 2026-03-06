@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="py-10 bg-[#F8FAFC] min-h-screen font-sans">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <!-- Breadcrumbs & Navigation -->
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
@@ -13,29 +13,39 @@
         </nav>
 
         <!-- Page Header -->
-        <div class="relative mb-12">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#03045E]/5 border border-[#03045E]/10 mb-4">
-                        <span class="relative flex h-2 w-2">
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <div class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            <span class="relative inline-flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
-                        </span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#03045E]">Langkah 1 dari 2</span>
+                            </span>
+                            <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 1 dari 2</span>
+                        </div>
                     </div>
-                    <h1 class="text-4xl font-black text-[#03045E] tracking-tight mb-3">
-                        Pilih <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0077B6] to-[#00B4D8]">Kategori</span> Kebudayaan
-                    </h1>
-                    <p class="text-slate-500 text-lg max-w-2xl leading-relaxed">
-                        Tentukan jenis objek kebudayaan yang ingin Anda daftarkan. Setiap kategori memiliki formulir khusus untuk mendokumentasikan warisan budaya secara lengkap.
-                    </p>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Pilih <span class="text-[#00B4D8]">Kategori</span> Kebudayaan
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">Langkah awal untuk mendokumentasikan dan melestarikan warisan budaya.</p>
                 </div>
-                <a href="{{ route('pengusul.submissions.index') }}" 
-                   class="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-sm tracking-wide hover:bg-white hover:border-slate-300 hover:shadow-sm transition-all active:scale-[0.98] shrink-0">
-                    Batal
-                </a>
+                    
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                    <a href="{{ route('pengusul.submissions.index') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 8l-4 4m0 0l4 4m-4-4h18"></path>
+                        </svg>
+                        Kembali
+                    </a>
+                </div>
             </div>
         </div>
+
+        
 
         <!-- Category Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

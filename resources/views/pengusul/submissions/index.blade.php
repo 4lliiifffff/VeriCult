@@ -11,8 +11,36 @@
             <span class="text-[#03045E]">Pengajuan Saya</span>
         </nav>
 
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            Kelola Pengajuan
+                        </span>
+                    </div>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Kelola <span class="text-[#00B4D8]">Pengajuan</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">Pantau dan kelola seluruh inventarisasi data kebudayaan Anda dalam satu dasbor terpadu.</p>
+                </div>
+                    
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                    <a href="{{ route('pengusul.submissions.create') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Tambah Pengajuan
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- Premium Header Area -->
-        <div class="relative">
+        <!-- <div class="relative">
             <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 relative z-10">
                 <div class="space-y-2">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#03045E]/5 border border-[#03045E]/10 underline-none">
@@ -32,7 +60,7 @@
                 
                 <div class="flex items-center gap-3">
                     <a href="{{ route('pengusul.submissions.create') }}" 
-                       class="group inline-flex items-center px-6 py-3.5 bg-[#03045E] text-white font-bold rounded-2xl shadow-xl shadow-[#03045E]/20 hover:bg-[#023A8A] hover:-translate-y-0.5 transition-all duration-300">
+                        class="group inline-flex items-center px-6 py-3.5 bg-[#03045E] text-white font-bold rounded-2xl shadow-xl shadow-[#03045E]/20 hover:bg-[#023A8A] hover:-translate-y-0.5 transition-all duration-300">
                         <div class="mr-2.5 p-1 bg-white/10 rounded-lg group-hover:rotate-90 transition-transform duration-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                         </div>
@@ -40,9 +68,8 @@
                     </a>
                 </div>
             </div>
-            <!-- Decorative backdrop element -->
             <div class="absolute -top-10 -left-10 w-64 h-64 bg-[#0077B6]/5 rounded-full blur-3xl -z-0"></div>
-        </div>
+        </div> -->
 
         <!-- Stats Overview (Optional but adds premium feel) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

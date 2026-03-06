@@ -7,20 +7,31 @@
             <span class="text-[#03045E]">Kelola Pengguna</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div>
-                <h2 class="font-black text-3xl text-[#03045E] leading-tight tracking-tight">
-                    Kelola <span class="text-[#0077B6]">Pengguna</span>
-                </h2>
-                <p class="text-sm text-slate-500 mt-2 font-medium">Administrasi seluruh entitas user, peran, dan status validasi sistem.</p>
-            </div>
-            <div>
-                <a href="{{ route('super-admin.users.create-validator') }}" class="inline-flex items-center px-6 py-3 bg-[#03045E] hover:bg-[#0077B6] text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-xl shadow-blue-900/20 group">
-                    <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    {{ __('Tambah Validator') }}
-                </a>
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                            Kelola Pengguna
+                        </span>
+                    </div>
+                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        Kelola <span class="text-[#00B4D8]">Pengguna</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-lg font-medium">Pantau, verifikasi, dan perbarui seluruh data warisan budaya Nusantara.</p>
+                </div>
+                    
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                    <a href="{{ route('super-admin.users.create-validator') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Tambah Validator
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>
