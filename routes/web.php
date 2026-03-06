@@ -121,14 +121,14 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
     ->prefix('pengusul')
     ->name('pengusul.')
     ->group(function () {
-        Route::get('/dashboard', [App\Http\Controllers\Users\Pengusul\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Pengusul\DashboardController::class, 'index'])->name('dashboard');
         
         // Category-specific form route (must be before resource route)
-        Route::get('/submissions/create/{category}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'createForm'])->name('submissions.create-form');
+        Route::get('/submissions/create/{category}', [App\Http\Controllers\Pengusul\SubmissionController::class, 'createForm'])->name('submissions.create-form');
         
-        Route::resource('submissions', App\Http\Controllers\Users\Pengusul\SubmissionController::class);
-        Route::post('/submissions/{submission}/submit', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'submit'])->name('submissions.submit');
-        Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Users\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
+        Route::resource('submissions', App\Http\Controllers\Pengusul\SubmissionController::class);
+        Route::post('/submissions/{submission}/submit', [App\Http\Controllers\Pengusul\SubmissionController::class, 'submit'])->name('submissions.submit');
+        Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
 
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');

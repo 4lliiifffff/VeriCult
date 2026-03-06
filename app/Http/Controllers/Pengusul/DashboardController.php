@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Users\Pengusul;
+namespace App\Http\Controllers\Pengusul;
 
 use App\Http\Controllers\Controller;
 use App\Models\CulturalSubmission;
