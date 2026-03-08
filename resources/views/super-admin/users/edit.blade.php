@@ -64,13 +64,14 @@
                                             </div>
                                             <input type="hidden" name="role" value="super-admin">
                                         @else
-                                            <select id="role" name="role" class="block w-full h-14 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E]">
-                                                @foreach($roles as $role)
-                                                    <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
-                                                        {{ ucfirst(str_replace('-', ' ', $role->name)) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <x-dropdown-select 
+                                                name="role" 
+                                                id="role" 
+                                                placeholder="Pilih Peran"
+                                                variant="light"
+                                                :selected="old('role', $user->roles->first()?->name)" 
+                                                :options="collect($roles)->mapWithKeys(fn($r) => [$r->name => ucfirst(str_replace('-', ' ', $r->name))])->toArray()" 
+                                            />
                                             <x-input-error class="mt-2 text-xs" :messages="$errors->get('role')" />
                                         @endif
                                     </div>

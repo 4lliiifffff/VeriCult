@@ -121,10 +121,12 @@
 
 <x-layouts.super-admin>
     <x-slot name="header">
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
-            <!-- Decorative Elements -->
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 shadow-2xl shadow-blue-900/20 mb-8">
+            <!-- Background Decorations Clipping Container -->
+            <div class="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            </div>
             
             <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
                 <div class="space-y-2">
@@ -141,15 +143,14 @@
                     <p class="text-blue-100/70 text-base sm:text-lg font-medium">Selamat datang kembali di pusat kendali utama sistem.</p>
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <form action="{{ route('super-admin.dashboard') }}" method="GET" class="flex flex-col gap-1 items-start sm:items-end flex-1 sm:flex-none">
-                        <label for="year" class="text-[10px] font-black text-[#00B4D8] uppercase tracking-[0.2em] px-1">Filter Periode</label>
-                        <select name="year" id="year" onchange="this.form.submit()" class="w-full sm:w-auto bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2.5 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
-                            @foreach($availableYears as $year)
-                                <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }} class="text-slate-900">
-                                    Tahun {{ $year }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <form action="{{ route('super-admin.dashboard') }}" method="GET" class="flex flex-col gap-1 items-start sm:items-end flex-1 sm:flex-none auto-submit">
+                        <x-dropdown-select 
+                            name="year" 
+                            id="year" 
+                            label="Filter Periode" 
+                            :selected="$activeYear" 
+                            :options="collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Tahun ' . $y])->toArray()" 
+                        />
                     </form>
                     <div class="hidden sm:block h-10 w-px bg-white/20 mx-2"></div>
                     <div class="bg-white/5 sm:bg-transparent p-3 sm:p-0 rounded-xl">

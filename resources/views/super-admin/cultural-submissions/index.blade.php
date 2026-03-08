@@ -40,22 +40,26 @@
                         </div>
                     </div>
                     <div>
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Kategori</label>
-                        <select name="category" class="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-0 transition-all font-bold text-slate-600 appearance-none">
-                            <option value="">Semua Kategori</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
-                            @endforeach
-                        </select>
+                        <x-dropdown-select 
+                            name="category" 
+                            id="category" 
+                            label="Kategori" 
+                            placeholder="Semua Kategori"
+                            variant="light"
+                            :selected="request('category')" 
+                            :options="collect($categories)->mapWithKeys(fn($c) => [$c => $c])->toArray()" 
+                        />
                     </div>
                     <div>
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Status</label>
-                        <select name="status" class="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-0 transition-all font-bold text-slate-600 appearance-none">
-                            <option value="">Semua Status</option>
-                            @foreach($statuses as $status)
-                                <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>{{ ucfirst(str_replace('_', ' ', $status)) }}</option>
-                            @endforeach
-                        </select>
+                        <x-dropdown-select 
+                            name="status" 
+                            id="status" 
+                            label="Status" 
+                            placeholder="Semua Status"
+                            variant="light"
+                            :selected="request('status')" 
+                            :options="collect($statuses)->mapWithKeys(fn($s) => [$s => ucfirst(str_replace('_', ' ', $s))])->toArray()" 
+                        />
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row justify-end gap-3 pt-2">
@@ -83,6 +87,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
+                        @forelse($submissions as $submission)
                         <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                             <td class="px-6 sm:px-8 py-4 sm:py-6">
                                 <div class="font-black text-sm sm:text-base text-[#03045E] group-hover:text-[#0077B6] transition-colors break-words">{{ $submission->name }}</div>
