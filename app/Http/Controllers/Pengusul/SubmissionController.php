@@ -69,9 +69,9 @@ class SubmissionController extends Controller
     {
         // Base validation rules
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
-            'address' => ['required', 'string'],
+            'address' => ['nullable', 'string'],
             'description' => ['required', 'string', 'min:50'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
@@ -113,15 +113,27 @@ class SubmissionController extends Controller
             }
         }
 
-        // Clean category_data — remove empty values
+        // Clean category_data — remove empty values but keep arrays (checkbox, dynamic table)
         $categoryData = $request->input('category_data', []);
-        $categoryData = array_filter($categoryData, fn($v) => !is_null($v) && $v !== '');
+        $categoryData = array_filter($categoryData, function($v) {
+            if (is_array($v)) return !empty($v);
+            return !is_null($v) && $v !== '';
+        });
+
+        // Auto-populate name from b1_nama_objek if not provided
+        $submissionName = $validated['name'] ?? '';
+        if (empty($submissionName) || $submissionName === '') {
+            $submissionName = $categoryData['b1_nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
+        }
+
+        // Auto-populate address from category data if empty
+        $submissionAddress = $validated['address'] ?? '-';
 
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
-            'name' => $validated['name'],
+            'name' => $submissionName,
             'category' => $validated['category'],
-            'address' => $validated['address'],
+            'address' => $submissionAddress,
             'description' => $validated['description'],
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,
@@ -290,9 +302,9 @@ class SubmissionController extends Controller
 
         // Base validation rules
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
-            'address' => ['required', 'string'],
+            'address' => ['nullable', 'string'],
             'description' => ['required', 'string', 'min:50'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
@@ -337,14 +349,23 @@ class SubmissionController extends Controller
             }
         }
 
-        // Clean category_data — remove empty values
+        // Clean category_data — remove empty values but keep arrays
         $categoryData = $request->input('category_data', []);
-        $categoryData = array_filter($categoryData, fn($v) => !is_null($v) && $v !== '');
+        $categoryData = array_filter($categoryData, function($v) {
+            if (is_array($v)) return !empty($v);
+            return !is_null($v) && $v !== '';
+        });
+
+        // Auto-populate name from b1_nama_objek if not provided
+        $submissionName = $validated['name'] ?? '';
+        if (empty($submissionName) || $submissionName === '') {
+            $submissionName = $categoryData['b1_nama_objek'] ?? $submission->name;
+        }
 
         $submission->update([
-            'name' => $validated['name'],
+            'name' => $submissionName,
             'category' => $validated['category'],
-            'address' => $validated['address'],
+            'address' => $validated['address'] ?? $submission->address,
             'description' => $validated['description'],
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,
