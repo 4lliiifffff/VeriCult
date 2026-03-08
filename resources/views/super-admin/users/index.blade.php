@@ -81,23 +81,26 @@
                             class="pl-12 block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-medium">
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 auto-submit">
                     <div class="w-full sm:w-48">
-                        <select name="role" onchange="this.form.submit()" class="block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-bold text-[#03045E]">
-                            <option value="">Semua Peran</option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->name }}" {{ request('role') == $role->name ? 'selected' : '' }}>
-                                    {{ ucfirst(str_replace('-', ' ', $role->name)) }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <x-dropdown-select 
+                            name="role" 
+                            id="role" 
+                            placeholder="Semua Peran"
+                            variant="light"
+                            :selected="request('role')" 
+                            :options="collect($roles)->mapWithKeys(fn($r) => [$r->name => ucfirst(str_replace('-', ' ', $r->name))])->toArray()" 
+                        />
                     </div>
                     <div class="w-full sm:w-48">
-                        <select name="status" onchange="this.form.submit()" class="block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-bold text-[#03045E]">
-                            <option value="">Semua Status</option>
-                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
-                            <option value="suspended" {{ request('status') == 'suspended' ? 'selected' : '' }}>Ditangguhkan</option>
-                        </select>
+                        <x-dropdown-select 
+                            name="status" 
+                            id="status" 
+                            placeholder="Semua Status"
+                            variant="light"
+                            :selected="request('status')" 
+                            :options="['active' => 'Aktif', 'suspended' => 'Ditangguhkan']" 
+                        />
                     </div>
                 </div>
             </form>

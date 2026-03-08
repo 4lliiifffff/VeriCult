@@ -91,10 +91,12 @@
 <x-layouts.validator>
     <x-slot name="header">
         <!-- Header Section -->
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
-            <!-- Decorative Elements -->
-            <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-white/10 transition-colors duration-700"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-32 -mb-32 blur-2xl"></div>
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 shadow-2xl shadow-blue-900/20 mb-8">
+            <!-- Background Decorations Clipping Container -->
+            <div class="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-white/10 transition-colors duration-700"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-32 -mb-32 blur-2xl"></div>
+            </div>
             
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="w-full md:w-auto">
@@ -111,15 +113,15 @@
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-2 md:mt-0">
-                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex flex-col w-full sm:w-auto gap-1 items-end">
-                        <label for="year" class="text-[9px] font-black text-[#00B4D8] uppercase tracking-[0.2em] pr-1">Periode</label>
-                        <select name="year" id="year" onchange="this.form.submit()" class="w-full sm:w-auto bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
-                            @foreach($availableYears as $year)
-                                <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }} class="text-slate-900">
-                                    {{ $year }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex flex-col w-full sm:w-auto gap-1 items-end auto-submit">
+                        <x-dropdown-select 
+                            name="year" 
+                            id="year" 
+                            label="Periode" 
+                            placeholder="Pilih Tahun"
+                            :selected="$activeYear" 
+                            :options="collect($availableYears)->mapWithKeys(fn($y) => [$y => $y])->toArray()" 
+                        />
                     </form>
                     <div class="h-px w-full sm:w-px sm:h-10 bg-white/20 sm:mx-2 block"></div>
                     <a href="{{ route('validator.submissions.index') }}" class="w-full sm:w-auto justify-center inline-flex bg-white text-[#03045E] px-6 py-3 sm:py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">

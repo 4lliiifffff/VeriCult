@@ -29,24 +29,36 @@
     <div class="space-y-8 pb-12">
         <!-- Filter Card -->
         <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-10">
-            <form action="{{ route('validator.submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <form action="{{ route('validator.submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-submit">
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Status</label>
-                    <select name="status" class="w-full rounded-xl border-slate-100 bg-slate-50 text-sm font-bold text-[#03045E] focus:ring-[#00B4D8]/20 focus:border-[#00B4D8]">
-                        <option value="">Semua Status</option>
-                        <option value="submitted" {{ request('status') == 'submitted' ? 'selected' : '' }}>Submitted</option>
-                        <option value="administrative_review" {{ request('status') == 'administrative_review' ? 'selected' : '' }}>Administrative Review</option>
-                        <option value="field_verification" {{ request('status') == 'field_verification' ? 'selected' : '' }}>Field Verification</option>
-                        <option value="verified" {{ request('status') == 'verified' ? 'selected' : '' }}>Verified</option>
-                    </select>
+                    <x-dropdown-select 
+                        name="status" 
+                        id="status" 
+                        label="Status" 
+                        placeholder="Semua Status"
+                        variant="light"
+                        :selected="request('status')" 
+                        :options="[
+                            'submitted' => 'Submitted',
+                            'administrative_review' => 'Administrative Review',
+                            'field_verification' => 'Field Verification',
+                            'verified' => 'Verified'
+                        ]" 
+                    />
                 </div>
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Klaim</label>
-                    <select name="claimed" class="w-full rounded-xl border-slate-100 bg-slate-50 text-sm font-bold text-[#03045E] focus:ring-[#00B4D8]/20 focus:border-[#00B4D8]">
-                        <option value="">Semua</option>
-                        <option value="yes" {{ request('claimed') == 'yes' ? 'selected' : '' }}>Sudah Diklaim</option>
-                        <option value="no" {{ request('claimed') == 'no' ? 'selected' : '' }}>Belum Diklaim</option>
-                    </select>
+                    <x-dropdown-select 
+                        name="claimed" 
+                        id="claimed" 
+                        label="Klaim" 
+                        placeholder="Semua"
+                        variant="light"
+                        :selected="request('claimed')" 
+                        :options="[
+                            'yes' => 'Sudah Diklaim',
+                            'no' => 'Belum Diklaim'
+                        ]" 
+                    />
                 </div>
                 <div>
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Filter Saya</label>

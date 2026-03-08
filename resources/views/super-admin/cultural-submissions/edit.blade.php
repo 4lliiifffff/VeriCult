@@ -27,12 +27,19 @@
                     </h3>
                     
                     <div class="max-w-md">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Status Visibilitas Publik</label>
-                        <select name="status" class="w-full px-5 py-4 bg-white border-2 border-slate-200 rounded-2xl focus:border-[#0077B6] focus:ring-0 transition-all font-bold text-[#03045E] shadow-sm">
-                            <option value="{{ \App\Models\CulturalSubmission::STATUS_PUBLISHED }}" {{ $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED ? 'selected' : '' }}>Terbitkan (Published)</option>
-                            <option value="{{ \App\Models\CulturalSubmission::STATUS_VERIFIED }}" {{ $submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED ? 'selected' : '' }}>Arsipkan (Verified but Hidden)</option>
-                            <option value="{{ \App\Models\CulturalSubmission::STATUS_REJECTED }}" {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REJECTED ? 'selected' : '' }}>Tolak / Batalkan (Rejected)</option>
-                        </select>
+                        <x-dropdown-select 
+                            name="status" 
+                            id="status" 
+                            label="Status Visibilitas Publik" 
+                            placeholder="Pilih Status"
+                            variant="light"
+                            :selected="$submission->status" 
+                            :options="[
+                                \App\Models\CulturalSubmission::STATUS_PUBLISHED => 'Terbitkan (Published)',
+                                \App\Models\CulturalSubmission::STATUS_VERIFIED => 'Arsipkan (Verified but Hidden)',
+                                \App\Models\CulturalSubmission::STATUS_REJECTED => 'Tolak / Batalkan (Rejected)',
+                            ]" 
+                        />
                         <p class="mt-3 text-[10px] text-slate-400 font-medium italic leading-relaxed">Pilih "Terbitkan" untuk menampilkan data ini di galeri publik. Pilih "Arsipkan" untuk menyembunyikan tanpa menghapus data.</p>
                     </div>
                 </div>

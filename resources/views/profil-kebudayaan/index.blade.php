@@ -167,21 +167,15 @@
                     @endif
                     
                     <!-- Year Filter -->
-                    <div class="relative min-w-full md:min-w-[200px]">
-                        <select name="year" onchange="this.form.submit()" class="w-full bg-white border-2 border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] px-6 py-4 sm:py-5 text-[#03045E] font-black uppercase tracking-widest text-[9px] sm:text-[10px] hover:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm appearance-none cursor-pointer">
-                            @if(empty($availableYears))
-                                <option value="{{ date('Y') }}">Periode {{ date('Y') }}</option>
-                            @else
-                                @foreach($availableYears as $year)
-                                    <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }}>
-                                        Periode {{ $year }}
-                                    </option>
-                                @endforeach
-                            @endif
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-6 text-[#0077B6]">
-                            <svg class="w-4 h-4" border="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
+                    <div class="relative min-w-full md:min-w-[220px] auto-submit">
+                        <x-dropdown-select 
+                            name="year" 
+                            id="year" 
+                            placeholder="Pilih Periode"
+                            variant="light"
+                            :selected="$activeYear" 
+                            :options="!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')]" 
+                        />
                     </div>
 
                     <!-- Search Input -->

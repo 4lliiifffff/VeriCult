@@ -17,9 +17,15 @@
     <body class="font-sans antialiased bg-[#F8FAFC]" x-data="{ 
         sidebarOpen: false, 
         sidebarMinimized: localStorage.getItem('sidebarMinimized') === 'true',
+        loaded: false,
         toggleMinimize() {
             this.sidebarMinimized = !this.sidebarMinimized;
             localStorage.setItem('sidebarMinimized', this.sidebarMinimized);
+        },
+        init() {
+            this.$nextTick(() => {
+                this.loaded = true;
+            });
         }
     }">
         <div class="flex h-screen overflow-hidden">
@@ -39,8 +45,16 @@
             @include('super-admin.partials.sidebar')
 
             <!-- Main Content Wrapper -->
-            <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300"
-                 :class="sidebarMinimized ? 'lg:pl-20' : 'lg:pl-64'">
+            <div class="flex-1 flex flex-col overflow-hidden"
+                 :class="[
+                    sidebarMinimized ? 'lg:pl-20' : 'lg:pl-64',
+                    loaded ? 'transition-all duration-300' : ''
+                 ]"
+                 x-show="loaded"
+                 x-transition:enter="transition opacity ease-out duration-500"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 style="display: none;">
                 <!-- Navbar -->
                 @include('super-admin.partials.navbar')
 

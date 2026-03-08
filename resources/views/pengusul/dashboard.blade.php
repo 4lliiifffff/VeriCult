@@ -135,7 +135,7 @@
                                 </span>
                             </td>
                             <td class="px-5 py-3.5 text-right text-xs text-slate-500">
-                                {{ $submission->created_at->translatedFormat('d M Y') }}
+                                {{ $submission->created_at->translatedFormat('d F Y') }}
                             </td>
                         </tr>
                         @empty

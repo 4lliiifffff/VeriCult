@@ -7,9 +7,12 @@
             <span class="text-[#03045E]">Laporan</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 shadow-2xl shadow-blue-900/20 mb-8">
+            <!-- Background Decorations Clipping Container -->
+            <div class="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            </div>
             
             <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
                 <div class="space-y-2">
@@ -24,16 +27,15 @@
                     <p class="text-blue-100/70 text-base sm:text-lg font-medium">Lihat dan cetak hasil data kebudayaan yang sudah disetujui.</p>
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <form action="{{ route('reports.index') }}" method="GET" class="flex flex-col gap-1 items-start sm:items-end flex-1">
-                        <label for="category" class="text-[10px] font-black text-[#00B4D8] uppercase tracking-[0.2em] px-1">Filter Kategori</label>
-                        <select name="category" id="category" onchange="this.form.submit()" class="w-full sm:w-auto bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2.5 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
-                            <option value="" class="text-slate-900">Semua Kategori</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat }}" {{ $activeCategory == $cat ? 'selected' : '' }} class="text-slate-900">
-                                    {{ $cat }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <form action="{{ route('reports.index') }}" method="GET" class="flex flex-col gap-1 items-start sm:items-end flex-1 auto-submit">
+                        <x-dropdown-select 
+                            name="category" 
+                            id="category" 
+                            label="Filter Kategori" 
+                            placeholder="Semua Kategori"
+                            :selected="$activeCategory" 
+                            :options="collect($categories)->mapWithKeys(fn($c) => [$c => $c])->toArray()" 
+                        />
                     </form>
                     <div class="hidden sm:block h-10 w-px bg-white/20 mx-2"></div>
                     <div>
