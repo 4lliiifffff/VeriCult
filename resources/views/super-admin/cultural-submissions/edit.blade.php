@@ -2,25 +2,25 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-                <a href="{{ route('super-admin.cultural-submissions.show', $submission) }}" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#03045E] shadow-sm hover:bg-[#03045E] hover:text-white transition-all">
+                <a href="{{ route('super-admin.cultural-submissions.show', $submission) }}" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#03045E] shadow-sm hover:bg-[#03045E] hover:text-white transition-all shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
                 </a>
-                <div>
-                    <h1 class="text-2xl font-black text-[#03045E] tracking-tighter">Edit: {{ $submission->name }}</h1>
-                    <p class="text-slate-500 font-medium text-sm">Pembaruan data resmi kebudayaan.</p>
+                <div class="min-w-0">
+                    <h1 class="text-xl sm:text-2xl font-black text-[#03045E] tracking-tighter truncate break-words">Edit: {{ $submission->name }}</h1>
+                    <p class="text-slate-500 font-medium text-[11px] sm:text-sm">Pembaruan data resmi kebudayaan.</p>
                 </div>
             </div>
         </div>
     </x-slot>
 
     <div class="max-w-4xl mx-auto">
-        <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
-            <form action="{{ route('super-admin.cultural-submissions.update', $submission) }}" method="POST" class="space-y-10">
+        <div class="bg-white p-6 sm:p-12 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
+            <form action="{{ route('super-admin.cultural-submissions.update', $submission) }}" method="POST" class="space-y-8 sm:space-y-10">
                 @csrf
                 @method('PUT')
 
                 <!-- Publication Status (Only Editable Part) -->
-                <div class="p-8 bg-blue-50/50 rounded-3xl border border-blue-100/50 space-y-6">
+                <div class="p-6 sm:p-8 bg-blue-50/50 rounded-2xl sm:rounded-3xl border border-blue-100/50 space-y-6">
                     <h3 class="text-xs font-black text-[#0077B6] uppercase tracking-[0.3em] flex items-center gap-2">
                         <span class="w-2 h-4 bg-[#0077B6] rounded-full"></span>
                         Pengaturan Publikasi
@@ -87,10 +87,10 @@
                 </div>
 
                 <!-- Form Actions -->
-                <div class="pt-10 flex items-center justify-end gap-4 border-t border-slate-50">
-                    <a href="{{ route('super-admin.cultural-submissions.show', $submission) }}" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Batalkan</a>
-                    <button type="submit" class="px-12 py-4 bg-[#03045E] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-xl shadow-blue-900/20">
-                        Simpan Perubahan Status
+                <div class="pt-8 sm:pt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 border-t border-slate-50">
+                    <a href="{{ route('super-admin.cultural-submissions.show', $submission) }}" class="flex items-center justify-center px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all text-center">Batalkan</a>
+                    <button type="submit" class="px-12 py-4 bg-[#03045E] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-xl shadow-blue-900/20 active:scale-95">
+                        Simpan Perubahan
                     </button>
                 </div>
             </form>

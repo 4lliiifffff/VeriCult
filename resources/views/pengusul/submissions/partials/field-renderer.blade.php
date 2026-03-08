@@ -137,36 +137,40 @@
                 <label class="block text-sm font-bold text-slate-700">{{ $field['label'] }}</label>
 
                 <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
-                    {{-- Table Header --}}
-                    <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count($columns) }}, 1fr) 50px;">
-                        @foreach($columns as $col)
-                            <div class="px-4 py-3 text-xs font-black text-slate-500 uppercase tracking-wider">{{ $col }}</div>
-                        @endforeach
-                        <div class="px-2 py-3"></div>
-                    </div>
-
-                    {{-- Table Rows --}}
-                    <template x-for="(row, rowIndex) in dynamicTables['{{ $fieldKey }}']" :key="rowIndex">
-                        <div class="grid gap-0 border-b border-slate-50" style="grid-template-columns: repeat({{ count($columns) }}, 1fr) 50px;">
-                            @foreach($columnKeys as $colIdx => $colKey)
-                                <div class="px-2 py-2">
-                                    <input type="text" 
-                                        :name="'category_data[{{ $fieldKey }}][' + rowIndex + '][{{ $colKey }}]'"
-                                        x-model="row.{{ $colKey }}"
-                                        data-category-field
-                                        class="w-full px-3 py-2 bg-transparent border border-transparent rounded-lg focus:border-[#0077B6] focus:ring-2 focus:ring-[#0077B6]/5 text-sm font-medium placeholder:text-slate-300 outline-none hover:bg-slate-50 transition-all"
-                                        placeholder="{{ $columns[$colIdx] ?? '' }}">
-                                </div>
-                            @endforeach
-                            <div class="flex items-center justify-center">
-                                <button type="button" @click="removeTableRow('{{ $fieldKey }}', rowIndex)"
-                                    class="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                                    x-show="dynamicTables['{{ $fieldKey }}'].length > 1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
+                    <div class="overflow-x-auto">
+                        <div class="min-w-max">
+                            {{-- Table Header --}}
+                            <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count($columns) }}, minmax(150px, 1fr)) 50px;">
+                                @foreach($columns as $col)
+                                    <div class="px-4 py-3 text-xs font-black text-slate-500 uppercase tracking-wider">{{ $col }}</div>
+                                @endforeach
+                                <div class="px-2 py-3"></div>
                             </div>
+
+                            {{-- Table Rows --}}
+                            <template x-for="(row, rowIndex) in dynamicTables['{{ $fieldKey }}']" :key="rowIndex">
+                                <div class="grid gap-0 border-b border-slate-50" style="grid-template-columns: repeat({{ count($columns) }}, minmax(150px, 1fr)) 50px;">
+                                    @foreach($columnKeys as $colIdx => $colKey)
+                                        <div class="px-2 py-2 border-r border-slate-50/50">
+                                            <input type="text" 
+                                                :name="'category_data[{{ $fieldKey }}][' + rowIndex + '][{{ $colKey }}]'"
+                                                x-model="row.{{ $colKey }}"
+                                                data-category-field
+                                                class="w-full px-3 py-2 bg-transparent border border-transparent rounded-lg focus:border-[#0077B6] focus:ring-2 focus:ring-[#0077B6]/5 text-sm font-medium placeholder:text-slate-300 outline-none hover:bg-slate-50 transition-all"
+                                                placeholder="{{ $columns[$colIdx] ?? '' }}">
+                                        </div>
+                                    @endforeach
+                                    <div class="flex items-center justify-center bg-slate-50/30">
+                                        <button type="button" @click="removeTableRow('{{ $fieldKey }}', rowIndex)"
+                                            class="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                            x-show="dynamicTables['{{ $fieldKey }}'].length > 1">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
-                    </template>
+                    </div>
                 </div>
 
                 <button type="button" @click="addTableRow('{{ $fieldKey }}', @js($columnKeys))"

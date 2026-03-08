@@ -15,19 +15,19 @@
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-2">
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                        <span class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
                             Kelola Pengajuan
                         </span>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
                         Kelola <span class="text-[#00B4D8]">Pengajuan</span>
                     </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">Pantau dan kelola seluruh inventarisasi data kebudayaan Anda dalam satu dasbor terpadu.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Pantau dan kelola seluruh inventarisasi data kebudayaan Anda dalam satu dasbor terpadu.</p>
                 </div>
                     
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <a href="{{ route('pengusul.submissions.create') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
+                    <a href="{{ route('pengusul.submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                         </svg>
                         Tambah Pengajuan
@@ -83,8 +83,9 @@
                 </div>
             </div>
 
-            <div class="overflow-x-auto px-4 pb-4">
-                <table class="w-full text-left">
+            <div class="overflow-x-auto px-4 pb-4 -mx-4 sm:mx-0">
+                <div class="inline-block min-w-full align-middle">
+                    <table class="min-w-full text-left">
                     <thead>
                         <tr class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.15em]">
                             <th class="px-6 py-5">Informasi Pengajuan</th>
@@ -176,6 +177,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
 
             @if($submissions->hasPages())

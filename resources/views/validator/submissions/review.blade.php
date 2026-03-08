@@ -1,6 +1,6 @@
 <x-layouts.validator>
     <x-slot name="header">
-        <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center justify-between mb-8">
             <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 overflow-x-auto whitespace-nowrap">
                 <a href="{{ route('validator.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -46,21 +46,21 @@
 
         <!-- Left: Submission Details & Files -->
         <div class="lg:col-span-7 space-y-12">
-            <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden hover:shadow-2xl transition-shadow duration-500">
-                <div class="p-8 lg:p-10 border-b border-slate-50 flex items-center justify-between bg-gradient-to-r from-slate-50/80 to-white">
+            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden hover:shadow-2xl transition-shadow duration-500">
+                <div class="p-6 lg:p-10 border-b border-slate-50 flex items-center justify-between bg-gradient-to-r from-slate-50/80 to-white">
                     <div>
                         <h3 class="font-black text-xl text-[#03045E] tracking-tight">Informasi Pengajuan</h3>
                         <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</p>
                     </div>
                     <span @class([
-                        'px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border animate-pulse',
+                        'px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border animate-pulse hidden sm:inline-block',
                         'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === 'administrative_review',
                         'bg-indigo-50 text-indigo-600 border-indigo-100' => $submission->status === 'field_verification',
                     ])>
                         {{ $submission->status_label }}
                     </span>
                 </div>
-                <div class="p-8 lg:p-10 space-y-8">
+                <div class="p-6 lg:p-10 space-y-8">
                     <!-- Info Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
@@ -94,7 +94,7 @@
 
                     <!-- Category-Specific Data -->
                     @if(!empty($categoryFields) && !empty($submission->category_data))
-                    <div class="p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
+                    <div class="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
                             <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                             Detail {{ $submission->category }}
@@ -153,7 +153,7 @@
             </div>
 
             <!-- Pengusul Info Card -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-10 hover:shadow-2xl transition-shadow duration-500">
+            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 lg:p-10 hover:shadow-2xl transition-shadow duration-500">
                 <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
                     <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     Informasi Pengusul
@@ -173,8 +173,8 @@
         <!-- Right: Review Actions -->
         <div class="lg:col-span-5 space-y-10">
             <!-- Focused Review Form -->
-            <div class="bg-white rounded-[3rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden sticky top-8 hover:border-[#0077B6]/40 transition-colors duration-500">
-                <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-8 text-white relative overflow-hidden">
+            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden sticky top-8 hover:border-[#0077B6]/40 transition-colors duration-500">
+                <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-6 lg:p-8 text-white relative overflow-hidden">
                     <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
                     <div class="absolute -left-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
                     <div class="relative z-10 flex items-center gap-4">
@@ -190,7 +190,7 @@
                     </div>
                 </div>
 
-                <div class="p-8 lg:p-10">
+                <div class="p-6 lg:p-10">
                     @if(in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_SUBMITTED]))
                         <!-- Administrative Review Form -->
                         <form id="reviewForm" action="{{ route('validator.submissions.review', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
@@ -359,7 +359,7 @@
 
             <!-- Review History -->
             @if($submission->administrativeReviews->isNotEmpty() || $submission->fieldVerifications->isNotEmpty())
-            <div class="bg-white rounded-[3rem] p-12 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-shadow duration-500">
+            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] p-6 lg:p-12 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-shadow duration-500">
                 <h3 class="font-black text-sm text-[#03045E] uppercase tracking-widest mb-8 flex items-center gap-3">
                     <div class="w-6 h-6 rounded-lg bg-[#0077B6]/10 flex items-center justify-center">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#0077B6]"></span>

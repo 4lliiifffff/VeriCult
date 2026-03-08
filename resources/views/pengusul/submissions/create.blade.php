@@ -11,7 +11,7 @@
         </nav>
 
         <!-- Page Header -->
-        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
@@ -26,15 +26,15 @@
                             <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 1 dari 2</span>
                         </div>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
                         Pilih <span class="text-[#00B4D8]">Kategori</span> Kebudayaan
                     </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">Langkah awal untuk mendokumentasikan dan melestarikan warisan budaya.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Langkah awal untuk mendokumentasikan dan melestarikan warisan budaya.</p>
                 </div>
                     
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <a href="{{ route('pengusul.submissions.index') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
+                    <a href="{{ route('pengusul.submissions.index') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 8l-4 4m0 0l4 4m-4-4h18"></path>
                         </svg>
                         Kembali
@@ -98,14 +98,14 @@
         </div>
 
         <!-- Info Section -->
-        <div class="mt-12 bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
-            <div class="flex items-start gap-5">
+        <div class="mt-12 bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-100 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
                 <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#0077B6] shrink-0">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <div>
-                    <h4 class="font-bold text-[#03045E] mb-1">Tentang 10+1 Objek Kebudayaan Indonesia</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">
+                    <h4 class="font-bold text-[#03045E] mb-1 sm:mb-2 text-base sm:text-lg">Tentang 10+1 Objek Kebudayaan Indonesia</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed text-left">
                         Setiap kategori mewakili satu aspek warisan budaya Indonesia yang perlu didokumentasikan dan dilestarikan. 
                         Pilih kategori yang paling sesuai dengan objek kebudayaan yang ingin Anda daftarkan. 
                         Setiap formulir memiliki kolom-kolom khusus untuk menangkap detail unik dari masing-masing jenis kebudayaan.

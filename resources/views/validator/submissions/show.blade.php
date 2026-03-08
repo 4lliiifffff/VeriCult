@@ -8,7 +8,7 @@
             <span class="text-[#03045E]">Detail Review</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mt-4 mb-3">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mt-4 mb-8">
             <div class="space-y-3">
                 <div class="flex items-center gap-3">
                     <span @class([
@@ -22,7 +22,8 @@
                     </span>
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                 </div>
-                <h2 class="font-black text-4xl text-[#03045E] leading-tight tracking-tight">
+                </div>
+                <h2 class="font-black text-3xl sm:text-4xl text-[#03045E] leading-tight tracking-tight break-words">
                     {{ $submission->name }}
                 </h2>
                 <div class="flex items-center gap-2 text-slate-500 font-bold text-sm">
@@ -33,9 +34,9 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4" x-data="{ showClaimModal: false, showUnclaimModal: false }">
+            <div class="flex items-center gap-4 w-full md:w-auto" x-data="{ showClaimModal: false, showUnclaimModal: false }">
                 @if($submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED && $submission->reviewed_by === null)
-                    <button @click="showClaimModal = true" class="bg-[#03045E] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#023E8A] transition-all transform hover:-translate-y-1 active:scale-95">
+                    <button @click="showClaimModal = true" class="w-full md:w-auto justify-center bg-[#03045E] text-white px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#023E8A] transition-all transform hover:-translate-y-1 active:scale-95">
                         Mulai Review
                     </button>
 
@@ -84,7 +85,7 @@
                     </template>
 
                 @elseif($submission->reviewed_by === Auth::id() && $submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
-                    <button @click="showUnclaimModal = true" class="bg-white border-2 border-slate-100 text-rose-500 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-rose-50 hover:border-rose-100 transition-all flex items-center gap-2 group">
+                    <button @click="showUnclaimModal = true" class="w-full md:w-auto justify-center bg-white border-2 border-slate-100 text-rose-500 px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-[0.2em] hover:bg-rose-50 hover:border-rose-100 transition-all flex items-center gap-2 group">
                         <svg class="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                         Batalkan Klaim
                     </button>
@@ -160,18 +161,18 @@
         <div class="lg:col-span-2 space-y-12">
             <!-- Review Workspace Call to Action -->
             @if($submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED)
-                <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline">
+                <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline w-full">
                     @csrf
-                    <button type="submit" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:-translate-y-1 flex items-center gap-2">
+                    <button type="submit" class="w-full justify-center bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:-translate-y-1 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"></path></svg>
                         Publish ke Profil Publik
                     </button>
                 </form>
                 @endif
             @if($submission->reviewed_by === Auth::id() && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]))
-                <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
+                <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-                    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                         <div>
                             <div class="flex items-center gap-3 mb-4">
                                 <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
@@ -179,12 +180,12 @@
                                 </div>
                                 <span class="font-black tracking-widest text-xs uppercase opacity-80">Workspace Aktif</span>
                             </div>
-                            <h3 class="text-3xl font-black tracking-tight leading-tight">Siap Untuk <br><span class="text-[#00B4D8]">Validasi Data?</span></h3>
+                            <h3 class="text-2xl sm:text-3xl font-black tracking-tight leading-tight">Siap Untuk <br><span class="text-[#00B4D8]">Validasi Data?</span></h3>
                             <p class="mt-4 text-blue-100/70 text-xs font-bold uppercase tracking-widest italic">
                                 Masuki ruang kerja terfokus untuk memberikan keputusan atau verifikasi lapangan.
                             </p>
                         </div>
-                        <a href="{{ route('validator.submissions.review-form', $submission) }}" class="bg-white text-[#03045E] px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 shrink-0">
+                        <a href="{{ route('validator.submissions.review-form', $submission) }}" class="w-full sm:w-auto bg-white text-[#03045E] px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 shrink-0">
                             Masuk Ruang Review
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
@@ -203,13 +204,13 @@
             @endif
 
             <!-- Detail Cards -->
-            <div class="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/40 border border-white p-12 space-y-12">
+            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-slate-200/40 border border-white p-6 sm:p-12 space-y-12">
                 <section>
                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-8 flex items-center gap-4">
                         <span class="shrink-0">Lokasi & Asal Objek</span>
                         <div class="flex-1 h-px bg-slate-100"></div>
                     </h3>
-                    <div class="flex items-start gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
+                    <div class="flex items-start gap-4 sm:gap-6 p-5 sm:p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
                         <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#0077B6] shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </div>
@@ -241,8 +242,8 @@
                         <span class="shrink-0">Detail {{ $submission->category }}</span>
                         <div class="flex-1 h-px bg-slate-100"></div>
                     </h3>
-                    <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2.5rem] p-10 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                             @foreach($categoryFields as $fieldKey => $field)
                                 @if(!empty($submission->category_data[$fieldKey]))
                                 <div class="space-y-2 {{ $field['type'] === 'textarea' ? 'sm:col-span-2' : '' }}">
@@ -312,7 +313,7 @@
         <!-- Sidebar Details -->
         <div class="space-y-8">
             <!-- Requester Card -->
-            <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/40 border border-white p-10">
+            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-slate-200/40 border border-white p-6 sm:p-10">
                 <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Informasi Pengusul</h3>
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-2xl bg-[#03045E] flex items-center justify-center text-xl font-black text-white shadow-xl shadow-blue-900/20">
@@ -326,7 +327,7 @@
             </div>
 
             <!-- Review Timeline -->
-            <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/40 border border-white p-10 overflow-hidden">
+            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-slate-200/40 border border-white p-6 sm:p-10 overflow-hidden">
                 <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-8">Histori Review</h3>
                 
                 <div class="space-y-0 relative">

@@ -91,29 +91,29 @@
 <x-layouts.validator>
     <x-slot name="header">
         <!-- Header Section -->
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
             <!-- Decorative Elements -->
             <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-white/10 transition-colors duration-700"></div>
             <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-32 -mb-32 blur-2xl"></div>
             
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                <div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="w-full md:w-auto">
                     <div class="inline-flex items-center px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4">
                         <span class="w-2 h-2 rounded-full bg-[#00B4D8] mr-2 animate-pulse"></span>
                         Validator Portal
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
                         Dashboard <span class="text-[#00B4D8]">Validator</span>
                     </h2>
-                    <p class="text-blue-100/80 mt-3 font-medium max-w-xl">
+                    <p class="text-blue-100/80 mt-3 font-medium max-w-xl break-words">
                         Selamat datang kembali, {{ explode(' ', Auth::user()->name)[0] }}. Pantau dan verifikasi pengajuan kebudayaan dengan teliti.
                     </p>
                 </div>
                 
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex flex-col gap-1 items-end">
+                <div class="flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-2 md:mt-0">
+                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex flex-col w-full sm:w-auto gap-1 items-end">
                         <label for="year" class="text-[9px] font-black text-[#00B4D8] uppercase tracking-[0.2em] pr-1">Periode</label>
-                        <select name="year" id="year" onchange="this.form.submit()" class="bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
+                        <select name="year" id="year" onchange="this.form.submit()" class="w-full sm:w-auto bg-white/20 text-white border border-white/30 rounded-xl px-4 py-2 text-sm font-bold focus:ring-[#00B4D8] focus:border-[#00B4D8] transition-all outline-none cursor-pointer appearance-none">
                             @foreach($availableYears as $year)
                                 <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }} class="text-slate-900">
                                     {{ $year }}
@@ -121,8 +121,8 @@
                             @endforeach
                         </select>
                     </form>
-                    <div class="h-10 w-px bg-white/20 mx-2 hidden sm:block"></div>
-                    <a href="{{ route('validator.submissions.index') }}" class="hidden sm:inline-block bg-white text-[#03045E] px-6 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                    <div class="h-px w-full sm:w-px sm:h-10 bg-white/20 sm:mx-2 block"></div>
+                    <a href="{{ route('validator.submissions.index') }}" class="w-full sm:w-auto justify-center inline-flex bg-white text-[#03045E] px-6 py-3 sm:py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
                         Review
                     </a>
                 </div>
@@ -181,14 +181,14 @@
 
         <!-- Analytics Charts -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Pipa Review Saya (Beban Kerja)</h3>
                 <div class="h-64 relative">
                     <canvas id="pipelineChart"></canvas>
                 </div>
             </div>
             
-            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Kategori Terpopuler (Global)</h3>
                 <div class="h-64 relative">
                     <canvas id="categoryChart"></canvas>
@@ -196,7 +196,7 @@
             </div>
 
             <!-- Yearly Comparison Chart -->
-            <div class="bg-white p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
+            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Perbandingan Tahunan</h3>
                 <div class="h-64 relative">
                     <canvas id="yearlyChart"></canvas>
@@ -205,16 +205,14 @@
         </div>
 
         <!-- Recent Submissions Table -->
-        <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
-            <div class="p-10 border-b border-slate-50 overflow-x-auto whitespace-nowrap">
-                <div class="flex items-center justify-between gap-4">
-                    <h3 class="font-black text-xl text-[#03045E] tracking-tight">Antrian Submission Terbaru</h3>
-                    <a href="{{ route('validator.submissions.index') }}" class="text-[10px] font-black text-[#0077B6] uppercase tracking-widest hover:underline">Lihat Semua</a>
-                </div>
+        <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+            <div class="p-6 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h3 class="font-black text-xl text-[#03045E] tracking-tight">Antrian Submission Terbaru</h3>
+                <a href="{{ route('validator.submissions.index') }}" class="text-[10px] font-black text-[#0077B6] uppercase tracking-widest hover:underline whitespace-nowrap">Lihat Semua</a>
             </div>
             
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse min-w-full">
                     <thead>
                         <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50">
                             <th class="px-10 py-5">Kebudayaan</th>

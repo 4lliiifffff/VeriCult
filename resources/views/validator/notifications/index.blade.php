@@ -11,17 +11,17 @@
                             Aktivitas Sistem
                         </span>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
                         Pusat <span class="text-[#00B4D8]">Notifikasi</span>
                     </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">Info terbaru seputar antrian dan review Anda.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Info terbaru seputar antrian dan review Anda.</p>
                 </div>
                 
                 @if(Auth::user()->unreadNotifications->count() > 0)
                     <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                        <form action="{{ route('validator.notifications.mark-all-read') }}" method="POST">
+                        <form action="{{ route('validator.notifications.mark-all-read') }}" method="POST" class="w-full">
                             @csrf
-                            <button type="submit" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                            <button type="submit" class="w-full sm:w-auto bg-white text-[#03045E] px-6 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                                 Tandai Semua Terbaca
                             </button>
@@ -32,29 +32,29 @@
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto space-y-4">
+    <div class="max-w-4xl mx-auto space-y-4 pb-12">
         @forelse($notifications as $notification)
             <div @class([
-                'p-6 rounded-[2rem] border transition-all duration-300 flex items-start gap-5',
+                'p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border transition-all duration-300 flex items-start gap-4 sm:gap-5',
                 'bg-white border-slate-100 shadow-xl shadow-slate-200/50' => $notification->read_at,
                 'bg-indigo-50/50 border-indigo-100 shadow-xl shadow-indigo-900/5 ring-1 ring-indigo-200/50' => !$notification->read_at
             ])>
                 <div @class([
-                    'w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm',
+                    'w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 shadow-sm',
                     'bg-indigo-500 text-white' => ($notification->data['type'] ?? 'info') === 'info',
                     'bg-emerald-500 text-white' => ($notification->data['type'] ?? 'info') === 'success',
                     'bg-rose-500 text-white' => ($notification->data['type'] ?? 'info') === 'warning',
                 ])>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                     </svg>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <div class="flex items-center justify-between mb-1">
-                        <h3 class="font-black text-[#03045E] text-base">{{ $notification->data['title'] }}</h3>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $notification->created_at->diffForHumans() }}</span>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+                        <h3 class="font-black text-[#03045E] text-sm sm:text-base break-words">{{ $notification->data['title'] }}</h3>
+                        <span class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $notification->created_at->diffForHumans() }}</span>
                     </div>
-                    <p class="text-slate-600 text-sm font-medium leading-relaxed">{{ $notification->data['message'] }}</p>
+                    <p class="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed break-words">{{ $notification->data['message'] }}</p>
                     
                     <div class="mt-4 flex items-center gap-3">
                         @if($notification->data['url'])

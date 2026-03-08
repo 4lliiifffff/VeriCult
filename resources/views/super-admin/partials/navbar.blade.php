@@ -1,5 +1,5 @@
 <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
-    <div class="flex items-center justify-between px-8 h-16">
+    <div class="flex items-center justify-between px-4 sm:px-8 h-16">
         <!-- Sidebar Toggle (Mobile) -->
         <div class="flex items-center gap-4 lg:hidden">
             <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-[#0077B6] hover:bg-blue-50 transition-colors">
@@ -16,7 +16,7 @@
         </div>
 
         <!-- Right Side -->
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-3 sm:gap-6">
             <!-- Global Search (Visual Only) -->
             <button class="hidden sm:flex items-center gap-3 px-4 py-2 bg-slate-50/50 hover:bg-slate-50 border border-slate-100/50 rounded-2xl text-slate-400 transition-all duration-300 group">
                 <svg class="w-4 h-4 group-hover:text-[#0077B6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -43,7 +43,7 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                    class="absolute right-0 z-50 mt-4 w-80 rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden"
+                    class="absolute right-0 z-50 mt-4 w-[calc(100vw-2rem)] sm:w-80 rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden"
                     style="display: none;">
                     
                     <div class="p-4 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
@@ -97,7 +97,7 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                    class="absolute right-0 z-50 mt-4 w-56 rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden p-2"
+                    class="absolute right-0 z-50 mt-4 w-48 sm:w-56 rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden p-2"
                     style="display: none;"
                     @click="open = false">
                     
