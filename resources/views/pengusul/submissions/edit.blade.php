@@ -56,7 +56,7 @@
         </div>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 relative pb-20">
             
             <!-- Form Section -->
             <div class="lg:col-span-8 space-y-10">
@@ -70,8 +70,9 @@
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="category" value="{{ $submission->category }}">
+                            <input type="hidden" name="address" value="{{ $submission->address }}">
                             
-                            @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category])
+                            @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission])
 
                             <!-- Footer Actions -->
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
@@ -97,7 +98,8 @@
             </div>
 
             <!-- Sidebar Info -->
-            <div class="lg:col-span-4 space-y-10">
+            <div class="lg:col-span-4 relative">
+                <div class="space-y-10 sticky top-8">
                 <!-- Progress Card -->
                 <div class="bg-[#03045E] rounded-[2.5rem] p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
@@ -111,10 +113,10 @@
                         <div class="space-y-6">
                             <div class="flex items-center justify-between text-white/70 text-[10px] font-black uppercase tracking-widest">
                                 <span>Kelengkapan Berkas</span>
-                                <span class="text-[#00B4D8]" x-text="calculateProgress() + '%'">0%</span>
+                                <span class="text-[#00B4D8]" x-text="progress + '%'">0%</span>
                             </div>
                             <div class="h-3 bg-white/10 rounded-full overflow-hidden border border-white/5 p-0.5">
-                                <div class="h-full bg-gradient-to-r from-[#00B4D8] to-[#0077B6] rounded-full transition-all duration-1000" :style="'width: ' + calculateProgress() + '%'"></div>
+                                <div class="h-full bg-gradient-to-r from-[#00B4D8] to-[#0077B6] rounded-full transition-all duration-700 ease-out" :style="'width: ' + progress + '%'"></div>
                             </div>
                         </div>
                         <div class="mt-6 px-4 py-2 rounded-xl bg-white/10 border border-white/10">
@@ -153,9 +155,9 @@
                                 <p class="text-[11px] text-slate-500 leading-relaxed font-bold">
                                     Hanya status <span class="text-[#03045E]">Draft</span> yang dapat diubah kontennya secara langsung.
                                 </p>
-                            </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -218,9 +220,20 @@
                 loading: false,
                 files: [],
                 dragover: false,
+                progress: 0,
                 
                 init() {
-                    // Initialize component
+                    this.$nextTick(() => {
+                        this.recalcProgress();
+                    });
+
+                    const form = this.$refs.editForm;
+                    if (form) {
+                        form.addEventListener('input', () => this.recalcProgress());
+                        form.addEventListener('change', () => this.recalcProgress());
+                    }
+
+                    this.$watch('files', () => this.$nextTick(() => this.recalcProgress()));
                 },
 
                 handleFileSelect(e) {
@@ -281,24 +294,82 @@
                     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + ['Bytes', 'KB', 'MB', 'GB'][i];
                 },
 
+                recalcProgress() {
+                    this.progress = this.calculateProgress();
+                },
+
                 calculateProgress() {
-                    const baseFields = ['name', 'address', 'description'];
-                    const categoryFields = document.querySelectorAll('[data-category-field]');
-                    const totalFields = baseFields.length + categoryFields.length + 1;
-                    let filledCount = 0;
-                    
-                    baseFields.forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el && el.value.trim() !== '') filledCount++;
+                    let totalQuestions = 0;
+                    let filledQuestions = 0;
+
+                    // 1. Count description (always required)
+                    const desc = document.getElementById('description');
+                    if (desc) {
+                        totalQuestions++;
+                        if (desc.value && desc.value.trim().length >= 10) filledQuestions++;
+                    }
+
+                    // 2. Count visible text inputs and textareas
+                    const form = this.$refs.editForm;
+                    if (!form) return parseInt("{{ $submission->progress ?? 0 }}") || 0;
+
+                    const visibleInputs = form.querySelectorAll('input[type="text"][data-category-field], textarea[data-category-field]:not(#description)');
+                    visibleInputs.forEach(el => {
+                        if (!this.isVisible(el)) return;
+                        totalQuestions++;
+                        if (el.value && el.value.trim() !== '') filledQuestions++;
                     });
-                    
-                    categoryFields.forEach(el => {
-                        if (el.value && el.value.trim() !== '') filledCount++;
+
+                    // 3. Count visible select dropdowns
+                    const hiddenInputs = form.querySelectorAll('input[type="hidden"][data-category-field]');
+                    hiddenInputs.forEach(el => {
+                        if (el.name === 'category' || el.name === 'address') return;
+                        if (!this.isVisible(el.parentElement)) return;
+                        totalQuestions++;
+                        if (el.value && el.value.trim() !== '') filledQuestions++;
                     });
-                    
-                    // Check files (either existing or new)
-                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledCount++;
-                    return Math.round((filledCount / totalFields) * 100);
+
+                    // 4. Count radio groups
+                    const radioNames = new Set();
+                    form.querySelectorAll('input[type="radio"][data-category-field]').forEach(el => {
+                        if (!this.isVisible(el)) return;
+                        radioNames.add(el.name);
+                    });
+                    radioNames.forEach(name => {
+                        totalQuestions++;
+                        const checked = form.querySelector(`input[type="radio"][name="${name}"]:checked`);
+                        if (checked) filledQuestions++;
+                    });
+
+                    // 5. Count checkbox groups
+                    const cbNames = new Set();
+                    form.querySelectorAll('input[type="checkbox"][data-category-field]').forEach(el => {
+                        if (!this.isVisible(el)) return;
+                        cbNames.add(el.name.replace('[]', ''));
+                    });
+                    cbNames.forEach(name => {
+                        totalQuestions++;
+                        const checked = form.querySelector(`input[type="checkbox"][name^="${name}"]:checked`);
+                        if (checked) filledQuestions++;
+                    });
+
+                    // 6. Check files (either existing or new)
+                    totalQuestions++;
+                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledQuestions++;
+
+                    if (totalQuestions === 0) return 0;
+                    return Math.min(100, Math.round((filledQuestions / totalQuestions) * 100));
+                },
+
+                isVisible(el) {
+                    if (!el) return false;
+                    let current = el;
+                    while (current && current !== document.body) {
+                        const style = window.getComputedStyle(current);
+                        if (style.display === 'none') return false;
+                        current = current.parentElement;
+                    }
+                    return true;
                 },
 
                 openConfirm() {

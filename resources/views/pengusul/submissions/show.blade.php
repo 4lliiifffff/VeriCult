@@ -95,28 +95,87 @@
                                 </div>
                             </div>
 
-                            <!-- Category-Specific Data -->
-                            @if(!empty($categoryFields) && !empty($submission->category_data))
+                            {{-- Category-Specific Data --}}
+                            @if(!empty($submission->category_data))
                             <div class="space-y-6">
                                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
                                     <span class="shrink-0">Detail {{ $submission->category }}</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
                                 <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] p-8 border border-slate-100">
+                                    @php
+                                        $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                                        $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+                                    @endphp
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        @foreach($categoryFields as $fieldKey => $field)
-                                            @if(!empty($submission->category_data[$fieldKey]))
-                                            <div class="space-y-1 {{ $field['type'] === 'textarea' ? 'sm:col-span-2' : '' }}">
-                                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] }}</p>
-                                                @if($field['type'] === 'textarea')
-                                                    <p class="text-slate-700 font-medium text-sm leading-relaxed whitespace-pre-wrap">{{ $submission->category_data[$fieldKey] }}</p>
-                                                @else
-                                                    <p class="text-slate-700 font-bold text-base">{{ $submission->category_data[$fieldKey] }}</p>
-                                                @endif
-                                            </div>
+                                        @foreach($submission->category_data as $dataKey => $dataValue)
+                                            @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))
+                                                @php
+                                                    $fieldDef = $flatFields[$dataKey] ?? null;
+                                                    $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+                                                    $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
+                                                @endphp
+                                                <div class="space-y-1 {{ $isWide ? 'sm:col-span-2' : '' }}">
+                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $fieldLabel }}</p>
+                                                    @if(is_array($dataValue))
+                                                        @if(isset($dataValue[0]) && is_array($dataValue[0]))
+                                                            {{-- Dynamic table data --}}
+                                                            <div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
+                                                                <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
+                                                                    @foreach(array_keys($dataValue[0]) as $colKey)
+                                                                        <div class="px-4 py-2 text-xs font-bold text-slate-500 uppercase">{{ str_replace('_', ' ', $colKey) }}</div>
+                                                                    @endforeach
+                                                                </div>
+                                                                @foreach($dataValue as $row)
+                                                                    <div class="grid gap-0 border-b border-slate-50" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
+                                                                        @foreach($row as $cellValue)
+                                                                            <div class="px-4 py-2 text-sm font-medium text-slate-700">{{ $cellValue }}</div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        @else
+                                                            {{-- Checkbox array --}}
+                                                            <div class="flex flex-wrap gap-2">
+                                                                @foreach($dataValue as $item)
+                                                                    <span class="px-3 py-1 bg-[#0077B6]/10 text-[#0077B6] rounded-lg text-sm font-bold">{{ $item }}</span>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+                                                    @else
+                                                        <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-sm leading-relaxed whitespace-pre-wrap' : 'bold text-base' }}">{{ $dataValue }}</p>
+                                                    @endif
+                                                </div>
                                             @endif
                                         @endforeach
                                     </div>
+
+                                    {{-- UNESCO Categories --}}
+                                    @if(!empty($submission->category_data['unesco_categories']))
+                                        <div class="mt-6 pt-6 border-t border-slate-100">
+                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Kategori UNESCO</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                @foreach($submission->category_data['unesco_categories'] as $unescoCat)
+                                                    <span class="px-3 py-1 bg-blue-50 text-[#03045E] rounded-lg text-sm font-bold border border-blue-100">{{ $unescoCat }}</span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    {{-- Data Dukung URLs --}}
+                                    @if(!empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url']))
+                                        <div class="mt-6 pt-6 border-t border-slate-100 space-y-3">
+                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Data Dukung (URL)</p>
+                                            @foreach(['video_url' => 'Video', 'dokumen_kajian_url' => 'Dokumen Kajian', 'dokumen_lainnya_url' => 'Dokumen Lainnya'] as $urlKey => $urlLabel)
+                                                @if(!empty($submission->category_data[$urlKey]))
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="text-xs font-bold text-slate-500 w-32 shrink-0">{{ $urlLabel }}:</span>
+                                                        <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" class="text-sm text-[#0077B6] font-medium hover:underline truncate">{{ $submission->category_data[$urlKey] }}</a>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             @endif

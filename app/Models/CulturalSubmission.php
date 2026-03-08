@@ -104,85 +104,52 @@ class CulturalSubmission extends Model
     ];
 
     /**
-     * Get category-specific fields definition
+     * Get category-specific fields definition (full config with sub-categories)
      */
     public static function getCategoryFields(string $category): array
     {
-        return match($category) {
-            self::CATEGORY_TRADISI_LISAN => [
-                'jenis_tradisi' => ['label' => 'Jenis Tradisi', 'type' => 'select', 'options' => ['Pantun', 'Cerita Rakyat', 'Sejarah Lisan', 'Legenda', 'Mitos', 'Dongeng', 'Pepatah/Peribahasa', 'Lainnya'], 'placeholder' => 'Pilih jenis tradisi'],
-                'bahasa_tutur' => ['label' => 'Bahasa Tutur', 'type' => 'text', 'placeholder' => 'Bahasa yang digunakan dalam penuturan'],
-                'penutur_narasumber' => ['label' => 'Penutur / Narasumber', 'type' => 'text', 'placeholder' => 'Nama penutur atau narasumber'],
-                'daerah_asal' => ['label' => 'Daerah Asal', 'type' => 'text', 'placeholder' => 'Daerah asal tradisi lisan ini'],
-                'konten_tuturan' => ['label' => 'Konten Tuturan', 'type' => 'textarea', 'placeholder' => 'Isi atau ringkasan dari tuturan'],
-            ],
-            self::CATEGORY_MANUSKRIP => [
-                'jenis_naskah' => ['label' => 'Jenis Naskah', 'type' => 'select', 'options' => ['Babad', 'Serat', 'Catatan Sejarah', 'Kitab', 'Prasasti', 'Lainnya'], 'placeholder' => 'Pilih jenis naskah'],
-                'bahasa_naskah' => ['label' => 'Bahasa Naskah', 'type' => 'text', 'placeholder' => 'Bahasa yang digunakan dalam naskah'],
-                'aksara' => ['label' => 'Jenis Aksara', 'type' => 'text', 'placeholder' => 'Jenis aksara (Jawa, Arab Melayu, dll.)'],
-                'tahun_perkiraan' => ['label' => 'Tahun Perkiraan', 'type' => 'text', 'placeholder' => 'Perkiraan tahun penulisan'],
-                'kondisi_fisik' => ['label' => 'Kondisi Fisik', 'type' => 'select', 'options' => ['Baik', 'Cukup Baik', 'Rusak Ringan', 'Rusak Berat', 'Fragmentaris'], 'placeholder' => 'Pilih kondisi fisik'],
-                'pemilik_penyimpan' => ['label' => 'Pemilik / Penyimpan', 'type' => 'text', 'placeholder' => 'Individu atau lembaga penyimpan'],
-            ],
-            self::CATEGORY_ADAT_ISTIADAT => [
-                'jenis_adat' => ['label' => 'Jenis Adat', 'type' => 'select', 'options' => ['Upacara Adat', 'Hukum Adat', 'Tata Kelola Lingkungan', 'Penyelesaian Sengketa', 'Adat Pernikahan', 'Adat Kematian', 'Lainnya'], 'placeholder' => 'Pilih jenis adat'],
-                'komunitas_pelaksana' => ['label' => 'Komunitas Pelaksana', 'type' => 'text', 'placeholder' => 'Suku/komunitas yang melaksanakan'],
-                'waktu_pelaksanaan' => ['label' => 'Waktu Pelaksanaan', 'type' => 'text', 'placeholder' => 'Kapan adat ini dilaksanakan'],
-                'fungsi_sosial' => ['label' => 'Fungsi Sosial', 'type' => 'textarea', 'placeholder' => 'Fungsi dan peran adat dalam masyarakat'],
-            ],
-            self::CATEGORY_RITUS => [
-                'nama_upacara' => ['label' => 'Nama Upacara', 'type' => 'text', 'placeholder' => 'Nama upacara atau ritual'],
-                'agama_kepercayaan' => ['label' => 'Agama / Kepercayaan', 'type' => 'text', 'placeholder' => 'Agama atau sistem kepercayaan terkait'],
-                'waktu_pelaksanaan' => ['label' => 'Waktu Pelaksanaan', 'type' => 'text', 'placeholder' => 'Waktu atau musim pelaksanaan ritual'],
-                'peralatan' => ['label' => 'Peralatan yang Digunakan', 'type' => 'textarea', 'placeholder' => 'Daftar peralatan atau sesaji yang diperlukan'],
-                'makna_filosofis' => ['label' => 'Makna Filosofis', 'type' => 'textarea', 'placeholder' => 'Makna dan filosofi di balik ritual ini'],
-            ],
-            self::CATEGORY_PENGETAHUAN_TRADISIONAL => [
-                'jenis_pengetahuan' => ['label' => 'Jenis Pengetahuan', 'type' => 'select', 'options' => ['Obat Tradisional', 'Jamu', 'Makanan Lokal', 'Pertanian', 'Perikanan', 'Astronomi Tradisional', 'Lainnya'], 'placeholder' => 'Pilih jenis pengetahuan'],
-                'bahan_material' => ['label' => 'Bahan / Material', 'type' => 'textarea', 'placeholder' => 'Bahan-bahan yang digunakan'],
-                'kegunaan' => ['label' => 'Kegunaan', 'type' => 'textarea', 'placeholder' => 'Manfaat atau kegunaan pengetahuan ini'],
-                'cara_pembuatan' => ['label' => 'Cara Pembuatan / Pengolahan', 'type' => 'textarea', 'placeholder' => 'Langkah-langkah pembuatan atau pengolahan'],
-            ],
-            self::CATEGORY_TEKNOLOGI_TRADISIONAL => [
-                'jenis_teknologi' => ['label' => 'Jenis Teknologi', 'type' => 'select', 'options' => ['Alat Pertanian', 'Metode Irigasi', 'Rumah Adat', 'Alat Transportasi', 'Alat Kerajinan', 'Lainnya'], 'placeholder' => 'Pilih jenis teknologi'],
-                'bahan_material' => ['label' => 'Bahan Material', 'type' => 'textarea', 'placeholder' => 'Material yang digunakan dalam pembuatan'],
-                'fungsi' => ['label' => 'Fungsi', 'type' => 'textarea', 'placeholder' => 'Fungsi dan kegunaan teknologi ini'],
-                'cara_penggunaan' => ['label' => 'Cara Penggunaan', 'type' => 'textarea', 'placeholder' => 'Cara menggunakan teknologi ini'],
-            ],
-            self::CATEGORY_SENI => [
-                'jenis_seni' => ['label' => 'Jenis Seni', 'type' => 'select', 'options' => ['Seni Rupa', 'Seni Pertunjukan', 'Seni Sastra', 'Seni Film', 'Seni Musik', 'Seni Tari', 'Seni Media', 'Lainnya'], 'placeholder' => 'Pilih jenis seni'],
-                'media_alat' => ['label' => 'Media / Alat', 'type' => 'text', 'placeholder' => 'Media atau alat yang digunakan'],
-                'komunitas_seniman' => ['label' => 'Komunitas / Seniman', 'type' => 'text', 'placeholder' => 'Komunitas atau seniman yang terkait'],
-                'sejarah_perkembangan' => ['label' => 'Sejarah Perkembangan', 'type' => 'textarea', 'placeholder' => 'Sejarah dan perkembangan seni ini'],
-            ],
-            self::CATEGORY_BAHASA => [
-                'nama_bahasa' => ['label' => 'Nama Bahasa', 'type' => 'text', 'placeholder' => 'Nama bahasa daerah atau isyarat'],
-                'jumlah_penutur' => ['label' => 'Jumlah Penutur', 'type' => 'text', 'placeholder' => 'Perkiraan jumlah penutur aktif'],
-                'aksara_tulisan' => ['label' => 'Aksara / Tulisan', 'type' => 'text', 'placeholder' => 'Sistem aksara atau tulisan yang digunakan'],
-                'klasifikasi_linguistik' => ['label' => 'Klasifikasi Linguistik', 'type' => 'text', 'placeholder' => 'Rumpun atau keluarga bahasa'],
-                'status_bahasa' => ['label' => 'Status Bahasa', 'type' => 'select', 'options' => ['Aman', 'Rentan', 'Terancam', 'Sangat Terancam', 'Hampir Punah', 'Punah'], 'placeholder' => 'Pilih status bahasa'],
-            ],
-            self::CATEGORY_PERMAINAN_RAKYAT => [
-                'jumlah_pemain' => ['label' => 'Jumlah Pemain', 'type' => 'text', 'placeholder' => 'Jumlah pemain yang dibutuhkan'],
-                'peralatan' => ['label' => 'Peralatan', 'type' => 'textarea', 'placeholder' => 'Peralatan yang diperlukan'],
-                'aturan_permainan' => ['label' => 'Aturan Permainan', 'type' => 'textarea', 'placeholder' => 'Aturan dan cara bermain'],
-                'usia_pemain' => ['label' => 'Usia Pemain', 'type' => 'text', 'placeholder' => 'Rentang usia pemain (misal: 5-12 tahun)'],
-            ],
-            self::CATEGORY_OLAHRAGA_TRADISIONAL => [
-                'jenis_olahraga' => ['label' => 'Jenis Olahraga', 'type' => 'select', 'options' => ['Bela Diri', 'Ketangkasan', 'Kekuatan', 'Kecepatan', 'Strategi', 'Lainnya'], 'placeholder' => 'Pilih jenis olahraga'],
-                'peralatan' => ['label' => 'Peralatan', 'type' => 'textarea', 'placeholder' => 'Peralatan yang digunakan'],
-                'aturan' => ['label' => 'Aturan', 'type' => 'textarea', 'placeholder' => 'Aturan dan tata cara olahraga'],
-                'kejuaraan_event' => ['label' => 'Kejuaraan / Event', 'type' => 'text', 'placeholder' => 'Event atau kejuaraan yang terkait'],
-            ],
-            self::CATEGORY_CAGAR_BUDAYA => [
-                'jenis_objek' => ['label' => 'Jenis Objek', 'type' => 'select', 'options' => ['Candi', 'Benteng', 'Istana/Keraton', 'Makam', 'Situs Arkeologi', 'Benda Bersejarah', 'Keris', 'Prasasti', 'Lainnya'], 'placeholder' => 'Pilih jenis objek'],
-                'periode_sejarah' => ['label' => 'Periode Sejarah', 'type' => 'text', 'placeholder' => 'Periode atau era sejarah'],
-                'kondisi' => ['label' => 'Kondisi', 'type' => 'select', 'options' => ['Baik', 'Cukup Baik', 'Rusak Ringan', 'Rusak Berat', 'Reruntuhan'], 'placeholder' => 'Pilih kondisi'],
-                'dimensi_ukuran' => ['label' => 'Dimensi / Ukuran', 'type' => 'text', 'placeholder' => 'Ukuran atau dimensi objek'],
-                'bahan_material' => ['label' => 'Bahan Material', 'type' => 'text', 'placeholder' => 'Material utama objek'],
-            ],
-            default => [],
-        };
+        $allConfig = config('category_fields', []);
+        $config = $allConfig[$category] ?? null;
+
+        if (!$config) {
+            return [];
+        }
+
+        // If has sub-categories, return the full config structure
+        if (!empty($config['has_sub'])) {
+            return $config;
+        }
+
+        // For categories without sub, return fields directly (backward compat)
+        return $config['fields'] ?? [];
+    }
+
+    /**
+     * Get flat fields for a category (resolves sub-category if needed)
+     * Used for validation and display in show.blade.php
+     */
+    public static function getFlatCategoryFields(string $category, ?string $subCategory = null): array
+    {
+        $allConfig = config('category_fields', []);
+        $config = $allConfig[$category] ?? null;
+
+        if (!$config) {
+            return [];
+        }
+
+        if (!empty($config['has_sub'])) {
+            if ($subCategory && isset($config['fields'][$subCategory])) {
+                return $config['fields'][$subCategory];
+            }
+            // Return all fields merged if no sub-category specified
+            $merged = [];
+            foreach ($config['fields'] as $subFields) {
+                $merged = array_merge($merged, $subFields);
+            }
+            return $merged;
+        }
+
+        return $config['fields'] ?? [];
     }
 
     /**
