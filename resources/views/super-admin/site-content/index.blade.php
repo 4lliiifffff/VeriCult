@@ -1,27 +1,27 @@
 <x-layouts.super-admin>
     <x-slot name="header">
         <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('super-admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Kelola Konten Website</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-2">
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                        <span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
                             Kelola Konten Website
                         </span>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
                         Kelola <span class="text-[#00B4D8]">Konten Website</span>
                     </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">Pilih halaman yang ingin Anda perbarui kontennya secara dinamis.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Pilih halaman yang ingin Anda perbarui kontennya secara dinamis.</p>
                 </div>
             </div>
         </div>
@@ -39,9 +39,9 @@
     @endif
 
     <!-- Page Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         @foreach($pages as $slug => $label)
-        <div class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/50 hover:-translate-y-2 transition-all duration-500">
+        <div class="group bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 border border-slate-100 shadow-xl shadow-slate-200/50 hover:-translate-y-2 transition-all duration-500">
             <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#0077B6] group-hover:text-white transition-all duration-500 shadow-inner">
                 @if($slug === 'beranda')
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
@@ -62,7 +62,7 @@
             </p>
             
             <a href="{{ route('super-admin.site-content.edit', $slug) }}" 
-               class="inline-flex items-center gap-3 bg-[#03045E] text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] hover:scale-105 transition-all shadow-xl shadow-blue-900/10">
+               class="inline-flex items-center justify-center gap-3 bg-[#03045E] text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] hover:scale-105 transition-all shadow-xl shadow-blue-900/10 active:scale-95 w-full sm:w-auto">
                 Kelola Konten
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7"></path></svg>
             </a>

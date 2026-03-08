@@ -6,7 +6,7 @@
             <span class="text-[#03045E]">Antrian Validasi</span>
         </nav>
 
-        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
@@ -17,10 +17,10 @@
                             Antrian Validasi
                         </span>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
                         Antrian <span class="text-[#00B4D8]">Validasi</span>
                     </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">Kelola dan review seluruh pengajuan kebudayaan yang masuk.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Kelola dan review seluruh pengajuan kebudayaan yang masuk.</p>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
     <div class="space-y-8 pb-12">
         <!-- Filter Card -->
-        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-10">
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-10">
             <form action="{{ route('validator.submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Status</label>
@@ -64,9 +64,9 @@
         </div>
 
         <!-- List Table -->
-        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse min-w-max">
                     <thead>
                         <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                             <th class="px-10 py-6">Kebudayaan</th>

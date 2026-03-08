@@ -9,15 +9,15 @@
             <span class="text-[#03045E] truncate max-w-[150px] sm:max-w-none">{{ $submission->name }}</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div class="space-y-3">
-                <div class="flex items-center gap-3">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+            <div class="space-y-3 w-full md:w-auto">
+                <div class="flex flex-wrap items-center gap-3">
                     <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-{{ $submission->status_color }}-50 text-{{ $submission->status_color }}-600 border border-{{ $submission->status_color }}-100 shadow-sm">
                         {{ $submission->status_label }}
                     </span>
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                 </div>
-                <h2 class="font-black text-4xl text-[#03045E] leading-tight tracking-tight">
+                <h2 class="font-black text-3xl sm:text-4xl text-[#03045E] leading-tight tracking-tight break-words">
                     {{ $submission->name }}
                 </h2>
                 <div class="flex items-center gap-2 text-slate-500 font-bold text-sm">
@@ -27,8 +27,8 @@
                     <span>{{ $submission->category }}</span>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="{{ route('pengusul.submissions.index') }}" class="inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50">
+            <div class="flex items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
+                <a href="{{ route('pengusul.submissions.index') }}" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Kembali
                 </a>
@@ -59,8 +59,8 @@
             <div class="lg:col-span-8 space-y-10">
                 
                 <!-- Main Details Card -->
-                <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative">
-                    <div class="p-10 sm:p-14">
+                <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative">
+                    <div class="p-6 sm:p-14">
                         <!-- Location & Details Section -->
                         <div class="space-y-12">
                             <!-- Location -->
@@ -69,13 +69,13 @@
                                     <span class="shrink-0">Lokasi & Asal Objek</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
-                                <div class="flex items-start gap-6 p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100 group">
-                                    <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#0077B6] shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-6 sm:p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100 group">
+                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#0077B6] shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     </div>
-                                    <div class="pt-2">
+                                    <div class="pt-1 sm:pt-2 w-full">
                                         <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Alamat Lengkap</p>
-                                        <p class="text-slate-700 font-bold text-lg leading-relaxed">{{ $submission->address }}</p>
+                                        <p class="text-slate-700 font-bold text-base sm:text-lg leading-relaxed break-words">{{ $submission->address }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -86,9 +86,9 @@
                                     <span class="shrink-0">Narasi Kebudayaan</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
-                                <div class="p-10 rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
-                                    <div class="prose prose-slate max-w-none w-full break-words break-all">
-                                        <p class="text-slate-700 leading-[2] font-medium text-lg italic">
+                                <div class="p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
+                                    <div class="prose prose-slate max-w-none w-full break-words">
+                                        <p class="text-slate-700 leading-[1.8] sm:leading-[2] font-medium text-base sm:text-lg italic">
                                             "{{ $submission->description }}"
                                         </p>
                                     </div>
@@ -136,9 +136,9 @@
                                                             </div>
                                                         @else
                                                             {{-- Checkbox array --}}
-                                                            <div class="flex flex-wrap gap-2">
+                                                            <div class="flex flex-wrap gap-2 mt-2">
                                                                 @foreach($dataValue as $item)
-                                                                    <span class="px-3 py-1 bg-[#0077B6]/10 text-[#0077B6] rounded-lg text-sm font-bold">{{ $item }}</span>
+                                                                    <span class="px-3 py-1.5 bg-[#0077B6]/10 text-[#0077B6] rounded-lg text-xs sm:text-sm font-bold">{{ $item }}</span>
                                                                 @endforeach
                                                             </div>
                                                         @endif
@@ -168,9 +168,9 @@
                                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Data Dukung (URL)</p>
                                             @foreach(['video_url' => 'Video', 'dokumen_kajian_url' => 'Dokumen Kajian', 'dokumen_lainnya_url' => 'Dokumen Lainnya'] as $urlKey => $urlLabel)
                                                 @if(!empty($submission->category_data[$urlKey]))
-                                                    <div class="flex items-center gap-3">
-                                                        <span class="text-xs font-bold text-slate-500 w-32 shrink-0">{{ $urlLabel }}:</span>
-                                                        <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" class="text-sm text-[#0077B6] font-medium hover:underline truncate">{{ $submission->category_data[$urlKey] }}</a>
+                                                    <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                                        <span class="text-[11px] sm:text-xs font-bold text-slate-500 w-full sm:w-32 shrink-0">{{ $urlLabel }}:</span>
+                                                        <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" class="text-xs sm:text-sm text-[#0077B6] font-medium hover:underline break-all">{{ $submission->category_data[$urlKey] }}</a>
                                                     </div>
                                                 @endif
                                             @endforeach
@@ -235,23 +235,23 @@
                         </div>
 
                         <!-- Submission Meta -->
-                        <div class="mt-16 pt-10 border-t border-slate-50 flex flex-wrap gap-10">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0077B6] border border-slate-100 shadow-sm">
+                        <div class="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-slate-50 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
+                            <div class="flex items-start sm:items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0077B6] border border-slate-100 shadow-sm shrink-0">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </div>
-                                <div>
+                                <div class="min-w-0">
                                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Didaftarkan Pada</p>
-                                    <p class="text-sm font-black text-slate-600 tracking-tight">{{ $submission->created_at->translatedFormat('d F Y') }} <span class="text-slate-300 font-medium">pukul</span> {{ $submission->created_at->format('H:i') }}</p>
+                                    <p class="text-xs sm:text-sm font-black text-slate-600 tracking-tight break-words">{{ $submission->created_at->translatedFormat('d F Y') }} <span class="text-slate-300 font-medium">pukul</span> {{ $submission->created_at->format('H:i') }}</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0077B6] border border-slate-100 shadow-sm">
+                            <div class="flex items-start sm:items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0077B6] border border-slate-100 shadow-sm shrink-0">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                                 </div>
-                                <div>
+                                <div class="min-w-0">
                                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Terakhir Diperbarui</p>
-                                    <p class="text-sm font-black text-slate-600 tracking-tight">{{ $submission->updated_at->translatedFormat('d F Y') }} <span class="text-slate-300 font-medium">pukul</span> {{ $submission->updated_at->format('H:i') }}</p>
+                                    <p class="text-xs sm:text-sm font-black text-slate-600 tracking-tight break-words">{{ $submission->updated_at->translatedFormat('d F Y') }} <span class="text-slate-300 font-medium">pukul</span> {{ $submission->updated_at->format('H:i') }}</p>
                                 </div>
                             </div>
                         </div>

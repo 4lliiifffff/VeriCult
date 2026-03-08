@@ -1,5 +1,5 @@
 <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
-    <div class="flex items-center justify-between px-8 h-16">
+    <div class="flex items-center justify-between px-4 sm:px-8 h-16">
         <!-- Sidebar Toggle (Mobile) -->
         <div class="flex items-center gap-4 lg:hidden">
             <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-[#0077B6] hover:bg-blue-50 transition-colors">

@@ -68,7 +68,7 @@
                 
                 <!-- Auth Buttons -->
                 <div class="flex items-center space-x-4 md:space-x-6">
-                    <div class="hidden sm:flex items-center space-x-4 md:space-x-6">
+                    <div class="hidden sm:flex items-center gap-3 sm:gap-4 md:gap-6">
                         @if (Route::has('login'))
                             @auth
                                 <a href="{{ url('/dashboard') }}" class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white px-6 md:px-8 py-2.5 rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-500/20 hover:shadow-xl hover:scale-105 transition-all duration-300">Dashboard</a>
@@ -81,20 +81,60 @@
                             @endauth
                         @endif
                     </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden transition-colors duration-300 p-2 rounded-xl"
+                            :class="scrolled || mobileMenu ? 'text-[#03045E] hover:bg-[#F8FAFC]' : 'text-white hover:bg-white/10'"
+                            @click="mobileMenu = !mobileMenu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!mobileMenu">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="mobileMenu" x-cloak>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Mobile Navigation Dropdown -->
+                <div class="absolute top-full left-0 right-0 mt-2 p-4 premium-glass rounded-[2rem] shadow-2xl md:hidden origin-top transition-all duration-300"
+                     x-show="mobileMenu"
+                     x-transition:enter="ease-out duration-300"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="ease-in duration-200"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     x-cloak>
+                    <div class="flex flex-col space-y-4 p-4 text-center">
+                        <a href="{{ route('beranda') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Beranda</a>
+                        <a href="{{ route('tentang') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Tentang</a>
+                        <a href="{{ route('fitur') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Fitur</a>
+                        <a href="{{ route('profil-kebudayaan.index') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Profil Budaya</a>
+                        <div class="pt-4 border-t border-[#03045E]/10 flex flex-col space-y-4 sm:hidden">
+                            @if (Route::has('login'))
+                                @auth
+                                    <a href="{{ url('/dashboard') }}" class="premium-gradient text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em]">Dashboard</a>
+                                @else
+                                    <a href="{{ route('login') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]">Masuk</a>
+                                    <a href="{{ route('register') }}" class="bg-white text-[#03045E] py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] border border-[#03045E]/10 shadow-lg">Daftar</a>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Header Section -->
-    <section class="premium-gradient pt-40 pb-24 relative overflow-hidden">
+    <section class="premium-gradient pt-32 sm:pt-40 pb-16 sm:pb-24 relative overflow-hidden">
         <div class="absolute inset-0 hero-pattern opacity-10"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-4 py-1.5 bg-white/10 backdrop-blur-xl rounded-full text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
+            <div class="inline-flex items-center px-4 py-1.5 bg-white/10 backdrop-blur-xl rounded-full text-white text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
                 Eksplorasi Budaya Nusantara
             </div>
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Kebudayaan Indonesia</span></h1>
-            <p class="text-lg text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Kebudayaan Indonesia</span></h1>
+            <p class="text-sm sm:text-base md:text-lg text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
                 Temukan kekayaan tradisi, seni, dan warisan budaya yang telah tervalidasi oleh tim ahli VeriCult.
             </p>
         </div>
@@ -127,8 +167,8 @@
                     @endif
                     
                     <!-- Year Filter -->
-                    <div class="relative min-w-[200px]">
-                        <select name="year" onchange="this.form.submit()" class="w-full bg-white border-2 border-slate-100 rounded-[2rem] px-6 py-5 text-[#03045E] font-black uppercase tracking-widest text-[10px] hover:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm appearance-none cursor-pointer">
+                    <div class="relative min-w-full md:min-w-[200px]">
+                        <select name="year" onchange="this.form.submit()" class="w-full bg-white border-2 border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] px-6 py-4 sm:py-5 text-[#03045E] font-black uppercase tracking-widest text-[9px] sm:text-[10px] hover:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm appearance-none cursor-pointer">
                             @if(empty($availableYears))
                                 <option value="{{ date('Y') }}">Periode {{ date('Y') }}</option>
                             @else
@@ -147,8 +187,8 @@
                     <!-- Search Input -->
                     <div class="relative flex-1 group">
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
-                               class="w-full h-full bg-white border-2 border-slate-100 rounded-[2rem] pl-8 pr-32 py-5 text-slate-700 font-bold focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm">
-                        <button type="submit" class="absolute right-2 top-2 bottom-2 px-8 bg-[#03045E] text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
+                               class="w-full h-full bg-white border-2 border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] pl-6 pr-28 sm:pl-8 sm:pr-32 py-4 sm:py-5 text-slate-700 font-bold text-sm sm:text-base focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm">
+                        <button type="submit" class="absolute right-2 top-2 bottom-2 px-6 sm:px-8 bg-[#03045E] text-white rounded-[1rem] sm:rounded-[1.5rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
                             Cari
                         </button>
                     </div>
@@ -185,9 +225,9 @@
                     </div>
 
                     <!-- Content -->
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="text-xl font-black text-[#03045E] mb-3 line-clamp-1 capitalize">{{ $submission->name }}</h3>
-                        <p class="text-slate-500 text-sm font-medium line-clamp-3 mb-6 leading-relaxed">
+                    <div class="p-6 sm:p-8 flex flex-col flex-grow">
+                        <h3 class="text-lg sm:text-xl font-black text-[#03045E] mb-3 line-clamp-1 capitalize">{{ $submission->name }}</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm font-medium line-clamp-3 mb-6 leading-relaxed">
                             {{ $submission->description }}
                         </p>
                         

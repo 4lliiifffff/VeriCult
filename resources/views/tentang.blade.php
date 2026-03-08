@@ -59,7 +59,7 @@
                 </div>
                 
                 <div class="flex items-center space-x-4 md:space-x-6">
-                    <div class="hidden sm:flex items-center space-x-4 md:space-x-6">
+                    <div class="hidden sm:flex items-center gap-3 sm:gap-4 md:gap-6">
                         @if (Route::has('login'))
                             @auth
                                 <a href="{{ url('/dashboard') }}" class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white px-6 md:px-8 py-2.5 rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-500/20 hover:shadow-xl hover:scale-105 transition-all duration-300">Dashboard</a>
@@ -72,22 +72,62 @@
                             @endauth
                         @endif
                     </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden transition-colors duration-300 p-2 rounded-xl"
+                            :class="scrolled || mobileMenu ? 'text-[#03045E] hover:bg-[#F8FAFC]' : 'text-white hover:bg-white/10'"
+                            @click="mobileMenu = !mobileMenu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!mobileMenu">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="mobileMenu" x-cloak>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Mobile Navigation Dropdown -->
+                <div class="absolute top-full left-0 right-0 mt-2 p-4 premium-glass rounded-[2rem] shadow-2xl md:hidden origin-top transition-all duration-300"
+                     x-show="mobileMenu"
+                     x-transition:enter="ease-out duration-300"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="ease-in duration-200"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     x-cloak>
+                    <div class="flex flex-col space-y-4 p-4 text-center">
+                        <a href="{{ route('beranda') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Beranda</a>
+                        <a href="{{ route('tentang') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Tentang</a>
+                        <a href="{{ route('fitur') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Fitur</a>
+                        <a href="{{ route('profil-kebudayaan.index') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]" @click="mobileMenu = false">Profil Budaya</a>
+                        <div class="pt-4 border-t border-[#03045E]/10 flex flex-col space-y-4 sm:hidden">
+                            @if (Route::has('login'))
+                                @auth
+                                    <a href="{{ url('/dashboard') }}" class="premium-gradient text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em]">Dashboard</a>
+                                @else
+                                    <a href="{{ route('login') }}" class="text-sm font-black uppercase tracking-widest text-[#03045E]">Masuk</a>
+                                    <a href="{{ route('register') }}" class="bg-white text-[#03045E] py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] border border-[#03045E]/10 shadow-lg">Daftar</a>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero -->
-    <section class="premium-gradient pt-40 pb-20 relative overflow-hidden">
+    <section class="premium-gradient pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
         <div class="absolute inset-0 hero-pattern opacity-10"></div>
         <div class="absolute -top-24 -right-1/4 w-[400px] h-[400px] bg-[#00B4D8] rounded-full blur-[80px] opacity-15"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
+            <div class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
                 <span class="w-2 h-2 bg-[#00B4D8] rounded-full mr-3"></span>
                 {{ $content['hero_badge'] ?? 'Tentang Platform' }}
             </div>
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">{!! $content['hero_title'] ?? 'Misi Kami Untuk<br>Pelestarian Budaya Indonesia' !!}</h1>
-            <p class="text-base md:text-xl text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">{!! $content['hero_title'] ?? 'Misi Kami Untuk<br>Pelestarian Budaya Indonesia' !!}</h1>
+            <p class="text-sm sm:text-base md:text-xl text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
                 {{ $content['hero_subtitle'] ?? 'VeriCult adalah sistem digital inovatif yang dirancang untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia.' }}
             </p>
         </div>
@@ -98,33 +138,33 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="relative reveal reveal-left">
-                    <div class="premium-glass rounded-[3rem] p-10 shadow-2xl relative z-10 overflow-hidden">
-                        <div class="relative z-10 space-y-8">
-                            <div class="flex items-center space-x-6 p-6 rounded-3xl bg-white/50 border border-white/40 shadow-sm hover:shadow-md transition-all">
-                                <div class="w-14 h-14 bg-gradient-to-br from-[#03045E] to-[#023E8A] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-900/20">
-                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <div class="premium-glass rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl relative z-10 overflow-hidden">
+                        <div class="relative z-10 space-y-6 sm:space-y-8">
+                            <div class="flex items-center space-x-4 sm:space-x-6 p-4 sm:p-6 rounded-[1.5rem] sm:rounded-3xl bg-white/50 border border-white/40 shadow-sm hover:shadow-md transition-all">
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#03045E] to-[#023E8A] rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-900/20">
+                                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1">Pengajuan Digital</h4>
-                                    <p class="text-[10px] text-[#03045E]/60 font-bold uppercase tracking-widest">Efisien, transparan & terdata</p>
+                                    <h4 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1">Pengajuan Digital</h4>
+                                    <p class="text-[8px] sm:text-[10px] text-[#03045E]/60 font-bold uppercase tracking-widest">Efisien, transparan & terdata</p>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-6 p-6 rounded-3xl bg-white/50 border border-white/40 shadow-sm hover:shadow-md transition-all">
-                                <div class="w-14 h-14 bg-gradient-to-br from-[#0077B6] to-[#00B4D8] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
-                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                            <div class="flex items-center space-x-4 sm:space-x-6 p-4 sm:p-6 rounded-[1.5rem] sm:rounded-3xl bg-white/50 border border-white/40 shadow-sm hover:shadow-md transition-all">
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0077B6] to-[#00B4D8] rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
+                                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1">Validasi Berjenjang</h4>
-                                    <p class="text-[10px] text-[#03045E]/60 font-bold uppercase tracking-widest">Verifikasi multi-level akurat</p>
+                                    <h4 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1">Validasi Berjenjang</h4>
+                                    <p class="text-[8px] sm:text-[10px] text-[#03045E]/60 font-bold uppercase tracking-widest">Verifikasi multi-level akurat</p>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-6 p-6 rounded-3xl bg-white/50 border border-white/40 shadow-sm hover:shadow-md transition-all">
-                                <div class="w-14 h-14 bg-gradient-to-br from-[#48CAE4] to-[#90E0EF] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-400/20">
+                            <div class="flex items-center space-x-4 sm:space-x-6 p-4 sm:p-6 rounded-[1.5rem] sm:rounded-3xl bg-white/50 border border-white/40 shadow-sm hover:shadow-md transition-all">
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#48CAE4] to-[#90E0EF] rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-400/20">
                                     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1">Sertifikasi Digital</h4>
-                                    <p class="text-[10px] text-[#03045E]/60 font-bold uppercase tracking-widest">Sertifikat terverifikasi sistem</p>
+                                    <h4 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1">Sertifikasi Digital</h4>
+                                    <p class="text-[8px] sm:text-[10px] text-[#03045E]/60 font-bold uppercase tracking-widest">Sertifikat terverifikasi sistem</p>
                                 </div>
                             </div>
                         </div>
@@ -139,22 +179,22 @@
                         {{ $content['about_description'] ?? 'VeriCult adalah platform digital terintegrasi yang dirancang khusus untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia. Kami berkomitmen menjaga otentisitas data melalui teknologi mutakhir dan sistem verifikasi berjenjang.' }}
                     </p>
                     <div class="space-y-6">
-                        <div class="flex items-start bg-[#F8FAFC] p-8 rounded-[2rem] border border-slate-100 transition-all hover:bg-white hover:shadow-xl group">
+                        <div class="flex items-start bg-[#F8FAFC] p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 transition-all hover:bg-white hover:shadow-xl group">
                             <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
                                 <svg class="w-6 h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <div class="ml-6">
-                                <h3 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-2">Verifikasi Akurat</h3>
-                                <p class="text-slate-500 text-sm leading-relaxed font-medium">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
+                            <div class="ml-4 sm:ml-6">
+                                <h3 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-2">Verifikasi Akurat</h3>
+                                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
                             </div>
                         </div>
-                        <div class="flex items-start bg-[#F8FAFC] p-8 rounded-[2rem] border border-slate-100 transition-all hover:bg-white hover:shadow-xl group">
+                        <div class="flex items-start bg-[#F8FAFC] p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 transition-all hover:bg-white hover:shadow-xl group">
                             <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
                                 <svg class="w-6 h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
-                            <div class="ml-6">
-                                <h3 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-2">Aman & Transparan</h3>
-                                <p class="text-slate-500 text-sm leading-relaxed font-medium">Seluruh data pengajuan terdokumentasi dengan aman dan dapat dilacak secara real-time.</p>
+                            <div class="ml-4 sm:ml-6">
+                                <h3 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-2">Aman & Transparan</h3>
+                                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">Seluruh data pengajuan terdokumentasi dengan aman dan dapat dilacak secara real-time.</p>
                             </div>
                         </div>
                     </div>

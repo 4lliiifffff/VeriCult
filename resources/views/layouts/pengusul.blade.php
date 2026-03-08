@@ -32,7 +32,7 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  @click="sidebarOpen = false"
-                 class="fixed inset-0 bg-slate-900/80 z-40 lg:hidden backdrop-blur-sm"
+                 class="fixed inset-0 bg-slate-900/75 z-40 lg:hidden"
                  style="display: none;"></div>
 
             <!-- Sidebar -->
@@ -45,7 +45,7 @@
                 @include('pengusul.partials.navbar')
 
                 <!-- Main Content -->
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8FAFC] p-8">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8FAFC] p-4 sm:p-8">
                     @if (isset($header))
                         {{ $header }}
                     @endif

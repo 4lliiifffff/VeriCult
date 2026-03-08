@@ -1,23 +1,23 @@
 <x-layouts.super-admin>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div class="flex items-center gap-4">
-                <a href="{{ route('super-admin.cultural-submissions.index') }}" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#03045E] shadow-sm hover:bg-[#03045E] hover:text-white transition-all">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <a href="{{ route('super-admin.cultural-submissions.index') }}" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#03045E] shadow-sm hover:bg-[#03045E] hover:text-white transition-all shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
                 </a>
-                <div>
-                    <h1 class="text-2xl font-black text-[#03045E] tracking-tighter">{{ $submission->name }}</h1>
-                    <p class="text-slate-500 font-medium text-sm">Detail obyek kebudayaan terdaftar.</p>
+                <div class="min-w-0">
+                    <h1 class="text-xl sm:text-2xl font-black text-[#03045E] tracking-tighter truncate break-words">{{ $submission->name }}</h1>
+                    <p class="text-slate-500 font-medium text-[11px] sm:text-sm">Detail obyek kebudayaan terdaftar.</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('super-admin.cultural-submissions.edit', $submission) }}" class="px-6 py-2.5 bg-blue-50 text-[#0077B6] rounded-xl font-black text-xs uppercase tracking-widest border border-blue-100 hover:bg-[#0077B6] hover:text-white transition-all">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <a href="{{ route('super-admin.cultural-submissions.edit', $submission) }}" class="flex items-center justify-center px-6 py-3 sm:py-2.5 bg-blue-50 text-[#0077B6] rounded-xl font-black text-xs uppercase tracking-widest border border-blue-100 hover:bg-[#0077B6] hover:text-white transition-all active:scale-95 text-center">
                     Edit Data
                 </a>
-                <form action="{{ route('super-admin.cultural-submissions.destroy', $submission) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini secara permanen?')">
+                <form action="{{ route('super-admin.cultural-submissions.destroy', $submission) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini secara permanen?')" class="w-full">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="px-6 py-2.5 bg-red-50 text-red-600 rounded-xl font-black text-xs uppercase tracking-widest border border-red-100 hover:bg-red-600 hover:text-white transition-all">
+                    <button type="submit" class="w-full px-6 py-3 sm:py-2.5 bg-red-50 text-red-600 rounded-xl font-black text-xs uppercase tracking-widest border border-red-100 hover:bg-red-600 hover:text-white transition-all active:scale-95">
                         Hapus Permanen
                     </button>
                 </form>
@@ -25,10 +25,10 @@
         </div>
     </x-slot>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-8">
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
+        <div class="lg:col-span-2 space-y-6 sm:space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
                 <div class="flex items-center justify-between mb-8">
                     <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] {{ $submission->status_color }}">
                         {{ $submission->status_label }}
@@ -71,7 +71,7 @@
             </div>
 
             <!-- Documents -->
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
+            <div class="bg-white p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
                 <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Dokumen Lampiran</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @forelse($submission->files as $file)
@@ -97,8 +97,8 @@
         </div>
 
         <!-- Sidebar Info -->
-        <div class="space-y-8">
-            <div class="bg-[#03045E] p-8 rounded-[2.5rem] shadow-xl shadow-blue-900/20 text-white relative overflow-hidden">
+        <div class="space-y-6 sm:space-y-8">
+            <div class="bg-[#03045E] p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-blue-900/20 text-white relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
                 <h3 class="text-xs font-black uppercase tracking-[0.3em] text-white/40 mb-6 relative z-10">Data Pengusul</h3>
                 <div class="flex items-center gap-4 relative z-10">
@@ -114,7 +114,7 @@
 
             <!-- Validator Info -->
             @if($submission->reviewed_by)
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
+            <div class="bg-white p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Divalidasi Oleh</h3>
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center font-black text-[#03045E] border border-indigo-100">

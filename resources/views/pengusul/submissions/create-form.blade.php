@@ -35,7 +35,7 @@
             </nav>
 
             <!-- Page Header -->
-            <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
                 <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
                 
@@ -47,18 +47,18 @@
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
                                 </span>
-                                <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 2 dari 2 &bull; {{ $categoryName }}</span>
+                                <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 2 dari 2 &bull; <span class="truncate max-w-[100px] sm:max-w-[200px] inline-block align-bottom">{{ $categoryName }}</span></span>
                             </div>
                         </div>
-                        <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
                             Daftarkan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
                         </h2>
-                        <p class="text-blue-100/70 text-lg font-medium">{{ $categoryDescription }}</p>
+                        <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">{{ $categoryDescription }}</p>
                     </div>
                         
-                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                        <a href="{{ route('pengusul.submissions.create') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                            <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
+                        <a href="{{ route('pengusul.submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                            <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                             </svg>
                             Ganti Kategori
@@ -75,9 +75,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative pb-20">
             
             <!-- Form Section -->
-            <div class="lg:col-span-8 space-y-10">
-                <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
-                    <div class="p-8 sm:p-10">
+            <div class="lg:col-span-8 space-y-10 px-4 sm:px-0">
+                <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+                    <div class="p-6 sm:p-10">
                         <form action="{{ route('pengusul.submissions.store') }}" 
                             method="POST" 
                             enctype="multipart/form-data" 
@@ -112,7 +112,7 @@
             </div>
 
             <!-- Sidebar Info -->
-            <div class="lg:col-span-4 relative">
+            <div class="lg:col-span-4 relative px-4 sm:px-0 mt-8 lg:mt-0">
                 <div class="space-y-10 sticky top-8">
                     <div class="space-y-6">
                 <!-- Status Card -->

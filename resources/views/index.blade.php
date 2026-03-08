@@ -90,8 +90,8 @@
                 </div>
                 
                 <!-- Auth Buttons & Mobile Toggle -->
-                <div class="flex items-center space-x-4 md:space-x-6">
-                    <div class="hidden sm:flex items-center space-x-4 md:space-x-6">
+                <div class="flex items-center gap-3 sm:gap-4 md:gap-6">
+                    <div class="hidden sm:flex items-center gap-3 sm:gap-4 md:gap-6">
                         @if (Route::has('login'))
                             @auth
                                 <a href="{{ url('/dashboard') }}" 
@@ -174,24 +174,24 @@
                     </div>
                     
                     <!-- Main Heading -->
-                    <h1 class="text-4xl md:text-7xl font-black text-white mb-8 leading-[1.1] tracking-tighter">
-                        {!! $content['hero_title'] ?? 'Lestarikan Budaya<br>Melalui Versifikasi Digital' !!}
+                    <h1 class="text-3xl sm:text-4xl md:text-7xl font-black text-white mb-6 sm:mb-8 leading-[1.1] tracking-tighter">
+                        {!! $content['hero_title'] ?? 'Lestarikan Budaya<br>Melalui Verifikasi Digital' !!}
                     </h1>
                     
                     <!-- Subtitle -->
-                    <p class="text-base md:text-xl text-[#CAF0F8]/80 mb-12 max-w-xl leading-relaxed font-medium">
+                    <p class="text-sm sm:text-base md:text-xl text-[#CAF0F8]/80 mb-8 sm:mb-12 max-w-xl leading-relaxed font-medium">
                         {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
                     </p>
                     
                     <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 md:gap-6">
-                        <a href="{{ route('register') }}" class="bg-white text-[#03045E] px-8 md:px-10 py-4 md:py-5 rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-[#CAF0F8] transition-all duration-300 shadow-2xl shadow-blue-900/40 transform hover:scale-105 flex items-center justify-center group">
+                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                        <a href="{{ route('register') }}" class="bg-white text-[#03045E] px-8 md:px-10 py-4 md:py-5 rounded-2xl sm:rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-[#CAF0F8] transition-all duration-300 shadow-2xl shadow-blue-900/40 transform hover:scale-105 flex items-center justify-center group w-full sm:w-auto">
                             {{ $content['cta_primary'] ?? 'Ajukan Objek' }}
                             <svg class="w-5 h-5 ml-4 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                             </svg>
                         </a>
-                        <a href="{{ route('profil-kebudayaan.index') }}" class="bg-white/10 backdrop-blur-xl text-white px-8 md:px-10 py-4 md:py-5 rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center justify-center group">
+                        <a href="{{ route('profil-kebudayaan.index') }}" class="bg-white/10 backdrop-blur-xl text-white px-8 md:px-10 py-4 md:py-5 rounded-2xl sm:rounded-[2rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center justify-center group w-full sm:w-auto">
                             {{ $content['cta_secondary'] ?? 'Jelajahi Profil Budaya' }}
                         </a>
                     </div>
@@ -311,21 +311,21 @@
                 <div class="absolute inset-0 hero-pattern opacity-10"></div>
                 <div class="absolute top-0 right-0 w-[30rem] md:w-[40rem] h-[30rem] md:h-[40rem] bg-white/5 rounded-full -mr-24 md:-mr-48 -mt-24 md:-mt-48 blur-3xl"></div>
                 
-                <div class="relative z-10 grid md:grid-cols-3 gap-12 lg:gap-16 text-center text-white">
+                <div class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-12 lg:gap-16 text-center text-white">
                     <div class="space-y-4">
-                        <div class="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-white/60">Total Objek</div>
-                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['total'] }}</div>
-                        <p class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Warisan Budaya</p>
+                        <div class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/60">Total Objek</div>
+                        <div class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['total'] }}</div>
+                        <p class="text-[9px] sm:text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Warisan Budaya</p>
                     </div>
-                    <div class="space-y-4 border-y md:border-y-0 md:border-x border-white/10 py-10 md:py-0">
-                        <div class="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-white/60">Tervalidasi</div>
-                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['published'] }}</div>
-                        <p class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Objek Terverifikasi</p>
+                    <div class="space-y-4 border-y sm:border-y-0 sm:border-x border-white/10 py-10 sm:py-0">
+                        <div class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/60">Tervalidasi</div>
+                        <div class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['published'] }}</div>
+                        <p class="text-[9px] sm:text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Objek Terverifikasi</p>
                     </div>
                     <div class="space-y-4">
-                        <div class="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-white/60">Pengusul</div>
-                        <div class="text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['users'] }}</div>
-                        <p class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Kontributor Aktif</p>
+                        <div class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/60">Pengusul</div>
+                        <div class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['users'] }}</div>
+                        <p class="text-[9px] sm:text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Kontributor Aktif</p>
                     </div>
                 </div>
 
@@ -364,8 +364,8 @@
             <p class="text-base md:text-lg text-slate-500 mb-12 font-medium leading-relaxed">
                 {{ $content['cta_bottom_subtitle'] ?? 'Bergabunglah dengan komunitas pengusul lainnya dan pastikan setiap warisan budaya tervalidasi dengan standar tertinggi.' }}
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center px-4">
-                <a href="{{ route('register') }}" class="premium-gradient text-white px-8 md:px-12 py-4 md:py-5 rounded-[2rem] md:rounded-[2.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center">
+            <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
+                <a href="{{ route('register') }}" class="premium-gradient text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl md:rounded-[2.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center w-full sm:w-auto">
                     Mulai Daftar Sekarang
                 </a>
             </div>

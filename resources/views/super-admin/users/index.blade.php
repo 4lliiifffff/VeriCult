@@ -1,13 +1,13 @@
 <x-layouts.super-admin>
     <x-slot name="header">
         <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('super-admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Kelola Pengguna</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
@@ -18,15 +18,15 @@
                             Kelola Pengguna
                         </span>
                     </div>
-                    <h2 class="text-4xl font-black text-white tracking-tight leading-tight">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
                         Kelola <span class="text-[#00B4D8]">Pengguna</span>
                     </h2>
-                    <p class="text-blue-100/70 text-lg font-medium">Pantau, verifikasi, dan perbarui seluruh data warisan budaya Nusantara.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Pantau, verifikasi, dan perbarui seluruh data warisan budaya Nusantara.</p>
                 </div>
                     
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
-                    <a href="{{ route('super-admin.users.create-validator') }}" class="bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto">
+                    <a href="{{ route('super-admin.users.create-validator') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10 transition-transform active:scale-95">
+                        <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                         </svg>
                         Tambah Validator
@@ -68,7 +68,7 @@
         class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative group">
         
         <!-- Filters Area -->
-        <div class="p-8 border-b border-slate-50 bg-white">
+        <div class="p-5 sm:p-8 border-b border-slate-50 bg-white">
             <form action="{{ route('super-admin.users.index') }}" method="GET" class="flex flex-col lg:flex-row gap-6">
                 <div class="flex-1">
                     <div class="relative group">
@@ -105,31 +105,31 @@
 
         <!-- Table Area -->
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left border-collapse min-w-max">
                 <thead>
                     <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
-                        <th class="px-8 py-5">Profil User</th>
-                        <th class="px-8 py-5">Peran</th>
-                        <th class="px-8 py-5 text-center">Status Akun</th>
-                        <th class="px-8 py-5 text-center">Tanggal Gabung</th>
-                        <th class="px-8 py-5 text-right">Opsi</th>
+                        <th class="px-6 sm:px-8 py-4 sm:py-5">Profil User</th>
+                        <th class="px-6 sm:px-8 py-4 sm:py-5">Peran</th>
+                        <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Status Akun</th>
+                        <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Tanggal Gabung</th>
+                        <th class="px-6 sm:px-8 py-4 sm:py-5 text-right">Opsi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @forelse($users as $user)
                     <tr class="hover:bg-slate-50/30 transition-all duration-200 group/u">
-                        <td class="px-8 py-5">
+                        <td class="px-6 sm:px-8 py-4 sm:py-5">
                             <div class="flex items-center">
-                                <div class="h-11 w-11 rounded-[14px] bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white flex items-center justify-center font-black text-sm shadow-lg shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-300">
+                                <div class="h-10 w-10 sm:h-11 sm:w-11 rounded-[12px] sm:rounded-[14px] bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white flex items-center justify-center font-black text-[10px] sm:text-sm shadow-lg shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-300">
                                     {{ substr($user->name, 0, 2) }}
                                 </div>
-                                <div class="ml-4 min-w-0">
-                                    <div class="font-bold text-sm text-[#03045E] group-hover/u:text-[#0077B6] transition-colors truncate">{{ $user->name }}</div>
-                                    <div class="text-[11px] text-slate-400 font-medium truncate">{{ $user->email }}</div>
+                                <div class="ml-3 sm:ml-4 min-w-0">
+                                    <div class="font-bold text-xs sm:text-sm text-[#03045E] group-hover/u:text-[#0077B6] transition-colors truncate">{{ $user->name }}</div>
+                                    <div class="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">{{ $user->email }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-5">
+                        <td class="px-6 sm:px-8 py-4 sm:py-5">
                             <div class="flex flex-wrap gap-1.5">
                                 @forelse($user->roles as $role)
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border
@@ -143,7 +143,7 @@
                                 @endforelse
                             </div>
                         </td>
-                        <td class="px-8 py-5 text-center">
+                        <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
                             @if($user->is_suspended)
                                 <span class="inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">
                                     Suspended
@@ -158,10 +158,10 @@
                                 </span>
                             @endif
                         </td>
-                        <td class="px-8 py-5 text-center font-bold text-xs text-slate-400 whitespace-nowrap uppercase tracking-tighter">
+                        <td class="px-6 sm:px-8 py-4 sm:py-5 text-center font-bold text-xs text-slate-400 whitespace-nowrap uppercase tracking-tighter">
                             {{ $user->created_at->format('d M Y') }}
                         </td>
-                        <td class="px-8 py-5 text-right">
+                        <td class="px-6 sm:px-8 py-4 sm:py-5 text-right">
                            <div class="flex items-center justify-end gap-2">
                                 @if($user->id !== 1)
                                     <div class="flex items-center gap-2">

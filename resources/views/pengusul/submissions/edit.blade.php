@@ -11,21 +11,21 @@
             <span class="text-[#03045E]">Ubah Data</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div class="space-y-3">
-                <div class="flex items-center gap-3">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-3 w-full md:w-auto">
+                <div class="flex flex-wrap items-center gap-3">
                     <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-{{ $submission->status_color }}-50 text-{{ $submission->status_color }}-600 border border-{{ $submission->status_color }}-100 shadow-sm">
                         {{ $submission->status_label }}
                     </span>
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                 </div>
-                <h2 class="font-black text-4xl text-[#03045E] leading-tight tracking-tight">
+                <h2 class="font-black text-3xl sm:text-4xl text-[#03045E] leading-tight tracking-tight break-words">
                     Edit <span class="text-[#0077B6]">Pengajuan</span>
                 </h2>
-                <p class="text-slate-500 font-bold text-sm">Update informasi objek kebudayaan: <span class="text-[#03045E]">{{ $submission->name }}</span></p>
+                <p class="text-slate-500 font-bold text-sm break-words">Update informasi objek kebudayaan: <span class="text-[#03045E] block sm:inline mt-1 sm:mt-0">{{ $submission->name }}</span></p>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="{{ route('pengusul.submissions.show', $submission) }}" class="inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm">
+            <div class="flex items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
+                <a href="{{ route('pengusul.submissions.show', $submission) }}" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm">
                     Batal
                 </a>
             </div>
@@ -59,9 +59,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 relative pb-20">
             
             <!-- Form Section -->
-            <div class="lg:col-span-8 space-y-10">
-                <div class="bg-white rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
-                    <div class="p-10 sm:p-14">
+            <div class="lg:col-span-8 space-y-10 px-4 sm:px-0">
+                <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+                    <div class="p-6 sm:p-14">
                         <form action="{{ route('pengusul.submissions.update', $submission) }}" 
                               method="POST" 
                               enctype="multipart/form-data" 
@@ -98,7 +98,7 @@
             </div>
 
             <!-- Sidebar Info -->
-            <div class="lg:col-span-4 relative">
+            <div class="lg:col-span-4 relative px-4 sm:px-0 mt-8 lg:mt-0">
                 <div class="space-y-10 sticky top-8">
                 <!-- Progress Card -->
                 <div class="bg-[#03045E] rounded-[2.5rem] p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">

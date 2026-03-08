@@ -1,23 +1,23 @@
 <x-layouts.super-admin>
     <x-slot name="header">
         <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('super-admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <a href="{{ route('super-admin.audit-logs.index') }}" class="hover:text-[#0077B6] transition-colors">Log Audit</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Detail Aktivitas</span>
         </nav>
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-                <h2 class="font-black text-3xl text-[#03045E] leading-tight tracking-tight">
+                <h2 class="font-black text-2xl sm:text-3xl text-[#03045E] leading-tight tracking-tight break-words">
                     Detail <span class="text-[#0077B6]">Aktivitas Sistem</span>
                 </h2>
-                <p class="text-sm text-slate-500 mt-2 font-medium">Record unik ID #{{ $auditLog->id }} — Pelacakan rekaman data secara mendalam.</p>
+                <p class="text-[13px] sm:text-sm text-slate-500 mt-2 font-medium">Record unik ID #{{ $auditLog->id }} — Pelacakan rekaman data secara mendalam.</p>
             </div>
             <div>
-                <a href="{{ route('super-admin.audit-logs.index') }}" class="inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50">
+                <a href="{{ route('super-admin.audit-logs.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 sm:py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50 active:scale-95">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Kembali ke Log
                 </a>
@@ -25,11 +25,11 @@
         </div>
     </x-slot>
 
-    <div class="space-y-10 pb-12">
+    <div class="space-y-6 sm:space-y-10 pb-12">
         <!-- Top Summary Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             <!-- Action Card -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-8 relative overflow-hidden group">
+            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-8 relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-500"></div>
                 <div class="relative">
                     <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Tindakan</h3>
@@ -56,8 +56,8 @@
                 </div>
             </div>
 
-            <!-- Multi-Meta Card (Actor & Object) -->
-            <div class="lg:col-span-2 bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-8 overflow-hidden relative group">
+        <!-- Multi-Meta Card (Actor & Object) -->
+        <div class="lg:col-span-2 bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-8 overflow-hidden relative group">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-50">
                     <!-- Actor -->
                     <div class="flex items-start gap-5">
@@ -88,20 +88,20 @@
         </div>
 
         <!-- Meta Details Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="bg-slate-50 rounded-[2rem] p-6 border border-slate-100">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div class="bg-slate-50 rounded-2xl sm:rounded-[2rem] p-5 sm:p-6 border border-slate-100">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Waktu Kejadian</p>
-                <p class="text-sm font-black text-[#03045E]">{{ $auditLog->created_at->format('d M Y, H:i:s') }}</p>
+                <p class="text-[13px] sm:text-sm font-black text-[#03045E]">{{ $auditLog->created_at->format('d M Y, H:i:s') }}</p>
                 <p class="text-[11px] text-slate-400 font-bold mt-1">{{ $auditLog->created_at->diffForHumans() }}</p>
             </div>
-            <div class="bg-slate-50 rounded-[2rem] p-6 border border-slate-100">
+            <div class="bg-slate-50 rounded-2xl sm:rounded-[2rem] p-5 sm:p-6 border border-slate-100">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Alamat IP</p>
-                <p class="text-sm font-black text-[#03045E] font-mono tracking-tight">{{ $auditLog->ip_address ?? '::1' }}</p>
+                <p class="text-[13px] sm:text-sm font-black text-[#03045E] font-mono tracking-tight">{{ $auditLog->ip_address ?? '::1' }}</p>
                 <p class="text-[11px] text-slate-400 font-bold mt-1">Network Source</p>
             </div>
-            <div class="md:col-span-2 bg-slate-50 rounded-[2rem] p-6 border border-slate-100 overflow-hidden relative group">
+            <div class="sm:col-span-2 bg-slate-50 rounded-2xl sm:rounded-[2rem] p-5 sm:p-6 border border-slate-100 overflow-hidden relative group">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">User Agent (Browser & OS)</p>
-                <p class="text-[11px] font-bold text-slate-600 line-clamp-2 leading-relaxed">{{ $auditLog->user_agent ?? 'Internal API / Console' }}</p>
+                <p class="text-[10px] sm:text-[11px] font-bold text-slate-600 line-clamp-2 leading-relaxed break-words">{{ $auditLog->user_agent ?? 'Internal API / Console' }}</p>
                 <div class="absolute top-4 right-4 text-slate-200">
                     <svg class="w-10 h-10 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 </div>
@@ -109,29 +109,29 @@
         </div>
 
         <!-- Data Changes Comparison -->
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 sm:gap-10">
             <!-- OLD DATA -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden flex flex-col">
-                <div class="px-8 py-6 bg-rose-50/50 border-b border-rose-100 flex items-center justify-between">
+            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden flex flex-col">
+                <div class="px-6 sm:px-8 py-5 sm:py-6 bg-rose-50/50 border-b border-rose-100 flex items-center justify-between">
                     <div>
                         <h3 class="text-xs font-black text-rose-600 uppercase tracking-[0.2em]">State Sebelumnya</h3>
-                        <p class="text-[11px] text-rose-400 font-bold mt-0.5 uppercase tracking-tighter italic">Snapshot data sebelum perubahan</p>
+                        <p class="text-[10px] sm:text-[11px] text-rose-400 font-bold mt-0.5 uppercase tracking-tighter italic">Snapshot data sebelum perubahan</p>
                     </div>
                 </div>
-                <div class="flex-1 overflow-x-auto min-h-[300px]">
+                <div class="flex-1 overflow-x-auto min-h-[250px] sm:min-h-[300px]">
                     @if($auditLog->old_data)
-                        <table class="w-full text-left">
+                        <table class="w-full text-left min-w-[400px]">
                             <thead>
                                 <tr class="text-[10px] font-black text-slate-400 uppercase bg-slate-50/30 border-b border-rose-50">
-                                    <th class="px-8 py-4 w-1/3">Key Field</th>
-                                    <th class="px-8 py-4">Original Value</th>
+                                    <th class="px-6 sm:px-8 py-4 w-1/3">Key Field</th>
+                                    <th class="px-6 sm:px-8 py-4">Original Value</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-50 font-medium font-mono text-xs">
+                            <tbody class="divide-y divide-slate-50 font-medium font-mono text-[11px] sm:text-xs">
                                 @foreach($auditLog->old_data as $key => $value)
                                     <tr class="hover:bg-rose-50/20 transition-colors">
-                                        <td class="px-8 py-4 text-rose-500 font-bold">{{ $key }}</td>
-                                        <td class="px-8 py-4 text-slate-600 break-all leading-relaxed bg-slate-50/20">
+                                        <td class="px-6 sm:px-8 py-4 text-rose-500 font-bold">{{ $key }}</td>
+                                        <td class="px-6 sm:px-8 py-4 text-slate-600 break-all leading-relaxed bg-slate-50/20">
                                             @if(is_array($value))
                                                 <pre class="bg-slate-900 text-slate-300 p-4 rounded-xl text-[10px]">{{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>
                                             @else
@@ -155,27 +155,27 @@
             </div>
 
             <!-- NEW DATA -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden flex flex-col">
-                <div class="px-8 py-6 bg-emerald-50/50 border-b border-emerald-100 flex items-center justify-between">
+            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden flex flex-col">
+                <div class="px-6 sm:px-8 py-5 sm:py-6 bg-emerald-50/50 border-b border-emerald-100 flex items-center justify-between">
                     <div>
                         <h3 class="text-xs font-black text-emerald-600 uppercase tracking-[0.2em]">State Terbaru</h3>
-                        <p class="text-[11px] text-emerald-400 font-bold mt-0.5 uppercase tracking-tighter italic">Snapshot data setelah diolah sistem</p>
+                        <p class="text-[10px] sm:text-[11px] text-emerald-400 font-bold mt-0.5 uppercase tracking-tighter italic">Snapshot data setelah diolah sistem</p>
                     </div>
                 </div>
-                <div class="flex-1 overflow-x-auto min-h-[300px]">
+                <div class="flex-1 overflow-x-auto min-h-[250px] sm:min-h-[300px]">
                     @if($auditLog->new_data)
-                        <table class="w-full text-left">
+                        <table class="w-full text-left min-w-[400px]">
                             <thead>
                                 <tr class="text-[10px] font-black text-slate-400 uppercase bg-slate-50/30 border-b border-emerald-50">
-                                    <th class="px-8 py-4 w-1/3">Key Field</th>
-                                    <th class="px-8 py-4">Processed Value</th>
+                                    <th class="px-6 sm:px-8 py-4 w-1/3">Key Field</th>
+                                    <th class="px-6 sm:px-8 py-4">Processed Value</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-50 font-medium font-mono text-xs">
+                            <tbody class="divide-y divide-slate-50 font-medium font-mono text-[11px] sm:text-xs">
                                 @foreach($auditLog->new_data as $key => $value)
                                     <tr class="hover:bg-emerald-50/20 transition-colors group/new">
-                                        <td class="px-8 py-4 text-emerald-600 font-bold group-hover/new:translate-x-1 transition-transform inline-block">{{ $key }}</td>
-                                        <td class="px-8 py-4 text-slate-600 break-all leading-relaxed bg-slate-50/20">
+                                        <td class="px-6 sm:px-8 py-4 text-emerald-600 font-bold group-hover/new:translate-x-1 transition-transform inline-block">{{ $key }}</td>
+                                        <td class="px-6 sm:px-8 py-4 text-slate-600 break-all leading-relaxed bg-slate-50/20">
                                             @if(is_array($value))
                                                 <pre class="bg-slate-900 text-slate-300 p-4 rounded-xl text-[10px]">{{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>
                                             @else
