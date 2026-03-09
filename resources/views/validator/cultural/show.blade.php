@@ -1,10 +1,10 @@
-<x-layouts.pengusul>
+<x-layouts.validator>
     <x-slot name="header">
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
-            <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <a href="{{ route('validator.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
+            <a href="{{ route('validator.cultural.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E] truncate max-w-[150px] sm:max-w-none">{{ $submission->name }}</span>
         </nav>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
-                <a href="{{ route('pengusul.submissions.index') }}" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50">
+                <a href="{{ route('validator.cultural.index') }}" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Kembali
                 </a>
@@ -276,7 +276,7 @@
 
                         <div class="grid grid-cols-1 gap-4">
                             @if($submission->isEditable())
-                                <a href="{{ route('pengusul.submissions.edit', $submission) }}" 
+                                <a href="{{ route('validator.cultural.edit', $submission) }}" 
                                    class="flex items-center justify-center gap-3 w-full px-8 py-5 rounded-[1.25rem] bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] hover:shadow-xl hover:shadow-blue-500/10 transition-all active:scale-[0.98]">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     Ubah Konten
@@ -339,7 +339,7 @@
                         class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
                     Batal
                 </button>
-                <form action="{{ route('pengusul.submissions.submit', $submission) }}" method="POST">
+                <form action="{{ route('validator.cultural.submit', $submission) }}" method="POST">
                     @csrf
                     <button type="submit" 
                             @click="submitting = true; $dispatch('close')" 
@@ -366,7 +366,7 @@
                         class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
                     Kembali
                 </button>
-                <form action="{{ route('pengusul.submissions.destroy', $submission) }}" method="POST">
+                <form action="{{ route('validator.cultural.destroy', $submission) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" 
@@ -378,4 +378,5 @@
             </div>
         </div>
     </x-modal>
-</x-layouts.pengusul>
+</x-layouts.validator>
+

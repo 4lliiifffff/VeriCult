@@ -22,7 +22,6 @@
                     </span>
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                 </div>
-                </div>
                 <h2 class="font-black text-3xl sm:text-4xl text-[#03045E] leading-tight tracking-tight break-words">
                     {{ $submission->name }}
                 </h2>
@@ -205,62 +204,91 @@
 
             <!-- Detail Cards -->
             <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-slate-200/40 border border-white p-6 sm:p-12 space-y-12">
-                <section>
-                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-8 flex items-center gap-4">
-                        <span class="shrink-0">Lokasi & Asal Objek</span>
-                        <div class="flex-1 h-px bg-slate-100"></div>
-                    </h3>
-                    <div class="flex items-start gap-4 sm:gap-6 p-5 sm:p-8 rounded-[2rem] bg-slate-50/50 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
-                        <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#0077B6] shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        </div>
-                        <div class="pt-2">
-                            <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Alamat Lengkap</p>
-                            <p class="text-slate-700 font-bold text-lg leading-relaxed">{{ $submission->address }}</p>
-                            <div class="flex items-center gap-4 mt-4">
-                                <div class="px-3 py-1.5 rounded-lg bg-white border border-slate-100 shadow-sm">
-                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Latitude</p>
-                                    <p class="text-[11px] font-mono font-bold text-[#03045E]">{{ $submission->latitude }}</p>
-                                </div>
-                                <div class="px-3 py-1.5 rounded-lg bg-white border border-slate-100 shadow-sm">
-                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Longitude</p>
-                                    <p class="text-[11px] font-mono font-bold text-[#03045E]">{{ $submission->longitude }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                </section>
-
-                <div class="h-px bg-slate-50"></div>
 
                 <!-- Category-Specific Data -->
-                @if(!empty($categoryFields) && !empty($submission->category_data))
+                @if(!empty($submission->category_data))
                 <section>
                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-8 flex items-center gap-4">
                         <span class="shrink-0">Detail {{ $submission->category }}</span>
                         <div class="flex-1 h-px bg-slate-100"></div>
                     </h3>
                     <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
+                        @php
+                            $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                            $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+                        @endphp
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                            @foreach($categoryFields as $fieldKey => $field)
-                                @if(!empty($submission->category_data[$fieldKey]))
-                                <div class="space-y-2 {{ $field['type'] === 'textarea' ? 'sm:col-span-2' : '' }}">
-                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{{ $field['label'] }}</p>
-                                    @if($field['type'] === 'textarea')
-                                        <p class="text-slate-700 font-medium text-base leading-relaxed whitespace-pre-wrap italic">"{{ $submission->category_data[$fieldKey] }}"</p>
-                                    @else
-                                        <p class="text-slate-700 font-bold text-lg">{{ $submission->category_data[$fieldKey] }}</p>
-                                    @endif
-                                </div>
+                            @foreach($submission->category_data as $dataKey => $dataValue)
+                                @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))
+                                    @php
+                                        $fieldDef = $flatFields[$dataKey] ?? null;
+                                        $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+                                        $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
+                                    @endphp
+                                    <div class="space-y-1 {{ $isWide ? 'sm:col-span-2' : '' }}">
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $fieldLabel }}</p>
+                                        @if(is_array($dataValue))
+                                            @if(isset($dataValue[0]) && is_array($dataValue[0]))
+                                                {{-- Dynamic table data --}}
+                                                <div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
+                                                    <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
+                                                        @foreach(array_keys($dataValue[0]) as $colKey)
+                                                            <div class="px-4 py-2 text-xs font-bold text-slate-500 uppercase">{{ str_replace('_', ' ', $colKey) }}</div>
+                                                        @endforeach
+                                                    </div>
+                                                    @foreach($dataValue as $row)
+                                                        <div class="grid gap-0 border-b border-slate-50" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
+                                                            @foreach($row as $cellValue)
+                                                                <div class="px-4 py-2 text-sm font-medium text-slate-700">{{ $cellValue }}</div>
+                                                            @endforeach
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                {{-- Checkbox array --}}
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    @foreach($dataValue as $item)
+                                                        <span class="px-3 py-1.5 bg-[#0077B6]/10 text-[#0077B6] rounded-lg text-xs sm:text-sm font-bold">{{ $item }}</span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        @else
+                                            <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap italic' : 'bold text-lg' }}">{{ $dataValue }}</p>
+                                        @endif
+                                    </div>
                                 @endif
                             @endforeach
                         </div>
+                        
+                        {{-- UNESCO Categories --}}
+                        @if(!empty($submission->category_data['unesco_categories']))
+                            <div class="mt-6 pt-6 border-t border-slate-100">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Kategori UNESCO</p>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($submission->category_data['unesco_categories'] as $unescoCat)
+                                        <span class="px-3 py-1 bg-blue-50 text-[#03045E] rounded-lg text-sm font-bold border border-blue-100">{{ $unescoCat }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Data Dukung URLs --}}
+                        @if(!empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url']))
+                            <div class="mt-6 pt-6 border-t border-slate-100 space-y-3">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Data Dukung (URL)</p>
+                                @foreach(['video_url' => 'Video', 'dokumen_kajian_url' => 'Dokumen Kajian', 'dokumen_lainnya_url' => 'Dokumen Lainnya'] as $urlKey => $urlLabel)
+                                    @if(!empty($submission->category_data[$urlKey]))
+                                        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                            <span class="text-[11px] sm:text-xs font-bold text-slate-500 w-full sm:w-32 shrink-0">{{ $urlLabel }}:</span>
+                                            <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" class="text-xs sm:text-sm text-[#0077B6] font-medium hover:underline break-all">{{ $submission->category_data[$urlKey] }}</a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </section>
-
-                <div class="h-px bg-slate-50"></div>
                 @endif
 
                 <div class="h-px bg-slate-50"></div>
@@ -311,7 +339,7 @@
         </div>
 
         <!-- Sidebar Details -->
-        <div class="space-y-8">
+        <div class="lg:col-span-1 space-y-8 sticky top-8">
             <!-- Requester Card -->
             <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-slate-200/40 border border-white p-6 sm:p-10">
                 <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Informasi Pengusul</h3>
