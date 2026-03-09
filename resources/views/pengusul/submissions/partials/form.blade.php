@@ -4,8 +4,10 @@
     {{-- ================================================================== --}}
     <div class="space-y-6">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2 2 2 0 012 2v.1a2 2 0 00.598 1.414l.602.602M8.28 7.32l4.96-4.96A9.956 9.956 0 0112 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.435 5.17L6.03 15.53a3.332 3.332 0 01-1.03-2.53v-.1a2 2 0 01.393-1.189L6.5 10.5a5.5 5.5 0 000-8.5v-.5a2.5 2.5 0 012.5-2.5h.5a2.5 2.5 0 012.5 2.5v.5z"></path></svg>
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 4.5L2 9.5V11H22V9.5L12 4.5M4 12V18H7V12H4M9 12V18H12V12H9M14 12V18H17V12H14M19 12V18H22V12H19M2 19V21H22V19H2Z"/>
+                </svg>
             </div>
             <h3 class="text-sm font-black text-[#03045E] uppercase tracking-[0.2em]">A. Kategori Objek Takbenda (UNESCO)</h3>
             <div class="flex-1 h-px bg-slate-100"></div>
@@ -274,7 +276,7 @@
                         <input type="text" name="category_data[video_url]" id="video_url" 
                             value="{{ $categoryDataValues['video_url'] ?? '' }}"
                             data-category-field
-                            class="w-full px-6 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
+                            class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
                             placeholder="Alamat tautan Video (YouTube/Lainnya)">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -292,7 +294,7 @@
                         <input type="text" name="category_data[dokumen_kajian_url]" id="dokumen_kajian_url" 
                             value="{{ $categoryDataValues['dokumen_kajian_url'] ?? '' }}"
                             data-category-field
-                            class="w-full px-6 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
+                            class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
                             placeholder="Alamat tautan Dokumen Kajian">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -310,7 +312,7 @@
                         <input type="text" name="category_data[dokumen_lainnya_url]" id="dokumen_lainnya_url" 
                             value="{{ $categoryDataValues['dokumen_lainnya_url'] ?? '' }}"
                             data-category-field
-                            class="w-full px-6 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
+                            class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
                             placeholder="Alamat tautan dokumen lainnya (Drive/DropBox/Lainnya)">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.826a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
