@@ -84,7 +84,7 @@ class CulturalSubmissionController extends Controller
         $message = 'Status pengajuan "' . $submission->name . '" telah diubah menjadi ' . $submission->status . ' oleh Super Admin.';
         $url = route('pengusul.submissions.show', $submission);
         
-        $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$submission->status] ?? 'info'));
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$submission->status] ?? 'info', $submission->id));
 
         return redirect()->route('super-admin.cultural-submissions.show', $submission)
             ->with('success', 'Status publikasi data kebudayaan berhasil diperbarui.');
@@ -94,7 +94,7 @@ class CulturalSubmissionController extends Controller
     {
         // For safety, Super Admin can delete if absolutely necessary
         foreach ($submission->files as $file) {
-            Storage::disk('public')->delete($file->file_path);
+            Storage::disk('public')->delete($file->path);
             $file->delete();
         }
         

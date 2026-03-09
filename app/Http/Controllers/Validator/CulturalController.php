@@ -131,6 +131,8 @@ class CulturalController extends Controller
 
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
+            'reviewed_by' => Auth::id(),
+            'review_started_at' => now(),
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
@@ -448,7 +450,7 @@ class CulturalController extends Controller
         $url = route('super-admin.cultural-submissions.show', $submission);
 
         foreach ($admins as $admin) {
-            $admin->notify(new SubmissionNotification($title, $message, $url, 'success'));
+            $admin->notify(new SubmissionNotification($title, $message, $url, 'success', $submission->id));
         }
 
         return redirect()->route('validator.cultural.show', $submission)

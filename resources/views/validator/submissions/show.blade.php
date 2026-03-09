@@ -219,15 +219,48 @@
                             $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                         @endphp
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                            @php
+                                $processedKeys = [];
+                            @endphp
                             @foreach($submission->category_data as $dataKey => $dataValue)
-                                @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))
+                                @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $processedKeys))
                                     @php
                                         $fieldDef = $flatFields[$dataKey] ?? null;
-                                        $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+                                        if (!$fieldDef) continue;
+
+                                        // Skip conditional check fields (Ya/Tidak) if the actual data field exists and is filled
+                                        if (($fieldDef['type'] ?? '') === 'radio' && in_array($dataValue, ['Ya', 'Tidak'])) {
+                                            $hasDependentFilled = false;
+                                            foreach($flatFields as $k => $f) {
+                                                if (isset($f['condition']) && $f['condition']['field'] === $dataKey && !empty($submission->category_data[$k])) {
+                                                    $hasDependentFilled = true;
+                                                    break;
+                                                }
+                                            }
+                                            if ($hasDependentFilled) continue;
+                                        }
+
+                                        $displayValue = $dataValue;
+                                        $displayLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+
+                                        // Handle "Lainnya" merging
+                                        if ($dataValue === 'Lainnya') {
+                                            $otherKey = $dataKey . '_lainnya';
+                                            if (!empty($submission->category_data[$otherKey])) {
+                                                $displayValue = $submission->category_data[$otherKey];
+                                                $processedKeys[] = $otherKey;
+                                            }
+                                        }
+
+                                        // Clean up specific labels for consistency
+                                        if (str_contains(strtolower($displayLabel), 'nama pencipta')) {
+                                            $displayLabel = 'Penulis / Pencipta';
+                                        }
+
                                         $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
                                     @endphp
                                     <div class="space-y-1 {{ $isWide ? 'sm:col-span-2' : '' }}">
-                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $fieldLabel }}</p>
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $displayLabel }}</p>
                                         @if(is_array($dataValue))
                                             @if(isset($dataValue[0]) && is_array($dataValue[0]))
                                                 {{-- Dynamic table data --}}
@@ -254,7 +287,7 @@
                                                 </div>
                                             @endif
                                         @else
-                                            <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap italic' : 'bold text-lg' }}">{{ $dataValue }}</p>
+                                            <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap italic' : 'bold text-lg' }}">{{ $displayValue }}</p>
                                         @endif
                                     </div>
                                 @endif

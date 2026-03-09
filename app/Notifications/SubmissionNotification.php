@@ -16,15 +16,18 @@ class SubmissionNotification extends Notification
     protected $url;
     protected $type;
 
+    protected $submission_id;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct($title, $message, $url, $type = 'info')
+    public function __construct($title, $message, $url, $type = 'info', $submission_id = null)
     {
         $this->title = $title;
         $this->message = $message;
         $this->url = $url;
         $this->type = $type;
+        $this->submission_id = $submission_id;
     }
 
     /**
@@ -49,6 +52,7 @@ class SubmissionNotification extends Notification
             'message' => $this->message,
             'url' => $this->url,
             'type' => $this->type,
+            'submission_id' => $this->submission_id,
         ];
     }
 }

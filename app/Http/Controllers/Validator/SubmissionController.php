@@ -86,7 +86,7 @@ class SubmissionController extends Controller
         $title = 'Pengajuan Diproses';
         $message = 'Pengajuan "' . $submission->name . '" Anda sedang ditinjau oleh Validator.';
         $url = route('pengusul.submissions.show', $submission);
-        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'info'));
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
 
         return redirect()->route('validator.submissions.review-form', $submission)
             ->with('success', 'Berhasil mengklaim submission. Anda kini berada di ruang kerja review.');
@@ -172,7 +172,7 @@ class SubmissionController extends Controller
             $message = 'Hasil Review Administratif untuk "' . $submission->name . '" telah diperbarui.';
             $url = route('pengusul.submissions.show', $submission);
             
-            $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->action] ?? 'info'));
+            $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->action] ?? 'info', $submission->id));
         });
 
         return redirect()->route('validator.submissions.index')
@@ -235,7 +235,7 @@ class SubmissionController extends Controller
             $message = 'Hasil Verifikasi Lapangan untuk "' . $submission->name . '" telah diperbarui.';
             $url = route('pengusul.submissions.show', $submission);
             
-            $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->recommendation] ?? 'info'));
+            $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->recommendation] ?? 'info', $submission->id));
         });
 
         return redirect()->route('validator.submissions.index')
@@ -263,7 +263,7 @@ class SubmissionController extends Controller
         $title = 'Pengajuan Dipublikasikan!';
         $message = 'Selamat! Objek budaya "' . $submission->name . '" telah resmi dipublikasikan.';
         $url = route('pengusul.submissions.show', $submission);
-        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'success'));
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'success', $submission->id));
 
         return redirect()->route('validator.submissions.show', $submission)
             ->with('success', 'Objek kebudayaan berhasil dipublikasikan ke profil publik!');

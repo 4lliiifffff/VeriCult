@@ -72,7 +72,7 @@
                             <input type="hidden" name="category" value="{{ $submission->category }}">
                             <input type="hidden" name="address" value="{{ $submission->address }}">
                             
-                            @include('validator.cultural.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission])
+                            @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission])
 
                             <!-- Footer Actions -->
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
