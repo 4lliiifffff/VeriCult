@@ -37,7 +37,7 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                    class="absolute right-0 z-50 mt-4 w-80 rounded-2xl shadow-2xl shadow-indigo-900/10 border border-slate-100 bg-white overflow-hidden"
+                    class="fixed sm:absolute top-16 sm:top-auto inset-x-4 sm:inset-x-auto sm:right-0 z-50 mt-2 sm:mt-4 sm:w-80 rounded-2xl shadow-2xl shadow-indigo-900/10 border border-slate-100 bg-white overflow-hidden"
                     style="display: none;">
                     
                     <div class="p-4 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
@@ -47,7 +47,7 @@
                     
                     <div class="max-h-96 overflow-y-auto">
                         @forelse(Auth::user()->unreadNotifications->take(5) as $notification)
-                            <a href="{{ $notification->data['url'] ?? '#' }}" class="block p-4 hover:bg-indigo-50 transition-colors border-b border-slate-50 last:border-0">
+                            <a href="{{ route('validator.notifications.read-and-redirect', $notification->id) }}" class="block p-4 hover:bg-indigo-50 transition-colors border-b border-slate-50 last:border-0">
                                 <p class="text-[11px] font-black text-[#03045E] mb-0.5">{{ $notification->data['title'] }}</p>
                                 <p class="text-[10px] text-slate-500 line-clamp-2 leading-relaxed">{{ $notification->data['message'] }}</p>
                                 <p class="text-[9px] text-slate-400 mt-2 font-bold uppercase tracking-tight">{{ $notification->created_at->diffForHumans() }}</p>

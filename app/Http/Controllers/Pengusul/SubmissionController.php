@@ -422,7 +422,7 @@ class SubmissionController extends Controller
         $url = route('validator.submissions.show', $submission); // Most likely destination for review
 
         foreach ($admins as $admin) {
-            $admin->notify(new SubmissionNotification($title, $message, $url, 'info'));
+            $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
         }
 
         return redirect()->route('pengusul.submissions.show', $submission)

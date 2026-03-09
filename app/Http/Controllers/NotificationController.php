@@ -32,10 +32,52 @@ class NotificationController extends Controller
      */
     public function markAsRead($id)
     {
-        $notification = Auth::user()->notifications()->findOrFail($id);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $notification = $user->notifications()->findOrFail($id);
         $notification->markAsRead();
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Mark a notification as read and redirect to the appropriate resource.
+     */
+    public function readAndRedirect($id)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $notification = $user->notifications()->findOrFail($id);
+        
+        $notification->markAsRead();
+
+        $data = $notification->data;
+        $url = $data['url'] ?? null;
+        $submissionId = $data['submission_id'] ?? null;
+
+        if ($submissionId) {
+            $submission = \App\Models\CulturalSubmission::find($submissionId);
+            
+            // Intelligent role-based redirection
+            if ($user->hasRole('super-admin')) {
+                return redirect()->route('super-admin.cultural-submissions.show', $submissionId);
+            } elseif ($user->hasRole('validator')) {
+                // If validator owns the submission, send to their workspace, otherwise to review workspace
+                if ($submission && $submission->user_id === $user->id) {
+                    return redirect()->route('validator.cultural.show', $submissionId);
+                }
+                return redirect()->route('validator.submissions.show', $submissionId);
+            } elseif ($user->hasRole('pengusul')) {
+                return redirect()->route('pengusul.submissions.show', $submissionId);
+            }
+        }
+
+        // Fallback logic
+        if ($user->hasRole('validator') && $url && str_contains($url, '/pengusul/')) {
+             return redirect()->route('validator.submissions.index');
+        }
+
+        return redirect($url ?? route('dashboard'));
     }
 
     /**

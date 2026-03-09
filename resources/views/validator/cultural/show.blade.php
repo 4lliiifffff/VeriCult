@@ -93,15 +93,48 @@
                                         $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                                     @endphp
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        @php
+                                            $processedKeys = [];
+                                        @endphp
                                         @foreach($submission->category_data as $dataKey => $dataValue)
-                                            @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))
+                                            @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $processedKeys))
                                                 @php
                                                     $fieldDef = $flatFields[$dataKey] ?? null;
-                                                    $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+                                                    if (!$fieldDef) continue;
+
+                                                    // Skip conditional check fields (Ya/Tidak) if the actual data field exists and is filled
+                                                    if (($fieldDef['type'] ?? '') === 'radio' && in_array($dataValue, ['Ya', 'Tidak'])) {
+                                                        $hasDependentFilled = false;
+                                                        foreach($flatFields as $k => $f) {
+                                                            if (isset($f['condition']) && $f['condition']['field'] === $dataKey && !empty($submission->category_data[$k])) {
+                                                                $hasDependentFilled = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if ($hasDependentFilled) continue;
+                                                    }
+
+                                                    $displayValue = $dataValue;
+                                                    $displayLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+
+                                                    // Handle "Lainnya" merging
+                                                    if ($dataValue === 'Lainnya') {
+                                                        $otherKey = $dataKey . '_lainnya';
+                                                        if (!empty($submission->category_data[$otherKey])) {
+                                                            $displayValue = $submission->category_data[$otherKey];
+                                                            $processedKeys[] = $otherKey;
+                                                        }
+                                                    }
+
+                                                    // Clean up specific labels for consistency
+                                                    if (str_contains(strtolower($displayLabel), 'nama pencipta')) {
+                                                        $displayLabel = 'Penulis / Pencipta';
+                                                    }
+
                                                     $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
                                                 @endphp
                                                 <div class="space-y-1 {{ $isWide ? 'sm:col-span-2' : '' }}">
-                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $fieldLabel }}</p>
+                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $displayLabel }}</p>
                                                     @if(is_array($dataValue))
                                                         @if(isset($dataValue[0]) && is_array($dataValue[0]))
                                                             {{-- Dynamic table data --}}
@@ -128,7 +161,7 @@
                                                             </div>
                                                         @endif
                                                     @else
-                                                        <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-sm leading-relaxed whitespace-pre-wrap' : 'bold text-base' }}">{{ $dataValue }}</p>
+                                                        <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-sm leading-relaxed whitespace-pre-wrap' : 'bold text-base' }}">{{ $displayValue }}</p>
                                                     @endif
                                                 </div>
                                             @endif
@@ -281,6 +314,16 @@
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     Ubah Konten
                                 </a>
+                            @endif
+
+                            @if($submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED)
+                                <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline w-full">
+                                    @csrf
+                                    <button type="submit" class="w-full justify-center bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-5 rounded-[1.25rem] font-black text-xs uppercase tracking-widest hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:-translate-y-1 transform active:scale-95 flex items-center gap-3">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"></path></svg>
+                                        Publish ke Profil Publik
+                                    </button>
+                                </form>
                             @endif
 
                             @if($submission->canBeSubmitted())

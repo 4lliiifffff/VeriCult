@@ -253,7 +253,7 @@
                     <!-- Image/Thumbnail -->
                     <div class="h-48 md:h-56 bg-gradient-to-br from-[#03045E] to-[#0077B6] relative overflow-hidden">
                         @if($item->files->first())
-                            <img src="{{ asset('storage/' . $item->files->first()->file_path) }}" 
+                            <img src="{{ $item->files->first()->url }}" 
                                  alt="{{ $item->name }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                  loading="lazy">

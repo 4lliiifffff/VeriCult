@@ -130,8 +130,7 @@
                 @endforeach
             @else
                 {{-- Categories without sub-categories --}}
-                @php $fieldsToRender = $categoryConfig; @endphp
-                @foreach($fieldsToRender as $fieldKey => $field)
+                @foreach($categoryConfig as $fieldKey => $field)
                     @if(is_array($field) && isset($field['type']))
                         @include('pengusul.submissions.partials.field-renderer', [
                             'fieldKey' => $fieldKey,
