@@ -15,7 +15,7 @@
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-2">
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
+                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
                             Kelola Pengajuan
                         </span>
                     </div>

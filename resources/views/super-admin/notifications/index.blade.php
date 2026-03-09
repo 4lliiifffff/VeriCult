@@ -1,7 +1,7 @@
 <x-layouts.super-admin>
     <x-slot name="header">
         <div class="relative mb-6 sm:mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-8 sm:p-10 overflow-hidden shadow-2xl shadow-blue-900/20 text-white">
-            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/10 rounded-full blur-[100px] animate-pulse"></div>
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-64 h-64 bg-[#00B4D8]/20 rounded-full blur-[80px]"></div>
             
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
