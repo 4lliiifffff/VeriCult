@@ -2,7 +2,7 @@
     <!-- Header with Icon -->
     <div class="mb-12 text-center">
         <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#00B4D8] to-[#0077B6] rounded-3xl mb-6 shadow-2xl shadow-blue-400/20 transition-transform duration-500 hover:scale-110 group">
-            <svg class="w-10 h-10 text-white group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-10 h-10 text-white  transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
             </svg>
         </div>
@@ -35,7 +35,7 @@
             <button type="submit" class="w-full bg-gradient-to-br from-[#00B4D8] to-[#0077B6] hover:shadow-2xl hover:shadow-blue-400/40 text-white font-black py-5 px-6 rounded-2xl transition-all duration-300 shadow-xl shadow-blue-400/20 flex items-center justify-center group active:scale-[0.98]">
                 <div class="flex items-center gap-4">
                     <span class="uppercase tracking-[0.2em] text-xs font-black">{{ __('Kirim Ulang Email Verifikasi') }}</span>
-                    <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5  transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>

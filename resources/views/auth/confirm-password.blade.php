@@ -2,7 +2,7 @@
     <!-- Header with Icon -->
     <div class="mb-12 text-center">
         <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-3xl mb-6 shadow-2xl shadow-blue-900/20 transition-transform duration-500 hover:scale-110 group">
-            <svg class="w-10 h-10 text-white group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-10 h-10 text-white  transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
             </svg>
         </div>
