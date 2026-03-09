@@ -110,6 +110,12 @@ Route::middleware(['auth', 'verified', 'role:validator'])
         Route::post('/submissions/{submission}/field-verification', [App\Http\Controllers\Validator\SubmissionController::class, 'storeFieldVerification'])->name('submissions.field-verification');
         Route::post('/submissions/{submission}/publish', [App\Http\Controllers\Validator\SubmissionController::class, 'publish'])->name('submissions.publish');
 
+        // Validator's own Cultural Submissions
+        Route::get('/cultural/create/{category}', [App\Http\Controllers\Validator\CulturalController::class, 'createForm'])->name('cultural.create-form');
+        Route::resource('cultural', App\Http\Controllers\Validator\CulturalController::class);
+        Route::post('/cultural/{submission}/submit', [App\Http\Controllers\Validator\CulturalController::class, 'submit'])->name('cultural.submit');
+        Route::delete('/cultural/{submission}/files/{file}', [App\Http\Controllers\Validator\CulturalController::class, 'destroyFile'])->name('cultural.files.destroy');
+
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');

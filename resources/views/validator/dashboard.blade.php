@@ -127,6 +127,10 @@
                     <a href="{{ route('validator.submissions.index') }}" class="w-full sm:w-auto justify-center inline-flex bg-white text-[#03045E] px-6 py-3 sm:py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
                         Review
                     </a>
+                    <a href="{{ route('validator.cultural.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#00B4D8] text-white px-6 py-3 sm:py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0096C7] transition-colors shadow-lg shadow-blue-900/10 gap-2 items-center">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                        Buat Pengajuan
+                    </a>
                 </div>
             </div>
         </div>
@@ -134,7 +138,18 @@
 
     <div class="space-y-10 pb-12">
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+            <!-- Pengajuan Saya -->
+            <div class="group bg-gradient-to-br from-[#03045E] to-[#023E8A] text-white rounded-[2rem] p-8 shadow-xl shadow-blue-900/40 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-[#48CAE4] mb-4 border border-white/20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <p class="text-[10px] font-black text-blue-200 uppercase tracking-widest">Pengajuan Saya</p>
+                    <h3 class="text-3xl font-black text-white mt-1">{{ $stats['my_submissions'] }}</h3>
+                </div>
+            </div>
             <!-- Total Submitted -->
             <div class="group bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 border border-white hover:-translate-y-1 transition-all duration-300">
                 <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 mb-4">

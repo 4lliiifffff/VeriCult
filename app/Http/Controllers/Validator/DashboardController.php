@@ -44,6 +44,7 @@ class DashboardController extends Controller
             'needs_revision' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REVISION)->count(),
             'forwarded' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_FIELD_VERIFICATION)->count(),
             'rejected' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REJECTED)->count(),
+            'my_submissions' => CulturalSubmission::ownedBy(Auth::id())->count(),
         ];
 
         $recentSubmissions = (clone $yearQuery)->with('user')

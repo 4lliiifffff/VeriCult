@@ -73,17 +73,7 @@
                         </div>
                     </div>
 
-                    <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Alamat / Lokasi</label>
-                        <p class="text-sm font-bold text-slate-600 leading-relaxed">{{ $submission->address }}</p>
-                    </div>
 
-                    <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Koordinat GPS</label>
-                        <div class="flex items-center gap-4">
-                            <span class="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono font-bold text-slate-600">{{ $submission->latitude }}, {{ $submission->longitude }}</span>
-                        </div>
-                    </div>
 
                     <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Deskripsi</label>
@@ -93,27 +83,85 @@
                     </div>
 
                     <!-- Category-Specific Data -->
-                    @if(!empty($categoryFields) && !empty($submission->category_data))
+                    @if(!empty($submission->category_data))
                     <div class="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
                             <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                             Detail {{ $submission->category }}
                         </label>
+                        @php
+                            $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                            $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+                        @endphp
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            @foreach($categoryFields as $fieldKey => $field)
-                                @php $value = $submission->category_data[$fieldKey] ?? null; @endphp
-                                @if(!empty($value))
-                                <div class="space-y-1 {{ $field['type'] === 'textarea' ? 'md:col-span-2' : '' }}">
-                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] }}</p>
-                                    @if($field['type'] === 'textarea')
-                                        <p class="text-slate-700 font-medium text-xs leading-relaxed whitespace-pre-wrap italic">"{{ $value }}"</p>
-                                    @else
-                                        <p class="text-[#03045E] font-bold text-sm">{{ $value }}</p>
-                                    @endif
-                                </div>
+                            @foreach($submission->category_data as $dataKey => $dataValue)
+                                @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))
+                                    @php
+                                        $fieldDef = $flatFields[$dataKey] ?? null;
+                                        $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+                                        $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
+                                    @endphp
+                                    <div class="space-y-1 {{ $isWide ? 'md:col-span-2' : '' }}">
+                                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $fieldLabel }}</p>
+                                        @if(is_array($dataValue))
+                                            @if(isset($dataValue[0]) && is_array($dataValue[0]))
+                                                {{-- Dynamic table data --}}
+                                                <div class="bg-white rounded-xl border border-indigo-100/50 overflow-hidden mt-1">
+                                                    <div class="grid gap-0 bg-indigo-50/30 border-b border-indigo-100/50" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
+                                                        @foreach(array_keys($dataValue[0]) as $colKey)
+                                                            <div class="px-3 py-2 text-[10px] font-black text-indigo-900/40 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</div>
+                                                        @endforeach
+                                                    </div>
+                                                    @foreach($dataValue as $row)
+                                                        <div class="grid gap-0 border-b border-indigo-50/50 last:border-0" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
+                                                            @foreach($row as $cellValue)
+                                                                <div class="px-3 py-2 text-xs font-bold text-[#03045E] truncate" title="{{ $cellValue }}">{{ $cellValue }}</div>
+                                                            @endforeach
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                {{-- Checkbox array --}}
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    @foreach($dataValue as $item)
+                                                        <span class="px-2 py-1 bg-white border border-indigo-100 text-[#0077B6] rounded-md text-xs font-bold shadow-sm inline-block">{{ $item }}</span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        @else
+                                            <p class="font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-xs leading-relaxed whitespace-pre-wrap italic text-slate-600' : 'bold text-sm text-[#03045E]' }}">{{ $dataValue }}</p>
+                                        @endif
+                                    </div>
                                 @endif
                             @endforeach
                         </div>
+
+                        {{-- UNESCO Categories --}}
+                        @if(!empty($submission->category_data['unesco_categories']))
+                            <div class="mt-6 pt-6 border-t border-indigo-100/50">
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Kategori UNESCO</p>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($submission->category_data['unesco_categories'] as $unescoCat)
+                                        <span class="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-md text-xs font-bold border border-indigo-100/50">{{ $unescoCat }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Data Dukung URLs --}}
+                        @if(!empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url']))
+                            <div class="mt-6 pt-6 border-t border-indigo-100/50 space-y-3">
+                                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Data Dukung (URL)</p>
+                                @foreach(['video_url' => 'Video', 'dokumen_kajian_url' => 'Dokumen Kajian', 'dokumen_lainnya_url' => 'Dokumen Lainnya'] as $urlKey => $urlLabel)
+                                    @if(!empty($submission->category_data[$urlKey]))
+                                        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest w-full sm:w-32 shrink-0">{{ $urlLabel }}:</span>
+                                            <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" class="text-xs text-[#0077B6] font-bold hover:underline break-all">{{ $submission->category_data[$urlKey] }}</a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                     @endif
 
@@ -171,9 +219,9 @@
         </div>
 
         <!-- Right: Review Actions -->
-        <div class="lg:col-span-5 space-y-10">
+        <div class="lg:col-span-5 space-y-10 sticky top-8">
             <!-- Focused Review Form -->
-            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden sticky top-8 hover:border-[#0077B6]/40 transition-colors duration-500">
+            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden hover:border-[#0077B6]/40 transition-colors duration-500">
                 <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-6 lg:p-8 text-white relative overflow-hidden">
                     <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
                     <div class="absolute -left-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
@@ -281,16 +329,7 @@
                                     <input type="date" name="visit_date" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" required>
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="group">
-                                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Latitude (GPS)</label>
-                                        <input type="text" name="verified_latitude" value="{{ $submission->latitude }}" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 font-mono text-xs text-[#03045E] transition-all duration-300 hover:border-slate-200" placeholder="-6.xxx">
-                                    </div>
-                                    <div class="group">
-                                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Longitude (GPS)</label>
-                                        <input type="text" name="verified_longitude" value="{{ $submission->longitude }}" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 font-mono text-xs text-[#03045E] transition-all duration-300 hover:border-slate-200" placeholder="106.xxx">
-                                    </div>
-                                </div>
+
                             </div>
 
                             <div>
