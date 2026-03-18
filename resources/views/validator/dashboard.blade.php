@@ -119,6 +119,7 @@
                             id="year" 
                             label="Periode" 
                             placeholder="Pilih Tahun"
+                            all-label="Semua Periode"
                             :selected="$activeYear" 
                             :options="collect($availableYears)->mapWithKeys(fn($y) => [$y => $y])->toArray()" 
                         />

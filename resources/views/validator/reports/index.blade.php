@@ -32,6 +32,7 @@
                             id="category" 
                             label="Filter Kategori" 
                             placeholder="Semua Kategori"
+                            all-label="Semua Kategori"
                             :selected="$activeCategory" 
                             :options="collect($categories)->mapWithKeys(fn($c) => [$c => $c])->toArray()" 
                         />

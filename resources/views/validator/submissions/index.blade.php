@@ -36,6 +36,7 @@
                         id="status" 
                         label="Status" 
                         placeholder="Semua Status"
+                        all-label="Semua Status"
                         variant="light"
                         :selected="request('status')" 
                         :options="[
@@ -52,6 +53,7 @@
                         id="claimed" 
                         label="Klaim" 
                         placeholder="Semua"
+                        all-label="Semua Klaim"
                         variant="light"
                         :selected="request('claimed')" 
                         :options="[

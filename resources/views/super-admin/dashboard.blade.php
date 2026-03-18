@@ -166,6 +166,7 @@
                             name="year" 
                             id="year" 
                             label="Filter Periode" 
+                            all-label="Semua Periode"
                             :selected="$activeYear" 
                             :options="collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Tahun ' . $y])->toArray()" 
                         />
