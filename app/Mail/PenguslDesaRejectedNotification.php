@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Mail;
+
+use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class PenguslDesaRejectedNotification extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $user;
+    public $rejectionReason;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct(User $user, string $rejectionReason)
+    {
+        $this->user = $user;
+        $this->rejectionReason = $rejectionReason;
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'Pengajuan Akun Pengusul Desa Ditolak',
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            markdown: 'emails.pengusul-desa-rejected',
+            with: [
+                'userName' => $this->user->name,
+                'userEmail' => $this->user->email,
+                'rejectionReason' => $this->rejectionReason,
+            ],
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+}

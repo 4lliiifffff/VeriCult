@@ -178,7 +178,7 @@
                                 @if($submission->files->count() > 0)
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         @foreach($submission->files as $file)
-                                            <a href="{{ $file->url }}" target="_blank" 
+                                            <a href="{{ Storage::url($file->path) }}" target="_blank" 
                                                class="group/file flex items-center justify-between p-6 bg-white border border-slate-100 rounded-[2rem] shadow-sm hover:translate-y-[-4px] hover:shadow-xl hover:shadow-slate-200/50 hover:border-[#0077B6]/30 transition-all duration-300">
                                                 <div class="flex items-center gap-5 min-w-0">
                                                     <div class="w-16 h-16 rounded-[1.25rem] flex items-center justify-center shrink-0 border border-slate-50 shadow-sm transition-transform group-hover/file:rotate-6

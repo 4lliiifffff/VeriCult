@@ -37,8 +37,14 @@ class DashboardController extends Controller
         // Suspended Users List
         $suspendedUsers = User::where('is_suspended', true)->with('roles')->get();
 
-        // Unverified Users
+        // Unverified Users (Email)
         $unverifiedUsersCount = User::whereNull('email_verified_at')->count();
+
+        // Pending Pengusul Desa Approvals
+        $pendingApprovalsCount = User::role('pengusul-desa')
+            ->where('is_approved_by_admin', false)
+            ->whereNotNull('email_verified_at')
+            ->count();
 
         // Online Users Monitoring
         $onlineUserIds = \Illuminate\Support\Facades\Cache::get('online-users', []);
@@ -121,6 +127,7 @@ class DashboardController extends Controller
             'newUsersThisMonth', 
             'suspendedUsersCount',
             'unverifiedUsersCount',
+            'pendingApprovalsCount',
             'usersByRole', 
             'recentUsers',
             'auditLogs',

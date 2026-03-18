@@ -14,13 +14,35 @@
                 <a href="{{ route('super-admin.cultural-submissions.edit', $submission) }}" class="flex items-center justify-center px-6 py-3 sm:py-2.5 bg-blue-50 text-[#0077B6] rounded-xl font-black text-xs uppercase tracking-widest border border-blue-100 hover:bg-[#0077B6] hover:text-white transition-all active:scale-95 text-center">
                     Edit Data
                 </a>
-                <form action="{{ route('super-admin.cultural-submissions.destroy', $submission) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini secara permanen?')" class="w-full">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="w-full px-6 py-3 sm:py-2.5 bg-red-50 text-red-600 rounded-xl font-black text-xs uppercase tracking-widest border border-red-100 hover:bg-red-600 hover:text-white transition-all active:scale-95">
+                <div x-data class="w-full">
+                    <button @click="$dispatch('open-modal', 'confirm-delete')" class="w-full px-6 py-3 sm:py-2.5 bg-red-50 text-red-600 rounded-xl font-black text-xs uppercase tracking-widest border border-red-100 hover:bg-red-600 hover:text-white transition-all active:scale-95">
                         Hapus Permanen
                     </button>
-                </form>
+                    
+                    <x-modal name="confirm-delete" focusable maxWidth="md">
+                        <form action="{{ route('super-admin.cultural-submissions.destroy', $submission) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                                <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-red-50 text-red-600 mb-6 font-black text-2xl">
+                                    <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-black text-[#03045E]">Hapus Permanen?</h3>
+                                <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                                    Apakah Anda yakin ingin menghapus data <strong class="text-red-600">{{ $submission->name }}</strong> secara permanen?
+                                </p>
+                            </div>
+                            <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3 bg-slate-50/50">
+                                <button type="submit" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-red-900/20">
+                                    Hapus Permanen
+                                </button>
+                                <button type="button" @click="$dispatch('close-modal', 'confirm-delete')" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                                    Batal
+                                </button>
+                            </div>
+                        </form>
+                    </x-modal>
+                </div>
             </div>
         </div>
     </x-slot>
@@ -184,7 +206,7 @@
                                     <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{{ number_format($file->file_size / 1024, 1) }} KB</p>
                                 </div>
                             </div>
-                            <a href="{{ $file->url }}" target="_blank" class="p-2 text-slate-400 hover:text-[#0077B6] transition-all">
+                            <a href="{{ Storage::url($file->path) }}" target="_blank" class="p-2 text-slate-400 hover:text-[#0077B6] transition-all">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             </a>
                         </div>

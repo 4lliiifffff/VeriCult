@@ -1,0 +1,118 @@
+<header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
+    <div class="flex items-center justify-between px-4 sm:px-8 h-16">
+        <!-- Sidebar Toggle (Mobile) -->
+        <div class="flex items-center gap-4 lg:hidden">
+            <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-[#0077B6] hover:bg-blue-50 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Desktop Info Area -->
+        <div class="hidden lg:flex items-center gap-3">
+            <div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Sesi Pengusul Aktif</span>
+        </div>
+
+        <!-- Right Side -->
+        <div class="flex items-center gap-6">
+            <!-- Notifications -->
+            <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+                <button @click="open = ! open" class="relative w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-[#0077B6] hover:bg-blue-50 transition-all duration-300 border border-slate-100 group">
+                    <svg class="w-5 h-5  transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    @if(Auth::user()->unreadNotifications->count() > 0)
+                        <span class="absolute top-2 right-2 h-4 min-w-[16px] px-1 bg-sky-600 text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white leading-none">
+                            {{ Auth::user()->unreadNotifications->count() > 99 ? '99+' : Auth::user()->unreadNotifications->count() }}
+                        </span>
+                    @endif
+                </button>
+
+                <div x-show="open"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                    class="fixed sm:absolute top-16 sm:top-auto inset-x-4 sm:inset-x-auto sm:right-0 z-50 mt-2 sm:mt-4 sm:w-80 rounded-2xl shadow-2xl shadow-sky-900/10 border border-slate-100 bg-white overflow-hidden"
+                    style="display: none;">
+                    
+                    <div class="p-4 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
+                        <h3 class="text-[10px] font-black text-[#03045E] uppercase tracking-widest">Notifikasi Terbaru</h3>
+                        <a href="{{ route('pengusul-desa.notifications.index') }}" class="text-[9px] font-black text-sky-600 uppercase tracking-widest hover:underline">Semua</a>
+                    </div>
+                    
+                    <div class="max-h-96 overflow-y-auto">
+                        @forelse(Auth::user()->unreadNotifications->take(5) as $notification)
+                            <a href="{{ route('pengusul-desa.notifications.read-and-redirect', $notification->id) }}" class="block p-4 hover:bg-sky-50 transition-colors border-b border-slate-50 last:border-0">
+                                <p class="text-[11px] font-black text-[#03045E] mb-0.5">{{ $notification->data['title'] }}</p>
+                                <p class="text-[10px] text-slate-500 line-clamp-2 leading-relaxed">{{ $notification->data['message'] }}</p>
+                                <p class="text-[9px] text-slate-400 mt-2 font-bold uppercase tracking-tight">{{ $notification->created_at->diffForHumans() }}</p>
+                            </a>
+                        @empty
+                            <div class="p-8 text-center text-slate-400 italic text-xs">
+                                Tidak ada notifikasi baru
+                            </div>
+                        @endforelse
+                    </div>
+
+                    @if(Auth::user()->unreadNotifications->count() > 0)
+                        <div class="p-4 bg-slate-50/50 border-t border-slate-50">
+                            <form action="{{ route('pengusul-desa.notifications.mark-all-read') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full py-2 text-[9px] font-black text-sky-600 uppercase tracking-widest hover:bg-sky-600 hover:text-white rounded-lg transition-all border border-sky-600/10">
+                                    Tandai Semua Terbaca
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Profile Dropdown -->
+            <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+                <button @click="open = ! open" class="flex items-center gap-3 focus:outline-none group">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-[11px] font-black !text-[#03045E] group-hover:text-[#0077B6] transition-colors leading-none mb-1">{{ Auth::user()->name }}</p>
+                        <p class="text-[9px] font-black !text-[#00B4D8] uppercase tracking-widest leading-none">Pengusul Budaya</p>
+                    </div>
+                    <div class="h-10 w-10 rounded-xl bg-[#03045E] !text-white flex items-center justify-center font-black text-xs shadow-lg shadow-blue-900/10 ring-2 ring-[#03045E]/5 scale-100 group-hover:scale-110 transition-all duration-300">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                </button>
+
+                <div x-show="open"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                    class="absolute right-0 z-50 mt-4 w-56 rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden p-2"
+                    style="display: none;"
+                    @click="open = false">
+                    
+                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-start text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-blue-50/80 hover:text-[#0077B6] transition-all duration-200 group/item">
+                        <svg class="w-4 h-4 group-hover/item:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Pengaturan Profil
+                    </a>
+
+                    <div class="h-[1px] bg-slate-50 my-2"></div>
+
+                    <!-- Authentication -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('logout') }}" class="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-start text-xs font-black uppercase tracking-widest text-rose-400 hover:bg-rose-50 hover:text-rose-500 transition-all duration-200 group/logout"
+                                onclick="event.preventDefault(); this.closest('form').submit();">
+                            <svg class="w-4 h-4 group-hover/logout:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                            Keluar Sistem
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -11,6 +11,21 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700,800&display=swap" rel="stylesheet" />
 
+        <!-- Flatpickr Date Picker -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+        <style>
+            .flatpickr-day.selected, .flatpickr-day.selected:hover { background: #0077B6; border-color: #0077B6; }
+            .flatpickr-day.today { border-color: #0077B6; }
+            .flatpickr-day:hover { background: #e0f2fe; }
+            .flatpickr-months .flatpickr-month { color: #03045E; }
+            .flatpickr-current-month .flatpickr-monthDropdown-months { font-weight: 700; }
+            .flatpickr-calendar { border-radius: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.12); border: 1px solid #e2e8f0; }
+            .flatpickr-input.flatpickr-input { font-family: 'Poppins', sans-serif; }
+        </style>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

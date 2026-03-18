@@ -25,7 +25,7 @@
                 </div>
                     
                 <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto">
-                    <a href="{{ route('super-admin.users.create-validator') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10 transition-transform active:scale-95">
+                    <a href="{{ route('super-admin.users.create-validator') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10 transition-transform active:scale-95 group">
                         <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                         </svg>
@@ -41,6 +41,9 @@
             notifyModalOpen: false, 
             suspendModalOpen: false,
             unsuspendModalOpen: false,
+            verifyModalOpen: false,
+            approveModalOpen: false,
+            rejectModalOpen: false,
             targetUser: null, 
             actionUrl: '',
             
@@ -63,6 +66,21 @@
                 this.targetUser = user;
                 this.actionUrl = url;
                 this.unsuspendModalOpen = true;
+            },
+            openVerifyModal(user, url) {
+                this.targetUser = user;
+                this.actionUrl = url;
+                this.verifyModalOpen = true;
+            },
+            openApproveModal(user, url) {
+                this.targetUser = user;
+                this.actionUrl = url;
+                this.approveModalOpen = true;
+            },
+            openRejectModal(user, url) {
+                this.targetUser = user;
+                this.actionUrl = url;
+                this.rejectModalOpen = true;
             }
         }" 
         class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative group">
@@ -99,7 +117,7 @@
                             placeholder="Semua Status"
                             variant="light"
                             :selected="request('status')" 
-                            :options="['active' => 'Aktif', 'suspended' => 'Ditangguhkan']" 
+                            :options="['active' => 'Aktif', 'pending' => 'Menunggu Persetujuan', 'suspended' => 'Ditangguhkan']" 
                         />
                     </div>
                 </div>
@@ -149,15 +167,20 @@
                         <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
                             @if($user->is_suspended)
                                 <span class="inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">
-                                    Suspended
+                                    Ditangguhkan
+                                </span>
+                            @elseif($user->hasRole('pengusul-desa') && !$user->is_approved_by_admin)
+                                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-orange-50 text-orange-600 border border-orange-100">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
+                                    Menunggu
                                 </span>
                             @elseif(is_null($user->email_verified_at))
                                 <span class="inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100">
-                                    Unverified
+                                    Blm. Terverifikasi
                                 </span>
                             @else
                                 <span class="inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
-                                    Active
+                                    Aktif
                                 </span>
                             @endif
                         </td>
@@ -171,6 +194,18 @@
                                         {{-- Actions for non-super-admins --}}
                                         @if(!$user->hasRole('super-admin'))
                                             
+                                            {{-- Approve/Reject for pending pengusul-desa --}}
+                                            @if($user->hasRole('pengusul-desa') && !$user->is_approved_by_admin)
+                                                <button @click="openApproveModal({{ json_encode($user) }}, '{{ route('super-admin.pengusul-desa.approve', $user) }}')"
+                                                    class="w-9 h-9 flex items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 shadow-sm border border-emerald-100" title="Setujui Akses">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                                </button>
+                                                <button @click="openRejectModal({{ json_encode($user) }}, '/super-admin/pengusul-desa/{{ $user->id }}/reject')"
+                                                    class="w-9 h-9 flex items-center justify-center rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm border border-red-100" title="Tolak & Suspend">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                </button>
+                                            @endif
+
                                             {{-- Notify Button --}}
                                             <button @click="openNotifyModal({{ json_encode($user) }}, '{{ route('super-admin.users.notify', $user) }}')" 
                                                 class="w-9 h-9 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-sm border border-indigo-100" title="Kirim Notifikasi">
@@ -179,12 +214,10 @@
  
                                             {{-- Verify Button --}}
                                             @if(!$user->hasVerifiedEmail())
-                                                <form action="{{ route('super-admin.users.verify-email', $user) }}" method="POST" class="inline" onsubmit="return confirm('Verifikasi email pengguna ini secara manual?');">
-                                                    @csrf
-                                                    <button type="submit" class="w-9 h-9 flex items-center justify-center rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-600 hover:text-white transition-all duration-300 shadow-sm border border-sky-100" title="Verifikasi Email Manual">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                    </button>
-                                                </form>
+                                                <button @click="openVerifyModal({{ json_encode($user) }}, '{{ route('super-admin.users.verify-email', $user) }}')"
+                                                    class="w-9 h-9 flex items-center justify-center rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-600 hover:text-white transition-all duration-300 shadow-sm border border-sky-100" title="Verifikasi Email Manual">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                </button>
                                             @endif
  
                                             @if($user->is_suspended)
@@ -199,6 +232,10 @@
                                                 </button>
                                             @endif
                                         @endif
+
+                                        <a href="{{ route('super-admin.users.show', $user) }}" class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-50 text-blue-500 hover:bg-[#0077B6] hover:text-white transition-all duration-300 shadow-sm border border-blue-100" title="Lihat Profil">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        </a>
 
                                         <a href="{{ route('super-admin.users.edit', $user) }}" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-500 hover:bg-[#03045E] hover:text-white transition-all duration-300 shadow-sm border border-slate-100" title="Edit Profil">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
@@ -421,6 +458,125 @@
                             Batal
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verify Modal -->
+        <div x-show="verifyModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="verifyModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+ 
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                        <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-sky-50 text-sky-600 mb-6">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#03045E]">Verifikasi Manual?</h3>
+                        <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                            Anda akan memverifikasi alamat email untuk <span x-text="targetUser?.name" class="font-black text-sky-600"></span> secara manual.
+                        </p>
+                    </div>
+                    <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                        <form :action="actionUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-4 bg-sky-600 hover:bg-sky-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-sky-900/20">
+                                Verifikasi
+                            </button>
+                        </form>
+                        <button type="button" @click="verifyModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Approve Modal -->
+        <div x-show="approveModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="approveModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                        <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-emerald-50 text-emerald-600 mb-6">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#03045E]">Setujui Akses?</h3>
+                        <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                            Anda akan menyetujui <span x-text="targetUser?.name" class="font-black text-emerald-600"></span> sebagai Pengusul Desa. Email dan akun akan diaktifkan secara bersamaan.
+                        </p>
+                    </div>
+                    <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                        <form :action="actionUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-emerald-900/20">
+                                Ya, Setujui
+                            </button>
+                        </form>
+                        <button type="button" @click="approveModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reject Modal -->
+        <div x-show="rejectModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="rejectModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <form :action="actionUrl" method="POST">
+                        @csrf
+                        <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                            <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-red-50 text-red-600 mb-6">
+                                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-black text-[#03045E]">Tolak Pengajuan?</h3>
+                            <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                                Anda akan menolak dan menangguhkan akun <span x-text="targetUser?.name" class="font-black text-red-600"></span>.
+                            </p>
+                            <div class="mt-6">
+                                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Alasan Penolakan (Wajib)</label>
+                                <textarea name="rejection_reason" rows="3" required
+                                    class="block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 sm:text-sm transition-all duration-300 font-medium p-4"
+                                    placeholder="Jelaskan alasan penolakan..."></textarea>
+                            </div>
+                        </div>
+                        <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                            <button type="submit" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-red-900/20">
+                                Tolak & Suspend
+                            </button>
+                            <button type="button" @click="rejectModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                                Batal
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

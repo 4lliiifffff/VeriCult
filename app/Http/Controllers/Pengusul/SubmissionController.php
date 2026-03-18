@@ -29,14 +29,11 @@ class SubmissionController extends Controller
 
     /**
      * Show the category selection page.
+     * Redirects to the active culture report form directly.
      */
     public function create()
     {
-        $categories = CulturalSubmission::CATEGORY_SLUGS;
-        $descriptions = CulturalSubmission::CATEGORY_DESCRIPTIONS;
-        $icons = CulturalSubmission::CATEGORY_ICONS;
-
-        return view('pengusul.submissions.create', compact('categories', 'descriptions', 'icons'));
+        return redirect()->route('pengusul.submissions.create-form', 'laporan-kebudayaan-aktif');
     }
 
     /**
@@ -44,6 +41,30 @@ class SubmissionController extends Controller
      */
     public function createForm(string $category)
     {
+        // Special handling for Active Culture Report
+        if ($category === 'laporan-kebudayaan-aktif') {
+            $categoryName = 'Laporan Kebudayaan Aktif';
+            $categorySlug = $category;
+            $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
+            $categoryDescription = 'Formulir untuk melaporkan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.';
+
+            $villages = \App\Models\Village::orderBy('name')->get();
+
+            return view('pengusul.submissions.create-form', compact(
+                'categoryName',
+                'categorySlug',
+                'categoryFields',
+                'categoryDescription',
+                'villages'
+            ));
+        }
+
+        // Regular Pengusul shouldn't access other categories directly anymore
+        if (!Auth::user()->hasRole('pengusul-desa')) {
+            return redirect()->route('pengusul.submissions.create-form', 'laporan-kebudayaan-aktif');
+        }
+
+        // ... rest of the original logic for other roles if they access this ...
         // Validate category slug
         if (!array_key_exists($category, CulturalSubmission::CATEGORY_SLUGS)) {
             abort(404, 'Kategori tidak ditemukan.');
@@ -54,11 +75,14 @@ class SubmissionController extends Controller
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
         $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$categoryName] ?? '';
 
+        $villages = \App\Models\Village::orderBy('name')->get();
+
         return view('pengusul.submissions.create-form', compact(
             'categoryName',
             'categorySlug',
             'categoryFields',
-            'categoryDescription'
+            'categoryDescription',
+            'villages'
         ));
     }
 
@@ -72,10 +96,10 @@ class SubmissionController extends Controller
             'name' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
             'address' => ['nullable', 'string'],
-            'description' => ['required', 'string', 'min:50'],
+            'description' => $request->input('category') === 'Laporan Kebudayaan Aktif' ? ['nullable', 'string'] : ['required', 'string', 'min:50'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
+            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
         ];
 
         // Add category-specific validation rules
@@ -100,12 +124,12 @@ class SubmissionController extends Controller
             foreach ($files as $file) {
                 $mimeType = $file->getMimeType();
                 $fileSize = $file->getSize();
-                
+
                 // Video files: max 1GB (1073741824 bytes)
                 if (str_starts_with($mimeType, 'video/') && $fileSize > 1073741824) {
                     return back()->withErrors(['files' => 'File video tidak boleh melebihi 1GB.'])->withInput();
                 }
-                
+
                 // Documents and images: max 10MB (10485760 bytes)
                 if (!str_starts_with($mimeType, 'video/') && $fileSize > 10485760) {
                     return back()->withErrors(['files' => 'Dokumen dan gambar tidak boleh melebihi 10MB.'])->withInput();
@@ -136,9 +160,8 @@ class SubmissionController extends Controller
             'address' => $submissionAddress,
             'description' => $validated['description'],
             'category_data' => !empty($categoryData) ? $categoryData : null,
-            'latitude' => $validated['latitude'] ?? null,
-            'longitude' => $validated['longitude'] ?? null,
             'status' => CulturalSubmission::STATUS_DRAFT,
+            'submission_type' => 'aktif',
         ]);
 
         // Handle file uploads
@@ -284,7 +307,9 @@ class SubmissionController extends Controller
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
         $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$submission->category] ?? '';
 
-        return view('pengusul.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription'));
+        $villages = \App\Models\Village::orderBy('name')->get();
+
+        return view('pengusul.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription', 'villages'));
     }
 
     /**
@@ -328,7 +353,7 @@ class SubmissionController extends Controller
             $files = $request->file('files');
             // Count existing + new files
             $totalFiles = $submission->files()->count() + count($files);
-            
+
             if ($totalFiles > 5) {
                 return back()->withErrors(['files' => 'Maksimal 5 file diperbolehkan. Anda sudah memiliki ' . $submission->files()->count() . ' file.'])->withInput();
             }
@@ -336,12 +361,12 @@ class SubmissionController extends Controller
             foreach ($files as $file) {
                 $mimeType = $file->getMimeType();
                 $fileSize = $file->getSize();
-                
+
                 // Video files: max 1GB
                 if (str_starts_with($mimeType, 'video/') && $fileSize > 1073741824) {
                     return back()->withErrors(['files' => 'File video tidak boleh melebihi 1GB.'])->withInput();
                 }
-                
+
                 // Documents and images: max 10MB
                 if (!str_starts_with($mimeType, 'video/') && $fileSize > 10485760) {
                     return back()->withErrors(['files' => 'Dokumen dan gambar tidak boleh melebihi 10MB.'])->withInput();
@@ -435,7 +460,7 @@ class SubmissionController extends Controller
     public function destroyFile(CulturalSubmission $submission, SubmissionFile $file)
     {
         Gate::authorize('update', $submission);
-        
+
         if (!$submission->isEditable()) {
             abort(403, 'Submission is not editable.');
         }
@@ -459,10 +484,10 @@ class SubmissionController extends Controller
             $extension = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
             $size = $file->getSize();
-            
+
             // Generate unique filename
             $storedName = time() . '_' . uniqid() . '.' . $extension;
-            
+
             try {
                 // Store file
                 $path = $file->storeAs(
@@ -473,9 +498,9 @@ class SubmissionController extends Controller
 
                 if (!$path) {
                     \Log::error("Failed to store file: " . $originalName);
-                    continue; 
+                    continue;
                 }
-                
+
                 // Determine file type
                 $fileType = SubmissionFile::TYPE_DOCUMENT;
                 if (str_starts_with($mimeType, 'image/')) {
@@ -483,7 +508,7 @@ class SubmissionController extends Controller
                 } elseif (str_starts_with($mimeType, 'video/')) {
                     $fileType = SubmissionFile::TYPE_VIDEO;
                 }
-                
+
                 // Create database record
                 $submission->files()->create([
                     'original_name' => $originalName,

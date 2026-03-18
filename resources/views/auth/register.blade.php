@@ -98,6 +98,9 @@
             </div>
         </div>
 
+        <!-- Hidden Role -->
+        <input type="hidden" name="role" value="pengusul">
+
         <!-- Terms Agreement -->
         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 group transition-all duration-300 hover:bg-slate-100/50">
             <label class="flex items-start cursor-pointer group">
@@ -121,6 +124,16 @@
         </div>
 
         <!-- Divider -->
+        <div class="relative py-4">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-slate-100"></div>
+            </div>
+            <div class="relative flex justify-center text-[10px] font-black uppercase tracking-[0.2em] gap-4">
+                <span class="px-4 bg-white text-slate-300">Daftar sebagai pihak Desa?</span>
+                <a href="{{ route('register.desa') }}" class="px-4 font-black transition-colors bg-white text-[#0077B6] hover:text-[#03045E] underline">Registrasi Wakil Desa</a>
+            </div>
+        </div>
+
         <div class="relative py-4">
             <div class="absolute inset-0 flex items-center">
                 <div class="w-full border-t border-slate-100"></div>
