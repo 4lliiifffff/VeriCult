@@ -174,24 +174,22 @@ class CulturalController extends Controller
         // 1. Draft Created
         $timeline->push([
             'type' => 'status',
-            'status' => 'draft',
-            'title' => 'Draft Dibuat',
-            'date' => $submission->created_at,
-            'description' => null,
-            'icon' => 'draft',
-            'color' => 'gray'
+            'status' => CulturalSubmission::STATUS_DRAFT,
+            'title' => 'Draf Disimpan',
+            'status' => 'Draf',
+            'color' => 'gray',
+            'icon' => 'draf',
         ]);
 
         // 2. Submitted
         if ($submission->submitted_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'submitted',
-                'title' => 'Dikirim untuk Review',
-                'date' => $submission->submitted_at,
-                'description' => null,
-                'icon' => 'submitted',
-                'color' => 'blue'
+                'status' => CulturalSubmission::STATUS_SUBMITTED,
+                'title' => 'Pengajuan Dikirim',
+                'status' => 'Diajukan',
+                'color' => 'blue',
+                'icon' => 'diajukan',
             ]);
         }
 
@@ -222,13 +220,13 @@ class CulturalController extends Controller
         foreach ($submission->fieldVerifications as $review) {
             $actionTitles = [
                 'verified' => 'Verifikasi Lapangan Disetujui',
-                'revision' => 'Butuh Revisi (Verifikasi Lapangan)',
-                'rejected' => 'Ditolak (Verifikasi Lapangan)'
+                'rejected' => 'Verifikasi Lapangan Ditolak',
+                'revision' => 'Butuh Revisi (Verifikasi Lapangan)'
             ];
             $actionColors = [
                 'verified' => 'emerald',
-                'revision' => 'amber',
-                'rejected' => 'red'
+                'rejected' => 'rose',
+                'revision' => 'amber'
             ];
             $timeline->push([
                 'type' => 'review',
@@ -245,7 +243,7 @@ class CulturalController extends Controller
         if ($submission->verified_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'verified',
+                'status' => CulturalSubmission::STATUS_VERIFIED,
                 'title' => 'Diverifikasi',
                 'date' => $submission->verified_at,
                 'description' => null,
@@ -258,12 +256,11 @@ class CulturalController extends Controller
         if ($submission->published_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'published',
-                'title' => 'Dipublikasikan',
-                'date' => $submission->published_at,
-                'description' => null,
-                'icon' => 'published',
-                'color' => 'green'
+                'status' => CulturalSubmission::STATUS_PUBLISHED,
+                'title' => 'Data Diterbitkan',
+                'status' => 'Diterbitkan',
+                'color' => 'green',
+                'icon' => 'diterbitkan',
             ]);
         }
 

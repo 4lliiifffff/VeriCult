@@ -11,14 +11,14 @@ class CulturalSubmission extends Model
     /**
      * Status constants
      */
-    const STATUS_DRAFT = 'draft';
-    const STATUS_SUBMITTED = 'submitted';
-    const STATUS_ADMINISTRATIVE_REVIEW = 'administrative_review';
-    const STATUS_FIELD_VERIFICATION = 'field_verification';
-    const STATUS_VERIFIED = 'verified';
-    const STATUS_PUBLISHED = 'published';
-    const STATUS_REJECTED = 'rejected';
-    const STATUS_REVISION = 'revision';
+    const STATUS_DRAFT = 'draf';
+    const STATUS_SUBMITTED = 'diajukan';
+    const STATUS_ADMINISTRATIVE_REVIEW = 'tinjauan_administratif';
+    const STATUS_FIELD_VERIFICATION = 'verifikasi_lapangan';
+    const STATUS_VERIFIED = 'diverifikasi';
+    const STATUS_PUBLISHED = 'diterbitkan';
+    const STATUS_REJECTED = 'ditolak';
+    const STATUS_REVISION = 'revisi';
 
     /**
      * Category constants (10+1 Objek Kebudayaan Indonesia)
@@ -343,16 +343,24 @@ class CulturalSubmission extends Model
      */
     public function getStatusLabelAttribute(): string
     {
-        return match($this->status) {
-            self::STATUS_DRAFT => 'Draft',
-            self::STATUS_SUBMITTED => 'Submitted',
-            self::STATUS_ADMINISTRATIVE_REVIEW => 'Administrative Review',
-            self::STATUS_FIELD_VERIFICATION => 'Field Verification',
-            self::STATUS_VERIFIED => 'Verified',
-            self::STATUS_PUBLISHED => 'Published',
-            self::STATUS_REJECTED => 'Rejected',
-            self::STATUS_REVISION => 'Needs Revision',
-            default => 'Unknown',
+        return self::getStatusLabel($this->status);
+    }
+
+    /**
+     * Get human-readable status name statically.
+     */
+    public static function getStatusLabel(string $status): string
+    {
+        return match($status) {
+            self::STATUS_DRAFT => 'Draf',
+            self::STATUS_SUBMITTED => 'Diajukan',
+            self::STATUS_ADMINISTRATIVE_REVIEW => 'Tinjauan Administratif',
+            self::STATUS_FIELD_VERIFICATION => 'Verifikasi Lapangan',
+            self::STATUS_VERIFIED => 'Diverifikasi',
+            self::STATUS_PUBLISHED => 'Diterbitkan',
+            self::STATUS_REJECTED => 'Ditolak',
+            self::STATUS_REVISION => 'Butuh Revisi',
+            default => 'Tidak Diketahui',
         };
     }
 
@@ -361,7 +369,15 @@ class CulturalSubmission extends Model
      */
     public function getStatusColorAttribute(): string
     {
-        return match($this->status) {
+        return self::getStatusColor($this->status);
+    }
+
+    /**
+     * Get status badge color mapping statically.
+     */
+    public static function getStatusColor(string $status): string
+    {
+        return match($status) {
             self::STATUS_DRAFT => 'gray',
             self::STATUS_REVISION => 'amber',
             self::STATUS_SUBMITTED => 'blue',

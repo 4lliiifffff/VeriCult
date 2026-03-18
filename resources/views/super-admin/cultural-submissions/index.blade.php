@@ -58,7 +58,7 @@
                             placeholder="Semua Status"
                             variant="light"
                             :selected="request('status')" 
-                            :options="collect($statuses)->mapWithKeys(fn($s) => [$s => ucfirst(str_replace('_', ' ', $s))])->toArray()" 
+                            :options="collect($statuses)->mapWithKeys(fn($s) => [$s => \App\Models\CulturalSubmission::getStatusLabel($s)])->toArray()" 
                         />
                     </div>
                 </div>

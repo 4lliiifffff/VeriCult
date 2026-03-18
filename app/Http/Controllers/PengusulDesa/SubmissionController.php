@@ -192,11 +192,12 @@ class SubmissionController extends Controller
         // 1. Draft Created
         $timeline->push([
             'type' => 'status',
-            'status' => 'draft',
-            'title' => 'Draft Dibuat',
+            'status' => CulturalSubmission::STATUS_DRAFT,
+            'title' => 'Draf Disimpan',
+            'display_status' => 'Draf',
             'date' => $submission->created_at,
             'description' => null,
-            'icon' => 'draft',
+            'icon' => 'draf',
             'color' => 'gray'
         ]);
 
@@ -204,11 +205,12 @@ class SubmissionController extends Controller
         if ($submission->submitted_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'submitted',
-                'title' => 'Dikirim untuk Review',
+                'status' => CulturalSubmission::STATUS_SUBMITTED,
+                'title' => 'Pengajuan Dikirim',
+                'display_status' => 'Diajukan',
                 'date' => $submission->submitted_at,
                 'description' => null,
-                'icon' => 'submitted',
+                'icon' => 'diajukan',
                 'color' => 'blue'
             ]);
         }
@@ -265,7 +267,7 @@ class SubmissionController extends Controller
             // but normally it's fine.
             $timeline->push([
                 'type' => 'status',
-                'status' => 'verified',
+                'status' => CulturalSubmission::STATUS_VERIFIED,
                 'title' => 'Diverifikasi',
                 'date' => $submission->verified_at,
                 'description' => null,
@@ -277,11 +279,12 @@ class SubmissionController extends Controller
         if ($submission->published_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'published',
-                'title' => 'Dipublikasikan',
+                'status' => CulturalSubmission::STATUS_PUBLISHED,
+                'title' => 'Data Diterbitkan',
+                'display_status' => 'Diterbitkan',
                 'date' => $submission->published_at,
                 'description' => null,
-                'icon' => 'published',
+                'icon' => 'diterbitkan',
                 'color' => 'green'
             ]);
         }

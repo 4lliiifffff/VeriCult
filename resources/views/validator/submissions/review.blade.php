@@ -54,8 +54,8 @@
                     </div>
                     <span @class([
                         'px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border animate-pulse hidden sm:inline-block',
-                        'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === 'administrative_review',
-                        'bg-indigo-50 text-indigo-600 border-indigo-100' => $submission->status === 'field_verification',
+                        'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
+                        'bg-indigo-50 text-indigo-600 border-indigo-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION,
                     ])>
                         {{ $submission->status_label }}
                     </span>
@@ -232,7 +232,7 @@
                         <div>
                             <h2 class="font-black text-xl tracking-tight">Keputusan Validasi</h2>
                             <p class="text-[10px] font-bold uppercase tracking-widest text-blue-200 mt-0.5">
-                                Tahap: {{ in_array($submission->status, ['administrative_review', 'submitted']) ? 'Review Administratif' : 'Verifikasi Lapangan' }}
+                                Tahap: {{ \App\Models\CulturalSubmission::isReviewPhase($submission->status) ? 'Review Administratif' : 'Verifikasi Lapangan' }}
                             </p>
                         </div>
                     </div>
