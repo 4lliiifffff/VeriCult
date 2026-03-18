@@ -9,18 +9,25 @@
             <span class="text-[#03045E]">Edit Profil</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
-            <div>
-                <h2 class="font-black text-2xl sm:text-3xl text-[#03045E] leading-tight tracking-tight break-words">
-                    Edit Profil <span class="text-[#0077B6]">Pengguna</span>
-                </h2>
-                <p class="text-[13px] sm:text-sm text-slate-500 mt-2 font-medium">Perbarui informasi identitas, peran, dan kredensial akses user.</p>
-            </div>
-            <div>
-                <a href="{{ route('super-admin.users.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 sm:py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50 active:scale-95">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Kembali
-                </a>
+        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
+                        Kelola Pengguna
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
+                        Edit Profil <span class="text-[#00B4D8]">Pengguna</span>
+                    </h2>
+                    <p class="text-blue-100/70 text-sm font-medium">Perbarui informasi identitas, peran, dan kredensial akses user.</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto">
+                    <a href="{{ route('super-admin.users.index') }}" class="w-full justify-center bg-transparent border-2 border-white/40 text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-white hover:text-[#03045E] transition-colors active:scale-95 group">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Kembali
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>

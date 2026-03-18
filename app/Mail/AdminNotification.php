@@ -44,7 +44,7 @@ class AdminNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.admin.notification',
+            markdown: 'emails.admin.notification',
         );
     }
 

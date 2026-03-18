@@ -25,6 +25,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'role', // temporary for existing logic
         'is_suspended',
         'suspended_at',
+        'is_approved_by_admin',
+        'approved_by_admin_at',
+        'village_id',
     ];
 
     /**
@@ -50,6 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'is_suspended' => 'boolean',
             'suspended_at' => 'datetime',
             'last_seen_at' => 'datetime',
+            'is_approved_by_admin' => 'boolean',
+            'approved_by_admin_at' => 'datetime',
         ];
     }
 
@@ -66,8 +71,46 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'validator.dashboard';
         } elseif ($this->hasRole('pengusul')) {
             return 'pengusul.dashboard';
+        } elseif ($this->hasRole('pengusul-desa')) {
+            return 'pengusul-desa.dashboard';
         }
 
         return 'dashboard';
+    }
+
+    /**
+     * Check if user is a pengusul-desa pending admin approval.
+     *
+     * @return bool
+     */
+    public function isPendingAdminApproval(): bool
+    {
+        return $this->hasRole('pengusul-desa') && !$this->is_approved_by_admin;
+    }
+
+    /**
+     * Get admin approval status for pengusul-desa users.
+     *
+     * @return string
+     */
+    public function getAdminApprovalStatus(): string
+    {
+        if (!$this->hasRole('pengusul-desa')) {
+            return 'N/A';
+        }
+
+        if ($this->is_approved_by_admin) {
+            return 'Disetujui';
+        }
+
+        return 'Menunggu Persetujuan';
+    }
+
+    /**
+     * Get the village that the user belongs to.
+     */
+    public function village()
+    {
+        return $this->belongsTo(Village::class);
     }
 }

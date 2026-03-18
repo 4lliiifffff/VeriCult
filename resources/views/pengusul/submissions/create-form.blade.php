@@ -28,8 +28,10 @@
                 <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Kategori</a>
+                @if($categorySlug !== 'laporan-kebudayaan-aktif')
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <a href="{{ route('pengusul.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Kategori</a>
+                @endif
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-[#03045E]">{{ $categoryName }}</span>
             </nav>
@@ -51,11 +53,14 @@
                             </div>
                         </div>
                         <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
-                            Daftarkan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
+                            {{ $categorySlug === 'laporan-kebudayaan-aktif' ? 'Melaporkan Kebudayaan Aktif' : 'Daftarkan ' . $categoryName }}
                         </h2>
-                        <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">{{ $categoryDescription }}</p>
+                        <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">
+                            {{ $categorySlug === 'laporan-kebudayaan-aktif' ? 'Dokumentasikan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.' : $categoryDescription }}
+                        </p>
                     </div>
                         
+                    @if($categorySlug !== 'laporan-kebudayaan-aktif')
                     <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
                         <a href="{{ route('pengusul.submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
                             <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,6 +69,7 @@
                             Ganti Kategori
                         </a>
                     </div>
+                    @endif
                 </div>
             </div>
         </x-slot>

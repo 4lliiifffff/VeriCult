@@ -26,10 +26,27 @@ class CulturalSubmissionPolicy
 
     /**
      * Determine whether the user can create models.
+     *
+     * pengusul: can only create aktif submissions
+     * pengusul-desa: can create both statistik and aktif submissions
      */
-    public function create(User $user): bool
+    public function create(User $user, string $submissionType = 'aktif'): bool
     {
-        return $user->hasRole('pengusul');
+        // Regular pengusul can only submit active culture
+        if ($user->hasRole('pengusul') && !$user->hasRole('pengusul-desa')) {
+            return $submissionType === 'aktif';
+        }
+
+        // pengusul-desa can submit both types (if approved)
+        if ($user->hasRole('pengusul-desa')) {
+            // Check if pengusul-desa is approved
+            if (!$user->is_approved_by_admin) {
+                return false;
+            }
+            return in_array($submissionType, ['statistik', 'aktif']);
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +70,7 @@ class CulturalSubmissionPolicy
      */
     public function claim(User $user, CulturalSubmission $submission): bool
     {
-        return $user->hasRole('validator') && 
+        return $user->hasRole('validator') &&
                ($submission->canBeClaimed() || $submission->reviewed_by == $user->id);
     }
 
@@ -70,12 +87,12 @@ class CulturalSubmissionPolicy
      */
     public function review(User $user, CulturalSubmission $submission): bool
     {
-        return $user->hasRole('validator') && 
+        return $user->hasRole('validator') &&
                in_array($submission->status, [
                    CulturalSubmission::STATUS_SUBMITTED,
-                   CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, 
+                   CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
                    CulturalSubmission::STATUS_FIELD_VERIFICATION
-               ]) && 
+               ]) &&
                $submission->reviewed_by === $user->id;
     }
 

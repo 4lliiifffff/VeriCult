@@ -22,6 +22,8 @@ class NotificationController extends Controller
             $view = 'validator.notifications.index';
         } elseif ($user->hasRole('pengusul')) {
             $view = 'pengusul.notifications.index';
+        } elseif ($user->hasRole('pengusul-desa')) {
+            $view = 'pengusul-desa.notifications.index';
         }
 
         return view($view, compact('notifications'));
@@ -69,6 +71,8 @@ class NotificationController extends Controller
                 return redirect()->route('validator.submissions.show', $submissionId);
             } elseif ($user->hasRole('pengusul')) {
                 return redirect()->route('pengusul.submissions.show', $submissionId);
+            } elseif ($user->hasRole('pengusul-desa')) {
+                return redirect()->route('pengusul-desa.submissions.show', $submissionId);
             }
         }
 

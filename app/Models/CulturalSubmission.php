@@ -173,8 +173,6 @@ class CulturalSubmission extends Model
         'description',
         'category_data',
         'address',
-        'latitude',
-        'longitude',
         'status',
         'reviewed_by',
         'review_started_at',
@@ -182,6 +180,7 @@ class CulturalSubmission extends Model
         'verified_at',
         'published_at',
         'period_year',
+        'submission_type',
     ];
 
     /**
@@ -191,13 +190,12 @@ class CulturalSubmission extends Model
      */
     protected $casts = [
         'category_data' => 'array',
-        'latitude' => 'decimal:8',
-        'longitude' => 'decimal:8',
         'reviewed_by' => 'integer',
         'review_started_at' => 'datetime',
         'submitted_at' => 'datetime',
         'verified_at' => 'datetime',
         'published_at' => 'datetime',
+        'submission_type' => 'string',
         'period_year' => 'integer',
     ];
 
@@ -389,5 +387,41 @@ class CulturalSubmission extends Model
         }
 
         return $slug;
+    }
+
+    /**
+     * Check if this is an OPK submission
+     */
+    public function isOPK(): bool
+    {
+        return $this->submission_type === 'statistik';
+    }
+
+    /**
+     * Check if this is an active culture report
+     */
+    public function isActiveCulture(): bool
+    {
+        return $this->submission_type === 'aktif';
+    }
+
+    /**
+     * Get the OPK category from active culture report kategori_opk field
+     */
+    public function getOPKCategory(): ?string
+    {
+        if (!$this->isActiveCulture()) {
+            return null;
+        }
+
+        return $this->category_data['kategori_opk'] ?? null;
+    }
+
+    /**
+     * Scope to filter by submission type
+     */
+    public function scopeOfType($query, string $type)
+    {
+        return $query->where('submission_type', $type);
     }
 }

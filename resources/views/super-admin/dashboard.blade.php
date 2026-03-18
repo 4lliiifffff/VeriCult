@@ -22,7 +22,19 @@
         new Chart(statusCtx, {
             type: 'doughnut',
             data: {
-                labels: {!! json_encode(array_keys($statusStats)) !!}.map(s => s.replace('_', ' ').toUpperCase()),
+                labels: {!! json_encode(array_keys($statusStats)) !!}.map(s => {
+                    const map = {
+                        'draft': 'Draft',
+                        'submitted': 'Terkirim',
+                        'administrative_review': 'Review Admin',
+                        'field_verification': 'Verifikasi Lapangan',
+                        'verified': 'Terverifikasi',
+                        'published': 'Terpublikasi',
+                        'rejected': 'Ditolak',
+                        'revision': 'Butuh Revisi'
+                    };
+                    return map[s] || s.replace('_', ' ').toUpperCase();
+                }),
                 datasets: [{
                     data: {!! json_encode(array_values($statusStats)) !!},
                     backgroundColor: ['#48CAE4', '#0077B6', '#023E8A', '#03045E', '#CAF0F8', '#90E0EF', '#00B4D8'],
@@ -67,7 +79,13 @@
         new Chart(trendCtx, {
             type: 'line',
             data: {
-                labels: {!! json_encode($monthlyTrend->pluck('month_name')) !!},
+                labels: {!! json_encode($monthlyTrend->pluck('month_name')) !!}.map(m => {
+                    const months = {
+                        'Jan': 'Jan', 'Feb': 'Feb', 'Mar': 'Mar', 'Apr': 'Apr', 'May': 'Mei', 'Jun': 'Jun',
+                        'Jul': 'Jul', 'Aug': 'Agu', 'Sep': 'Sep', 'Oct': 'Okt', 'Nov': 'Nov', 'Dec': 'Des'
+                    };
+                    return months[m] || m;
+                }),
                 datasets: [{
                     label: 'Pengajuan Baru',
                     data: {!! json_encode($monthlyTrend->pluck('count')) !!},
@@ -154,10 +172,10 @@
                     </form>
                     <div class="hidden sm:block h-10 w-px bg-white/20 mx-2"></div>
                     <div class="bg-white/5 sm:bg-transparent p-3 sm:p-0 rounded-xl">
-                        <p class="text-[10px] font-black text-[#00B4D8] uppercase tracking-[0.2em] mb-0.5">System Status</p>
+                        <p class="text-[10px] font-black text-[#00B4D8] uppercase tracking-[0.2em] mb-0.5">Status Sistem</p>
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span class="text-white font-black text-sm">LIVE & OPERATIONAL</span>
+                            <span class="text-white font-black text-sm">AKTIF & BERJALAN</span>
                         </div>
                     </div>
                 </div>
@@ -200,16 +218,41 @@
                 </div>
             </div>
 
-            <!-- Unverified Users -->
-            <div class="group bg-white rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-white hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+            <!-- Pending Approvals -->
+            <a href="{{ route('super-admin.users.pengusul-desa') }}" class="group bg-white rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-white hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-gradient-to-br from-amber-500/10 to-transparent rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                 <div class="flex items-start justify-between relative z-10">
                     <div>
-                        <p class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Menunggu Verifikasi</p>
+                        <p class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Persetujuan Desa</p>
+                        <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums">{{ $pendingApprovalsCount }}</h3>
+                        @if($pendingApprovalsCount > 0)
+                            <div class="mt-4 flex items-center gap-2 text-amber-600 font-bold text-[10px] bg-amber-50 w-fit px-2 py-1 rounded-lg animate-pulse">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                                </span>
+                                <span>Butuh Approval</span>
+                            </div>
+                        @else
+                            <p class="mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Semua Beres</p>
+                        @endif
+                    </div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl {{ $pendingApprovalsCount > 0 ? 'bg-amber-100 text-amber-600' : 'bg-slate-50 text-slate-400' }} flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300 shadow-inner">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Unverified Users -->
+            <div class="group bg-white rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-white hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                <div class="flex items-start justify-between relative z-10">
+                    <div>
+                        <p class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Belum Terverifikasi</p>
                         <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums">{{ $unverifiedUsersCount }}</h3>
                         <p class="mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Email pending</p>
                     </div>
-                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300 shadow-inner">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-500 group-hover:text-white transition-colors duration-300 shadow-inner">
                         <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     </div>
                 </div>
@@ -322,13 +365,13 @@
                     <div>
                         <h3 class="text-xl sm:text-2xl font-black text-[#03045E] flex items-center gap-3">
                             <span class="w-2 h-6 sm:w-2.5 sm:h-8 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.5)]"></span>
-                            Live Monitoring
+                            Pemantauan Langsung
                         </h3>
                         <p class="text-slate-400 font-medium text-xs sm:text-sm mt-1">Pantau aktivitas pengguna secara real-time di seluruh platform.</p>
                     </div>
                     <div class="flex items-center gap-3 bg-slate-50 px-5 py-2.5 rounded-2xl border border-slate-100 w-fit">
                         <svg class="w-4 h-4 text-[#0077B6] animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Auto-Refresh: <span class="text-[#03045E]">5s</span></span>
+                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Pembaruan Otomatis: <span class="text-[#03045E]">5d</span></span>
                     </div>
                 </div>
             </div>
@@ -368,10 +411,10 @@
                                     </td>
                                     <td class="px-8 py-5 text-center">
                                         <span x-show="online.status === 'Online'" class="inline-flex items-center px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
-                                            Online
+                                            Aktif
                                         </span>
                                         <span x-show="online.status !== 'Online'" class="inline-flex items-center px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100">
-                                            Idle
+                                            Tidak Aktif
                                         </span>
                                     </td>
                                 </tr>
@@ -415,7 +458,7 @@
                         <thead>
                             <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                                 <th class="px-6 sm:px-8 py-4 sm:py-5">Profil User</th>
-                                <th class="px-6 sm:px-8 py-4 sm:py-5">Role</th>
+                                <th class="px-6 sm:px-8 py-4 sm:py-5">Peran</th>
                                 <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Status Akun</th>
                                 <th class="px-6 sm:px-8 py-4 sm:py-5 text-right">Opsi Cepat</th>
                             </tr>
@@ -448,11 +491,11 @@
                                 </td>
                                 <td class="px-8 py-5 text-center">
                                     @if($user->is_suspended)
-                                        <span class="inline-flex items-center px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">Suspended</span>
+                                        <span class="inline-flex items-center px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">Ditangguhkan</span>
                                     @elseif(is_null($user->email_verified_at))
-                                        <span class="inline-flex items-center px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100">Unverified</span>
+                                        <span class="inline-flex items-center px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100">Blm. Terverifikasi</span>
                                     @else
-                                        <span class="inline-flex items-center px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">Active</span>
+                                        <span class="inline-flex items-center px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">Aktif</span>
                                     @endif
                                 </td>
                                 <td class="px-8 py-5 text-right">
@@ -497,7 +540,7 @@
                 <div class="p-6 sm:p-8 border-b border-slate-50 bg-white relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-blue-50/50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                     <div class="relative z-10">
-                        <h3 class="text-xl font-black text-[#03045E]">Audit Trail</h3>
+                        <h3 class="text-xl font-black text-[#03045E]">Riwayat Aktivitas</h3>
                         <p class="text-slate-400 font-medium text-[11px] sm:text-xs mt-1">Jejak aktivitas sistem terenkripsi.</p>
                     </div>
                 </div>
@@ -524,7 +567,16 @@
                                         <span class="flex-shrink-0 text-[9px] font-black text-slate-400 uppercase tracking-tighter">{{ $log->created_at->diffForHumans(null, true, true) }}</span>
                                     </div>
                                     <p class="text-xs font-bold text-slate-600 leading-tight">
-                                        {{ ucfirst(str_replace('_', ' ', $log->action)) }}
+                                        {{ match($log->action) {
+                                            'created' => 'Dibuat',
+                                            'updated' => 'Diperbarui',
+                                            'deleted' => 'Dihapus',
+                                            'suspended_user' => 'User Ditangguhkan',
+                                            'unsuspended_user' => 'User Diaktifkan',
+                                            'approved_village' => 'Desa Disetujui',
+                                            'rejected_village' => 'Desa Ditolak',
+                                            default => ucfirst(str_replace(['_', '-'], ' ', $log->action))
+                                        } }}
                                     </p>
                                     <div class="mt-3 flex items-center justify-between">
                                         <span class="text-[9px] font-black text-[#0077B6] bg-blue-50 px-2 py-0.5 rounded uppercase tracking-wider">

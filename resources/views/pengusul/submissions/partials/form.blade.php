@@ -2,6 +2,7 @@
     {{-- ================================================================== --}}
     {{-- SECTION A: UNESCO Category Table --}}
     {{-- ================================================================== --}}
+    @if($categorySlug !== 'laporan-kebudayaan-aktif')
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
@@ -50,6 +51,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     {{-- ================================================================== --}}
     {{-- SECTION B: Identitas Umum (Category-Specific Fields) --}}
@@ -66,11 +68,11 @@
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             </div>
-            <h3 class="text-sm font-black text-[#03045E] uppercase tracking-[0.2em]">B. Identitas Umum — {{ $categoryName ?? ($submission->category ?? 'Kategori') }}</h3>
+            <h3 class="text-xs sm:text-sm font-black text-[#03045E] uppercase tracking-[0.1em] sm:tracking-[0.2em]">B. Identitas Umum — {{ $categoryName ?? ($submission->category ?? 'Kategori') }}</h3>
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-8 relative overflow-hidden">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-6 sm:space-y-8 relative overflow-hidden">
             <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl"></div>
 
             {{-- Sub-category selector --}}
@@ -167,6 +169,7 @@
     {{-- ================================================================== --}}
     {{-- SECTION C: Deskripsi --}}
     {{-- ================================================================== --}}
+    @if($categorySlug !== 'laporan-kebudayaan-aktif')
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
@@ -197,6 +200,7 @@
             @enderror
         </div>
     </div>
+    @endif
 
     {{-- ================================================================== --}}
     {{-- SECTION D: Data Dukung --}}
@@ -210,41 +214,41 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-8">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-6 sm:space-y-8">
             {{-- 1. Foto atau Gambar --}}
             <div class="space-y-4">
                 <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.15em] flex items-center gap-3">
                     <span class="w-6 h-6 rounded-lg bg-[#0077B6]/10 text-[#0077B6] flex items-center justify-center text-[10px] font-black">01</span>
-                    Foto atau Gambar
+                    Foto & Video Dokumentasi
                 </h4>
                 <div 
                     @click="$refs.fileInput.click()"
                     :class="dragover ? 'border-[#0077B6] bg-[#0077B6]/5 scale-[1.01] shadow-2xl shadow-[#0077B6]/10' : 'border-slate-100 hover:border-[#0077B6] hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50'"
-                    class="group relative border-2 border-dashed rounded-[2.5rem] p-12 text-center transition-all duration-500 cursor-pointer bg-slate-50/30 overflow-hidden"
+                    class="group relative border-2 border-dashed rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-12 text-center transition-all duration-500 cursor-pointer bg-slate-50/30 overflow-hidden"
                 >
                     <div class="absolute -right-20 -top-20 w-56 h-56 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100/30 transition-colors"></div>
-                    <input type="file" name="files[]" id="files" multiple class="hidden" x-ref="fileInput" @change="handleFileSelect" accept=".jpg,.jpeg,.png,.gif,.webp">
+                    <input type="file" name="files[]" id="files" multiple class="hidden" x-ref="fileInput" @change="handleFileSelect" accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mov,.webm">
                     
                     <div class="relative z-10 space-y-4">
-                        <div class="mx-auto w-20 h-20 rounded-3xl bg-white shadow-xl flex items-center justify-center text-[#0077B6] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-slate-50">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="mx-auto w-14 h-14 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-white shadow-xl flex items-center justify-center text-[#0077B6] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-slate-50">
+                            <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-lg font-black text-[#03045E] mb-2 group-hover:text-[#0077B6] transition-colors">Tarik Foto ke Sini</h4>
-                            <p class="text-sm text-slate-500 font-bold">Atau klik untuk memilih file dari komputer</p>
-                            <div class="mt-4 flex flex-center justify-center gap-2">
-                                <span class="px-3 py-1 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest shadow-sm">JPG</span>
-                                <span class="px-3 py-1 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest shadow-sm">PNG</span>
-                                <span class="px-3 py-1 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest shadow-sm">WEBP</span>
+                            <h4 class="text-base sm:text-lg font-black text-[#03045E] mb-1 sm:mb-2 group-hover:text-[#0077B6] transition-colors">Tarik Foto/Video ke Sini</h4>
+                            <p class="text-xs sm:text-sm text-slate-500 font-bold">Atau klik untuk memilih file dari perangkat Anda</p>
+                            <div class="mt-3 sm:mt-4 flex flex-wrap justify-center gap-2">
+                                <span class="px-3 py-1 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest shadow-sm">JPG/PNG</span>
+                                <span class="px-3 py-1 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest shadow-sm">MP4</span>
+                                <span class="px-3 py-1 bg-white border border-slate-100 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest shadow-sm">WEBP/MOV</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {{-- File List --}}
-                <div x-show="files.length > 0" x-transition class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <div x-show="files.length > 0" x-transition class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 mt-4 sm:mt-6">
                     <template x-for="(file, index) in files" :key="index">
                         <div class="group/file flex items-center justify-between p-5 bg-white border-2 border-slate-50 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-slate-200/50 hover:border-[#0077B6]/30 transition-all duration-300">
                             <div class="flex items-center gap-5 min-w-0">
@@ -265,6 +269,7 @@
             </div>
 
             {{-- Links Section --}}
+            @if($categorySlug !== 'laporan-kebudayaan-aktif')
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {{-- 2. Video URL --}}
                 <div class="space-y-4 group/input">
@@ -320,6 +325,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@
         <div class="relative mb-6 sm:mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-8 sm:p-10 overflow-hidden shadow-2xl shadow-blue-900/20 text-white">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-2">
                     <div class="flex items-center gap-3">
@@ -17,20 +17,27 @@
                     </h2>
                     <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Selamat datang, {{ Auth::user()->name }}.</p>
                 </div>
-                    
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
-                    <a href="{{ route('pengusul.submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                        <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
-                        </svg>
-                        Buat Pengajuan Baru
-                    </a>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-3 w-full md:w-auto mt-4 md:mt-0">
+                    <div class="flex items-center gap-3 flex-wrap md:flex-nowrap">
+                        <!-- Kebudayaan Aktif Button -->
+                        <a href="{{ route('pengusul.submissions.create-form', 'laporan-kebudayaan-aktif') }}" class="flex-1 md:flex-none justify-center bg-white text-[#03045E] px-4 sm:px-5 py-3 rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all hover:shadow-lg shadow-blue-900/10 border-2 border-white hover:border-blue-200">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span class="hidden sm:inline">Melaporkan Kebudayaan Aktif</span>
+                            <span class="sm:hidden">Aktif</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </x-slot>
 
     <div class="space-y-8">
+
+
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <!-- Total -->
@@ -98,7 +105,7 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- Recent Submissions -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100/60 overflow-hidden">
             <div class="p-5 border-b border-slate-50 flex justify-between items-center">

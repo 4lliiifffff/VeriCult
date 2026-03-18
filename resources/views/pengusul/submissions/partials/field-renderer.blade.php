@@ -75,6 +75,57 @@
                 </div>
                 @break
 
+            {{-- DATALIST INPUT --}}
+            @case('datalist')
+                <div class="relative group/input">
+                    <input list="datalist_{{ $fieldKey }}" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" 
+                        value="{{ $fieldValue }}"
+                        data-category-field
+                        x-on:input="setFieldValue('{{ $fieldKey }}', $event.target.value)"
+                        class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm group-hover/input:shadow-md"
+                        placeholder="{{ $field['placeholder'] ?? '' }}">
+                        
+                    @if(isset($villages))
+                    <datalist id="datalist_{{ $fieldKey }}">
+                        @foreach($villages as $village)
+                            <option value="{{ $village->name }}">
+                        @endforeach
+                    </datalist>
+                    @endif
+                    
+                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                </div>
+                @break
+
+            {{-- DATE INPUT (Flatpickr) --}}
+            @case('date')
+                <div class="relative group/input" x-data x-init="
+                    flatpickr($refs.datepicker_{{ $fieldKey }}, {
+                        locale: 'id',
+                        dateFormat: 'Y-m-d',
+                        altInput: true,
+                        altFormat: 'j F Y',
+                        allowInput: true,
+                        disableMobile: true,
+                        onChange: function(selectedDates, dateStr) {
+                            setFieldValue('{{ $fieldKey }}', dateStr);
+                        }
+                    })
+                ">
+                    <input type="text" x-ref="datepicker_{{ $fieldKey }}" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" 
+                        value="{{ $fieldValue }}"
+                        data-category-field
+                        readonly
+                        class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm group-hover/input:shadow-md cursor-pointer"
+                        placeholder="{{ $field['placeholder'] ?? 'Pilih tanggal' }}">
+                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                </div>
+                @break
+
             {{-- TEXTAREA --}}
             @case('textarea')
                 <textarea name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" rows="4" 

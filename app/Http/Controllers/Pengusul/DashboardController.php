@@ -10,7 +10,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
+        $user = Auth::user();
+        $userId = $user->id;
 
         // Statistics
         $totalSubmissions = CulturalSubmission::ownedBy($userId)->count();
@@ -25,13 +26,31 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        // Role & Approval Info
+        $isPenguslDesa = $user->hasRole('pengusul-desa');
+        $isApprovedByAdmin = $user->is_approved_by_admin;
+        $hasStatistikAccess = $isPenguslDesa && $isApprovedByAdmin;
+
+        // Statistics for submission types
+        $activeCultureCount = CulturalSubmission::ownedBy($userId)
+            ->where('submission_type', 'aktif')
+            ->count();
+        $statistikCount = CulturalSubmission::ownedBy($userId)
+            ->where('submission_type', 'statistik')
+            ->count();
+
         return view('pengusul.dashboard', compact(
             'totalSubmissions',
             'draftCount',
             'inReviewCount',
             'publishedCount',
             'rejectedCount',
-            'recentSubmissions'
+            'recentSubmissions',
+            'isPenguslDesa',
+            'isApprovedByAdmin',
+            'hasStatistikAccess',
+            'activeCultureCount',
+            'statistikCount'
         ));
     }
 }
