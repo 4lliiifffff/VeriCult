@@ -52,6 +52,10 @@ class UserController extends Controller
         $users = $query->latest()->paginate(10)->withQueryString();
         $roles = Role::all();
 
+        if ($request->ajax()) {
+            return view('super-admin.users._table', compact('users', 'roles'))->render();
+        }
+
         return view('super-admin.users.index', compact('users', 'roles'));
     }
 
