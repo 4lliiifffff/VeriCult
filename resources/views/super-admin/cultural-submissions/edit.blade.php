@@ -21,7 +21,7 @@
                 @method('PUT')
 
                 <!-- Publication Status (Main Action) -->
-                <section class="p-8 sm:p-10 bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-[2rem] border border-blue-100/50 relative overflow-hidden">
+                <section class="p-8 sm:p-10 bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-[2rem] border border-blue-100/50 relative">
                     <div class="absolute -right-16 -top-16 w-48 h-48 bg-white/50 rounded-full blur-3xl"></div>
                     
                     <div class="relative z-10 flex flex-col lg:flex-row lg:items-center gap-10">

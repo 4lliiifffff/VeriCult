@@ -41,7 +41,7 @@
     </x-slot>
     
     <div class="max-w-5xl mx-auto pb-20">
-        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white overflow-hidden relative group">
+        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white relative group">
             <div class="p-8 sm:p-14">
                 <form action="{{ route('super-admin.users.update', $user) }}" method="POST" class="space-y-12">
                     @csrf

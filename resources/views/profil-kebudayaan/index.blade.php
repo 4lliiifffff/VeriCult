@@ -71,14 +71,14 @@
             </div>
 
             <!-- Search & Year Filter Form -->
-            <div class="mb-12 max-w-3xl mx-auto text-center">
-                <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 w-full">
+            <div class="mb-12 max-w-3xl mx-auto text-center relative z-30">
+                <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 w-full auto-submit">
                     @if(request('category'))
                         <input type="hidden" name="category" value="{{ request('category') }}">
                     @endif
                     
                     <!-- Year Filter -->
-                    <div class="relative min-w-full md:min-w-[220px] auto-submit">
+                    <div class="relative min-w-full md:min-w-[220px]">
                         <x-dropdown-select 
                             name="year" 
                             id="year" 

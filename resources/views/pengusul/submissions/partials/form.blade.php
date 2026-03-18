@@ -14,7 +14,7 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative overflow-hidden">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative">
             <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl"></div>
             
             <p class="relative z-10 text-sm font-bold text-slate-500 mb-8 leading-relaxed">Berikan tanda centang pada salah satu pilihan domain dan kategori yang sesuai dengan objek yang akan diisi.</p>
@@ -72,7 +72,7 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-6 sm:space-y-8 relative overflow-hidden">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-6 sm:space-y-8 relative">
             <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl"></div>
 
             {{-- Sub-category selector --}}

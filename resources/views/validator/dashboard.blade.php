@@ -112,7 +112,7 @@
                     </p>
                 </div>
                 
-                <div class="flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-2 md:mt-0">
+                <div class="flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-2 md:mt-0 relative z-20">
                     <form action="{{ route('validator.dashboard') }}" method="GET" class="flex flex-col w-full sm:w-auto gap-1 items-end auto-submit">
                         <x-dropdown-select 
                             name="year" 

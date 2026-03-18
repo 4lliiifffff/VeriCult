@@ -28,7 +28,7 @@
 
     <div class="space-y-8 pb-12">
         <!-- Filter Card -->
-        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-10">
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-10 relative z-30">
             <form action="{{ route('validator.submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-submit">
                 <div>
                     <x-dropdown-select 

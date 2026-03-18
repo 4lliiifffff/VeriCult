@@ -22,7 +22,11 @@
         this.$nextTick(() => {
             const form = this.$refs.hiddenInput.form;
             if (form && (form.getAttribute('onchange') === 'this.submit()' || form.classList.contains('auto-submit'))) {
-                form.submit();
+                if (typeof form.requestSubmit === 'function') {
+                    form.requestSubmit();
+                } else {
+                    form.submit();
+                }
             }
         });
     }

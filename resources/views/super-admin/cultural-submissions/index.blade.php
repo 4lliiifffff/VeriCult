@@ -29,8 +29,8 @@
 
     <div class="space-y-8">
         <!-- Filters & Search -->
-        <div class="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white">
-            <form action="{{ route('super-admin.cultural-submissions.index') }}" method="GET" class="space-y-5">
+        <div class="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white relative z-30">
+            <form action="{{ route('super-admin.cultural-submissions.index') }}" method="GET" class="space-y-5 auto-submit">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="md:col-span-2">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Cari Nama Objek</label>
