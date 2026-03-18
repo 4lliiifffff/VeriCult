@@ -1,5 +1,5 @@
 <!-- Table Area -->
-<div class="overflow-x-auto">
+<div class="overflow-x-auto overflow-y-visible rounded-b-[2.5rem]">
     <table class="w-full text-left border-collapse min-w-max">
         <thead>
             <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">

@@ -121,7 +121,7 @@
                 this.rejectModalOpen = true;
             }
         }" 
-        class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative group">
+        class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white relative group">
         
         <!-- Loading Overlay -->
         <div x-show="loading" 
@@ -140,7 +140,7 @@
         
         <!-- Filters Area -->
         <div class="p-5 sm:p-8 border-b border-slate-50 bg-white">
-            <form x-ref="filterForm" action="{{ route('super-admin.users.index') }}" method="GET" @submit.prevent="fetchUsers()" class="flex flex-col lg:flex-row gap-6">
+            <form x-ref="filterForm" action="{{ route('super-admin.users.index') }}" method="GET" @submit.prevent="fetchUsers()" class="flex flex-col lg:flex-row gap-6 auto-submit">
                 <div class="flex-1">
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -154,7 +154,7 @@
                             class="pl-12 block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-medium">
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-4 auto-submit">
+                <div class="flex flex-col sm:flex-row gap-4">
                     <div class="w-full sm:w-48">
                         <x-dropdown-select 
                             name="role" 

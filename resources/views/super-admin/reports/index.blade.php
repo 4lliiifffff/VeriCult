@@ -26,7 +26,7 @@
                     </h2>
                     <p class="text-blue-100/70 text-base sm:text-lg font-medium">Lihat dan cetak hasil data kebudayaan yang sudah disetujui.</p>
                 </div>
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner relative z-20">
                     <form action="{{ route('reports.index') }}" method="GET" class="flex flex-col gap-1 items-start sm:items-end flex-1 auto-submit">
                         <x-dropdown-select 
                             name="category" 
