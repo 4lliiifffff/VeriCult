@@ -83,6 +83,7 @@
                             name="year" 
                             id="year" 
                             placeholder="Pilih Periode"
+                            all-label="Semua Periode"
                             variant="light"
                             :selected="$activeYear" 
                             :options="!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')]" 
