@@ -204,7 +204,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     {{-- Approve Modal --}}
     <div x-show="approveModalOpen" style="display: none;"
@@ -244,7 +243,7 @@
             <div @click="rejectModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl sm:my-8 sm:align-middle sm:max-w-lg w-full">
-                <form action="/super-admin/pengusul-desa/{{ $user->id }}/reject" method="POST">
+                <form action="{{ route('super-admin.pengusul-desa.reject', $user) }}" method="POST">
                     @csrf
                     <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
                         <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-red-50 text-red-600 mb-6">
@@ -268,5 +267,6 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
 </x-layouts.super-admin>

@@ -47,19 +47,7 @@ class DashboardController extends Controller
             ->count();
 
         // Online Users Monitoring
-        $onlineUserIds = \Illuminate\Support\Facades\Cache::get('online-users', []);
-        $onlineUsers = collect();
-        
-        foreach ($onlineUserIds as $id) {
-            $userData = \Illuminate\Support\Facades\Cache::get('user-online-' . $id);
-            if ($userData) {
-                // Calculate status based on last activity
-                $lastActivity = \Illuminate\Support\Carbon::createFromTimestamp($userData['last_activity']);
-                $userData['status'] = $lastActivity->diffInMinutes(now()) < 5 ? 'Online' : 'Idle';
-                $userData['last_activity_human'] = $lastActivity->diffForHumans();
-                $onlineUsers->push((object) $userData);
-            }
-        }
+        $onlineUsers = $this->fetchOnlineUsersData();
 
         // --- Dashboard Charts Data ---
 
@@ -147,21 +135,40 @@ class DashboardController extends Controller
 
     public function getOnlineUsers()
     {
-        // Online Users Monitoring (same logic as index)
+        try {
+            return response()->json($this->fetchOnlineUsersData());
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to fetch online users API: ' . $e->getMessage());
+            return response()->json(['error' => 'Gagal mengambil data pengguna online'], 500);
+        }
+    }
+
+    /**
+     * Internal helper to fetch and clean online users cache
+     */
+    private function fetchOnlineUsersData()
+    {
         $onlineUserIds = \Illuminate\Support\Facades\Cache::get('online-users', []);
-        $onlineUsers = collect();
+        $activeUserIds = [];
+        $onlineUsers = [];
         
         foreach ($onlineUserIds as $id) {
             $userData = \Illuminate\Support\Facades\Cache::get('user-online-' . $id);
             if ($userData) {
-                // Calculate status based on last activity
                 $lastActivity = \Illuminate\Support\Carbon::createFromTimestamp($userData['last_activity']);
                 $userData['status'] = $lastActivity->diffInMinutes(now()) < 5 ? 'Online' : 'Idle';
                 $userData['last_activity_human'] = $lastActivity->diffForHumans();
-                $onlineUsers->push((object) $userData);
+                $onlineUsers[] = $userData;
+                $activeUserIds[] = $id;
             }
         }
 
-        return response()->json($onlineUsers);
+        // Self-cleaning: update the master list with only active IDs to prevent bloat
+        // This keeps the online-users array small and relevant
+        if (count($activeUserIds) !== count($onlineUserIds)) {
+            \Illuminate\Support\Facades\Cache::put('online-users', $activeUserIds, now()->addMinutes(10));
+        }
+
+        return $onlineUsers;
     }
 }
