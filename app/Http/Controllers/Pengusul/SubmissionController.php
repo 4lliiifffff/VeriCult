@@ -190,11 +190,11 @@ class SubmissionController extends Controller
         // 1. Draft Created
         $timeline->push([
             'type' => 'status',
-            'status' => 'draft',
-            'title' => 'Draft Dibuat',
+            'status' => 'Draf',
+            'title' => 'Draf Disimpan',
             'date' => $submission->created_at,
             'description' => null,
-            'icon' => 'draft',
+            'icon' => 'draf',
             'color' => 'gray'
         ]);
 
@@ -275,12 +275,12 @@ class SubmissionController extends Controller
         if ($submission->published_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'published',
-                'title' => 'Dipublikasikan',
+                'status' => 'Diajukan',
+                'title' => 'Pengajuan Dikirim',
                 'date' => $submission->published_at,
                 'description' => null,
-                'icon' => 'published',
-                'color' => 'green'
+                'icon' => 'diajukan',
+                'color' => 'blue'
             ]);
         }
 

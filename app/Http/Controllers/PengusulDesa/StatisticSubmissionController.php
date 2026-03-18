@@ -193,19 +193,20 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         // 1. Draft Created
         $timeline->push([
             'type' => 'status',
-            'status' => 'draft',
-            'title' => 'Draft Dibuat',
+            'status' => CulturalSubmission::STATUS_DRAFT,
+            'title' => 'Draf Disimpan',
+            'status' => 'Draf',
+            'icon' => 'draf',
+            'color' => 'gray',
             'date' => $submission->created_at,
             'description' => null,
-            'icon' => 'draft',
-            'color' => 'gray'
         ]);
 
         // 2. Submitted
         if ($submission->submitted_at) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'submitted',
+                'status' => CulturalSubmission::STATUS_SUBMITTED,
                 'title' => 'Dikirim untuk Review',
                 'date' => $submission->submitted_at,
                 'description' => null,
@@ -268,12 +269,13 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         if ($submission->status === CulturalSubmission::STATUS_PUBLISHED) {
             $timeline->push([
                 'type' => 'status',
-                'status' => 'published',
-                'title' => 'Dipublikasikan',
+                'status' => CulturalSubmission::STATUS_PUBLISHED,
+                'title' => 'Pengajuan Dikirim',
+                'status' => 'Diajukan',
+                'color' => 'blue',
+                'icon' => 'diajukan',
                 'date' => $submission->updated_at,
                 'description' => null,
-                'icon' => 'published',
-                'color' => 'green'
             ]);
         }
 

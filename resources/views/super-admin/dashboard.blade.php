@@ -24,14 +24,14 @@
             data: {
                 labels: {!! json_encode(array_keys($statusStats)) !!}.map(s => {
                     const map = {
-                        'draft': 'Draft',
-                        'submitted': 'Terkirim',
-                        'administrative_review': 'Review Admin',
-                        'field_verification': 'Verifikasi Lapangan',
-                        'verified': 'Terverifikasi',
-                        'published': 'Terpublikasi',
-                        'rejected': 'Ditolak',
-                        'revision': 'Butuh Revisi'
+                        '{{\App\Models\CulturalSubmission::STATUS_DRAFT}}': 'Draf',
+                        '{{\App\Models\CulturalSubmission::STATUS_SUBMITTED}}': 'Diajukan',
+                        '{{\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW}}': 'Review Admin',
+                        '{{\App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION}}': 'Verlap',
+                        '{{\App\Models\CulturalSubmission::STATUS_VERIFIED}}': 'Verifikasi',
+                        '{{\App\Models\CulturalSubmission::STATUS_PUBLISHED}}': 'Publikasi',
+                        '{{\App\Models\CulturalSubmission::STATUS_REJECTED}}': 'Ditolak',
+                        '{{\App\Models\CulturalSubmission::STATUS_REVISION}}': 'Revisi'
                     };
                     return map[s] || s.replace('_', ' ').toUpperCase();
                 }),

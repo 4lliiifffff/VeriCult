@@ -221,7 +221,7 @@
                     </div>
                     <div class="space-y-4 border-y sm:border-y-0 sm:border-x border-white/10 py-10 sm:py-0">
                         <div class="text-[9px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/60">Tervalidasi</div>
-                        <div class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats['published'] }}</div>
+                        <div class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter tabular-nums">{{ $stats[\App\Models\CulturalSubmission::STATUS_PUBLISHED] }}</div>
                         <p class="text-[9px] sm:text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#90E0EF]">Objek Terverifikasi</p>
                     </div>
                     <div class="space-y-4">

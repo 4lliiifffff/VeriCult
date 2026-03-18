@@ -105,7 +105,7 @@ class SubmissionController extends Controller
             'status' => CulturalSubmission::STATUS_SUBMITTED,
         ]);
 
-        return redirect()->back()->with('success', 'Klaim review dibatalkan. Status dikembalikan ke Submitted.');
+        return redirect()->back()->with('success', 'Klaim review dibatalkan. Status dikembalikan ke Diajukan.');
     }
 
     /**
@@ -250,7 +250,7 @@ class SubmissionController extends Controller
         Gate::authorize('publish', $submission);
 
         if ($submission->status !== CulturalSubmission::STATUS_VERIFIED) {
-            return redirect()->back()->with('error', 'Hanya pengajuan berstatus "Verified" yang dapat dipublikasikan.');
+            return redirect()->back()->with('error', 'Hanya pengajuan berstatus "Diverifikasi" yang dapat dipublikasikan.');
         }
 
         $submission->update([

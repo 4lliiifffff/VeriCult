@@ -174,13 +174,13 @@
                 @php
                     $latestReview = $submission->administrativeReviews->first();
                 @endphp
-                @if($latestReview && in_array($submission->status, ['revision', 'rejected']))
+                @if($latestReview && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_REVISION, \App\Models\CulturalSubmission::STATUS_REJECTED]))
                 <div class="bg-amber-50/50 rounded-[2.5rem] p-10 border border-amber-100 shadow-sm relative overflow-hidden group">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-100/40 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
                     <div class="relative z-10">
                         <h3 class="text-[11px] font-black text-amber-600 uppercase tracking-[0.25em] mb-6 flex items-center gap-4">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                            Catatan {{ $submission->status === 'revision' ? 'Revisi' : 'Penolakan' }} ({{ $latestReview->created_at->translatedFormat('d M Y') }})
+                            Catatan {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'Revisi' : 'Penolakan' }} ({{ $latestReview->created_at->translatedFormat('d M Y') }})
                         </h3>
                         <div class="p-8 rounded-[1.5rem] bg-white border border-amber-200/50 text-slate-700 leading-relaxed font-bold italic text-base shadow-sm break-words">
                             "{{ $latestReview->notes }}"
@@ -202,7 +202,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-4">
-                            @if($submission->status === 'draft' || $submission->status === 'revision')
+                            @if($submission->status === \App\Models\CulturalSubmission::STATUS_DRAFT || $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION)
                                 <a href="{{ route('pengusul-desa.statistic-submissions.edit', $submission) }}" 
                                    class="flex items-center justify-center gap-3 w-full px-8 py-5 rounded-[1.25rem] bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] hover:shadow-xl hover:shadow-blue-500/10 transition-all active:scale-[0.98]">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>

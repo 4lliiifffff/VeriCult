@@ -13,10 +13,10 @@
                 <div class="flex items-center gap-3">
                     <span @class([
                         'px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase border shadow-sm',
-                        'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === 'submitted',
-                        'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, ['administrative_review', 'field_verification']),
-                        'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === 'revision',
-                        'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === 'rejected',
+                        'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED,
+                        'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]),
+                        'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION,
+                        'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REJECTED,
                     ])>
                         {{ $submission->status_label }}
                     </span>
@@ -168,7 +168,7 @@
                     </button>
                 </form>
                 @endif
-            @if($submission->reviewed_by === Auth::id() && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]))
+            @if($submission->reviewed_by === Auth::id() && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION, \App\Models\CulturalSubmission::STATUS_SUBMITTED]))
                 <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">

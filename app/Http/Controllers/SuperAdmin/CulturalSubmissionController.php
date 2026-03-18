@@ -81,7 +81,7 @@ class CulturalSubmissionController extends Controller
         ];
         
         $title = $actionTitles[$submission->status] ?? 'Update Status Super Admin';
-        $message = 'Status pengajuan "' . $submission->name . '" telah diubah menjadi ' . $submission->status . ' oleh Super Admin.';
+        $message = 'Status pengajuan "' . $submission->name . '" telah diubah menjadi ' . $submission->status_label . ' oleh Super Admin.';
         $url = route('pengusul.submissions.show', $submission);
         
         $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$submission->status] ?? 'info', $submission->id));

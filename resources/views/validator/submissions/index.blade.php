@@ -39,10 +39,10 @@
                         variant="light"
                         :selected="request('status')" 
                         :options="[
-                            'submitted' => 'Submitted',
-                            'administrative_review' => 'Administrative Review',
-                            'field_verification' => 'Field Verification',
-                            'verified' => 'Verified'
+                            \App\Models\CulturalSubmission::STATUS_SUBMITTED => 'Diajukan',
+                            \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW => 'Tinjauan Administratif',
+                            \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION => 'Verifikasi Lapangan',
+                            \App\Models\CulturalSubmission::STATUS_VERIFIED => 'Diverifikasi'
                         ]" 
                     />
                 </div>
@@ -102,10 +102,10 @@
                             <td class="px-10 py-8">
                                 <span @class([
                                     'inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border',
-                                    'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === 'submitted',
-                                    'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, ['administrative_review', 'field_verification']),
-                                    'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === 'revision',
-                                    'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === 'rejected',
+                                    'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED,
+                                    'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]),
+                                    'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION,
+                                    'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REJECTED,
                                 ])>
                                     {{ $submission->status_label }}
                                 </span>
@@ -130,7 +130,7 @@
                             </td>
                             <td class="px-10 py-8 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-2">
-                                    @if(!$submission->reviewed_by && $submission->status === 'submitted')
+                                    @if(!$submission->reviewed_by && $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED)
                                         <form action="{{ route('validator.submissions.claim', $submission) }}" method="POST" class="inline">
                                             @csrf
                                             <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-[#03045E] text-white hover:bg-[#0077B6] rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group/btn shadow-md">
@@ -140,9 +140,9 @@
                                         </form>
                                     @endif
 
-                                    @if($submission->reviewed_by === Auth::id() && in_array($submission->status, ['administrative_review', 'field_verification', 'submitted']))
+                                    @if($submission->reviewed_by === Auth::id() && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION, \App\Models\CulturalSubmission::STATUS_SUBMITTED]))
                                         <a href="{{ route('validator.submissions.review-form', $submission) }}" class="inline-flex items-center px-4 py-2.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group/btn shadow-md">
-                                            Lanjutkan Review {{ $submission->status === 'submitted' ? '(Revisi)' : '' }}
+                                            Lanjutkan Review {{ $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED ? '(Revisi)' : '' }}
                                             <svg class="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                         </a>
                                     @endif
