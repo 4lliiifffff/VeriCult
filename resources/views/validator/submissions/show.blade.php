@@ -273,7 +273,7 @@
                                                     @foreach($dataValue as $row)
                                                         <div class="grid gap-0 border-b border-slate-50" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
                                                             @foreach($row as $cellValue)
-                                                                <div class="px-4 py-2 text-sm font-medium text-slate-700">{{ $cellValue }}</div>
+                                                                <div class="px-4 py-2 text-sm font-medium text-slate-700 break-words">{{ $cellValue }}</div>
                                                             @endforeach
                                                         </div>
                                                     @endforeach
@@ -287,7 +287,7 @@
                                                 </div>
                                             @endif
                                         @else
-                                            <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap italic' : 'bold text-lg' }}">{{ $displayValue }}</p>
+                                            <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap italic' : 'bold text-lg' }} break-all sm:break-words">{{ $displayValue }}</p>
                                         @endif
                                     </div>
                                 @endif
