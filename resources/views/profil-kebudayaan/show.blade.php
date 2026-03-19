@@ -219,7 +219,7 @@
                                                                 @foreach($displayValue as $row)
                                                                     <tr class="hover:bg-white transition-colors">
                                                                         @foreach($row as $cellValue)
-                                                                            <td class="px-3 sm:px-6 py-4 text-xs sm:text-sm font-semibold text-slate-600">{{ $cellValue }}</td>
+                                                                            <td class="px-3 sm:px-6 py-4 text-xs sm:text-sm font-semibold text-slate-600 break-words">{{ $cellValue }}</td>
                                                                         @endforeach
                                                                     </tr>
                                                                 @endforeach

@@ -90,7 +90,7 @@
                         <div class="md:col-span-2 group/field">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover/field:text-[#0077B6] transition-colors">Deskripsi Objek</label>
                             <div class="relative">
-                                <div class="w-full px-8 py-8 bg-slate-50 border-2 border-slate-100 rounded-[2rem] font-medium text-slate-600 leading-relaxed shadow-sm min-h-[200px] whitespace-pre-wrap">{{ $submission->description }}</div>
+                                <div class="w-full px-8 py-8 bg-slate-50 border-2 border-slate-100 rounded-[2rem] font-medium text-slate-600 leading-relaxed shadow-sm min-h-[200px] whitespace-pre-wrap break-words">{{ $submission->description }}</div>
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                                             @foreach($dataValue as $row)
                                                                 <tr class="hover:bg-slate-50/50 transition-colors">
                                                                     @foreach($row as $cell)
-                                                                        <td class="px-5 py-4 text-sm font-bold text-slate-700">{{ $cell ?: '-' }}</td>
+                                                                        <td class="px-5 py-4 text-sm font-bold text-slate-700 break-words">{{ $cell ?: '-' }}</td>
                                                                     @endforeach
                                                                 </tr>
                                                             @endforeach
@@ -190,7 +190,7 @@
                                                 </div>
                                             @endif
                                         @else
-                                            <p class="{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'text-sm font-medium leading-relaxed italic text-slate-600 bg-slate-50/50 p-6 rounded-2xl border border-dotted border-slate-200' : 'text-lg font-black text-[#03045E]' }}">
+                                            <p class="{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'text-sm font-medium leading-relaxed italic text-slate-600 bg-slate-50/50 p-6 rounded-2xl border border-dotted border-slate-200' : 'text-lg font-black text-[#03045E]' }} break-all sm:break-words">
                                                 {{ $displayValue }}
                                             </p>
                                         @endif

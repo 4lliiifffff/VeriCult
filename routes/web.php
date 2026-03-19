@@ -8,7 +8,7 @@ use App\Http\Controllers\SuperAdminController;
 Route::get('/', function () {
     $stats = [
         'total' => \App\Models\CulturalSubmission::whereIn('status', [\App\Models\CulturalSubmission::STATUS_PUBLISHED, \App\Models\CulturalSubmission::STATUS_VERIFIED])->count(),
-        'published' => \App\Models\CulturalSubmission::published()->count(),
+        \App\Models\CulturalSubmission::STATUS_PUBLISHED => \App\Models\CulturalSubmission::published()->count(),
         'users' => \App\Models\User::role('pengusul')->count(),
         'pending' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_SUBMITTED)->count(),
         'revision' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_REVISION)->count(),
