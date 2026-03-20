@@ -26,6 +26,13 @@
                     </div>
                     <span>{{ $submission->category }}</span>
                 </div>
+                @if($submission->isActiveCulture() && $submission->getOPKCategory())
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-slate-200">
+                            Objek: {{ $submission->getOPKCategory() }}
+                        </span>
+                    </div>
+                @endif
             </div>
             <div class="flex items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
                 <a href="{{ route('pengusul.submissions.index') }}" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50">
@@ -65,10 +72,49 @@
                         <div class="space-y-12">
 
 
+                            <!-- Active Culture Summary (The 3 Ws) -->
+                            @if($submission->isActiveCulture())
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-indigo-50/30 rounded-[2rem] p-8 border border-indigo-100/20 group hover:bg-indigo-50/50 transition-colors">
+                                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest mb-3">Apa (Aktivitas)</p>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        </div>
+                                        <p class="text-[#03045E] font-black text-lg leading-tight">{{ $submission->category_data['nama_dan_jenis_kebudayaan'] ?? '-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="bg-emerald-50/30 rounded-[2rem] p-8 border border-emerald-100/20 group hover:bg-emerald-50/50 transition-colors">
+                                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-3">Di Mana (Lokasi)</p>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-emerald-600 shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-[#03045E] font-black text-lg leading-tight">{{ $submission->category_data['desa_lokasi'] ?? '-' }}</p>
+                                            <p class="text-slate-500 text-xs font-bold">{{ $submission->category_data['detail_lokasi'] ?? '' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-amber-50/30 rounded-[2rem] p-8 border border-amber-100/20 group hover:bg-amber-50/50 transition-colors">
+                                    <p class="text-[9px] font-black text-amber-400 uppercase tracking-widest mb-3">Kapan (Pelaksanaan)</p>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-amber-600 shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        </div>
+                                        <p class="text-[#03045E] font-black text-lg leading-tight">
+                                            {{ !empty($submission->category_data['tanggal_pelaksanaan']) ? \Carbon\Carbon::parse($submission->category_data['tanggal_pelaksanaan'])->translatedFormat('d F Y') : '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <!-- Description -->
+                            @if(!empty($submission->description))
                             <div class="space-y-6">
                                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
-                                    <span class="shrink-0">Narasi Kebudayaan</span>
+                                    <span class="shrink-0">{{ $submission->isActiveCulture() ? 'Keterangan Tambahan' : 'Narasi Kebudayaan' }}</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
                                 <div class="p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
@@ -79,6 +125,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
                             {{-- Category-Specific Data --}}
                             @if(!empty($submission->category_data))
@@ -93,8 +140,11 @@
                                         $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                                     @endphp
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        @php
+                                            $excludedFields = $submission->isActiveCulture() ? ['nama_dan_jenis_kebudayaan', 'desa_lokasi', 'detail_lokasi', 'tanggal_pelaksanaan', 'kategori_opk'] : [];
+                                        @endphp
                                         @foreach($submission->category_data as $dataKey => $dataValue)
-                                            @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))
+                                            @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $excludedFields))
                                                 @php
                                                     $fieldDef = $flatFields[$dataKey] ?? null;
                                                     $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));

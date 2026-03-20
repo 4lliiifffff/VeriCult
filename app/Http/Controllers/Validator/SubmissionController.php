@@ -130,7 +130,7 @@ class SubmissionController extends Controller
         Gate::authorize('review', $submission);
 
         $request->validate([
-            'action' => 'required|in:forwarded,revision,rejected',
+            'action' => 'required|in:forwarded,revision,rejected,verified',
             'notes' => 'required|string|min:10',
         ]);
 
@@ -146,6 +146,7 @@ class SubmissionController extends Controller
             // Map action to status
             $status = match ($request->action) {
                 'forwarded' => CulturalSubmission::STATUS_FIELD_VERIFICATION,
+                'verified' => CulturalSubmission::STATUS_VERIFIED,
                 'revision' => CulturalSubmission::STATUS_REVISION,
                 'rejected' => CulturalSubmission::STATUS_REJECTED,
             };
@@ -159,11 +160,13 @@ class SubmissionController extends Controller
             // Notify the Pengusul
             $actionTitles = [
                 'forwarded' => 'Lolos Review Administratif',
+                'verified' => 'Validasi Pengajuan Disetujui',
                 'revision' => 'Revisi Diperlukan (Administratif)',
                 'rejected' => 'Pengajuan Ditolak (Administratif)'
             ];
             $actionTypes = [
                 'forwarded' => 'success',
+                'verified' => 'success',
                 'revision' => 'warning',
                 'rejected' => 'error'
             ];

@@ -147,7 +147,9 @@ class SubmissionController extends Controller
         // Auto-populate name from b1_nama_objek if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
+            $submissionName = ($validated['category'] === CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
+                ? ($categoryData['nama_dan_jenis_kebudayaan'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y')))
+                : ($categoryData['nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y')));
         }
 
         // Auto-populate address from category data if empty
@@ -158,7 +160,7 @@ class SubmissionController extends Controller
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? '',
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
             'submission_type' => 'aktif',
@@ -381,17 +383,19 @@ class SubmissionController extends Controller
             return !is_null($v) && $v !== '';
         });
 
-        // Auto-populate name from b1_nama_objek if not provided
+        // Auto-populate name from nama_objek if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? $submission->name;
+            $submissionName = ($validated['category'] === CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
+                ? ($categoryData['nama_dan_jenis_kebudayaan'] ?? $submission->name)
+                : ($categoryData['nama_objek'] ?? $submission->name);
         }
 
         $submission->update([
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $validated['address'] ?? $submission->address,
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? $submission->description,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,
             'longitude' => $validated['longitude'] ?? null,

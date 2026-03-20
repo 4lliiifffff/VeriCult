@@ -144,7 +144,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         // Auto-populate name from b1_nama_objek if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
+            $submissionName = $categoryData['nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
         }
 
         // Auto-populate address from category data if empty
@@ -378,9 +378,15 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
             return !is_null($v) && $v !== '';
         });
 
+        // Auto-populate name from nama_objek if not provided
+        $submissionName = $validated['name'] ?? '';
+        if (empty($submissionName) || $submissionName === '') {
+            $submissionName = $categoryData['nama_objek'] ?? $submission->name;
+        }
+
         // Update submission
         $submission->update([
-            'name' => $validated['name'] ?? $submission->name,
+            'name' => $submissionName,
             'description' => $validated['description'],
             'address' => $validated['address'] ?? $submission->address,
             'category_data' => !empty($categoryData) ? $categoryData : $submission->category_data,
