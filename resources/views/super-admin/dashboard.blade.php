@@ -572,7 +572,7 @@
                                     </div>
                                 </td>
                                 <td class="px-8 py-6 text-center">
-                                    @if($user->is_suspended)
+                                    @if($user->profile?->is_suspended)
                                         <span class="inline-flex items-center px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100 shadow-sm">Ditangguhkan</span>
                                     @elseif(is_null($user->email_verified_at))
                                         <span class="inline-flex items-center px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100 shadow-sm">Blm. Terverifikasi</span>
@@ -583,7 +583,7 @@
                                 <td class="px-8 py-6 text-right">
                                     @if(!$user->hasRole('super-admin'))
                                         <div class="flex items-center justify-end gap-3">
-                                            @if($user->is_suspended)
+                                            @if($user->profile?->is_suspended)
                                                 <form action="{{ route('super-admin.users.unsuspend', $user) }}" method="POST" class="inline">
                                                     @csrf
                                                     <button type="submit" class="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all shadow-sm hover:shadow-emerald-200">

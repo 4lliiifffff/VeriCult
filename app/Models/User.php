@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,12 +23,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'role', // temporary for existing logic
-        'is_suspended',
-        'suspended_at',
-        'is_approved_by_admin',
-        'approved_by_admin_at',
-        'village_id',
     ];
 
     /**
@@ -49,12 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_suspended' => 'boolean',
-            'suspended_at' => 'datetime',
-            'last_seen_at' => 'datetime',
-            'is_approved_by_admin' => 'boolean',
-            'approved_by_admin_at' => 'datetime',
+            'password'          => 'hashed',
+            'last_seen_at'      => 'datetime',
         ];
     }
 
@@ -85,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isPendingAdminApproval(): bool
     {
-        return $this->hasRole('pengusul-desa') && !$this->is_approved_by_admin;
+        return $this->hasRole('pengusul-desa') && !$this->profile?->is_approved_by_admin;
     }
 
     /**
@@ -99,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'N/A';
         }
 
-        if ($this->is_approved_by_admin) {
+        if ($this->profile?->is_approved_by_admin) {
             return 'Disetujui';
         }
 
@@ -107,10 +98,92 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get the village that the user belongs to.
+     * Get the profile for the user.
      */
-    public function village()
+    public function profile(): HasOne
     {
-        return $this->belongsTo(Village::class);
+        return $this->hasOne(UserProfile::class);
+    }
+
+    /**
+     * Get the village that the user belongs to (via profile).
+     */
+    public function getVillageAttribute()
+    {
+        return $this->profile?->village;
+    }
+
+    /**
+     * Get the village ID that the user belongs to (via profile).
+     /**
+     * Backward compatibility accessor for village_id
+     */
+    public function getVillageIdAttribute()
+    {
+        return $this->profile?->village_id;
+    }
+
+    /**
+     * Backward compatibility accessor for is_suspended
+     */
+    public function getIsSuspendedAttribute()
+    {
+        return $this->profile?->is_suspended ?? false;
+    }
+
+    /**
+     * Backward compatibility accessor for suspended_at
+     */
+    public function getSuspendedAtAttribute()
+    {
+        return $this->profile?->suspended_at;
+    }
+
+    /**
+     * Backward compatibility accessor for is_approved_by_admin
+     */
+    public function getIsApprovedByAdminAttribute()
+    {
+        return $this->profile?->is_approved_by_admin ?? false;
+    }
+
+    /**
+     * Backward compatibility accessor for approved_by_admin_at
+     */
+    public function getApprovedByAdminAtAttribute()
+    {
+        return $this->profile?->approved_by_admin_at;
+    }
+
+    /**
+     * Backward compatibility accessor for jabatan_desa
+     */
+    public function getJabatanDesaAttribute()
+    {
+        return $this->profile?->jabatan_desa;
+    }
+
+    /**
+     * Backward compatibility accessor for nip
+     */
+    public function getNipAttribute()
+    {
+        return $this->profile?->nip;
+    }
+
+    /**
+     * Backward compatibility accessor for instansi
+     */
+    public function getInstansiAttribute()
+    {
+        return $this->profile?->instansi;
+    }
+
+    /**
+     * Backward compatibility accessor for no_hp
+     */
+    public function getNoHpAttribute()
+    {
+        return $this->profile?->no_hp;
     }
 }

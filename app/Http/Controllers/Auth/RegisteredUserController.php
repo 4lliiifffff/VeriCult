@@ -41,15 +41,18 @@ class RegisteredUserController extends Controller
         $isApprovedByAdmin = ($role === 'pengusul-desa') ? false : true;
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $role,
-            'is_approved_by_admin' => $isApprovedByAdmin,
-            'approved_by_admin_at' => $isApprovedByAdmin ? now() : null,
         ]);
 
         $user->assignRole($role);
+
+        // Create profile
+        $user->profile()->create([
+            'is_approved_by_admin' => $isApprovedByAdmin,
+            'approved_by_admin_at' => $isApprovedByAdmin ? now() : null,
+        ]);
 
         event(new Registered($user));
 
@@ -84,16 +87,19 @@ class RegisteredUserController extends Controller
         $village = Village::firstOrCreate(['name' => $request->village_name]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'pengusul-desa',
-            'is_approved_by_admin' => false,
-            'approved_by_admin_at' => null,
-            'village_id' => $village->id,
         ]);
 
         $user->assignRole('pengusul-desa');
+
+        // Create profile with village and approval info
+        $user->profile()->create([
+            'is_approved_by_admin' => false,
+            'approved_by_admin_at' => null,
+            'village_id'           => $village->id,
+        ]);
 
         $superAdmins = User::role('super-admin')->get();
         if ($superAdmins->isNotEmpty()) {

@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::with('roles');
+        $query = User::with(['roles', 'profile']);
 
         if ($request->has('search')) {
             $search = $request->search;
@@ -35,17 +35,19 @@ class UserController extends Controller
 
         if ($request->has('status') && $request->status != '') {
             if ($request->status == 'suspended') {
-                $query->where('is_suspended', true);
+                $query->whereHas('profile', fn($q) => $q->where('is_suspended', true));
             } elseif ($request->status == 'active') {
-                $query->where('is_suspended', false)->where(function($q) {
-                    $q->whereNotNull('email_verified_at')
-                      ->where(function($q2) {
-                          $q2->whereDoesntHave('roles', fn($r) => $r->where('name', 'pengusul-desa'))
-                             ->orWhere('is_approved_by_admin', true);
+                $query->whereHas('profile', fn($q) => $q->where('is_suspended', false))
+                      ->where(function($q) {
+                          $q->whereNotNull('email_verified_at')
+                            ->where(function($q2) {
+                                $q2->whereDoesntHave('roles', fn($r) => $r->where('name', 'pengusul-desa'))
+                                   ->orWhereHas('profile', fn($p) => $p->where('is_approved_by_admin', true));
+                            });
                       });
-                });
             } elseif ($request->status == 'pending') {
-                $query->role('pengusul-desa')->where('is_approved_by_admin', false);
+                $query->role('pengusul-desa')
+                      ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false));
             }
         }
 
@@ -117,14 +119,16 @@ class UserController extends Controller
             $password = $request->password ?? \Illuminate\Support\Str::password(12);
 
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => \Illuminate\Support\Facades\Hash::make($password),
-                'role' => 'validator', // Explicitly set role column
+                'name'              => $request->name,
+                'email'             => $request->email,
+                'password'          => \Illuminate\Support\Facades\Hash::make($password),
                 'email_verified_at' => $request->has('email_verified') ? now() : null,
             ]);
 
             $user->assignRole('validator');
+
+            // Create profile
+            $user->profile()->create([]);
 
             // Log action
             \App\Models\AuditLog::create([
@@ -152,7 +156,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load('village', 'roles');
+        $user->load(['profile.village', 'roles']);
         return view('super-admin.users.show', compact('user'));
     }
 
@@ -194,7 +198,6 @@ class UserController extends Controller
 
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->role = $request->role; // Explicitly update role column
 
             if ($request->filled('password')) {
                 $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
@@ -264,7 +267,8 @@ class UserController extends Controller
     public function pendingPenguslDesaApprovals()
     {
         $pendingUsers = User::role('pengusul-desa')
-            ->where('is_approved_by_admin', false)
+            ->with('profile')
+            ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false))
             ->latest('created_at')
             ->paginate(10);
 
@@ -280,18 +284,20 @@ class UserController extends Controller
             return back()->with('error', 'User ini bukan pengusul desa.');
         }
 
-        if ($user->is_approved_by_admin) {
+        if ($user->profile?->is_approved_by_admin) {
             return back()->with('info', 'User ini sudah disetujui sebelumnya.');
         }
 
         try {
-            // Approve account and also auto-verify email in one step
-            $user->is_approved_by_admin = true;
-            $user->approved_by_admin_at = now();
+            // Approve via profile
+            $user->profile()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['is_approved_by_admin' => true, 'approved_by_admin_at' => now()]
+            );
             if (!$user->hasVerifiedEmail()) {
                 $user->email_verified_at = now();
+                $user->save();
             }
-            $user->save();
 
             // Log approval action
             \App\Models\AuditLog::create([
@@ -302,7 +308,7 @@ class UserController extends Controller
                 'new_data' => [
                     'email' => $user->email,
                     'approval_status' => 'approved',
-                    'approved_at' => $user->approved_by_admin_at
+                    'approved_at' => $user->profile?->approved_by_admin_at
                 ],
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
@@ -328,7 +334,7 @@ class UserController extends Controller
             return back()->with('error', 'User ini bukan pengusul desa.');
         }
 
-        if ($user->is_approved_by_admin) {
+        if ($user->profile?->is_approved_by_admin) {
             return back()->with('info', 'User yang sudah disetujui tidak dapat ditolak.');
         }
 
@@ -337,10 +343,11 @@ class UserController extends Controller
         ]);
 
         try {
-            // Suspend the user instead of deleting
-            $user->is_suspended = true;
-            $user->suspended_at = now();
-            $user->save();
+            // Suspend the user via profile
+            $user->profile()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['is_suspended' => true, 'suspended_at' => now()]
+            );
 
             // Log rejection action
             \App\Models\AuditLog::create([
