@@ -16,7 +16,7 @@ class CheckSuspendedUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->is_suspended) {
+        if (Auth::check() && Auth::user()->profile?->is_suspended) {
             Auth::guard('web')->logout();
 
             $request->session()->invalidate();

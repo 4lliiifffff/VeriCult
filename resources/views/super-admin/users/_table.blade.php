@@ -39,7 +39,7 @@
                     </div>
                 </td>
                 <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
-                    @if($user->is_suspended)
+                    @if($user->profile?->is_suspended)
                         <span class="inline-flex items-center px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100 shadow-sm">Ditangguhkan</span>
                     @elseif(is_null($user->email_verified_at))
                         <span class="inline-flex items-center px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100 shadow-sm">Blm. Terverifikasi</span>
@@ -53,7 +53,7 @@
                 <td class="px-6 sm:px-8 py-4 sm:py-5 text-right">
                     <div class="flex items-center justify-end gap-2">
                         @if($user->id !== 1 && $user->id !== auth()->id())
-                            @if($user->hasRole('pengusul-desa') && !$user->is_approved_by_admin)
+                            @if($user->hasRole('pengusul-desa') && !$user->profile?->is_approved_by_admin)
                                 <button @click="openApproveModal({{ json_encode($user) }}, '/super-admin/pengusul-desa/{{ $user->id }}/approve')"
                                     class="w-9 h-9 flex items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 shadow-sm border border-emerald-100" title="Setujui Akses">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -78,7 +78,7 @@
                                 </button>
                             @endif
  
-                            @if($user->is_suspended)
+                            @if($user->profile?->is_suspended)
                                 <button @click="openUnsuspendModal({{ json_encode($user) }}, '{{ route('super-admin.users.unsuspend', $user) }}')"
                                     class="w-9 h-9 flex items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 shadow-sm border border-emerald-100" title="Aktifkan User">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>

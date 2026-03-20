@@ -21,7 +21,7 @@ class SuperAdminController extends Controller
         // Statistics
         $totalUsers = User::count();
         $newUsersThisMonth = User::whereMonth('created_at', now()->month)->count();
-        $suspendedUsersCount = User::where('is_suspended', true)->count();
+        $suspendedUsersCount = User::whereHas('profile', fn($q) => $q->where('is_suspended', true))->count();
         
         // Users by Role
         $usersByRole = Role::withCount('users')->get();
@@ -39,7 +39,7 @@ class SuperAdminController extends Controller
             ->get();
             
         // Suspended Users List
-        $suspendedUsers = User::where('is_suspended', true)->with('roles')->get();
+        $suspendedUsers = User::whereHas('profile', fn($q) => $q->where('is_suspended', true))->with('roles')->get();
 
         return view('super-admin.dashboard', compact(
             'totalUsers', 

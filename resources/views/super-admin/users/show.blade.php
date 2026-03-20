@@ -71,7 +71,7 @@
                     @if($user->hasRole('pengusul-desa'))
                     <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 space-y-1 text-center">
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Persetujuan Admin</p>
-                        @if($user->is_approved_by_admin)
+                        @if($user->profile?->is_approved_by_admin)
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                                 Disetujui
@@ -87,7 +87,7 @@
                     {{-- Account Status --}}
                     <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 space-y-1 text-center">
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Status</p>
-                        @if($user->is_suspended)
+                        @if($user->profile?->is_suspended)
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">
                                 Ditangguhkan
                             </span>
@@ -130,10 +130,10 @@
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Tanggal Daftar</p>
                         <p class="text-base font-bold text-slate-700">{{ $user->created_at->translatedFormat('d F Y, H:i') }}</p>
                     </div>
-                    @if($user->is_approved_by_admin && $user->approved_by_admin_at)
+                    @if($user->profile?->is_approved_by_admin && $user->profile?->approved_by_admin_at)
                     <div class="space-y-1.5 sm:col-span-2">
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Tanggal Disetujui</p>
-                        <p class="text-base font-bold text-emerald-600">{{ $user->approved_by_admin_at->translatedFormat('d F Y, H:i') }}</p>
+                        <p class="text-base font-bold text-emerald-600">{{ $user->profile->approved_by_admin_at->translatedFormat('d F Y, H:i') }}</p>
                     </div>
                     @endif
                 </div>
@@ -142,7 +142,7 @@
 
         {{-- Right: Sidebar Actions --}}
         <div class="space-y-6">
-            @if($user->hasRole('pengusul-desa') && !$user->is_approved_by_admin)
+            @if($user->hasRole('pengusul-desa') && !$user->profile?->is_approved_by_admin)
             {{-- Pending Approval Action Card --}}
             <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-orange-100 p-8 relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-orange-50 rounded-full blur-3xl"></div>
@@ -171,7 +171,7 @@
                     </div>
                 </div>
             </div>
-            @elseif($user->hasRole('pengusul-desa') && $user->is_approved_by_admin)
+            @elseif($user->hasRole('pengusul-desa') && $user->profile?->is_approved_by_admin)
             {{-- Already Approved Card --}}
             <div class="bg-emerald-50 rounded-[2rem] sm:rounded-[2.5rem] border border-emerald-100 p-8 text-center">
                 <div class="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-emerald-500 mx-auto mb-4 shadow-sm">
@@ -179,7 +179,7 @@
                 </div>
                 <h3 class="font-black text-emerald-700 text-sm uppercase tracking-wider mb-1">Sudah Disetujui</h3>
                 <p class="text-xs text-emerald-600/70 font-medium">
-                    {{ $user->approved_by_admin_at ? $user->approved_by_admin_at->translatedFormat('d F Y') : '-' }}
+                    {{ $user->profile?->approved_by_admin_at ? $user->profile->approved_by_admin_at->translatedFormat('d F Y') : '-' }}
                 </p>
             </div>
             @endif
