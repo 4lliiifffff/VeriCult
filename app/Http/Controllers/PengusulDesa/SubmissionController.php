@@ -156,6 +156,7 @@ class SubmissionController extends Controller
 
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
+            'village_id' => Auth::user()->village_id,
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
@@ -396,6 +397,7 @@ class SubmissionController extends Controller
         $submission->update([
             'name' => $submissionName,
             'category' => $validated['category'],
+            'village_id' => Auth::user()->village_id,
             'address' => $validated['address'] ?? $submission->address,
             'description' => $validated['description'],
             'category_data' => !empty($categoryData) ? $categoryData : null,

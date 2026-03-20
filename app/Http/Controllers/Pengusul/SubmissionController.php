@@ -155,8 +155,17 @@ class SubmissionController extends Controller
         // Auto-populate address from category data if empty
         $submissionAddress = $validated['address'] ?? '-';
 
+        $villageId = null;
+        if (!empty($categoryData['desa_lokasi']) && is_string($categoryData['desa_lokasi'])) {
+            $village = \App\Models\Village::where('name', $categoryData['desa_lokasi'])->first();
+            if ($village) {
+                $villageId = $village->id;
+            }
+        }
+
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
+            'village_id' => $villageId,
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
@@ -391,9 +400,18 @@ class SubmissionController extends Controller
                 : ($categoryData['nama_objek'] ?? $submission->name);
         }
 
+        $villageId = null;
+        if (!empty($categoryData['desa_lokasi']) && is_string($categoryData['desa_lokasi'])) {
+            $village = \App\Models\Village::where('name', $categoryData['desa_lokasi'])->first();
+            if ($village) {
+                $villageId = $village->id;
+            }
+        }
+
         $submission->update([
             'name' => $submissionName,
             'category' => $validated['category'],
+            'village_id' => $villageId,
             'address' => $validated['address'] ?? $submission->address,
             'description' => $validated['description'] ?? $submission->description,
             'category_data' => !empty($categoryData) ? $categoryData : null,

@@ -173,6 +173,7 @@ class CulturalSubmission extends Model
      */
     protected $fillable = [
         'user_id',
+        'village_id',
         'name',
         'slug',
         'category',
@@ -467,5 +468,13 @@ class CulturalSubmission extends Model
     public function scopeOfType($query, string $type)
     {
         return $query->where('submission_type', $type);
+    }
+
+    /**
+     * Get the village that the submission belongs to (if any).
+     */
+    public function village(): BelongsTo
+    {
+        return $this->belongsTo(Village::class);
     }
 }
