@@ -152,6 +152,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
 
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
+            'village_id' => Auth::user()->village_id,
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
@@ -387,6 +388,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         // Update submission
         $submission->update([
             'name' => $submissionName,
+            'village_id' => Auth::user()->village_id,
             'description' => $validated['description'],
             'address' => $validated['address'] ?? $submission->address,
             'category_data' => !empty($categoryData) ? $categoryData : $submission->category_data,
