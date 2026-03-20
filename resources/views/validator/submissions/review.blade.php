@@ -246,21 +246,40 @@
                             <div>
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Keputusan Review</label>
                                 <div class="grid grid-cols-1 gap-2.5">
-                                    <!-- Forward -->
+                                    @if($submission->isOPK())
+                                    <!-- Forward to Field (Verified Adm) -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('forwarded')">
-                                        <input type="radio" name="action" value="forwarded" class="peer sr-only" required x-model="selectedAction">
+                                        <input type="radio" name="action" value="forwarded" class="peer sr-only" x-model="selectedAction">
                                         <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-emerald-100/30 peer-checked:ring-4 peer-checked:ring-emerald-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
                                             <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 peer-checked:scale-110 transition-all duration-300">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                             </div>
                                             <div class="flex-1">
-                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Forward Lapangan</span>
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tinjau ke Lapangan</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
                                                 <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
+                                    @endif
+
+                                    <!-- Verify Directly -->
+                                    <label class="relative cursor-pointer group/opt" @click="selectAction('verified')">
+                                        <input type="radio" name="action" value="verified" class="peer sr-only" x-model="selectedAction">
+                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-emerald-100/30 peer-checked:ring-4 peer-checked:ring-emerald-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 peer-checked:scale-110 transition-all duration-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Validasi Pengajuan</span>
+                                            </div>
+                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            </div>
+                                        </div>
+                                    </label>
+
                                     <!-- Revision -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('revision')">
                                         <input type="radio" name="action" value="revision" class="peer sr-only" x-model="selectedAction">
@@ -575,10 +594,10 @@
 
                 get actionLabel() {
                     const labels = {
-                        'forwarded': 'Forward ke Lapangan',
+                        'forwarded': 'Tinjau ke Lapangan',
                         'revision': 'Minta Revisi',
                         'rejected': 'Tolak Pengajuan',
-                        'verified': 'Verifikasi & Validkan',
+                        'verified': 'Validasi Pengajuan',
                     };
                     return labels[this.selectedAction] || 'Belum dipilih';
                 },

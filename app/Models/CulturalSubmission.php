@@ -34,6 +34,7 @@ class CulturalSubmission extends Model
     const CATEGORY_PERMAINAN_RAKYAT = 'Permainan Rakyat';
     const CATEGORY_OLAHRAGA_TRADISIONAL = 'Olahraga Tradisional';
     const CATEGORY_CAGAR_BUDAYA = 'Cagar Budaya';
+    const CATEGORY_LAPORAN_AKTIF = 'Laporan Kebudayaan Aktif';
 
     /**
      * Category slug mapping
@@ -50,6 +51,7 @@ class CulturalSubmission extends Model
         'permainan-rakyat' => self::CATEGORY_PERMAINAN_RAKYAT,
         'olahraga-tradisional' => self::CATEGORY_OLAHRAGA_TRADISIONAL,
         'cagar-budaya' => self::CATEGORY_CAGAR_BUDAYA,
+        'laporan-kebudayaan-aktif' => self::CATEGORY_LAPORAN_AKTIF,
     ];
 
     /**
@@ -67,6 +69,7 @@ class CulturalSubmission extends Model
         self::CATEGORY_PERMAINAN_RAKYAT,
         self::CATEGORY_OLAHRAGA_TRADISIONAL,
         self::CATEGORY_CAGAR_BUDAYA,
+        self::CATEGORY_LAPORAN_AKTIF,
     ];
 
     /**
@@ -84,6 +87,7 @@ class CulturalSubmission extends Model
         self::CATEGORY_PERMAINAN_RAKYAT => 'Permainan tradisional seperti congklak, gasing, dan bentengan.',
         self::CATEGORY_OLAHRAGA_TRADISIONAL => 'Aktivitas fisik/mental tradisional seperti pencak silat, karapan sapi, atau debus.',
         self::CATEGORY_CAGAR_BUDAYA => 'Benda atau tempat bersejarah seperti candi, keris, atau situs arkeologi.',
+        self::CATEGORY_LAPORAN_AKTIF => 'Pendataan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.',
     ];
 
     /**
@@ -138,10 +142,12 @@ class CulturalSubmission extends Model
         }
 
         if (!empty($config['has_sub'])) {
+            // If subCategory is provided, return only those fields
             if ($subCategory && isset($config['fields'][$subCategory])) {
                 return $config['fields'][$subCategory];
             }
-            // Return all fields merged if no sub-category specified
+            
+            // Otherwise, merge all fields (fallback, but caution with key collisions)
             $merged = [];
             foreach ($config['fields'] as $subFields) {
                 $merged = array_merge($merged, $subFields);
@@ -406,6 +412,14 @@ class CulturalSubmission extends Model
     }
 
     /**
+     * Check if a status belongs to the administrative review phase.
+     */
+    public static function isReviewPhase(string $status): bool
+    {
+        return in_array($status, [self::STATUS_SUBMITTED, self::STATUS_ADMINISTRATIVE_REVIEW, self::STATUS_REVISION]);
+    }
+
+    /**
      * Check if this is an OPK submission
      */
     public function isOPK(): bool
@@ -419,6 +433,20 @@ class CulturalSubmission extends Model
     public function isActiveCulture(): bool
     {
         return $this->submission_type === 'aktif';
+    }
+
+    /**
+     * Get the sub-category key from category_data if available
+     */
+    public function getSubCategory(): ?string
+    {
+        $categoryConfig = config("category_fields.{$this->category}");
+        if (!$categoryConfig || empty($categoryConfig['has_sub'])) {
+            return null;
+        }
+
+        $subField = $categoryConfig['sub_field'];
+        return $this->category_data[$subField] ?? null;
     }
 
     /**
