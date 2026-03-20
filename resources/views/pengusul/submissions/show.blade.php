@@ -69,7 +69,7 @@
         <!-- Fullscreen Preview Modal -->
         <template x-teleport="body">
             <div class="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6" x-show="showPreviewModal" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-                <div class="absolute inset-0 bg-slate-900/80" @click="showPreviewModal = false"></div>
+                <div class="absolute inset-0 bg-slate-900/80" @click="showPreviewModal = false; document.querySelectorAll('video').forEach(v => v.pause()); setTimeout(() => previewFile = null, 300)"></div>
                 <div class="relative w-full max-w-6xl max-h-full bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/10 flex flex-col">
                     <!-- Modal Header -->
                     <div class="p-6 sm:p-8 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-md">
@@ -87,7 +87,7 @@
                                 <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]" x-text="previewFile?.size"></p>
                             </div>
                         </div>
-                        <button @click="showPreviewModal = false" class="w-12 h-12 rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group">
+                        <button @click="showPreviewModal = false; document.querySelectorAll('video').forEach(v => v.pause()); setTimeout(() => previewFile = null, 300)" class="w-12 h-12 rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group">
                             <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
@@ -297,7 +297,7 @@
                                                         </div>
                                                     @elseif($file->file_icon == 'video')
                                                         <div class="w-full h-full bg-slate-200 flex items-center justify-center relative">
-                                                            <svg class="w-16 h-16 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                                            <video src="{{ Storage::url($file->path) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata"></video>
                                                             <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
                                                                 <button @click="showPreviewModal = true; previewFile = { url: '{{ Storage::url($file->path) }}', name: '{{ $file->original_name }}', type: 'video', size: '{{ $file->file_size_human }}' }" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
