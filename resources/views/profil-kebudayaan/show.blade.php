@@ -50,7 +50,64 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
-<body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] text-slate-900 overflow-x-hidden">
+<body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] text-slate-900 overflow-x-hidden" 
+      x-data="{ 
+        showPreviewModal: false,
+        previewFile: null,
+        openPreview(url, type, name) {
+            this.previewFile = { url, type, name };
+            this.showPreviewModal = true;
+        },
+        closePreview() {
+            this.showPreviewModal = false;
+            setTimeout(() => { this.previewFile = null; }, 300);
+        }
+      }">
+    
+    <!-- Fullscreen Preview Modal -->
+    <template x-teleport="body">
+        <div x-show="showPreviewModal" 
+             x-cloak
+             class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-10"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100">
+            <div class="absolute inset-0 bg-[#03045E]/90 backdrop-blur-xl" @click="closePreview()"></div>
+            
+            <div class="relative w-full max-w-6xl max-h-full flex flex-col items-center"
+                 x-transition:enter="transition ease-out duration-300 delay-100"
+                 x-transition:enter-start="opacity-0 scale-95 translate-y-10"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+                
+                <!-- Modal Header -->
+                <div class="absolute -top-16 left-0 right-0 flex items-center justify-between text-white px-2">
+                    <div class="flex flex-col">
+                        <h4 class="text-sm font-black uppercase tracking-widest text-white/60 mb-1" x-text="previewFile?.type"></h4>
+                        <p class="text-lg font-black tracking-tight truncate max-w-[200px] sm:max-w-md" x-text="previewFile?.name"></p>
+                    </div>
+                    <button @click="closePreview()" class="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all group active:scale-90">
+                        <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Content Container -->
+                <div class="w-full bg-black/20 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center relative group/inner min-h-[300px]">
+                    <template x-if="previewFile?.type === 'image'">
+                        <img :src="previewFile?.url" class="max-w-full max-h-[70vh] object-contain select-none">
+                    </template>
+                    <template x-if="previewFile?.type === 'video'">
+                        <video :src="previewFile?.url" controls autoplay class="max-w-full max-h-[70vh]"></video>
+                    </template>
+                    
+                    <!-- Floating Download Link -->
+                    <a :href="previewFile?.url" target="_blank" class="absolute bottom-8 right-8 px-6 py-3 bg-white text-[#03045E] rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Unduh Berkas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
     
     <!-- Navbar -->
     <x-public-navbar />
@@ -318,7 +375,8 @@
                     <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
                         @forelse($submission->files as $file)
                             @if(in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']))
-                                <a href="{{ $file->url }}" target="_blank" class="group relative rounded-[2rem] overflow-hidden aspect-[4/3] border border-slate-100 hover:shadow-2xl transition-all duration-500">
+                                <button @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
+                                        class="group relative rounded-[2rem] overflow-hidden aspect-[4/3] border border-slate-100 hover:shadow-2xl transition-all duration-500 w-full text-left">
                                     <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                     <div class="absolute inset-0 bg-gradient-to-t from-[#03045E]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
                                         <span class="text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-2">
@@ -326,19 +384,24 @@
                                             Perbesar
                                         </span>
                                     </div>
-                                </a>
+                                </button>
                             @elseif(in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']))
-                                <div class="bg-slate-900 rounded-[2rem] overflow-hidden aspect-video relative group border-4 border-slate-100 shadow-xl">
-                                    <video controls class="w-full h-full object-contain">
+                                <div class="bg-slate-900 rounded-[2rem] overflow-hidden aspect-video relative group border-4 border-slate-100 shadow-xl overflow-hidden">
+                                     <video controls class="w-full h-full object-contain">
                                         <source src="{{ $file->url }}" type="video/{{ strtolower($file->file_type) === 'video' ? 'mp4' : strtolower($file->file_type) }}">
                                     </video>
+                                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" class="p-3 bg-white/20 backdrop-blur-md text-white rounded-xl hover:bg-[#00B4D8] transition-all transform active:scale-90">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             @elseif(in_array(strtolower($file->file_type), ['audio', 'mp3', 'wav']))
                                 <div class="p-6 sm:p-8 bg-slate-50 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-100 group hover:bg-white hover:shadow-xl transition-all duration-500">
                                     <div class="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center text-[#0077B6] mx-auto shadow-sm mb-6 border border-slate-100 group-hover:bg-[#0077B6] group-hover:text-white transition-all">
                                         <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
                                     </div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-6 truncate px-2">{{ $file->original_name }}</p>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-6 truncate px-2 text-ellipsis overflow-hidden">{{ $file->original_name }}</p>
                                     <audio controls class="w-full h-10 border-0">
                                         <source src="{{ $file->url }}" type="audio/mpeg">
                                     </audio>
@@ -348,14 +411,14 @@
                                     <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center text-[#0077B6] group-hover/doc:bg-[#0077B6] group-hover/doc:text-white transition-all duration-500 shrink-0">
                                         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     </div>
-                                    <div class="min-w-0 flex-1">
-                                        <p class="text-[10px] font-bold text-[#03045E] truncate mb-0.5">{{ $file->original_name }}</p>
+                                    <div class="min-w-0 flex-1 overflow-hidden">
+                                        <p class="text-[10px] font-bold text-[#03045E] truncate mb-0.5 text-ellipsis overflow-hidden">{{ $file->original_name }}</p>
                                         <p class="text-[9px] font-medium text-slate-400 uppercase tracking-widest opacity-70">{{ strtoupper($file->file_type) }} • {{ $file->file_size_human }}</p>
                                     </div>
                                 </a>
                             @endif
                         @empty
-                            <p class="text-center text-xs font-black text-slate-300 uppercase tracking-widest py-10">Belum ada lampiran arsip</p>
+                            <p class="text-center text-xs font-black text-slate-300 uppercase tracking-widest py-10 w-full col-span-2">Belum ada lampiran arsip</p>
                         @endforelse
                     </div>
                 </div>
