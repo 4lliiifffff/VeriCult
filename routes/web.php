@@ -6,6 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 
 Route::get('/', function () {
+    if (auth()->check() && auth()->user()->isPendingAdminApproval()) {
+        \Illuminate\Support\Facades\Auth::guard('web')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
+    }
+
     $stats = [
         'total' => \App\Models\CulturalSubmission::whereIn('status', [\App\Models\CulturalSubmission::STATUS_PUBLISHED, \App\Models\CulturalSubmission::STATUS_VERIFIED])->count(),
         \App\Models\CulturalSubmission::STATUS_PUBLISHED => \App\Models\CulturalSubmission::published()->count(),
@@ -150,7 +157,7 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
     });
 
 // Pengusul Desa Routes (only pengusul-desa)
-Route::middleware(['auth', 'verified', 'role:pengusul-desa'])
+Route::middleware(['auth', 'role:pengusul-desa', \App\Http\Middleware\CheckAdminApproval::class])
     ->prefix('pengusul-desa')
     ->name('pengusul-desa.')
     ->group(function () {
@@ -188,10 +195,21 @@ Route::get('/dashboard', function () {
     } elseif ($user->hasRole('pengusul')) {
         return redirect()->route('pengusul.dashboard');
     } elseif ($user->hasRole('pengusul-desa')) {
+        if ($user->isPendingAdminApproval()) {
+            return redirect()->route('pending-approval');
+        }
         return redirect()->route('pengusul-desa.dashboard');
     }
     return view('dashboard'); // Fallback if no role
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+// Pending Approval Route for unvalidated pengusul-desa
+Route::get('/pending-approval', function () {
+    if (!auth()->check() || !auth()->user()->isPendingAdminApproval()) {
+        return redirect('/dashboard');
+    }
+    return view('auth.pending-approval');
+})->name('pending-approval');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

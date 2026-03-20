@@ -42,6 +42,13 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('pengusul.dashboard');
         }
 
+        if ($user->role === 'pengusul-desa') {
+            if ($user->isPendingAdminApproval()) {
+                return redirect()->route('pending-approval');
+            }
+            return redirect()->route('pengusul-desa.dashboard');
+        }
+
         return redirect('/dashboard');
     }
 
