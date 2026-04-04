@@ -270,7 +270,8 @@ class UserController extends Controller
             ->with('profile')
             ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false))
             ->latest('created_at')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('super-admin.users.pending-pengusul-desa', compact('pendingUsers'));
     }

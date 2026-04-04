@@ -12,4 +12,9 @@ class Village extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function submissions()
+    {
+        return $this->hasMany(CulturalSubmission::class);
+    }
 }

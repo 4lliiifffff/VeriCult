@@ -122,7 +122,7 @@
                 <div class="space-y-10 sticky top-8">
                     <div class="space-y-6">
                 <!-- Status Card -->
-                <div class="bg-gradient-to-br from-[#03045E] to-[#023E8A] rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 text-white shadow-2xl shadow-[#03045E]/40 relative overflow-hidden group">
+                <div class="bg-gradient-to-br from-[#03045E] to-[#023E8A] rounded-[2rem] p-8 text-white shadow-2xl shadow-[#03045E]/40 relative overflow-hidden group">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                     <div class="relative z-10">
                         <div class="flex items-center gap-3 mb-6">
@@ -151,7 +151,7 @@
                 </div>
 
                 <!-- Tips Card -->
-                <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-slate-100 shadow-sm space-y-6">
+                <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-6">
                     <h3 class="text-[#03045E] font-black text-lg flex items-center gap-3">
                         <span class="w-1.5 h-6 bg-[#0077B6] rounded-full"></span>
                         Panduan Pengisian

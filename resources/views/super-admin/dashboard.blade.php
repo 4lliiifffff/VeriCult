@@ -74,35 +74,58 @@
             }
         });
 
-        // 3. Submission Trend Chart
+        // 3. Enhanced Trend Chart (Statistik vs Aktif)
         const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        
+        const typeTrendData = {!! json_encode($typeTrend) !!};
+        const statistikData = months.map(m => {
+            const data = typeTrendData[m] || [];
+            return (data.find(d => d.submission_type === 'statistik') || {count: 0}).count;
+        });
+        const aktifData = months.map(m => {
+            const data = typeTrendData[m] || [];
+            return (data.find(d => d.submission_type === 'aktif') || {count: 0}).count;
+        });
+
         new Chart(trendCtx, {
             type: 'line',
             data: {
-                labels: {!! json_encode($monthlyTrend->pluck('month_name')) !!}.map(m => {
-                    const months = {
-                        'Jan': 'Jan', 'Feb': 'Feb', 'Mar': 'Mar', 'Apr': 'Apr', 'May': 'Mei', 'Jun': 'Jun',
-                        'Jul': 'Jul', 'Aug': 'Agu', 'Sep': 'Sep', 'Oct': 'Okt', 'Nov': 'Nov', 'Dec': 'Des'
-                    };
-                    return months[m] || m;
-                }),
-                datasets: [{
-                    label: 'Pengajuan Baru',
-                    data: {!! json_encode($monthlyTrend->pluck('count')) !!},
-                    borderColor: '#48CAE4',
-                    backgroundColor: 'rgba(72, 202, 228, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 4,
-                    pointRadius: 6,
-                    pointBackgroundColor: '#fff',
-                    pointBorderColor: '#48CAE4',
-                    pointBorderWidth: 3
-                }]
+                labels: monthsShort,
+                datasets: [
+                    {
+                        label: 'Statistik (OPK)',
+                        data: statistikData,
+                        borderColor: '#023E8A',
+                        backgroundColor: 'rgba(2, 62, 138, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Laporan Aktif',
+                        data: aktifData,
+                        borderColor: '#48CAE4',
+                        backgroundColor: 'rgba(72, 202, 228, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4
+                    }
+                ]
             },
             options: {
                 ...chartOptions,
-                plugins: { legend: { display: false } },
+                plugins: { 
+                    legend: { 
+                        display: true,
+                        position: 'top',
+                        align: 'end',
+                        labels: { boxWidth: 10, padding: 10, font: { size: 9, weight: 'bold' } }
+                    } 
+                },
                 scales: {
                     y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
                     x: { grid: { display: false } }
@@ -110,7 +133,66 @@
             }
         });
 
-        // 4. Yearly Comparison Chart
+        // 4. Village Comparison Chart
+        const villageCtx = document.getElementById('villageChart').getContext('2d');
+        const villageData = {!! json_encode($villageComparison) !!};
+        new Chart(villageCtx, {
+            type: 'bar',
+            data: {
+                labels: villageData.map(v => v.name.replace('Desa ', '')),
+                datasets: [
+                    {
+                        label: 'Statistik',
+                        data: villageData.map(v => v.statistik_count),
+                        backgroundColor: '#03045E',
+                        borderRadius: 5
+                    },
+                    {
+                        label: 'Aktif',
+                        data: villageData.map(v => v.aktif_count),
+                        backgroundColor: '#00B4D8',
+                        borderRadius: 5
+                    }
+                ]
+            },
+            options: {
+                ...chartOptions,
+                indexAxis: 'y',
+                plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } },
+                scales: {
+                    x: { beginAtZero: true, grid: { display: false } },
+                    y: { grid: { display: false }, ticks: { font: { weight: 'bold', size: 10 } } }
+                }
+            }
+        });
+
+        // 5. Active Category Distribution
+        const activeCatCtx = document.getElementById('activeCatChart').getContext('2d');
+        const activeCatData = {!! json_encode($aktifCategoryStats) !!};
+        new Chart(activeCatCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(activeCatData),
+                datasets: [{
+                    data: Object.values(activeCatData),
+                    backgroundColor: ['#03045E', '#023E8A', '#0077B6', '#0096C7', '#00B4D8', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                ...chartOptions,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { boxWidth: 8, font: { size: 9 } }
+                    }
+                }
+            }
+        });
+
+        // Legend: Existing Yearly Comparison
         const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
         new Chart(yearlyCtx, {
             type: 'bar',
@@ -373,14 +455,43 @@
                 </div>
             </div>
 
-            <!-- Group 2: Categories & Comparison -->
+            <!-- Group 2: Village & Active Culture -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Village Comparison (2/3) -->
+                <div class="lg:col-span-2 bg-white p-8 sm:p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="text-lg font-black text-[#03045E]">Perbandingan Antar Desa</h3>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Distribusi Statistik vs Laporan Aktif</p>
+                        </div>
+                    </div>
+                    <div class="h-80 relative">
+                        <canvas id="villageChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Active Culture Categories (1/3) -->
+                <div class="bg-white p-8 sm:p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="text-lg font-black text-[#03045E]">Kategori Laporan Aktif</h3>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Jenis Kebudayaan yang Dilaksanakan</p>
+                        </div>
+                    </div>
+                    <div class="h-80 relative">
+                        <canvas id="activeCatChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 3: Categories & Comparison -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Category Distribution -->
                 <div class="bg-white p-8 sm:p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white">
                     <div class="flex items-center justify-between mb-8">
                         <div>
-                            <h3 class="text-lg font-black text-[#03045E]">Populasi Kategori</h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Berdasarkan Jenis Objek Budaya</p>
+                            <h3 class="text-lg font-black text-[#03045E]">Populasi Kategori (Global)</h3>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Berdasarkan Seluruh Jenis Objek</p>
                         </div>
                     </div>
                     <div class="h-72 relative">

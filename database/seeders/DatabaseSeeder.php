@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
+            CulturalSubmissionSeeder::class,
         ]);
 
         // User::factory(10)->create();

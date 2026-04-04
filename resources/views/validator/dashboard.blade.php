@@ -84,6 +84,57 @@
                 }
             }
         });
+
+        // 4. Village Review Distribution
+        const villageCtx = document.getElementById('villageReviewChart').getContext('2d');
+        const villageData = {!! json_encode($villageReviewStats) !!};
+        new Chart(villageCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(villageData).map(v => v.replace('Desa ', '')),
+                datasets: [{
+                    label: 'Jumlah Review',
+                    data: Object.values(villageData),
+                    backgroundColor: '#03045E',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                ...chartOptions,
+                indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, grid: { display: false } },
+                    y: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
+                }
+            }
+        });
+
+        // 5. Active Category Distribution
+        const activeCatCtx = document.getElementById('activeCatChart').getContext('2d');
+        const activeCatData = {!! json_encode($aktifCategoryStats) !!};
+        new Chart(activeCatCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(activeCatData),
+                datasets: [{
+                    data: Object.values(activeCatData),
+                    backgroundColor: ['#03045E', '#023E8A', '#0077B6', '#0096C7', '#00B4D8', '#48CAE4', '#90E0EF'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                ...chartOptions,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 8, font: { size: 9 } }
+                    }
+                }
+            }
+        });
     });
 </script>
 @endpush
@@ -198,25 +249,46 @@
         </div>
 
         <!-- Analytics Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Pipa Review Saya (Beban Kerja)</h3>
-                <div class="h-64 relative">
-                    <canvas id="pipelineChart"></canvas>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Review Pipeline & Global Category -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 h-full">
+                <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white flex flex-col">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Pipa Review Saya</h3>
+                    <div class="h-64 relative mt-auto">
+                        <canvas id="pipelineChart"></canvas>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Kategori Terpopuler (Global)</h3>
-                <div class="h-64 relative">
-                    <canvas id="categoryChart"></canvas>
+                
+                <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white flex flex-col">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Kategori Terpopuler</h3>
+                    <div class="h-64 relative mt-auto">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <!-- Yearly Comparison Chart -->
-            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Perbandingan Tahunan</h3>
-                <div class="h-64 relative">
+            <!-- Workload by Village -->
+            <div class="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white flex flex-col">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 italic">Beban Review Per Desa</h3>
+                <div class="h-64 relative mt-auto">
+                    <canvas id="villageReviewChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Active Culture Breakdown -->
+            <div class="lg:col-span-1 bg-white p-6 sm:p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white flex flex-col">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-6 italic">Kategori Kebudayaan Aktif</h3>
+                <div class="h-72 relative">
+                    <canvas id="activeCatChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Comparison & Trends (2/3) -->
+            <div class="lg:col-span-2 bg-white p-6 sm:p-10 rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white flex flex-col">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-6 italic">Tren Pertumbuhan Data</h3>
+                <div class="h-72 relative">
                     <canvas id="yearlyChart"></canvas>
                 </div>
             </div>

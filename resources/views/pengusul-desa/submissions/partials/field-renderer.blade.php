@@ -50,9 +50,6 @@
         <div class="flex items-center justify-between gap-4">
             <label for="category_data_{{ $fieldKey }}" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] transition-colors group-focus-within/field:text-[#0077B6]">
                 {{ $field['label'] }}
-                @if(!empty($field['required']))
-                    <span class="text-red-500 text-sm">*</span>
-                @endif
             </label>
             
             @if($isLainnyaField)
@@ -61,7 +58,7 @@
         </div>
     @endif
 
-    <div class="relative" @if(!empty($field['required'])) data-required="true" @endif>
+    <div class="relative">
         @switch($field['type'])
             {{-- TEXT INPUT --}}
             @case('text')
@@ -119,7 +116,7 @@
                             
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
                             <svg class="w-5 h-5 transition-transform duration-300" :class="open ? 'rotate-180 text-[#0077B6]' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
                     </div>
