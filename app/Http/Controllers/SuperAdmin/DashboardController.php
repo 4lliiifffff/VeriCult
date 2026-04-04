@@ -7,6 +7,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\Models\AuditLog;
 use App\Models\CulturalSubmission;
+use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -108,6 +109,34 @@ class DashboardController extends Controller
         ->orderBy('period_year', 'asc')
         ->get();
 
+        // 5. Village Comparison (Total vs Aktif)
+        $villageComparison = Village::withCount([
+            'submissions' => fn($q) => $q->where('period_year', $activeYear),
+            'submissions as aktif_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'aktif'),
+            'submissions as statistik_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'statistik'),
+        ])->get();
+
+        // 6. Active Culture Category Distribution
+        // Since category_data is JSON, we'll fetch and process in PHP for reliability with various DB drivers
+        $aktifSubmissions = (clone $yearQuery)->where('submission_type', 'aktif')->get();
+        $aktifCategoryStats = [];
+        foreach ($aktifSubmissions as $sub) {
+            $cat = $sub->category_data['kategori_opk'] ?? 'Lainnya';
+            $aktifCategoryStats[$cat] = ($aktifCategoryStats[$cat] ?? 0) + 1;
+        }
+
+        // 7. Submission Type Trend (Statistik vs Aktif)
+        $typeTrend = (clone $yearQuery)->select(
+            DB::raw('DATE_FORMAT(created_at, "%b") as month_name'),
+            DB::raw('MONTH(created_at) as month_num'),
+            'submission_type',
+            DB::raw('count(*) as count')
+        )
+        ->groupBy('month_name', 'month_num', 'submission_type')
+        ->orderBy('month_num', 'asc')
+        ->get()
+        ->groupBy('month_name');
+
         // Return existing view with charts data
         return view('super-admin.dashboard', compact(
             'totalUsers', 
@@ -128,7 +157,10 @@ class DashboardController extends Controller
             'statusStats',
             'categoryStats',
             'monthlyTrend',
-            'yearlyComparison'
+            'yearlyComparison',
+            'villageComparison',
+            'aktifCategoryStats',
+            'typeTrend'
         ));
     }
 

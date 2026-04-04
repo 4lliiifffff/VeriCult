@@ -22,7 +22,8 @@ class CulturalController extends Controller
     {
         $submissions = CulturalSubmission::ownedBy(Auth::id())
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('validator.cultural.index', compact('submissions'));
     }

@@ -75,40 +75,6 @@
         <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 space-y-6 sm:space-y-8 relative">
             <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl"></div>
 
-            {{-- Periode Pelaporan (for Statistik and Aktif) --}}
-            @if(in_array($categorySlug, ['laporan-kebudayaan-aktif', 'statistik', 'aktif']) || (isset($submission->submission_type) && in_array($submission->submission_type, ['statistik', 'aktif'])))
-            <div class="space-y-4 group/input">
-                <label for="period_year" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">Periode Tahun / Tanggal Laporan <span class="text-red-500">*</span></label>
-                <div class="relative" x-data x-init="
-                    flatpickr($refs.periodPicker, {
-                        locale: 'id',
-                        dateFormat: 'Y-m-d',
-                        altInput: true,
-                        altFormat: 'j F Y',
-                        allowInput: true,
-                        disableMobile: true,
-                        defaultDate: '{{ old('period_year', $submission->period_year ?? date('Y-m-d')) }}',
-                        onChange: function(selectedDates, dateStr) {
-                            // We can store a full date or just extract the year later
-                        }
-                    })
-                ">
-                    <input type="text" x-ref="periodPicker" name="period_year" id="period_year" 
-                        value="{{ old('period_year', $submission->period_year ?? '') }}"
-                        required
-                        readonly
-                        class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm group-hover/input:shadow-md cursor-pointer"
-                        placeholder="Pilih periode tahun atau tanggal...">
-                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    </div>
-                </div>
-                @error('period_year')
-                    <p class="text-[10px] text-red-600 font-black uppercase tracking-wider mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-            @endif
-
             {{-- Sub-category selector --}}
             @if($hasSub)
                 <div class="space-y-4 group relative z-10">
@@ -203,7 +169,7 @@
     {{-- ================================================================== --}}
     {{-- SECTION C: Deskripsi --}}
     {{-- ================================================================== --}}
-    @if(!in_array($categorySlug, ['laporan-kebudayaan-aktif', 'statistik', 'aktif']))
+    @if($categorySlug !== 'laporan-kebudayaan-aktif')
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
@@ -223,7 +189,7 @@
                     data-category-field>{{ old('description', $submission->description ?? '') }}</textarea>
                 
                 <div class="absolute bottom-6 right-8 flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest border border-slate-100">
-                    <span x-text="$el.closest('.group\\/field').querySelector('textarea').value.length"></span>/50 Karakter
+                    <span x-text="$el.closest('.group/field').querySelector('textarea').value.length"></span>/50 Karakter
                 </div>
             </div>
             @error('description')
@@ -244,7 +210,7 @@
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
             </div>
-            <h3 class="text-sm font-black text-[#03045E] uppercase tracking-[0.2em]">D. Data Dukung</h3>
+            <h3 class="text-sm font-black text-[#03045E] uppercase tracking-[0.2em]">Data Dukung</h3>
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
@@ -255,29 +221,96 @@
                     <span class="w-6 h-6 rounded-lg bg-[#0077B6]/10 text-[#0077B6] flex items-center justify-center text-[10px] font-black">01</span>
                     Foto & Video Dokumentasi
                 </h4>
+
+                {{-- Existing Files (from DB) --}}
+                @if(isset($submission) && $submission instanceof \App\Models\CulturalSubmission && $submission->files->count() > 0)
+                <div class="mb-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                        <svg class="w-3 h-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        Lampiran yang Sudah Diunggah
+                    </p>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        @foreach($submission->files as $existingFile)
+                        <div class="group/file relative flex flex-col p-3 bg-white border-2 border-emerald-50 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-slate-200/50 hover:border-emerald-200/60 transition-all duration-300 overflow-hidden">
+                            <!-- Preview Area -->
+                            <div class="relative w-full h-32 sm:h-40 rounded-[1.5rem] overflow-hidden bg-slate-50 flex items-center justify-center shrink-0 mb-3 border border-slate-50/50 shadow-inner">
+                                @if($existingFile->file_icon === 'image')
+                                    <img src="{{ Storage::url($existingFile->path) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" alt="{{ $existingFile->original_name }}">
+                                    <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
+                                        <button type="button" onclick="openExistingPreview('{{ Storage::url($existingFile->path) }}', 'image', '{{ addslashes($existingFile->original_name) }}')" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        </button>
+                                    </div>
+                                @elseif($existingFile->file_icon === 'video')
+                                    <div class="w-full h-full bg-slate-200 flex items-center justify-center relative">
+                                        <video src="{{ Storage::url($existingFile->path) }}" class="w-full h-full object-cover" preload="metadata"></video>
+                                        <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
+                                            <button type="button" onclick="openExistingPreview('{{ Storage::url($existingFile->path) }}', 'video', '{{ addslashes($existingFile->original_name) }}')" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex flex-col items-center justify-center text-slate-300 gap-1">
+                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-[#0077B6]">{{ strtoupper($existingFile->extension ?? pathinfo($existingFile->original_name, PATHINFO_EXTENSION)) }}</span>
+                                    </div>
+                                @endif
+                                <!-- Existing badge -->
+                                <div class="absolute top-2 left-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[8px] font-black uppercase tracking-wider shadow">Tersimpan</span>
+                                </div>
+                            </div>
+
+                            <!-- File Info -->
+                            <div class="flex items-center justify-between min-w-0 px-1">
+                                <div class="min-w-0 pr-2">
+                                    <p class="text-sm font-black text-slate-700 truncate group-hover/file:text-[#0077B6] transition-colors" title="{{ $existingFile->original_name }}">{{ $existingFile->original_name }}</p>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{{ $existingFile->file_size_human }}</p>
+                                </div>
+                                {{-- Delete via JS to avoid nested form inside parent form --}}
+                                <button type="button"
+                                    onclick="deleteExistingFile('{{ route('pengusul-desa.submissions.files.destroy', [$submission, $existingFile]) }}')"
+                                    class="w-8 h-8 shrink-0 flex items-center justify-center text-rose-300 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all active:scale-90" title="Hapus File">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
                 {{-- File List (Previews) --}}
                 <div x-show="files.length > 0" x-transition class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
                     <template x-for="(item, index) in files" :key="index">
                         <div class="group/file relative flex flex-col p-3 bg-white border-2 border-slate-50 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-slate-200/50 hover:border-[#0077B6]/30 transition-all duration-300 overflow-hidden">
                             <!-- Preview Area -->
-                            <div class="relative w-full h-32 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 flex items-center justify-center shrink-0 mb-3 border border-slate-200/50">
+                            <div class="relative w-full h-32 sm:h-40 rounded-[1.5rem] overflow-hidden bg-slate-50 flex items-center justify-center shrink-0 mb-3 border border-slate-50/50 shadow-inner group-hover/file:border-[#0077B6]/20 transition-colors">
                                 <template x-if="item.isImage">
-                                    <img :src="item.previewUrl" @click="openPreview(item)" class="w-full h-full object-cover transition-transform duration-500 group-hover/file:scale-110 cursor-pointer" alt="Preview" title="Klik untuk memperbesar">
+                                    <div class="w-full h-full relative">
+                                        <img :src="item.previewUrl" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110">
+                                        <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
+                                            <button type="button" @click="openPreview(item)" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </template>
                                 <template x-if="item.isVideo">
-                                    <div class="relative w-full h-full cursor-pointer group/video" @click="openPreview(item)" title="Klik untuk memutar video">
-                                        <video :src="item.previewUrl" class="w-full h-full object-cover" preload="metadata"></video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/video:bg-black/40 transition-colors">
-                                            <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover/video:scale-110 transition-transform">
-                                                <svg class="w-6 h-6 text-white translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                            </div>
+                                    <div class="w-full h-full bg-slate-200 flex items-center justify-center relative">
+                                        <video :src="item.previewUrl" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata"></video>
+                                        <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
+                                            <button type="button" @click="openPreview(item)" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </template>
                                 <template x-if="!item.isImage && !item.isVideo">
-                                    <div class="flex flex-col items-center justify-center text-slate-400">
-                                        <svg class="w-10 h-10 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                        <span class="text-xs font-black uppercase tracking-widest text-[#0077B6]" x-text="item.name.split('.').pop()"></span>
+                                    <div class="text-slate-300">
+                                        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-[#0077B6] absolute bottom-2 left-1/2 -translate-x-1/2" x-text="item.name.split('.').pop()"></span>
                                     </div>
                                 </template>
                             </div>
@@ -326,7 +359,7 @@
             </div>
 
             {{-- Links Section --}}
-            @if(!in_array($categorySlug, ['laporan-kebudayaan-aktif', 'statistik', 'aktif']))
+            @if($categorySlug !== 'laporan-kebudayaan-aktif')
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {{-- 2. Video URL --}}
                 <div class="space-y-4 group/input">
@@ -388,43 +421,49 @@
 
     {{-- Fullscreen Preview Modal --}}
     <template x-teleport="body">
-        <div x-show="showPreviewModal" 
-             class="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
-             style="display: none;"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
-        
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-slate-900/80 cursor-zoom-out"
-             @click="closePreview()">
-        </div>
+        <div class="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6" x-show="showPreviewModal" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+            <div class="absolute inset-0 bg-slate-900/80" @click="closePreview()"></div>
+            <div class="relative w-full max-w-6xl max-h-full bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/10 flex flex-col">
+                <!-- Modal Header -->
+                <div class="p-6 sm:p-8 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-md">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-[#00B4D8]">
+                            <template x-if="previewFile?.isImage">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </template>
+                            <template x-if="previewFile?.isVideo">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </template>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-black text-lg tracking-tight" x-text="previewFile?.name"></h3>
+                            <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]" x-text="formatSize(previewFile?.size || 0)"></p>
+                        </div>
+                    </div>
+                    <button type="button" @click="closePreview()" class="w-12 h-12 rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group">
+                        <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
 
-        <!-- Close Button (Fixed Position) -->
-        <button type="button" @click="closePreview()" 
-                class="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black/50 hover:bg-rose-500 hover:scale-105 text-white rounded-full transition-all duration-300 shadow-xl border border-white/20">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-
-        <!-- Filename Footer (Fixed Position) -->
-        <div x-show="previewFile" class="fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 px-4 sm:px-8 py-2.5 sm:py-3.5 bg-black/70 backdrop-blur-md rounded-full max-w-[90vw] sm:max-w-md w-max z-[110] flex items-center justify-center shadow-2xl border border-white/10">
-            <p class="text-white text-xs sm:text-sm font-bold truncate text-center" x-text="previewFile?.name"></p>
+                <!-- Content Container -->
+                <div class="w-full bg-black/20 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center relative group/inner min-h-[300px]">
+                    <template x-if="previewFile?.isImage">
+                        <img :src="previewFile?.previewUrl" class="max-w-full max-h-[70vh] object-contain select-none">
+                    </template>
+                    <template x-if="previewFile?.isVideo">
+                        <video :src="previewFile?.previewUrl" controls autoplay class="max-w-full max-h-[70vh]"></video>
+                    </template>
+                    
+                    <!-- Floating Download Link -->
+                    <template x-if="previewFile">
+                        <a :href="previewFile?.previewUrl" download x-bind:download="previewFile?.name" class="absolute bottom-8 right-8 px-6 py-3 bg-white text-[#03045E] rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Unduh Berkas
+                        </a>
+                    </template>
+                </div>
+            </div>
         </div>
-
-        <!-- Modal Content Container -->
-        <div class="relative w-full max-w-6xl max-h-screen flex flex-col items-center justify-center z-[105] pointer-events-none p-4 sm:p-12">
-            <!-- Media Elements -->
-            <template x-if="previewFile?.isImage">
-                <img :src="previewFile.previewUrl" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl pointer-events-auto" alt="Preview Fullscreen">
-            </template>
-            <template x-if="previewFile?.isVideo">
-                <video :src="previewFile.previewUrl" class="max-w-full max-h-[85vh] rounded-2xl shadow-2xl outline-none pointer-events-auto" controls autoplay></video>
-            </template>
-        </div>
-    </div>
     </template>
 </div>
 
@@ -459,6 +498,7 @@ function categoryForm() {
 
         closePreview() {
             this.showPreviewModal = false;
+            document.querySelectorAll('video').forEach(v => v.pause());
             document.body.style.overflow = '';
             setTimeout(() => {
                 this.previewFile = null;

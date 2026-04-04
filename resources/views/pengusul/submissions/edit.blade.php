@@ -11,23 +11,38 @@
             <span class="text-[#03045E]">Ubah Data</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div class="space-y-3 w-full md:w-auto">
-                <div class="flex flex-wrap items-center gap-3">
-                    <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-{{ $submission->status_color }}-50 text-{{ $submission->status_color }}-600 border border-{{ $submission->status_color }}-100 shadow-sm">
-                        {{ $submission->status_label }}
-                    </span>
-                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
+        <!-- Premium Page Header Card -->
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-sm">
+                            {{ $submission->status_label }}
+                        </span>
+                        <span class="text-[10px] font-black text-blue-100/60 uppercase tracking-[0.2em] bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
+                    </div>
+                    
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words max-w-4xl">
+                        Edit <span class="text-[#00B4D8]">Pengajuan</span>
+                    </h2>
+                    
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="flex items-center gap-2 text-blue-100/80 font-bold text-sm bg-white/5 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10">
+                            <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                            <span>{{ $submission->category }}</span>
+                        </div>
+                        <p class="text-blue-100/60 text-xs font-bold italic">Update informasi objek kebudayaan: <span class="text-white ml-1">{{ $submission->name }}</span></p>
+                    </div>
                 </div>
-                <h2 class="font-black text-3xl sm:text-4xl text-[#03045E] leading-tight tracking-tight break-words">
-                    Edit <span class="text-[#0077B6]">Pengajuan</span>
-                </h2>
-                <p class="text-slate-500 font-bold text-sm break-words">Update informasi objek kebudayaan: <span class="text-[#03045E] block sm:inline mt-1 sm:mt-0">{{ $submission->name }}</span></p>
-            </div>
-            <div class="flex items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
-                <a href="{{ route('pengusul.submissions.show', $submission) }}" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm">
-                    Batal
-                </a>
+                    
+                <div class="flex items-center gap-4 mt-4 md:mt-0">
+                    <a href="{{ route('pengusul.submissions.show', $submission) }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 active:scale-95">
+                        Batal
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>
@@ -202,6 +217,33 @@
                 </button>
             </div>
         </x-modal>
+
+        <!-- Delete Confirmation Modal -->
+        <x-modal name="confirm-delete-file" :show="false" focusable>
+            <div class="p-10 sm:p-14 text-center">
+                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-8 shadow-inner animate-pulse">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </div>
+                <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Hapus Lampiran?</h2>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Berkas akan dihapus secara permanen dari sistem. Tindakan ini tidak dapat dibatalkan.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
+                    <button type="button" 
+                            @click="$dispatch('close')" 
+                            class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
+                        Batal
+                    </button>
+                    <form id="deleteFileForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" 
+                                class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
+                            Ya, Hapus
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </x-modal>
     </div>
 
     <style>
@@ -213,6 +255,57 @@
             animation: bounce-slow 3s ease-in-out infinite;
         }
     </style>
+
+    {{-- Standalone Existing File Preview Modal (outside any form) --}}
+    <div id="existingFilePreviewModal" style="display:none;" class="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/80" onclick="closeExistingPreview()"></div>
+        <div class="relative z-10 w-full max-w-4xl max-h-[90vh] flex flex-col items-center gap-4">
+            <div class="w-full flex items-center justify-end">
+                <button type="button" onclick="closeExistingPreview()" class="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all backdrop-blur-sm border border-white/20">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="existingFilePreviewContent" class="w-full flex items-center justify-center rounded-3xl overflow-hidden bg-slate-900/50 backdrop-blur-sm" style="max-height: 75vh;">
+                <!-- content injected by JS -->
+            </div>
+            <p id="existingFilePreviewName" class="text-white/80 text-sm font-bold tracking-wide text-center truncate max-w-full px-4"></p>
+        </div>
+    </div>
+
+    <script>
+        function openExistingPreview(url, type, name) {
+            const modal = document.getElementById('existingFilePreviewModal');
+            const content = document.getElementById('existingFilePreviewContent');
+            const nameEl = document.getElementById('existingFilePreviewName');
+            if (type === 'image') {
+                content.innerHTML = `<img src="${url}" class="max-w-full max-h-[70vh] object-contain rounded-2xl shadow-2xl">`;
+            } else if (type === 'video') {
+                content.innerHTML = `<video src="${url}" controls autoplay class="max-w-full max-h-[70vh] rounded-2xl shadow-2xl" style="max-height:70vh;"></video>`;
+            }
+            nameEl.textContent = name;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeExistingPreview() {
+            const modal = document.getElementById('existingFilePreviewModal');
+            const content = document.getElementById('existingFilePreviewContent');
+            // Stop any playing video
+            const video = content.querySelector('video');
+            if (video) { video.pause(); video.src = ''; }
+            content.innerHTML = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function deleteExistingFile(url) {
+            const form = document.getElementById('deleteFileForm');
+            if (form) {
+                form.action = url;
+                window.dispatchEvent(new CustomEvent('open-modal', { detail: 'confirm-delete-file' }));
+            }
+        }
+    </script>
 
     <script>
         function submissionForm() {

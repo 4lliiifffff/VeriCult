@@ -50,7 +50,7 @@ class SubmissionController extends Controller
             $query->where('reviewed_by', Auth::id());
         }
 
-        $submissions = $query->latest()->paginate(10);
+        $submissions = $query->latest()->paginate(10)->withQueryString();
 
         return view('validator.submissions.index', compact('submissions'));
     }

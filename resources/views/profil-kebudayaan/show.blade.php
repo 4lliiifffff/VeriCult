@@ -60,6 +60,7 @@
         },
         closePreview() {
             this.showPreviewModal = false;
+            document.querySelectorAll('video').forEach(v => v.pause());
             setTimeout(() => { this.previewFile = null; }, 300);
         }
       }">
@@ -85,7 +86,7 @@
                         <h4 class="text-sm font-black uppercase tracking-widest text-white/60 mb-1" x-text="previewFile?.type"></h4>
                         <p class="text-lg font-black tracking-tight truncate max-w-[200px] sm:max-w-md" x-text="previewFile?.name"></p>
                     </div>
-                    <button @click="closePreview()" class="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all group active:scale-90">
+                    <button type="button" @click="closePreview()" class="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all group active:scale-90">
                         <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
@@ -375,7 +376,7 @@
                     <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
                         @forelse($submission->files as $file)
                             @if(in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']))
-                                <button @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
+                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
                                         class="group relative rounded-[2rem] overflow-hidden aspect-[4/3] border border-slate-100 hover:shadow-2xl transition-all duration-500 w-full text-left">
                                     <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                     <div class="absolute inset-0 bg-gradient-to-t from-[#03045E]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
@@ -391,7 +392,7 @@
                                         <source src="{{ $file->url }}" type="video/{{ strtolower($file->file_type) === 'video' ? 'mp4' : strtolower($file->file_type) }}">
                                     </video>
                                     <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" class="p-3 bg-white/20 backdrop-blur-md text-white rounded-xl hover:bg-[#00B4D8] transition-all transform active:scale-90">
+                                        <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" class="p-3 bg-white/20 backdrop-blur-md text-white rounded-xl hover:bg-[#00B4D8] transition-all transform active:scale-90">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
                                     </div>

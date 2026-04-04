@@ -82,9 +82,27 @@ class DashboardController extends Controller
         ->orderBy('period_year', 'asc')
         ->get();
 
+        // 4. Review Distribution by Village (My workload by village)
+        $villageReviewStats = (clone $yearQuery)->where('reviewed_by', Auth::id())
+            ->join('villages', 'cultural_submissions.village_id', '=', 'villages.id')
+            ->select('villages.name', DB::raw('count(*) as count'))
+            ->groupBy('villages.name')
+            ->get()
+            ->pluck('count', 'name')
+            ->toArray();
+
+        // 5. Active Culture Categories (For this year)
+        $aktifSubmissions = (clone $yearQuery)->where('submission_type', 'aktif')->get();
+        $aktifCategoryStats = [];
+        foreach ($aktifSubmissions as $sub) {
+            $cat = $sub->category_data['kategori_opk'] ?? 'Lainnya';
+            $aktifCategoryStats[$cat] = ($aktifCategoryStats[$cat] ?? 0) + 1;
+        }
+
         return view('validator.dashboard', compact(
             'stats', 'recentSubmissions', 'myReviewStats', 'categoryStats',
-            'availableYears', 'activeYear', 'yearlyComparison'
+            'availableYears', 'activeYear', 'yearlyComparison',
+            'villageReviewStats', 'aktifCategoryStats'
         ));
     }
 }

@@ -22,7 +22,8 @@ class SubmissionController extends Controller
     {
         $submissions = CulturalSubmission::ownedBy(Auth::id())
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pengusul.submissions.index', compact('submissions'));
     }
@@ -99,6 +100,7 @@ class SubmissionController extends Controller
             'description' => $request->input('category') === 'Laporan Kebudayaan Aktif' ? ['nullable', 'string'] : ['required', 'string', 'min:50'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'period_year' => ['nullable', 'string'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
         ];
 
@@ -173,6 +175,7 @@ class SubmissionController extends Controller
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
             'submission_type' => 'aktif',
+            'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : date('Y'),
         ]);
 
         // Handle file uploads
@@ -341,9 +344,10 @@ class SubmissionController extends Controller
             'name' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
             'address' => ['nullable', 'string'],
-            'description' => ['required', 'string', 'min:50'],
+            'description' => $submission->category === 'Laporan Kebudayaan Aktif' ? ['nullable', 'string'] : ['required', 'string', 'min:50'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'period_year' => ['nullable', 'string'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
@@ -417,6 +421,7 @@ class SubmissionController extends Controller
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,
             'longitude' => $validated['longitude'] ?? null,
+            'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : ($submission->period_year ?? date('Y')),
         ]);
 
         // Handle file uploads

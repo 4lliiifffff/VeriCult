@@ -44,7 +44,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         $submissions = CulturalSubmission::ownedBy(Auth::id())
             ->where('submission_type', 'statistik')
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pengusul-desa.statistic-submissions.index', compact('submissions'));
     }
@@ -94,8 +95,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
             'name' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
             'address' => ['nullable', 'string'],
-            'description' => ['nullable', 'string', 'min:50'],
-            'period_year' => ['required', 'date'],
+            'description' => ['nullable', 'string'],
+            'period_year' => ['nullable', 'string'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
@@ -156,11 +157,11 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? null,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
             'submission_type' => 'statistik',
-            'period_year' => date('Y', strtotime($validated['period_year'])),
+            'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : date('Y'),
         ]);
 
         // Handle file uploads
@@ -331,9 +332,9 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         // Base validation rules (similar to store)
         $rules = [
             'name' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'min:50'],
+            'description' => ['nullable', 'string'],
             'address' => ['nullable', 'string'],
-            'period_year' => ['required', 'date'],
+            'period_year' => ['nullable', 'string'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
@@ -389,10 +390,10 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         $submission->update([
             'name' => $submissionName,
             'village_id' => Auth::user()->village_id,
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? $submission->description,
             'address' => $validated['address'] ?? $submission->address,
             'category_data' => !empty($categoryData) ? $categoryData : $submission->category_data,
-            'period_year' => date('Y', strtotime($validated['period_year'])),
+            'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : ($submission->period_year ?? date('Y')),
         ]);
 
         return redirect()->route('pengusul-desa.statistic-submissions.show', $submission)
