@@ -155,6 +155,29 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
         Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
     });
+    
+// Admin Routes (New Role)
+Route::middleware(['auth', 'verified', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+        // User Approvals (Pengusul Desa)
+        Route::get('/user-approvals', [App\Http\Controllers\Admin\UserApprovalController::class, 'index'])->name('user-approvals.index');
+        Route::post('/user-approvals/{user}/approve', [App\Http\Controllers\Admin\UserApprovalController::class, 'approve'])->name('user-approvals.approve');
+
+        // Statistical Submissions Publication
+        Route::get('/statistic-submissions', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'index'])->name('statistic-submissions.index');
+        Route::get('/statistic-submissions/{submission}', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'show'])->name('statistic-submissions.show');
+        Route::post('/statistic-submissions/{submission}/update-status', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'updateStatus'])->name('statistic-submissions.update-status');
+
+        // Notifications
+        Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
+        Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+        Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    });
 
 // Pengusul Desa Routes (only pengusul-desa)
 Route::middleware(['auth', 'role:pengusul-desa', \App\Http\Middleware\CheckAdminApproval::class])
@@ -190,6 +213,8 @@ Route::get('/dashboard', function () {
     $user = auth()->user();
     if ($user->hasRole('super-admin')) {
         return redirect()->route('super-admin.dashboard');
+    } elseif ($user->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
     } elseif ($user->hasRole('validator')) {
         return redirect()->route('validator.dashboard');
     } elseif ($user->hasRole('pengusul')) {

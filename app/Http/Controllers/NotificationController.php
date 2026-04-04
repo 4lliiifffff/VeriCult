@@ -18,6 +18,8 @@ class NotificationController extends Controller
         $view = 'dashboard';
         if ($user->hasRole('super-admin')) {
             $view = 'super-admin.notifications.index';
+        } elseif ($user->hasRole('admin')) {
+            $view = 'admin.notifications.index';
         } elseif ($user->hasRole('validator')) {
             $view = 'validator.notifications.index';
         } elseif ($user->hasRole('pengusul')) {
@@ -63,6 +65,12 @@ class NotificationController extends Controller
             // Intelligent role-based redirection
             if ($user->hasRole('super-admin')) {
                 return redirect()->route('super-admin.cultural-submissions.show', $submissionId);
+            } elseif ($user->hasRole('admin')) {
+                // If it's a statistic submission, send to admin's view
+                if ($submission && $submission->submission_type === 'statistik') {
+                    return redirect()->route('admin.statistic-submissions.show', $submissionId);
+                }
+                return redirect($url ?? route('admin.dashboard'));
             } elseif ($user->hasRole('validator')) {
                 // If validator owns the submission, send to their workspace, otherwise to review workspace
                 if ($submission && $submission->user_id === $user->id) {
