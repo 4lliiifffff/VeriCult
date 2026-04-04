@@ -15,8 +15,10 @@ class RoleSeeder extends Seeder
         // Define roles that should exist locally
         $roles = [
             'super-admin',
+            'admin',
             'validator',
             'pengusul',
+            'pengusul-desa',
         ];
 
         foreach ($roles as $roleName) {
