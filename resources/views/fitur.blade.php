@@ -20,10 +20,6 @@
         .reveal-up { transform: translateY(20px); }
         .reveal-visible { opacity: 1; transform: translate(0, 0); will-change: auto; }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #F8FAFC; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
@@ -32,15 +28,15 @@
     <x-public-navbar />
 
     <!-- Hero -->
-    <section class="premium-gradient pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
+    <section class="premium-gradient pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-20 relative overflow-hidden">
         <div class="absolute inset-0 hero-pattern opacity-10"></div>
         <div class="absolute -top-24 -right-1/4 w-[400px] h-[400px] bg-[#00B4D8] rounded-full blur-[80px] opacity-15"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
+            <div class="inline-flex items-center px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8 border border-white/20">
                 <span class="w-2 h-2 bg-[#00B4D8] rounded-full mr-3"></span>
                 {{ $content['hero_badge'] ?? 'Fitur Unggulan' }}
             </div>
-            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">{!! $content['hero_title'] ?? 'Ekosistem <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Digital Budaya</span>' !!}</h1>
+            <h1 class="text-2xl xs:text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">{!! $content['hero_title'] ?? 'Ekosistem <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Digital Budaya</span>' !!}</h1>
             <p class="text-sm sm:text-base md:text-xl text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
                 {{ $content['hero_subtitle'] ?? 'Kami menghadirkan fitur-fitur berstandar industri untuk memastikan integritas dan kemudahan dalam pendataan kebudayaan.' }}
             </p>
@@ -48,7 +44,7 @@
     </section>
 
     <!-- Features Grid -->
-    <section class="py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
+    <section class="py-16 sm:py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 @php

@@ -1,8 +1,8 @@
 <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 pointer-events-none" 
      x-data="{ scrolled: false, mobileMenu: false, profileOpen: false }" 
      @scroll.window="scrolled = window.pageYOffset > 20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 pointer-events-auto">
-         <div class="rounded-[2rem] transition-all duration-300 px-6 py-4 flex justify-between items-center relative"
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 sm:mt-4 pointer-events-auto">
+         <div class="rounded-[1.5rem] sm:rounded-[2rem] transition-all duration-300 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center relative"
               :class="scrolled || mobileMenu ? 'bg-[#03045E]/90 backdrop-blur-xl shadow-2xl py-3 mt-0 mb-4 border border-white/10' : 'bg-transparent border border-transparent'">
             
             <!-- Logo Section -->
@@ -116,25 +116,25 @@
                  x-transition:leave-start="opacity-100 scale-100"
                  x-transition:leave-end="opacity-0 scale-95"
                  x-cloak>
-                <div class="flex flex-col space-y-4 p-4 text-center">
-                    <a href="{{ route('beranda') }}" class="text-xs font-black uppercase tracking-widest text-white/80 hover:text-white" @click="mobileMenu = false">Beranda</a>
-                    <a href="{{ route('tentang') }}" class="text-xs font-black uppercase tracking-widest text-white/80 hover:text-white" @click="mobileMenu = false">Tentang</a>
-                    <a href="{{ route('fitur') }}" class="text-xs font-black uppercase tracking-widest text-white/80 hover:text-white" @click="mobileMenu = false">Fitur</a>
-                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-xs font-black uppercase tracking-widest text-white/80 hover:text-white" @click="mobileMenu = false">Profil Budaya</a>
+                <div class="flex flex-col space-y-2 p-4 text-center">
+                    <a href="{{ route('beranda') }}" class="text-[10px] xs:text-xs font-black uppercase tracking-widest text-white/80 hover:text-white py-3 rounded-xl hover:bg-white/5" @click="mobileMenu = false">Beranda</a>
+                    <a href="{{ route('tentang') }}" class="text-[10px] xs:text-xs font-black uppercase tracking-widest text-white/80 hover:text-white py-3 rounded-xl hover:bg-white/5" @click="mobileMenu = false">Tentang</a>
+                    <a href="{{ route('fitur') }}" class="text-[10px] xs:text-xs font-black uppercase tracking-widest text-white/80 hover:text-white py-3 rounded-xl hover:bg-white/5" @click="mobileMenu = false">Fitur</a>
+                    <a href="{{ route('profil-kebudayaan.index') }}" class="text-[10px] xs:text-xs font-black uppercase tracking-widest text-white/80 hover:text-white py-3 rounded-xl hover:bg-white/5" @click="mobileMenu = false">Profil Budaya</a>
                     
                     <div class="pt-4 border-t border-white/10 flex flex-col space-y-4">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em]">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg">Dashboard</a>
                             <div class="flex flex-col gap-2">
-                                <a href="{{ route('profile.edit') }}" class="text-[10px] font-black uppercase tracking-widest text-white/60 py-2">Pengaturan Profil</a>
+                                <a href="{{ route('profile.edit') }}" class="text-[9px] font-black uppercase tracking-widest text-white/60 py-2">Pengaturan Profil</a>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="text-[10px] font-black uppercase tracking-widest text-rose-400 py-2 w-full">Keluar Sistem</button>
+                                    <button type="submit" class="text-[9px] font-black uppercase tracking-widest text-rose-400 py-2 w-full">Keluar Sistem</button>
                                 </form>
                             </div>
                         @else
-                            <a href="{{ route('login') }}" class="text-xs font-black uppercase tracking-widest text-white">Masuk</a>
-                            <a href="{{ route('register') }}" class="bg-white text-[#03045E] py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg">Daftar Akun</a>
+                            <a href="{{ route('login') }}" class="text-xs font-black uppercase tracking-widest text-white py-2">Masuk</a>
+                            <a href="{{ route('register') }}" class="bg-white text-[#03045E] py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg">Daftar Akun</a>
                         @endauth
                     </div>
                 </div>

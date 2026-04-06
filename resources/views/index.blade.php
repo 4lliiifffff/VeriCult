@@ -48,10 +48,6 @@
             will-change: auto;
         }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #F8FAFC; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
@@ -66,17 +62,17 @@
         <div class="absolute -top-24 -right-1/4 w-[400px] h-[400px] bg-[#00B4D8] rounded-full blur-[80px] opacity-15"></div>
         <div class="absolute -bottom-24 -left-1/4 w-[400px] h-[400px] bg-[#48CAE4] rounded-full blur-[80px] opacity-15"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-8 md:py-12">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <div class="text-left reveal reveal-left">
                     <!-- Badge -->
-                    <div class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-white/20 shadow-2xl">
+                    <div class="inline-flex items-center px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-10 border border-white/20 shadow-2xl">
                         <span class="w-2 h-2 bg-[#00B4D8] rounded-full mr-3"></span>
                         {{ $content['hero_badge'] ?? 'Sistem Verifikasi Kebudayaan Terpercaya' }}
                     </div>
                     
                     <!-- Main Heading -->
-                    <h1 class="text-3xl sm:text-4xl md:text-7xl font-black text-white mb-6 sm:mb-8 leading-[1.1] tracking-tighter">
+                    <h1 class="text-2xl xs:text-3xl sm:text-4xl md:text-7xl font-black text-white mb-6 sm:mb-8 leading-[1.1] tracking-tighter">
                         {!! $content['hero_title'] ?? 'Lestarikan Budaya<br>Melalui Verifikasi Digital' !!}
                     </h1>
                     
@@ -126,7 +122,7 @@
         </div>
         
         <!-- Bottom Divider -->
-         <div class="absolute bottom-0 left-0 right-0 pointer-events-none">
+         <div class="absolute -bottom-[1px] left-0 right-0 pointer-events-none">
             <svg class="w-full h-16 md:h-24 text-[#F8FAFC] fill-current" preserveAspectRatio="none" viewBox="0 0 1440 320">
                 <path d="M0,224L48,218.7C96,213,192,203,288,208C384,213,480,235,576,224C672,213,768,171,864,165.3C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
             </svg>
@@ -134,7 +130,7 @@
     </section>
 
     <!-- Cultural Profile Gallery Section -->
-    <section class="py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
+    <section class="py-16 sm:py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16 md:mb-24 reveal reveal-up">
                 <div class="inline-flex items-center px-4 py-1.5 bg-[#03045E]/5 rounded-full text-[#03045E] text-[10px] font-black uppercase tracking-[0.2em] mb-6">
@@ -211,9 +207,9 @@
     </section>
 
     <!-- Statistics Section -->
-    <section id="statistik" class="py-24 md:py-32 bg-white relative">
+    <section id="statistik" class="py-16 sm:py-24 md:py-32 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 overflow-hidden lg:overflow-visible">
-            <div class="premium-gradient rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 lg:p-24 shadow-2xl relative overflow-hidden reveal reveal-up">
+            <div class="premium-gradient rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[4rem] p-6 sm:p-8 md:p-16 lg:p-24 shadow-2xl relative overflow-hidden reveal reveal-up">
                 <!-- Background Pattern -->
                 <div class="absolute inset-0 hero-pattern opacity-10"></div>
                 <div class="absolute top-0 right-0 w-[30rem] md:w-[40rem] h-[30rem] md:h-[40rem] bg-white/5 rounded-full -mr-24 md:-mr-48 -mt-24 md:-mt-48 blur-3xl"></div>
@@ -260,7 +256,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-24 md:py-32 bg-[#F8FAFC]">
+    <section class="py-16 sm:py-24 md:py-32 bg-[#F8FAFC]">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal reveal-up">
             <div class="inline-flex items-center px-4 py-1.5 bg-[#03045E]/5 rounded-full text-[#03045E] text-[10px] font-black uppercase tracking-[0.2em] mb-10">
                 Langkah Berikutnya
