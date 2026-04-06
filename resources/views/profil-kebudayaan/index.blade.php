@@ -26,10 +26,6 @@
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #F8FAFC; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
@@ -38,13 +34,13 @@
     <x-public-navbar />
 
     <!-- Header Section -->
-    <section class="premium-gradient pt-32 sm:pt-40 pb-16 sm:pb-24 relative overflow-hidden">
+    <section class="premium-gradient pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-24 relative overflow-hidden">
         <div class="absolute inset-0 hero-pattern opacity-10"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-4 py-1.5 bg-white/10 backdrop-blur-xl rounded-full text-white text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
+            <div class="inline-flex items-center px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8 border border-white/20">
                 Eksplorasi Budaya Nusantara
             </div>
-            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Kebudayaan Indonesia</span></h1>
+            <h1 class="text-2xl xs:text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Kebudayaan Indonesia</span></h1>
             <p class="text-sm sm:text-base md:text-lg text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
                 Temukan kekayaan tradisi, seni, dan warisan budaya yang telah tervalidasi oleh tim ahli VeriCult.
             </p>
@@ -93,8 +89,8 @@
                     <!-- Search Input -->
                     <div class="relative flex-1 group">
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
-                               class="w-full h-full bg-white border-2 border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] pl-6 pr-28 sm:pl-8 sm:pr-32 py-4 sm:py-5 text-slate-700 font-bold text-sm sm:text-base focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm">
-                        <button type="submit" class="absolute right-2 top-2 bottom-2 px-6 sm:px-8 bg-[#03045E] text-white rounded-[1rem] sm:rounded-[1.5rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
+                               class="w-full h-full bg-white border-2 border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] pl-5 pr-24 sm:pl-8 sm:pr-32 py-4 sm:py-5 text-slate-700 font-bold text-xs sm:text-base focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm placeholder:text-slate-300">
+                        <button type="submit" class="absolute right-1.5 top-1.5 bottom-1.5 px-5 sm:px-8 bg-[#03045E] text-white rounded-[1rem] sm:rounded-[1.5rem] font-black text-[8px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
                             Cari
                         </button>
                     </div>
@@ -135,9 +131,9 @@
                     </div>
 
                     <!-- Content -->
-                    <div class="p-6 sm:p-10 flex flex-col flex-grow">
-                        <h3 class="text-lg sm:text-2xl font-black text-[#03045E] mb-3 line-clamp-1 capitalize group-hover:text-[#0077B6] transition-colors">{{ $submission->name }}</h3>
-                        <p class="text-slate-500 text-xs sm:text-sm font-medium line-clamp-3 mb-8 leading-relaxed">
+                    <div class="p-5 sm:p-8 md:p-10 flex flex-col flex-grow">
+                        <h3 class="text-base sm:text-lg md:text-2xl font-black text-[#03045E] mb-3 line-clamp-1 capitalize group-hover:text-[#0077B6] transition-colors">{{ $submission->name }}</h3>
+                        <p class="text-slate-500 text-[10px] sm:text-xs md:text-sm font-medium line-clamp-3 mb-8 leading-relaxed">
                             {{ $submission->description }}
                         </p>
                         

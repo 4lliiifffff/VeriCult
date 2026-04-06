@@ -20,10 +20,6 @@
         .reveal-right { transform: translateX(20px); }
         .reveal-visible { opacity: 1; transform: translate(0, 0); will-change: auto; }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #F8FAFC; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
@@ -32,15 +28,15 @@
     <x-public-navbar />
 
     <!-- Hero -->
-    <section class="premium-gradient pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
+    <section class="premium-gradient pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-20 relative overflow-hidden">
         <div class="absolute inset-0 hero-pattern opacity-10"></div>
         <div class="absolute -top-24 -right-1/4 w-[400px] h-[400px] bg-[#00B4D8] rounded-full blur-[80px] opacity-15"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-white/20">
+            <div class="inline-flex items-center px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8 border border-white/20">
                 <span class="w-2 h-2 bg-[#00B4D8] rounded-full mr-3"></span>
                 {{ $content['hero_badge'] ?? 'Tentang Platform' }}
             </div>
-            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">{!! $content['hero_title'] ?? 'Misi Kami Untuk<br>Pelestarian Budaya Indonesia' !!}</h1>
+            <h1 class="text-2xl xs:text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">{!! $content['hero_title'] ?? 'Misi Kami Untuk<br>Pelestarian Budaya Indonesia' !!}</h1>
             <p class="text-sm sm:text-base md:text-xl text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
                 {{ $content['hero_subtitle'] ?? 'VeriCult adalah sistem digital inovatif yang dirancang untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia.' }}
             </p>
@@ -48,7 +44,7 @@
     </section>
 
     <!-- About Content -->
-    <section class="py-24 md:py-32 bg-white relative overflow-hidden">
+    <section class="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="relative reveal reveal-left">
@@ -98,17 +94,17 @@
                                 <svg class="w-6 h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                             </div>
                             <div class="ml-4 sm:ml-6">
-                                <h3 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-2">Verifikasi Akurat</h3>
-                                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
+                                <h3 class="text-[9px] xs:text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1 sm:mb-2">Verifikasi Akurat</h3>
+                                <p class="text-slate-500 text-[10px] sm:text-sm leading-relaxed font-medium">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
                             </div>
                         </div>
-                        <div class="flex items-start bg-[#F8FAFC] p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 transition-all hover:bg-white hover:shadow-xl group">
-                            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                                <svg class="w-6 h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        <div class="flex items-start bg-[#F8FAFC] p-5 sm:p-6 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 transition-all hover:bg-white hover:shadow-xl group">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
                             <div class="ml-4 sm:ml-6">
-                                <h3 class="text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-2">Aman & Transparan</h3>
-                                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">Seluruh data pengajuan terdokumentasi dengan aman dan dapat dilacak secara real-time.</p>
+                                <h3 class="text-[9px] xs:text-[10px] sm:text-xs font-black text-[#03045E] uppercase tracking-[0.2em] mb-1 sm:mb-2">Aman & Transparan</h3>
+                                <p class="text-slate-500 text-[10px] sm:text-sm leading-relaxed font-medium">Seluruh data pengajuan terdokumentasi dengan aman dan dapat dilacak secara real-time.</p>
                             </div>
                         </div>
                     </div>

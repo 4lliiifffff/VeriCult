@@ -44,10 +44,6 @@
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #F1F5F9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0077B6; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] text-slate-900 overflow-x-hidden" 
@@ -142,7 +138,7 @@
                     </span>
                 </div>
                 
-                <h1 class="text-2xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.2] lg:leading-[1.1] tracking-tight mb-10 lg:mb-8 capitalize break-all sm:break-words max-w-full">
+                <h1 class="text-2xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.2] lg:leading-[1.1] tracking-tight mb-10 lg:mb-8 capitalize break-words max-w-full">
                     {{ $submission->name }}
                 </h1>
 
@@ -153,7 +149,7 @@
                         </div>
                         <div>
                             <p class="text-[9px] font-bold text-white/50 uppercase tracking-widest mb-0.5">Lokasi</p>
-                            <p class="text-xs sm:text-sm font-semibold text-white uppercase tracking-wider break-all sm:break-words">{{ $submission->address }}</p>
+                            <p class="text-xs sm:text-sm font-semibold text-white uppercase tracking-wider break-words">{{ $submission->address }}</p>
                         </div>
                     </div>
 
@@ -193,7 +189,7 @@
                     
                     <div class="relative">
                         <div class="absolute left-4 sm:-left-12 top-0 text-7xl sm:text-8xl font-bold text-slate-100 leading-none pointer-events-none opacity-50 sm:opacity-100">"</div>
-                        <p class="text-slate-500 text-sm sm:text-lg lg:text-xl leading-[1.8] font-medium italic break-all sm:break-words relative z-10 px-4 sm:px-2 w-full">
+                        <p class="text-slate-500 text-sm sm:text-lg lg:text-xl leading-[1.8] font-medium italic break-words relative z-10 px-4 sm:px-2 w-full">
                             {{ $submission->description }}.
                         </p>
                     </div>
@@ -275,9 +271,9 @@
                                                             </thead>
                                                             <tbody class="divide-y divide-slate-100">
                                                                 @foreach($displayValue as $row)
-                                                                    <tr class="hover:bg-white transition-colors">
+                                                                    <tr class="hover:bg-white transition-colors text-slate-600">
                                                                         @foreach($row as $cellValue)
-                                                                            <td class="px-3 sm:px-6 py-4 text-xs sm:text-sm font-semibold text-slate-600 break-words">{{ $cellValue }}</td>
+                                                                            <td class="px-3 sm:px-6 py-4 text-xs sm:text-sm font-semibold break-words">{{ $cellValue }}</td>
                                                                         @endforeach
                                                                     </tr>
                                                                 @endforeach
@@ -297,7 +293,7 @@
                                             @endif
                                         @else
                                             @php $isLongText = strlen($displayValue) > 50 || ($fieldDef['type'] ?? '') === 'textarea'; @endphp
-                                            <p class="text-{{ $isLongText ? 'slate-500 font-medium italic text-sm leading-relaxed' : '[#03045E] font-semibold text-base lg:text-xl tracking-tight' }} break-all sm:break-words">
+                                            <p class="text-{{ $isLongText ? 'slate-500 font-medium italic text-sm leading-relaxed' : '[#03045E] font-semibold text-base lg:text-xl tracking-tight' }} break-words">
                                                 {{ $displayValue }}
                                             </p>
                                         @endif
