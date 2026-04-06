@@ -97,7 +97,7 @@
                         <img :src="previewFile?.url" class="max-w-full max-h-[70vh] object-contain select-none">
                     </template>
                     <template x-if="previewFile?.type === 'video'">
-                        <video :src="previewFile?.url" controls autoplay class="max-w-full max-h-[70vh]"></video>
+                        <video :src="previewFile?.url" controls preload="none" class="max-w-full max-h-[70vh] rounded-2xl"></video>
                     </template>
                     
                     <!-- Floating Download Link -->
@@ -388,8 +388,19 @@
                                 </button>
                             @elseif(in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']))
                                 <div class="bg-slate-900 rounded-[2rem] overflow-hidden aspect-video relative group border-4 border-slate-100 shadow-xl overflow-hidden">
-                                     <video controls class="w-full h-full object-contain">
-                                        <source src="{{ $file->url }}" type="video/{{ strtolower($file->file_type) === 'video' ? 'mp4' : strtolower($file->file_type) }}">
+                                     <video controls preload="none" class="w-full h-full object-contain bg-black">
+                                        @php
+                                            $extension = pathinfo($file->original_name, PATHINFO_EXTENSION) ?: (pathinfo($file->url, PATHINFO_EXTENSION) ?: 'mp4');
+                                            $mimeType = match(strtolower($extension)) {
+                                                'mov' => 'video/quicktime',
+                                                'webm' => 'video/webm',
+                                                'ogg' => 'video/ogg',
+                                                default => 'video/mp4'
+                                            };
+                                            $encodedUrl = str_replace(' ', '%20', $file->url);
+                                        @endphp
+                                        <source src="{{ $encodedUrl }}" type="{{ $mimeType }}">
+                                        Browser Anda tidak mendukung pemutaran video.
                                     </video>
                                     <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" class="p-3 bg-white/20 backdrop-blur-md text-white rounded-xl hover:bg-[#00B4D8] transition-all transform active:scale-90">

@@ -114,7 +114,11 @@
                 <a href="{{ route('profil-kebudayaan.show', $submission->slug) }}" class="group bg-white rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col h-full">
                     <!-- Image Wrapper -->
                     <div class="relative h-64 overflow-hidden">
-                        @php $mainImage = $submission->files->first(); @endphp
+                        @php 
+                            $mainImage = $submission->files->first(function($file) {
+                                return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
+                            }); 
+                        @endphp
                         @if($mainImage)
                             <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         @else
