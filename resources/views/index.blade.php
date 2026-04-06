@@ -154,8 +154,13 @@
                 <a href="{{ route('profil-kebudayaan.show', $item->slug) }}" class="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 reveal reveal-up">
                     <!-- Image/Thumbnail -->
                     <div class="h-48 md:h-56 bg-gradient-to-br from-[#03045E] to-[#0077B6] relative overflow-hidden">
-                        @if($item->files->first())
-                            <img src="{{ $item->files->first()->url }}" 
+                        @php 
+                            $mainImage = $item->files->first(function($file) {
+                                return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
+                            }); 
+                        @endphp
+                        @if($mainImage)
+                            <img src="{{ $mainImage->url }}" 
                                  alt="{{ $item->name }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                  loading="lazy">
