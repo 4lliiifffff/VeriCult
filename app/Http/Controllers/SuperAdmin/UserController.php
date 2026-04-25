@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::with(['roles', 'profile']);
+        $query = User::with(['roles', 'superAdminProfile', 'adminProfile', 'validatorProfile', 'pengusulProfile', 'pengusulDesaProfile']);
 
         if ($request->has('search')) {
             $search = $request->search;
@@ -35,19 +35,19 @@ class UserController extends Controller
 
         if ($request->has('status') && $request->status != '') {
             if ($request->status == 'suspended') {
-                $query->whereHas('profile', fn($q) => $q->where('is_suspended', true));
+                $query->where('is_suspended', true);
             } elseif ($request->status == 'active') {
-                $query->whereHas('profile', fn($q) => $q->where('is_suspended', false))
+                $query->where('is_suspended', false)
                       ->where(function($q) {
                           $q->whereNotNull('email_verified_at')
                             ->where(function($q2) {
                                 $q2->whereDoesntHave('roles', fn($r) => $r->where('name', 'pengusul-desa'))
-                                   ->orWhereHas('profile', fn($p) => $p->where('is_approved_by_admin', true));
+                                   ->orWhereHas('pengusulDesaProfile', fn($p) => $p->where('is_approved_by_admin', true));
                             });
                       });
             } elseif ($request->status == 'pending') {
                 $query->role('pengusul-desa')
-                      ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false));
+                      ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false));
             }
         }
 
@@ -107,6 +107,51 @@ class UserController extends Controller
         }
     }
 
+    public function createAdmin()
+    {
+        return view('super-admin.users.create-admin');
+    }
+
+    public function storeAdmin(\App\Http\Requests\StoreValidatorRequest $request)
+    {
+        try {
+            // Generate a secure password if not provided
+            $password = $request->password ?? \Illuminate\Support\Str::password(12);
+
+            $user = User::create([
+                'name'              => $request->name,
+                'email'             => $request->email,
+                'password'          => \Illuminate\Support\Facades\Hash::make($password),
+                'email_verified_at' => $request->has('email_verified') ? now() : null,
+            ]);
+
+            $user->assignRole('admin');
+
+            // Create specialized profile
+            $user->adminProfile()->create([]);
+
+            // Log action
+            \App\Models\AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'created_admin',
+                'model_type' => get_class($user),
+                'model_id' => $user->id,
+                'new_data' => ['email' => $user->email, 'role' => 'admin'],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
+
+            // Create a clear success message with the password
+            $message = 'Admin created successfully.';
+            $message .= ' <strong>Password: ' . $password . '</strong>';
+            $message .= ' (Please copy this password immediately)';
+
+            return redirect()->route('super-admin.users.index')->with('success', $message);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to create admin: ' . $e->getMessage())->withInput();
+        }
+    }
+
     public function createValidator()
     {
         return view('super-admin.users.create-validator');
@@ -127,8 +172,8 @@ class UserController extends Controller
 
             $user->assignRole('validator');
 
-            // Create profile
-            $user->profile()->create([]);
+            // Create specialized profile
+            $user->validatorProfile()->create([]);
 
             // Log action
             \App\Models\AuditLog::create([
@@ -156,7 +201,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load(['profile.village', 'roles']);
+        $user->load(['roles', 'pengusulDesaProfile.village', 'superAdminProfile', 'adminProfile', 'validatorProfile', 'pengusulProfile']);
         return view('super-admin.users.show', compact('user'));
     }
 
@@ -168,7 +213,8 @@ class UserController extends Controller
         }
 
         $roles = Role::all();
-        return view('super-admin.users.edit', compact('user', 'roles'));
+        $villages = class_exists(\App\Models\Village::class) ? \App\Models\Village::all() : [];
+        return view('super-admin.users.edit', compact('user', 'roles', 'villages'));
     }
 
     public function update(Request $request, User $user)
@@ -207,6 +253,44 @@ class UserController extends Controller
 
             // Sync roles - ensure we pass an array of strings
             $user->syncRoles([$request->role]);
+            
+            $newRole = $request->role;
+
+            // Delete old profiles so the user truly 'moves' to the new role
+            if ($newRole !== 'super-admin') $user->superAdminProfile()->delete();
+            if ($newRole !== 'admin') $user->adminProfile()->delete();
+            if ($newRole !== 'validator') $user->validatorProfile()->delete();
+            if ($newRole !== 'pengusul') $user->pengusulProfile()->delete();
+            if ($newRole !== 'pengusul-desa') $user->pengusulDesaProfile()->delete();
+
+            // Ensure the specific profile exists for the new role to prevent relationship errors
+            if ($newRole === 'super-admin') {
+                $user->superAdminProfile()->firstOrCreate([]);
+            } elseif ($newRole === 'admin') {
+                $user->adminProfile()->firstOrCreate([]);
+            } elseif ($newRole === 'validator') {
+                $profile = $user->validatorProfile()->firstOrCreate([]);
+                $profile->update([
+                    'instansi' => $request->instansi ?? $profile->instansi,
+                    'no_hp' => $request->no_hp ?? $profile->no_hp,
+                ]);
+            } elseif ($newRole === 'pengusul') {
+                $profile = $user->pengusulProfile()->firstOrCreate([]);
+                $profile->update([
+                    'instansi' => $request->instansi ?? $profile->instansi,
+                    'no_hp' => $request->no_hp ?? $profile->no_hp,
+                ]);
+            } elseif ($newRole === 'pengusul-desa') {
+                $profile = $user->pengusulDesaProfile()->firstOrCreate([
+                    'is_approved_by_admin' => false // default for new pengusul-desa via edit
+                ]);
+                $profile->update([
+                    'village_id' => $request->village_id ?: $profile->village_id,
+                    'jabatan_desa' => $request->jabatan_desa ?? $profile->jabatan_desa,
+                    'nip' => $request->nip ?? $profile->nip,
+                    'no_hp' => $request->no_hp ?? $profile->no_hp,
+                ]);
+            }
 
             // Explicitly forget cached permissions to ensure immediate effect
             app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
@@ -267,8 +351,8 @@ class UserController extends Controller
     public function pendingPenguslDesaApprovals()
     {
         $pendingUsers = User::role('pengusul-desa')
-            ->with('profile')
-            ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false))
+            ->with('pengusulDesaProfile')
+            ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
             ->latest('created_at')
             ->paginate(10)
             ->withQueryString();
@@ -290,10 +374,10 @@ class UserController extends Controller
         }
 
         try {
-            // Approve via profile
-            $user->profile()->updateOrCreate(
+            // Approve via specialized profile
+            $user->pengusulDesaProfile()->updateOrCreate(
                 ['user_id' => $user->id],
-                ['is_approved_by_admin' => true, 'approved_by_admin_at' => now()]
+                ['is_approved_by_admin' => true, 'approved_at' => now()]
             );
             if (!$user->hasVerifiedEmail()) {
                 $user->email_verified_at = now();
@@ -344,11 +428,11 @@ class UserController extends Controller
         ]);
 
         try {
-            // Suspend the user via profile
-            $user->profile()->updateOrCreate(
-                ['user_id' => $user->id],
-                ['is_suspended' => true, 'suspended_at' => now()]
-            );
+            // Suspend the user directly on the user model
+            $user->update([
+                'is_suspended' => true,
+                'suspended_at' => now(),
+            ]);
 
             // Log rejection action
             \App\Models\AuditLog::create([

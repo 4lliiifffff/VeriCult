@@ -152,8 +152,9 @@ class SubmissionController extends Controller
             $submissionName = $categoryData['b1_nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
         }
 
-        // Auto-populate address from category data if empty
-        $submissionAddress = $validated['address'] ?? '-';
+        // Address and Description: handled as nullable in DB
+        $submissionAddress = $validated['address'] ?? null;
+        $submissionDescription = $validated['description'] ?? null;
 
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
@@ -161,7 +162,7 @@ class SubmissionController extends Controller
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
-            'description' => $validated['description'] ?? null,
+            'description' => $submissionDescription,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
             'submission_type' => 'aktif',

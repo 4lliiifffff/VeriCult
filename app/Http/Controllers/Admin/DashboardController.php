@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         // 1. Pending Pengusul Desa Approvals
         $pendingApprovalsCount = User::role('pengusul-desa')
-            ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false))
+            ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
             ->count();
 
         // 2. Statistical Submissions awaiting publication (Verified but not Published)
@@ -39,8 +39,8 @@ class DashboardController extends Controller
 
         // 5. Recent Pending Users
         $recentPendingUsers = User::role('pengusul-desa')
-            ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false))
-            ->with('profile')
+            ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
+            ->with('pengusulDesaProfile')
             ->latest('created_at')
             ->take(5)
             ->get();

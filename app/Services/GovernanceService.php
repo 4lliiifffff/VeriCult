@@ -18,10 +18,10 @@ class GovernanceService
         }
 
         DB::transaction(function () use ($user, $actor) {
-            $user->profile()->updateOrCreate(
-                ['user_id' => $user->id],
-                ['is_suspended' => true, 'suspended_at' => now()]
-            );
+            $user->update([
+                'is_suspended' => true,
+                'suspended_at' => now(),
+            ]);
 
             AuditLog::create([
                 'user_id' => $actor->id,
@@ -41,10 +41,10 @@ class GovernanceService
     public function unsuspendUser(User $user, User $actor): void
     {
         DB::transaction(function () use ($user, $actor) {
-            $user->profile()->updateOrCreate(
-                ['user_id' => $user->id],
-                ['is_suspended' => false, 'suspended_at' => null]
-            );
+            $user->update([
+                'is_suspended' => false,
+                'suspended_at' => null,
+            ]);
 
             AuditLog::create([
                 'user_id' => $actor->id,

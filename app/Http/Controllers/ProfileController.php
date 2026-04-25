@@ -26,13 +26,30 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        // Update specialized profile data
+        $role = $user->roles->first()?->name;
+        $profileData = $request->only(['instansi', 'no_hp', 'jabatan_desa', 'nip']);
+
+        switch ($role) {
+            case 'validator':
+                $user->validatorProfile()->update($request->only(['instansi', 'no_hp']));
+                break;
+            case 'pengusul':
+                $user->pengusulProfile()->update($request->only(['instansi', 'no_hp']));
+                break;
+            case 'pengusul-desa':
+                $user->pengusulDesaProfile()->update($request->only(['jabatan_desa', 'nip', 'no_hp']));
+                break;
+        }
 
         return Redirect::route('profile.edit')->with('success', 'Profil Anda berhasil diperbarui.');
     }

@@ -7,6 +7,7 @@
                 <th class="px-6 sm:px-8 py-4 sm:py-5">Peran</th>
                 <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Status Akun</th>
                 <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Tanggal Gabung</th>
+                <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Terakhir Aktif</th>
                 <th class="px-6 sm:px-8 py-4 sm:py-5 text-right">Opsi</th>
             </tr>
         </thead>
@@ -49,6 +50,13 @@
                 </td>
                 <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
                     <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 tabular-nums">{{ $user->created_at->format('d/m/Y') }}</span>
+                </td>
+                <td class="px-6 sm:px-8 py-4 sm:py-5 text-center font-bold text-xs text-slate-400 uppercase tracking-tighter whitespace-nowrap">
+                    @if($user->last_seen_at)
+                        {{ $user->last_seen_at->diffForHumans() }}
+                    @else
+                        <span class="opacity-50 italic text-[10px]">Belum Pernah</span>
+                    @endif
                 </td>
                 <td class="px-6 sm:px-8 py-4 sm:py-5 text-right">
                     <div class="flex items-center justify-end gap-2">

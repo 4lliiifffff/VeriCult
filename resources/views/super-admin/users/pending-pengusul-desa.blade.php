@@ -97,6 +97,7 @@
                     <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                         <th class="px-6 sm:px-8 py-4 sm:py-5">Profil Pengusul</th>
                         <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Status Email</th>
+                        <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Surat Pengajuan</th>
                         <th class="px-6 sm:px-8 py-4 sm:py-5 text-center">Terdaftar Sejak</th>
                         <th class="px-6 sm:px-8 py-4 sm:py-5 text-right">Opsi Validasi</th>
                     </tr>
@@ -123,6 +124,19 @@
                                 @else
                                     <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 border border-amber-100">
                                         Menunggu
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
+                                @if ($user->pengusulDesaProfile?->surat_pengajuan_path)
+                                    <a href="{{ Storage::url($user->pengusulDesaProfile->surat_pengajuan_path) }}" target="_blank"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#0077B6] hover:bg-[#0077B6] hover:text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all duration-300 border border-blue-100 hover:border-transparent">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        Lihat
+                                    </a>
+                                @else
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-slate-50 text-slate-400 border border-slate-100">
+                                        Belum ada
                                     </span>
                                 @endif
                             </td>
@@ -161,7 +175,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-8 py-24 text-center">
+                            <td colspan="5" class="px-8 py-24 text-center">
                                 <div class="flex flex-col items-center justify-center space-y-4">
                                     <div class="w-16 h-16 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-200">
                                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,7 +223,7 @@
                 </div>
                 <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3 bg-slate-50/50">
                     <button type="submit" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-red-900/20">
-                        Tolak Permanen
+                        Tolak & Hapus Akun
                     </button>
                     <button type="button" @click="$dispatch('close-modal', 'confirm-reject')" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
                         Batal

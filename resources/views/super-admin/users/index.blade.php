@@ -24,12 +24,19 @@
                     <p class="text-blue-100/70 text-base sm:text-lg font-medium">Pantau, verifikasi, dan perbarui seluruh data warisan budaya Nusantara.</p>
                 </div>
                     
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto">
+                <div class="flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto">
                     <a href="{{ route('super-admin.users.create-validator') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10 transition-transform active:scale-95 group">
                         <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                         </svg>
                         Tambah Validator
+                    </a>
+                    
+                    <a href="{{ route('super-admin.users.create-admin') }}" class="w-full justify-center bg-[#0077B6] text-white px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-[#023E8A] transition-colors shadow-lg shadow-blue-900/10 transition-transform active:scale-95 group border border-[#00B4D8]/30">
+                        <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Tambah Admin
                     </a>
                 </div>
             </div>

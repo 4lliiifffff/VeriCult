@@ -40,7 +40,7 @@ class CulturalSubmissionPolicy
         // pengusul-desa can submit both types (if approved)
         if ($user->hasRole('pengusul-desa')) {
             // Check if pengusul-desa is approved
-            if (!$user->profile?->is_approved_by_admin) {
+            if (!$user->is_approved_by_admin) {
                 return false;
             }
             return in_array($submissionType, ['statistik', 'aktif']);

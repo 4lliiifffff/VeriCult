@@ -60,6 +60,8 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     Route::get('/dashboard', [App\Http\Controllers\SuperAdmin\DashboardController::class, 'index'])->name('dashboard');
 
     // User Management
+    Route::get('/users/create-admin', [App\Http\Controllers\SuperAdmin\UserController::class, 'createAdmin'])->name('users.create-admin');
+    Route::post('/users/store-admin', [App\Http\Controllers\SuperAdmin\UserController::class, 'storeAdmin'])->name('users.store-admin');
     Route::get('/users/create-validator', [App\Http\Controllers\SuperAdmin\UserController::class, 'createValidator'])->name('users.create-validator');
     Route::post('/users/store-validator', [App\Http\Controllers\SuperAdmin\UserController::class, 'storeValidator'])->name('users.store-validator');
 
@@ -166,6 +168,14 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         // User Approvals (Pengusul Desa)
         Route::get('/user-approvals', [App\Http\Controllers\Admin\UserApprovalController::class, 'index'])->name('user-approvals.index');
         Route::post('/user-approvals/{user}/approve', [App\Http\Controllers\Admin\UserApprovalController::class, 'approve'])->name('user-approvals.approve');
+        Route::post('/user-approvals/{user}/reject', [App\Http\Controllers\Admin\UserApprovalController::class, 'reject'])->name('user-approvals.reject');
+
+        // User Management (General)
+        Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+        Route::get('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('users.show');
+        Route::post('/users/{user}/suspend', [App\Http\Controllers\Admin\UserController::class, 'suspend'])->name('users.suspend');
+        Route::post('/users/{user}/unsuspend', [App\Http\Controllers\Admin\UserController::class, 'unsuspend'])->name('users.unsuspend');
+        Route::post('/users/{user}/verify-email', [App\Http\Controllers\Admin\UserController::class, 'verifyEmail'])->name('users.verify-email');
 
         // Statistical Submissions Publication
         Route::get('/statistic-submissions', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'index'])->name('statistic-submissions.index');

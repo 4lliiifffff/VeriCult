@@ -9,11 +9,11 @@
                 <div class="space-y-2">
                     <div class="flex items-center gap-3">
                         <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
-                            Dashboard Pengusul
+                            Dashboard Pengusul Desa
                         </span>
                     </div>
                     <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                        Dashboard <span class="text-[#00B4D8]">Pengusul</span>
+                        Dashboard <span class="text-[#00B4D8]">Pengusul Desa</span>
                     </h2>
                     <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Selamat datang, {{ Auth::user()->name }}.</p>
                 </div>
