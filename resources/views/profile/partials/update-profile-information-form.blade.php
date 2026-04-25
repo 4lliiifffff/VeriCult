@@ -64,6 +64,37 @@
                     @endif
                 @endif
             </div>
+
+            {{-- Specialized Fields --}}
+            @if ($user->hasRole(['validator', 'pengusul']))
+                <div class="space-y-3 group">
+                    <x-input-label for="instansi" :value="__('Instansi')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />
+                    <x-text-input id="instansi" name="instansi" type="text" class="block w-full" :value="old('instansi', $user->profile?->instansi)" placeholder="Nama Instansi/Lembaga" />
+                    <x-input-error class="mt-2" :messages="$errors->get('instansi')" />
+                </div>
+            @endif
+
+            @if ($user->hasRole('pengusul-desa'))
+                <div class="space-y-3 group">
+                    <x-input-label for="jabatan_desa" :value="__('Jabatan Desa')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />
+                    <x-text-input id="jabatan_desa" name="jabatan_desa" type="text" class="block w-full" :value="old('jabatan_desa', $user->profile?->jabatan_desa)" placeholder="Contoh: Kepala Desa, Sekretaris Desa" />
+                    <x-input-error class="mt-2" :messages="$errors->get('jabatan_desa')" />
+                </div>
+
+                <div class="space-y-3 group">
+                    <x-input-label for="nip" :value="__('NIP')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />
+                    <x-text-input id="nip" name="nip" type="text" class="block w-full" :value="old('nip', $user->profile?->nip)" placeholder="Nomor Induk Pegawai (jika ada)" />
+                    <x-input-error class="mt-2" :messages="$errors->get('nip')" />
+                </div>
+            @endif
+
+            @if ($user->hasRole(['validator', 'pengusul', 'pengusul-desa']))
+                <div class="space-y-3 group">
+                    <x-input-label for="no_hp" :value="__('Nomor Handphone')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />
+                    <x-text-input id="no_hp" name="no_hp" type="text" class="block w-full" :value="old('no_hp', $user->profile?->no_hp)" placeholder="0812xxxxxx" />
+                    <x-input-error class="mt-2" :messages="$errors->get('no_hp')" />
+                </div>
+            @endif
         </div>
 
         <div class="flex items-center justify-end pt-10 border-t border-slate-50">

@@ -23,6 +23,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'is_suspended',
+        'suspended_at',
     ];
 
     /**
@@ -46,7 +48,18 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
             'last_seen_at'      => 'datetime',
+            'is_suspended'      => 'boolean',
+            'suspended_at'      => 'datetime',
         ];
+    }
+
+    protected static function booted()
+    {
+        // Explicitly delete pengusulDesaProfile before DB cascade
+        // so PengusulDesaProfile's deleting event fires and cleans up surat file
+        static::deleting(function ($user) {
+            $user->pengusulDesaProfile?->delete();
+        });
     }
 
     /**
@@ -100,11 +113,48 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get the profile for the user.
+     * Get the specialized profile relationship for the user based on their current role.
+     * Note: This is an accessor (lazy-loading). Do not use with load() or with().
      */
-    public function profile(): HasOne
+    public function getProfileAttribute()
     {
-        return $this->hasOne(UserProfile::class);
+        $role = $this->roles->first()?->name;
+
+        return match ($role) {
+            'super-admin'   => $this->superAdminProfile,
+            'admin'         => $this->adminProfile,
+            'validator'     => $this->validatorProfile,
+            'pengusul'      => $this->pengusulProfile,
+            'pengusul-desa' => $this->pengusulDesaProfile,
+            default         => null,
+        };
+    }
+
+    /* specialized relationships */
+
+    public function superAdminProfile(): HasOne
+    {
+        return $this->hasOne(SuperAdminProfile::class);
+    }
+
+    public function adminProfile(): HasOne
+    {
+        return $this->hasOne(AdminProfile::class);
+    }
+
+    public function validatorProfile(): HasOne
+    {
+        return $this->hasOne(ValidatorProfile::class);
+    }
+
+    public function pengusulProfile(): HasOne
+    {
+        return $this->hasOne(PengusulProfile::class);
+    }
+
+    public function pengusulDesaProfile(): HasOne
+    {
+        return $this->hasOne(PengusulDesaProfile::class);
     }
 
     /**
@@ -117,8 +167,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Get the village ID that the user belongs to (via profile).
-     /**
-     * Backward compatibility accessor for village_id
      */
     public function getVillageIdAttribute()
     {
@@ -126,64 +174,48 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Backward compatibility accessor for is_suspended
+     * Account suspension status attribute.
      */
-    public function getIsSuspendedAttribute()
+    public function getStatusAttribute(): string
     {
-        return $this->profile?->is_suspended ?? false;
+        if ($this->is_suspended) {
+            return 'Suspended';
+        }
+
+        if ($this->hasRole('pengusul-desa') && !$this->is_approved_by_admin) {
+            return 'Pending Approval';
+        }
+
+        return 'Active';
     }
 
-    /**
-     * Backward compatibility accessor for suspended_at
-     */
-    public function getSuspendedAtAttribute()
-    {
-        return $this->profile?->suspended_at;
-    }
+    /* Backward compatibility accessors (all point to the specific profile) */
 
-    /**
-     * Backward compatibility accessor for is_approved_by_admin
-     */
     public function getIsApprovedByAdminAttribute()
     {
         return $this->profile?->is_approved_by_admin ?? false;
     }
 
-    /**
-     * Backward compatibility accessor for approved_by_admin_at
-     */
     public function getApprovedByAdminAtAttribute()
     {
         return $this->profile?->approved_by_admin_at;
     }
 
-    /**
-     * Backward compatibility accessor for jabatan_desa
-     */
     public function getJabatanDesaAttribute()
     {
-        return $this->profile?->jabatan_desa;
+        return $this->hasRole('pengusul-desa') ? $this->profile?->jabatan_desa : null;
     }
 
-    /**
-     * Backward compatibility accessor for nip
-     */
     public function getNipAttribute()
     {
-        return $this->profile?->nip;
+        return $this->hasRole('pengusul-desa') ? $this->profile?->nip : null;
     }
 
-    /**
-     * Backward compatibility accessor for instansi
-     */
     public function getInstansiAttribute()
     {
         return $this->profile?->instansi;
     }
 
-    /**
-     * Backward compatibility accessor for no_hp
-     */
     public function getNoHpAttribute()
     {
         return $this->profile?->no_hp;

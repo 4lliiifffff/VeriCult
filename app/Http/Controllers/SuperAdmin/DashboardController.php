@@ -18,13 +18,13 @@ class DashboardController extends Controller
         // Statistics
         $totalUsers = User::count();
         $newUsersThisMonth = User::whereMonth('created_at', now()->month)->count();
-        $suspendedUsersCount = User::whereHas('profile', fn($q) => $q->where('is_suspended', true))->count();
+        $suspendedUsersCount = User::where('is_suspended', true)->count();
         
         // Users by Role
         $usersByRole = Role::withCount('users')->get();
 
         // Recent Users
-        $recentUsers = User::with(['roles', 'profile'])
+        $recentUsers = User::with(['roles', 'superAdminProfile', 'adminProfile', 'validatorProfile', 'pengusulProfile', 'pengusulDesaProfile'])
             ->latest()
             ->take(5)
             ->get();
@@ -36,14 +36,14 @@ class DashboardController extends Controller
             ->get();
             
         // Suspended Users List
-        $suspendedUsers = User::whereHas('profile', fn($q) => $q->where('is_suspended', true))->with('roles')->get();
+        $suspendedUsers = User::where('is_suspended', true)->with('roles')->get();
 
         // Unverified Users (Email)
         $unverifiedUsersCount = User::whereNull('email_verified_at')->count();
 
         // Pending Pengusul Desa Approvals
         $pendingApprovalsCount = User::role('pengusul-desa')
-            ->whereHas('profile', fn($q) => $q->where('is_approved_by_admin', false))
+            ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
             ->count();
 
         // Online Users Monitoring

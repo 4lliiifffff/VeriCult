@@ -28,7 +28,7 @@ class DashboardController extends Controller
 
         // Role & Approval Info
         $isPenguslDesa = $user->hasRole('pengusul-desa');
-        $isApprovedByAdmin = $user->profile?->is_approved_by_admin;
+        $isApprovedByAdmin = $user->is_approved_by_admin;
         $hasStatistikAccess = $isPenguslDesa && $isApprovedByAdmin;
 
         // Statistics for submission types

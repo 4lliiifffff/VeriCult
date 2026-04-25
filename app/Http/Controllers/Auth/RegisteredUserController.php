@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
 
         $user->assignRole($role);
 
-        // Create profile
+        // Create appropriate profile
         $user->profile()->create([
             'is_approved_by_admin' => $isApprovedByAdmin,
             'approved_by_admin_at' => $isApprovedByAdmin ? now() : null,
@@ -66,7 +66,8 @@ class RegisteredUserController extends Controller
      */
     public function createDesa(): View
     {
-        return view('auth.register-desa');
+        $villages = Village::orderBy('name')->get();
+        return view('auth.register-desa', compact('villages'));
     }
 
     /**
@@ -81,6 +82,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
             'village_name' => ['required', 'string', 'max:255'],
+            'surat_pengajuan' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
         ]);
 
         // Find or create the village
@@ -94,11 +96,15 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('pengusul-desa');
 
+        // Handle file upload
+        $path = $request->file('surat_pengajuan')->store('surat_pengajuan', 'public');
+
         // Create profile with village and approval info
-        $user->profile()->create([
+        $user->pengusulDesaProfile()->create([
             'is_approved_by_admin' => false,
             'approved_by_admin_at' => null,
             'village_id'           => $village->id,
+            'surat_pengajuan_path'   => $path,
         ]);
 
         $superAdmins = User::role('super-admin')->get();

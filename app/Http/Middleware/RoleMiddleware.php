@@ -29,7 +29,7 @@ class RoleMiddleware
         // For pengusul-desa users, check if they are approved by admin
         // Allow if not pengusul-desa role, or if approved
         if (in_array('pengusul-desa', $roles) && $request->user()->hasRole('pengusul-desa')) {
-            if (!$request->user()->profile?->is_approved_by_admin) {
+            if (!$request->user()->is_approved_by_admin) {
                 abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin. Silahkan tunggu email konfirmasi.');
             }
         }

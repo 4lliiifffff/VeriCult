@@ -28,7 +28,7 @@
                  class="whitespace-nowrap overflow-hidden flex flex-col justify-center ml-2">
                  <div class="flex flex-col">
                     <span class="font-bold text-xl text-white tracking-tight leading-none group-hover:text-[#ADE8F4] transition-colors">VeriCult</span>
-                    <span class="text-[#48CAE4] text-[10px] font-medium tracking-wider uppercase leading-none mt-0.5">Admin</span>
+                    <span class="text-[#48CAE4] text-[10px] font-medium tracking-wider uppercase leading-none mt-0.5">Admin Wilayah</span>
                  </div>
             </div>
         </div>
@@ -42,7 +42,10 @@
     <!-- Scrollable Nav Area -->
     <div class="flex-1 overflow-y-auto custom-scrollbar overflow-x-hidden py-8">
         <nav class="px-4 space-y-3">
-            <h3 x-show="!sidebarMinimized" class="px-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">
+            <h3 x-show="!sidebarMinimized" class="px-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4"
+                x-transition:enter="transition ease-out duration-300 delay-100"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100">
                 Menu Utama
             </h3>
 
@@ -55,7 +58,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
                 </div>
-                <span x-show="!sidebarMinimized" class="ml-3">Beranda</span>
+                <span x-show="!sidebarMinimized" 
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Beranda
+                </span>
+
+                <!-- Tooltip -->
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Beranda
+                </div>
             </a>
 
             <!-- Dashboard -->
@@ -71,23 +85,45 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                     </svg>
                 </div>
-                <span x-show="!sidebarMinimized" class="ml-3">Dashboard</span>
+                <span x-show="!sidebarMinimized" 
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Dashboard
+                </span>
+
+                <!-- Tooltip -->
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Dashboard
+                </div>
             </a>
 
-            <!-- User Approvals -->
-            <a href="{{ route('admin.user-approvals.index') }}" 
+            <!-- User Management -->
+            <a href="{{ route('admin.users.index') }}" 
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
-                   'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('admin.user-approvals.*'),
-                   'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('admin.user-approvals.*')
+                   'bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-blue-500/20' => request()->routeIs('admin.users.*'),
+                   'text-slate-300 hover:bg-white/5 hover:text-white' => !request()->routeIs('admin.users.*')
                ])>
                 <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
-                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('admin.user-approvals.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('admin.users.*') ? 'text-white' : 'text-slate-400 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
                 </div>
-                <span x-show="!sidebarMinimized" class="ml-3">Persetujuan Akun</span>
+                <span x-show="!sidebarMinimized" 
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Kelola Pengguna
+                </span>
+
+                <!-- Tooltip -->
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Kelola Pengguna
+                </div>
             </a>
 
             <!-- Statistical Submissions -->
@@ -103,7 +139,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                 </div>
-                <span x-show="!sidebarMinimized" class="ml-3">Data Statistik</span>
+                <span x-show="!sidebarMinimized" 
+                      x-transition:enter="transition ease-out duration-300 delay-100"
+                      x-transition:enter-start="opacity-0 translate-x-2"
+                      x-transition:enter-end="opacity-100 translate-x-0"
+                      class="ml-3 whitespace-nowrap relative z-10 transition-colors">
+                    Data Statistik
+                </span>
+
+                <!-- Tooltip -->
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] border border-[#0077B6]/30 text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">
+                    Data Statistik
+                </div>
             </a>
         </nav>
     </div>

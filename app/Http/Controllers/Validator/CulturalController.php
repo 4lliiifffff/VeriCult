@@ -137,11 +137,13 @@ class CulturalController extends Controller
             'name' => $submissionName,
             'category' => $validated['category'],
             'address' => $submissionAddress,
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? '-',
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,
             'longitude' => $validated['longitude'] ?? null,
             'status' => CulturalSubmission::STATUS_DRAFT,
+            'submission_type' => 'aktif',
+            'period_year' => date('Y'),
         ]);
 
         // Handle file uploads
@@ -180,6 +182,8 @@ class CulturalController extends Controller
             'status' => 'Draf',
             'color' => 'gray',
             'icon' => 'draf',
+            'date' => $submission->created_at,
+            'description' => null,
         ]);
 
         // 2. Submitted
@@ -191,6 +195,8 @@ class CulturalController extends Controller
                 'status' => 'Diajukan',
                 'color' => 'blue',
                 'icon' => 'diajukan',
+                'date' => $submission->submitted_at,
+                'description' => null,
             ]);
         }
 
@@ -262,6 +268,8 @@ class CulturalController extends Controller
                 'status' => 'Diterbitkan',
                 'color' => 'green',
                 'icon' => 'diterbitkan',
+                'date' => $submission->published_at,
+                'description' => null,
             ]);
         }
 

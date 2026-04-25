@@ -37,7 +37,7 @@
                 }),
                 datasets: [{
                     data: {!! json_encode(array_values($statusStats)) !!},
-                    backgroundColor: ['#48CAE4', '#0077B6', '#023E8A', '#03045E', '#CAF0F8', '#90E0EF', '#00B4D8'],
+                    backgroundColor: ['#4361EE', '#06D6A0', '#FF9F1C', '#EF476F', '#7209B7', '#00B4D8', '#2EC4B6'],
                     borderWidth: 0,
                     hoverOffset: 15,
                 }]
@@ -59,7 +59,7 @@
                 datasets: [{
                     label: 'Jumlah Objek',
                     data: {!! json_encode(array_values($categoryStats)) !!},
-                    backgroundColor: '#0077B6',
+                    backgroundColor: '#4361EE',
                     borderRadius: 12,
                     barThickness: 20
                 }]
@@ -97,8 +97,8 @@
                     {
                         label: 'Statistik (OPK)',
                         data: statistikData,
-                        borderColor: '#023E8A',
-                        backgroundColor: 'rgba(2, 62, 138, 0.1)',
+                        borderColor: '#4361EE',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
                         fill: true,
                         tension: 0.4,
                         borderWidth: 3,
@@ -107,8 +107,8 @@
                     {
                         label: 'Laporan Aktif',
                         data: aktifData,
-                        borderColor: '#48CAE4',
-                        backgroundColor: 'rgba(72, 202, 228, 0.1)',
+                        borderColor: '#06D6A0',
+                        backgroundColor: 'rgba(6, 214, 160, 0.1)',
                         fill: true,
                         tension: 0.4,
                         borderWidth: 3,
@@ -144,13 +144,13 @@
                     {
                         label: 'Statistik',
                         data: villageData.map(v => v.statistik_count),
-                        backgroundColor: '#03045E',
+                        backgroundColor: '#4361EE',
                         borderRadius: 5
                     },
                     {
                         label: 'Aktif',
                         data: villageData.map(v => v.aktif_count),
-                        backgroundColor: '#00B4D8',
+                        backgroundColor: '#FF9F1C',
                         borderRadius: 5
                     }
                 ]
@@ -175,7 +175,7 @@
                 labels: Object.keys(activeCatData),
                 datasets: [{
                     data: Object.values(activeCatData),
-                    backgroundColor: ['#03045E', '#023E8A', '#0077B6', '#0096C7', '#00B4D8', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8'],
+                    backgroundColor: ['#4361EE', '#3A0CA3', '#7209B7', '#B5179E', '#F72585', '#4895EF', '#4CC9F0', '#06D6A0', '#FF9F1C'],
                     borderWidth: 2,
                     borderColor: '#fff'
                 }]
@@ -201,7 +201,7 @@
                 datasets: [{
                     label: 'Total Pengajuan',
                     data: {!! json_encode($yearlyComparison->pluck('count')) !!},
-                    backgroundColor: '#00B4D8',
+                    backgroundColor: '#7209B7',
                     borderRadius: 8,
                     barThickness: 30
                 }]

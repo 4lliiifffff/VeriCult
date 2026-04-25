@@ -6,9 +6,7 @@
             <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <a href="{{ route('super-admin.users.index') }}" class="hover:text-[#0077B6] transition-colors">Kelola Pengguna</a>
             <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('super-admin.users.show', $user) }}" class="hover:text-[#0077B6] transition-colors max-w-[150px] truncate">{{ $user->name }}</a>
-            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Edit Profil</span>
+            <span class="text-[#03045E]">Tambah Admin</span>
         </nav>
 
         <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-blue-900/20 mb-10">
@@ -17,21 +15,16 @@
             
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                 <div class="flex items-center gap-6">
-                    <div class="w-20 h-20 rounded-[1.5rem] bg-white/10 border border-white/20 flex items-center justify-center text-white shadow-inner backdrop-blur-md font-black text-2xl uppercase">
-                        {{ substr($user->name, 0, 2) }}
+                    <div class="w-20 h-20 rounded-[1.5rem] bg-white/10 border border-white/20 flex items-center justify-center text-white shadow-inner backdrop-blur-md">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                     </div>
                     <div class="space-y-1">
-                        <div class="flex items-center gap-3">
-                            <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none">Edit Pengguna</h2>
-                            <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-white/10 text-white border border-white/20">
-                                ID #{{ $user->id }}
-                            </span>
-                        </div>
-                        <p class="text-blue-100/70 text-sm sm:text-base font-medium">Perbarui informasi identitas, peran, dan kredensial akses user.</p>
+                        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none">Registrasi Admin</h2>
+                        <p class="text-blue-100/70 text-sm sm:text-base font-medium">Daftarkan pengelola sistem (Admin) baru ke sistem VeriCult.</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('super-admin.users.show', $user) }}" class="px-6 py-4 bg-white/10 border border-white/20 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-white hover:text-[#03045E] transition-all flex items-center gap-3 backdrop-blur-sm group/btn">
+                    <a href="{{ route('super-admin.users.index') }}" class="px-6 py-4 bg-white/10 border border-white/20 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-white hover:text-[#03045E] transition-all flex items-center gap-3 backdrop-blur-sm group/btn">
                         <svg class="w-5 h-5 group-hover: -translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Batal & Kembali
                     </a>
@@ -41,18 +34,17 @@
     </x-slot>
     
     <div class="max-w-5xl mx-auto pb-20">
-        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white relative group">
-            <div class="p-8 sm:p-14" x-data="{ role: '{{ old('role', $user->roles->first()?->name) }}' }">
-                <form action="{{ route('super-admin.users.update', $user) }}" method="POST" class="space-y-12">
+        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-white overflow-hidden relative group">
+            <div class="p-8 sm:p-14">
+                <form action="{{ route('super-admin.users.store-admin') }}" method="POST" class="space-y-12">
                     @csrf
-                    @method('PUT')
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16">
-                        <!-- Identity Section -->
+                        <!-- Basic Info Section -->
                         <div class="space-y-10">
                             <div>
                                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8 flex items-center gap-4">
-                                    <span class="shrink-0">Identitas & Peran</span>
+                                    <span class="shrink-0">Informasi Identitas</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
                                 <div class="space-y-8">
@@ -63,8 +55,8 @@
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                             </div>
                                             <x-text-input id="name" name="name" type="text" 
-                                                class="block w-full h-14 pl-12 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E]" 
-                                                :value="old('name', $user->name)" required autofocus />
+                                                class="block w-full h-14 pl-12 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E] placeholder:text-slate-300" 
+                                                :value="old('name')" required autofocus placeholder="Masukkan nama lengkap..." />
                                         </div>
                                         <x-input-error class="mt-2 text-[10px] font-bold" :messages="$errors->get('name')" />
                                     </div>
@@ -75,73 +67,10 @@
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                             </div>
                                             <x-text-input id="email" name="email" type="email" 
-                                                class="block w-full h-14 pl-12 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E]" 
-                                                :value="old('email', $user->email)" required />
+                                                class="block w-full h-14 pl-12 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E] placeholder:text-slate-300" 
+                                                :value="old('email')" required placeholder="email@instansi.ac.id" />
                                         </div>
                                         <x-input-error class="mt-2 text-[10px] font-bold" :messages="$errors->get('email')" />
-                                    </div>
-                                    <div class="space-y-2">
-                                        @if($user->id === 1)
-                                            <div class="px-5 h-14 bg-slate-50 border border-slate-100 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-3">
-                                                <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                                Master Administrator (Locked)
-                                            </div>
-                                            <input type="hidden" name="role" value="super-admin">
-                                        @else
-                                            <select name="role" id="role" x-model="role" class="block w-full h-14 px-5 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E]">
-                                                <option value="">Pilih Peran</option>
-                                                @foreach($roles as $r)
-                                                    <option value="{{ $r->name }}">{{ ucfirst(str_replace('-', ' ', $r->name)) }}</option>
-                                                @endforeach
-                                            </select>
-                                            <x-input-error class="mt-2 text-[10px] font-bold" :messages="$errors->get('role')" />
-                                        @endif
-                                    </div>
-                                    
-                                    <!-- Dynamic Profile Fields -->
-                                    <div x-show="role === 'pengusul-desa' || role === 'pengusul' || role === 'validator'" 
-                                         x-transition
-                                         class="space-y-8 pt-4 border-t border-slate-100" style="display: none;">
-                                        
-                                        <!-- Fields for Pengusul Desa -->
-                                        <template x-if="role === 'pengusul-desa'">
-                                            <div class="space-y-6">
-                                                <div class="space-y-2">
-                                                    <x-input-label for="village_id" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Desa / Kelurahan')" />
-                                                    <select name="village_id" id="village_id" class="block w-full h-14 px-5 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] transition-all duration-300 font-bold text-[#03045E]">
-                                                        <option value="">Pilih Desa</option>
-                                                        @foreach($villages as $village)
-                                                            <option value="{{ $village->id }}" @selected(old('village_id', $user->pengusulDesaProfile?->village_id) == $village->id)>{{ $village->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="space-y-2">
-                                                    <x-input-label for="jabatan_desa" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Jabatan di Desa')" />
-                                                    <x-text-input id="jabatan_desa" name="jabatan_desa" type="text" class="block w-full h-14 px-5 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6]" :value="old('jabatan_desa', $user->pengusulDesaProfile?->jabatan_desa)" placeholder="Contoh: Kepala Desa" />
-                                                </div>
-                                                <div class="space-y-2">
-                                                    <x-input-label for="nip" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('NIP (Opsional)')" />
-                                                    <x-text-input id="nip" name="nip" type="text" class="block w-full h-14 px-5 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6]" :value="old('nip', $user->pengusulDesaProfile?->nip)" placeholder="Masukkan NIP jika ada" />
-                                                </div>
-                                            </div>
-                                        </template>
-
-                                        <!-- Fields for Pengusul / Validator -->
-                                        <template x-if="role === 'pengusul' || role === 'validator'">
-                                            <div class="space-y-6">
-                                                <div class="space-y-2">
-                                                    <x-input-label for="instansi" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Instansi asal')" />
-                                                    <x-text-input id="instansi" name="instansi" type="text" class="block w-full h-14 px-5 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6]" :value="old('instansi', $user->profile?->instansi)" placeholder="Contoh: Dinas Kebudayaan" />
-                                                </div>
-                                            </div>
-                                        </template>
-
-                                        <!-- Common Fields for Pengusul Desa / Pengusul / Validator -->
-                                        <div class="space-y-2">
-                                            <x-input-label for="no_hp" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Nomor Handphone')" />
-                                            <x-text-input id="no_hp" name="no_hp" type="text" class="block w-full h-14 px-5 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6]" :value="old('no_hp', $user->profile?->no_hp)" placeholder="0812xxxxxx" />
-                                        </div>
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -151,12 +80,12 @@
                         <div class="space-y-10" x-data="{ showPassword: false, showConfirmPassword: false }">
                             <div>
                                 <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8 flex items-center gap-4">
-                                    <span class="shrink-0">Ganti Kata Sandi</span>
+                                    <span class="shrink-0">Keamanan Akun</span>
                                     <div class="flex-1 h-px bg-slate-100"></div>
                                 </h3>
                                 <div class="space-y-8">
                                     <div class="space-y-2">
-                                        <x-input-label for="password" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Kata Sandi Baru')" />
+                                        <x-input-label for="password" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Kata Sandi (Opsional)')" />
                                         <div class="relative group/input">
                                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -166,7 +95,7 @@
                                                 name="password" 
                                                 ::type="showPassword ? 'text' : 'password'" 
                                                 class="block w-full h-14 pl-12 pr-12 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E] placeholder:text-slate-300" 
-                                                placeholder="Biarkan kosong jika tetap" 
+                                                placeholder="Kosongkan untuk otomatis" 
                                             />
                                             <button type="button" 
                                                 @click="showPassword = !showPassword" 
@@ -183,7 +112,7 @@
                                         <x-input-error class="mt-2 text-[10px] font-bold" :messages="$errors->get('password')" />
                                     </div>
                                     <div class="space-y-2">
-                                        <x-input-label for="password_confirmation" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Konfirmasi Sandi Baru')" />
+                                        <x-input-label for="password_confirmation" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Konfirmasi Sandi')" />
                                         <div class="relative group/input">
                                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
@@ -193,7 +122,7 @@
                                                 name="password_confirmation" 
                                                 ::type="showConfirmPassword ? 'text' : 'password'" 
                                                 class="block w-full h-14 pl-12 pr-12 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 transition-all duration-300 font-bold text-[#03045E] placeholder:text-slate-300" 
-                                                placeholder="Ulangi kata sandi baru" 
+                                                placeholder="Ulangi kata sandi" 
                                             />
                                             <button type="button" 
                                                 @click="showConfirmPassword = !showConfirmPassword" 
@@ -213,10 +142,20 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-end pt-8 border-t border-slate-50">
+                    <div class="p-8 rounded-[2.5rem] bg-blue-50/50 border border-blue-100 flex items-start gap-6 group/box hover:bg-white hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-500">
+                        <div class="mt-1">
+                            <input id="email_verified" type="checkbox" class="w-6 h-6 rounded-lg border-slate-300 text-[#0077B6] focus:ring-[#0077B6] shadow-none focus:ring-offset-0 transition-all cursor-pointer" name="email_verified" value="1" checked>
+                        </div>
+                        <div class="flex-1">
+                            <label for="email_verified" class="block text-base font-black text-[#03045E] cursor-pointer group-hover/box:text-[#0077B6] transition-colors">Aktivasi Email Otomatis</label>
+                            <p class="text-xs text-slate-500 font-medium mt-1 leading-relaxed">Jika diaktifkan, admin tidak perlu melakukan proses verifikasi email manual dan dapat langsung mengakses dashboard setelah pendaftaran.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end pt-8">
                         <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center px-12 py-5 bg-[#03045E] hover:bg-[#0077B6] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] transition-all duration-300 shadow-2xl shadow-blue-900/40 group active:scale-95">
-                            Simpan Perubahan
-                            <svg class="w-5 h-5 ml-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            Konfirmasi Registrasi
+                            <svg class="w-5 h-5 ml-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
                     </div>
                 </form>

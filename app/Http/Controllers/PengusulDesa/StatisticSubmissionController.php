@@ -27,7 +27,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
                     abort(403, 'Hanya pengusul desa yang dapat membuat laporan statistik.');
                 }
     
-                if (!Auth::user()->profile?->is_approved_by_admin) {
+                if (!Auth::user()->is_approved_by_admin) {
                     abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan statistik.');
                 }
     

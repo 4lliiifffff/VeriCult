@@ -28,7 +28,7 @@
                  class="whitespace-nowrap overflow-hidden flex flex-col justify-center ml-2">
                  <div class="flex flex-col">
                     <span class="font-bold text-xl text-white tracking-tight leading-none group-hover:text-[#ADE8F4] transition-colors">VeriCult</span>
-                    <span class="text-[#48CAE4] text-[10px] font-medium tracking-wider uppercase leading-none mt-0.5">Pengusul</span>
+                    <span class="text-[#48CAE4] text-[10px] font-medium tracking-wider uppercase leading-none mt-0.5">Pengusul Desa</span>
                  </div>
             </div>
         </div>

@@ -76,10 +76,10 @@
             <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
                 <button @click="open = ! open" class="flex items-center gap-3 focus:outline-none group">
                     <div class="text-right hidden sm:block">
-                        <p class="text-[11px] font-black !text-[#03045E] group-hover:text-[#0077B6] transition-colors leading-none mb-1">{{ Auth::user()->name }}</p>
-                        <p class="text-[9px] font-black !text-[#00B4D8] uppercase tracking-widest leading-none">Pengusul Budaya</p>
+                        <p class="text-[11px] font-black text-[#03045E] group-hover:text-[#0077B6] transition-colors leading-none mb-1">{{ Auth::user()->name }}</p>
+                        <p class="text-[9px] font-black text-[#00B4D8] uppercase tracking-widest leading-none">Pengusul Desa</p>
                     </div>
-                    <div class="h-10 w-10 rounded-xl bg-[#03045E] !text-white flex items-center justify-center font-black text-xs shadow-lg shadow-blue-900/10 ring-2 ring-[#03045E]/5 scale-100 group-hover:scale-110 transition-all duration-300">
+                    <div class="h-10 w-10 rounded-xl bg-[#03045E] text-white flex items-center justify-center font-black text-xs shadow-lg shadow-blue-900/10 ring-2 ring-[#03045E]/5 scale-100 group-hover:scale-110 transition-all duration-300">
                         {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
                 </button>
@@ -91,11 +91,11 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                    class="absolute right-0 z-50 mt-4 w-56 rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden p-2"
+                    class="absolute right-0 z-50 mt-4 w-56 rounded-3xl shadow-2xl shadow-blue-900/10 border border-slate-100 bg-white overflow-hidden p-2"
                     style="display: none;"
                     @click="open = false">
                     
-                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-start text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-blue-50/80 hover:text-[#0077B6] transition-all duration-200 group/item">
+                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-start text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-blue-50/80 hover:text-[#0077B6] transition-all duration-200 group/item">
                         <svg class="w-4 h-4 group-hover/item:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         Pengaturan Profil
                     </a>
@@ -105,7 +105,7 @@
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="{{ route('logout') }}" class="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-start text-xs font-black uppercase tracking-widest text-rose-400 hover:bg-rose-50 hover:text-rose-500 transition-all duration-200 group/logout"
+                        <a href="{{ route('logout') }}" class="flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-start text-xs font-black uppercase tracking-widest text-rose-400 hover:bg-rose-50 hover:text-rose-500 transition-all duration-200 group/logout"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
                             <svg class="w-4 h-4 group-hover/logout:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             Keluar Sistem
