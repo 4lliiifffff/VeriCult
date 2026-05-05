@@ -189,13 +189,22 @@ class SubmissionController extends Controller
     {
         Gate::authorize('review', $submission);
 
-        $request->validate([
+        $rules = [
             'visit_date' => 'required|date',
             'verified_latitude' => 'nullable|numeric|between:-90,90',
             'verified_longitude' => 'nullable|numeric|between:-180,180',
             'notes' => 'required|string|min:10',
             'recommendation' => 'required|in:verified,rejected,revision',
-        ]);
+            'category_data' => 'nullable|array',
+        ];
+
+        // Add category-specific validation
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        foreach ($categoryFields as $key => $field) {
+            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        }
+
+        $request->validate($rules);
 
         DB::transaction(function () use ($request, $submission) {
             // Create field verification record
@@ -216,9 +225,20 @@ class SubmissionController extends Controller
                 'rejected' => CulturalSubmission::STATUS_REJECTED,
             };
 
-            // Update submission status
+            // Update submission status and category_data
+            $categoryData = $request->input('category_data', []);
+            $categoryData = array_filter($categoryData, function($v) {
+                if (is_array($v)) return !empty($v);
+                return !is_null($v) && $v !== '';
+            });
+
+            // Merge with existing category data to not lose fields like unesco_categories or files
+            $existingCategoryData = $submission->category_data ?? [];
+            $mergedCategoryData = array_merge($existingCategoryData, $categoryData);
+
             $submission->update([
                 'status' => $status,
+                'category_data' => !empty($mergedCategoryData) ? $mergedCategoryData : null,
                 'verified_at' => $status === CulturalSubmission::STATUS_VERIFIED ? now() : null,
             ]);
 
@@ -270,5 +290,81 @@ class SubmissionController extends Controller
 
         return redirect()->route('validator.submissions.show', $submission)
             ->with('success', 'Objek kebudayaan berhasil dipublikasikan ke profil publik!');
+    }
+
+    /**
+     * Show the form for editing the specified submission (only category_data).
+     */
+    public function edit(CulturalSubmission $submission)
+    {
+        Gate::authorize('review', $submission);
+
+        if ($submission->status !== CulturalSubmission::STATUS_FIELD_VERIFICATION) {
+            return redirect()->route('validator.submissions.review-form', $submission)
+                ->with('error', 'Data hanya dapat diedit pada tahap Verifikasi Lapangan.');
+        }
+
+        $submission->load(['user', 'files']);
+        
+        $categorySlug = CulturalSubmission::getCategorySlug($submission->category);
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$submission->category] ?? '';
+
+        return view('validator.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription'));
+    }
+
+    /**
+     * Update the specified submission in storage.
+     */
+    public function update(Request $request, CulturalSubmission $submission)
+    {
+        Gate::authorize('review', $submission);
+
+        if ($submission->status !== CulturalSubmission::STATUS_FIELD_VERIFICATION) {
+            return redirect()->route('validator.submissions.review-form', $submission)
+                ->with('error', 'Data hanya dapat diedit pada tahap Verifikasi Lapangan.');
+        }
+
+        // We only allow validators to edit category_data and description
+        $rules = [
+            'description' => ['nullable', 'string', 'min:50'],
+        ];
+
+        // Add category-specific validation rules
+        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        foreach ($categoryFields as $key => $field) {
+            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        }
+
+        $validated = $request->validate($rules);
+
+        // Clean category_data
+        $categoryData = $request->input('category_data', []);
+        $categoryData = array_filter($categoryData, function($v) {
+            if (is_array($v)) return !empty($v);
+            return !is_null($v) && $v !== '';
+        });
+
+        // Auto-populate name if available
+        $submissionName = $submission->name;
+        if (isset($categoryData['b1_nama_objek']) && !empty($categoryData['b1_nama_objek'])) {
+            $submissionName = $categoryData['b1_nama_objek'];
+        }
+        if (isset($categoryData['nama_dan_jenis_kebudayaan']) && !empty($categoryData['nama_dan_jenis_kebudayaan'])) {
+            $submissionName = $categoryData['nama_dan_jenis_kebudayaan'];
+        }
+
+        // Preserve unesco_categories and existing document URLs if they are not passed in form
+        $existingCategoryData = $submission->category_data ?? [];
+        $mergedCategoryData = array_merge($existingCategoryData, $categoryData);
+
+        $submission->update([
+            'name' => $submissionName,
+            'description' => $validated['description'] ?? $submission->description,
+            'category_data' => !empty($mergedCategoryData) ? $mergedCategoryData : null,
+        ]);
+
+        return redirect()->route('validator.submissions.review-form', $submission)
+            ->with('success', 'Data pengajuan berhasil diperbarui.');
     }
 }

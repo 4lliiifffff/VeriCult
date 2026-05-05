@@ -297,7 +297,7 @@ return [
             ],
             'seni_media_baru' => [
                 'nama_objek' => ['label' => 'Nama objek (seni media baru)', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
-                'teknik' => ['label' => 'Teknik pembuatan', 'type' => 'textarea', 'placeholder' => 'Jelaskan teknik pembuatan', 'required' => true],
+                'teknik' => ['label' => 'Teknik pembuatan', 'type' => 'textarea', 'placeholder' => 'Jelaskan teknik pembuatan'],
                 'tahun' => ['label' => 'Tahun penciptaan', 'type' => 'date', 'placeholder' => 'Pilih tanggal penciptaan'],
                 'jumlah_publikasi' => ['label' => 'Jumlah publikasi/pameran seni media baru dalam setahun terakhir', 'type' => 'text', 'placeholder' => 'Masukkan jumlah'],
             ],

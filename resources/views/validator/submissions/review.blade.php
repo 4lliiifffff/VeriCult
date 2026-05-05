@@ -369,6 +369,23 @@
 
                     @elseif($submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION)
                         <!-- Field Verification Form -->
+                        <div class="mb-6">
+                            <h4 class="text-xs font-black text-[#03045E] uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                Lengkapi Data Kebudayaan (Opsional)
+                            </h4>
+                            <div class="p-6 bg-blue-50/50 border border-blue-100 rounded-2xl relative overflow-hidden">
+                                <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-200/20 rounded-full blur-2xl"></div>
+                                <p class="text-[11px] text-slate-500 font-medium mb-4 relative z-10 leading-relaxed">
+                                    Anda dapat melengkapi pertanyaan yang sifatnya mendalam/sulit yang dikosongkan oleh Pengusul Desa sebelum melakukan verifikasi lapangan.
+                                </p>
+                                <a href="{{ route('validator.submissions.edit', $submission) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-slate-200 hover:border-[#0077B6] hover:text-[#0077B6] text-[#03045E] text-[10px] font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-sm active:scale-95 group/btn">
+                                    <span>Buka Form Edit Data</span>
+                                    <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
                             <div class="grid grid-cols-1 gap-6">
