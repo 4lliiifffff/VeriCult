@@ -212,6 +212,13 @@ Route::middleware(['auth', 'role:pengusul-desa', \App\Http\Middleware\CheckAdmin
         Route::post('/statistic-submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\StatisticSubmissionController::class, 'submit'])->name('statistic-submissions.submit');
         Route::delete('/statistic-submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\StatisticSubmissionController::class, 'destroyFile'])->name('statistic-submissions.files.destroy');
 
+        // Cagar Budaya Submissions
+        Route::resource('cagar-budaya-submissions', App\Http\Controllers\PengusulDesa\CagarBudayaSubmissionController::class)->parameters([
+            'cagar-budaya-submissions' => 'submission'
+        ]);
+        Route::post('/cagar-budaya-submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\CagarBudayaSubmissionController::class, 'submit'])->name('cagar-budaya-submissions.submit');
+        Route::delete('/cagar-budaya-submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\CagarBudayaSubmissionController::class, 'destroyFile'])->name('cagar-budaya-submissions.files.destroy');
+
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');

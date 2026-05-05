@@ -34,6 +34,7 @@ class CulturalSubmission extends Model
     const CATEGORY_PERMAINAN_RAKYAT = 'Permainan Rakyat';
     const CATEGORY_OLAHRAGA_TRADISIONAL = 'Olahraga Tradisional';
     const CATEGORY_CAGAR_BUDAYA = 'Cagar Budaya';
+    const CATEGORY_POTENSI_CAGAR_BUDAYA = 'Potensi Cagar Budaya';
     const CATEGORY_LAPORAN_AKTIF = 'Laporan Kebudayaan Aktif';
 
     /**
@@ -51,6 +52,7 @@ class CulturalSubmission extends Model
         'permainan-rakyat' => self::CATEGORY_PERMAINAN_RAKYAT,
         'olahraga-tradisional' => self::CATEGORY_OLAHRAGA_TRADISIONAL,
         'cagar-budaya' => self::CATEGORY_CAGAR_BUDAYA,
+        'potensi-cagar-budaya' => self::CATEGORY_POTENSI_CAGAR_BUDAYA,
         'laporan-kebudayaan-aktif' => self::CATEGORY_LAPORAN_AKTIF,
     ];
 
@@ -69,6 +71,7 @@ class CulturalSubmission extends Model
         self::CATEGORY_PERMAINAN_RAKYAT,
         self::CATEGORY_OLAHRAGA_TRADISIONAL,
         self::CATEGORY_CAGAR_BUDAYA,
+        self::CATEGORY_POTENSI_CAGAR_BUDAYA,
         self::CATEGORY_LAPORAN_AKTIF,
     ];
 
@@ -86,7 +89,8 @@ class CulturalSubmission extends Model
         self::CATEGORY_BAHASA => 'Ragam bahasa daerah dan bahasa isyarat.',
         self::CATEGORY_PERMAINAN_RAKYAT => 'Permainan tradisional seperti congklak, gasing, dan bentengan.',
         self::CATEGORY_OLAHRAGA_TRADISIONAL => 'Aktivitas fisik/mental tradisional seperti pencak silat, karapan sapi, atau debus.',
-        self::CATEGORY_CAGAR_BUDAYA => 'Benda atau tempat bersejarah seperti candi, keris, atau situs arkeologi.',
+        self::CATEGORY_CAGAR_BUDAYA => 'Benda atau tempat bersejarah seperti candi, keris, atau situs arkeologi yang telah ditetapkan.',
+        self::CATEGORY_POTENSI_CAGAR_BUDAYA => 'Benda atau tempat yang memiliki potensi sejarah namun belum ditetapkan sebagai Cagar Budaya.',
         self::CATEGORY_LAPORAN_AKTIF => 'Pendataan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.',
     ];
 
@@ -105,6 +109,7 @@ class CulturalSubmission extends Model
         self::CATEGORY_PERMAINAN_RAKYAT => 'puzzle',
         self::CATEGORY_OLAHRAGA_TRADISIONAL => 'trophy',
         self::CATEGORY_CAGAR_BUDAYA => 'building-library',
+        self::CATEGORY_POTENSI_CAGAR_BUDAYA => 'building-library',
     ];
 
     /**
@@ -426,6 +431,14 @@ class CulturalSubmission extends Model
     public function isOPK(): bool
     {
         return $this->submission_type === 'statistik';
+    }
+
+    /**
+     * Check if this is a Cagar Budaya submission
+     */
+    public function isCagarBudaya(): bool
+    {
+        return $this->submission_type === 'cagar-budaya';
     }
 
     /**

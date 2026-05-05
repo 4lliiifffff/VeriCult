@@ -85,7 +85,15 @@ class SubmissionController extends Controller
         // Notify the Pengusul
         $title = 'Pengajuan Diproses';
         $message = 'Pengajuan "' . $submission->name . '" Anda sedang ditinjau oleh Validator.';
-        $url = route('pengusul.submissions.show', $submission);
+        // Determine the correct redirect URL based on category
+        $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+                         $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
+        
+        $routeName = $isCagarBudaya 
+            ? 'pengusul-desa.cagar-budaya-submissions.show' 
+            : 'pengusul-desa.submissions.show';
+        
+        $url = route($routeName, $submission);
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
 
         return redirect()->route('validator.submissions.review-form', $submission)
@@ -173,7 +181,16 @@ class SubmissionController extends Controller
             
             $title = $actionTitles[$request->action] ?? 'Update Review';
             $message = 'Hasil Review Administratif untuk "' . $submission->name . '" telah diperbarui.';
-            $url = route('pengusul.submissions.show', $submission);
+            
+            // Determine the correct redirect URL based on category
+            $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+                             $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
+            
+            $routeName = $isCagarBudaya 
+                ? 'pengusul-desa.cagar-budaya-submissions.show' 
+                : 'pengusul-desa.submissions.show';
+            
+            $url = route($routeName, $submission);
             
             $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->action] ?? 'info', $submission->id));
         });
@@ -236,11 +253,23 @@ class SubmissionController extends Controller
             $existingCategoryData = $submission->category_data ?? [];
             $mergedCategoryData = array_merge($existingCategoryData, $categoryData);
 
-            $submission->update([
+            $updateData = [
                 'status' => $status,
                 'category_data' => !empty($mergedCategoryData) ? $mergedCategoryData : null,
                 'verified_at' => $status === CulturalSubmission::STATUS_VERIFIED ? now() : null,
-            ]);
+            ];
+
+            // Transition from Potensi Cagar Budaya to Cagar Budaya if verified
+            if ($status === CulturalSubmission::STATUS_VERIFIED && $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+                $updateData['category'] = CulturalSubmission::CATEGORIES['cagar-budaya'];
+                
+                // If validator provided a new name in category_data, use it
+                if (isset($mergedCategoryData['nama_objek']) && !empty($mergedCategoryData['nama_objek'])) {
+                    $updateData['name'] = $mergedCategoryData['nama_objek'];
+                }
+            }
+
+            $submission->update($updateData);
 
             // Notify the Pengusul
             $actionTitles = [
@@ -256,7 +285,16 @@ class SubmissionController extends Controller
             
             $title = $actionTitles[$request->recommendation] ?? 'Update Verifikasi';
             $message = 'Hasil Verifikasi Lapangan untuk "' . $submission->name . '" telah diperbarui.';
-            $url = route('pengusul.submissions.show', $submission);
+            
+            // Determine the correct redirect URL based on category
+            $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+                             $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
+            
+            $routeName = $isCagarBudaya 
+                ? 'pengusul-desa.cagar-budaya-submissions.show' 
+                : 'pengusul-desa.submissions.show';
+            
+            $url = route($routeName, $submission);
             
             $submission->user->notify(new SubmissionNotification($title, $message, $url, $actionTypes[$request->recommendation] ?? 'info', $submission->id));
         });
@@ -285,7 +323,16 @@ class SubmissionController extends Controller
         // Notify the Pengusul
         $title = 'Pengajuan Dipublikasikan!';
         $message = 'Selamat! Objek budaya "' . $submission->name . '" telah resmi dipublikasikan.';
-        $url = route('pengusul.submissions.show', $submission);
+        
+        // Determine the correct redirect URL based on category
+        $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+                         $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
+        
+        $routeName = $isCagarBudaya 
+            ? 'pengusul-desa.cagar-budaya-submissions.show' 
+            : 'pengusul-desa.submissions.show';
+            
+        $url = route($routeName, $submission);
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'success', $submission->id));
 
         return redirect()->route('validator.submissions.show', $submission)
@@ -349,6 +396,9 @@ class SubmissionController extends Controller
         $submissionName = $submission->name;
         if (isset($categoryData['b1_nama_objek']) && !empty($categoryData['b1_nama_objek'])) {
             $submissionName = $categoryData['b1_nama_objek'];
+        }
+        if (isset($categoryData['nama_objek']) && !empty($categoryData['nama_objek'])) {
+            $submissionName = $categoryData['nama_objek'];
         }
         if (isset($categoryData['nama_dan_jenis_kebudayaan']) && !empty($categoryData['nama_dan_jenis_kebudayaan'])) {
             $submissionName = $categoryData['nama_dan_jenis_kebudayaan'];
