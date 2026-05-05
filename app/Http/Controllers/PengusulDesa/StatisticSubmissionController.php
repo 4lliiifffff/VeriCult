@@ -55,7 +55,9 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $categories = CulturalSubmission::CATEGORY_SLUGS;
+        $categories = collect(CulturalSubmission::CATEGORY_SLUGS)
+            ->except(['cagar-budaya', 'potensi-cagar-budaya', 'laporan-kebudayaan-aktif'])
+            ->toArray();
         $descriptions = CulturalSubmission::CATEGORY_DESCRIPTIONS;
         $icons = CulturalSubmission::CATEGORY_ICONS;
 
@@ -67,8 +69,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
      */
     public function createForm(string $category)
     {
-        // Validate category slug
-        if (!array_key_exists($category, CulturalSubmission::CATEGORY_SLUGS)) {
+        // Validate category slug and ensure it's not Cagar Budaya or Laporan Aktif
+        if (!array_key_exists($category, CulturalSubmission::CATEGORY_SLUGS) || in_array($category, ['cagar-budaya', 'potensi-cagar-budaya', 'laporan-kebudayaan-aktif'])) {
             abort(404, 'Kategori tidak ditemukan.');
         }
 

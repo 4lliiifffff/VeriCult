@@ -59,9 +59,8 @@
                     'bahasa' => ['name' => 'Bahasa', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>', 'color' => 'from-cyan-500 to-blue-600', 'bgLight' => 'bg-cyan-50', 'textColor' => 'text-cyan-600'],
                     'permainan-rakyat' => ['name' => 'Permainan Rakyat', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>', 'color' => 'from-yellow-500 to-amber-600', 'bgLight' => 'bg-yellow-50', 'textColor' => 'text-yellow-600'],
                     'olahraga-tradisional' => ['name' => 'Olahraga Tradisional', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>', 'color' => 'from-indigo-500 to-blue-700', 'bgLight' => 'bg-indigo-50', 'textColor' => 'text-indigo-600'],
-                    'cagar-budaya' => ['name' => 'Cagar Budaya', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>', 'color' => 'from-stone-500 to-stone-700', 'bgLight' => 'bg-stone-100', 'textColor' => 'text-stone-600'],
                 ];
-            @endphp
+@endphp
 
             @foreach($categoryData as $slug => $cat)
                 <a href="{{ route('pengusul-desa.statistic-submissions.create-form', ['category' => $slug]) }}" 

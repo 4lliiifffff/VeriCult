@@ -21,6 +21,10 @@ class SubmissionController extends Controller
     public function index()
     {
         $submissions = CulturalSubmission::ownedBy(Auth::id())
+            ->whereNotIn('category', [
+                CulturalSubmission::CATEGORIES['cagar-budaya'],
+                CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA
+            ])
             ->latest()
             ->paginate(10)
             ->withQueryString();
@@ -183,6 +187,10 @@ class SubmissionController extends Controller
      */
     public function show(CulturalSubmission $submission)
     {
+        if ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+            return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission);
+        }
+
         $this->authorize('view', $submission);
 
         $submission->load(['administrativeReviews', 'fieldVerifications']);
@@ -303,6 +311,10 @@ class SubmissionController extends Controller
      */
     public function edit(CulturalSubmission $submission)
     {
+        if ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+            return redirect()->route('pengusul-desa.cagar-budaya-submissions.edit', $submission);
+        }
+
         $this->authorize('update', $submission);
 
         // Check if submission is editable
