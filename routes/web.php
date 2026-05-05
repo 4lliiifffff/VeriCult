@@ -219,6 +219,13 @@ Route::middleware(['auth', 'role:pengusul-desa', \App\Http\Middleware\CheckAdmin
         Route::post('/cagar-budaya-submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\CagarBudayaSubmissionController::class, 'submit'])->name('cagar-budaya-submissions.submit');
         Route::delete('/cagar-budaya-submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\CagarBudayaSubmissionController::class, 'destroyFile'])->name('cagar-budaya-submissions.files.destroy');
 
+        // Potensi Kebudayaan Submissions
+        Route::resource('potensi-submissions', App\Http\Controllers\PengusulDesa\PotensiSubmissionController::class)->parameters([
+            'potensi-submissions' => 'submission'
+        ]);
+        Route::post('/potensi-submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\PotensiSubmissionController::class, 'submit'])->name('potensi-submissions.submit');
+        Route::delete('/potensi-submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\PotensiSubmissionController::class, 'destroyFile'])->name('potensi-submissions.files.destroy');
+
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');

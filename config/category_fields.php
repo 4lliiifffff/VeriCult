@@ -1298,4 +1298,158 @@ return [
             ],
         ],
     ],
+
+    // ========================================================================
+    // POTENSI KEBUDAYAAN (Tenaga, Lembaga, Sarpras)
+    // ========================================================================
+    'Potensi Kebudayaan' => [
+        'has_sub' => true,
+        'sub_field' => 'sub_kategori_potensi_kebudayaan',
+        'sub_label' => 'Pilih Jenis Potensi',
+        'sub_options' => [
+            'tenaga_kebudayaan' => 'Potensi Tenaga Kebudayaan',
+            'lembaga_kebudayaan' => 'Potensi Lembaga Kebudayaan',
+            'sarana_prasarana' => 'Potensi Sarana dan Prasarana',
+        ],
+        'fields' => [
+            'tenaga_kebudayaan' => [
+                // a. Identitas Umum
+                'nama_objek' => ['label' => 'Nama lengkap tenaga kebudayaan (Tanpa gelar)', 'type' => 'text', 'placeholder' => 'Masukkan nama lengkap', 'required' => true],
+                'nama_alias' => ['label' => 'Nama alias', 'type' => 'text', 'placeholder' => 'Masukkan nama alias'],
+                'gelar_pendidikan' => ['label' => 'Gelar pendidikan', 'type' => 'text', 'placeholder' => 'Masukkan gelar pendidikan'],
+                'kewarganegaraan' => ['label' => 'Kewarganegaraan', 'type' => 'select', 'options' => ['WNI', 'WNA'], 'placeholder' => 'Pilih kewarganegaraan', 'required' => true],
+                'jenis_identitas' => ['label' => 'Jenis identitas', 'type' => 'select', 'options' => ['KTP/KTA', 'Paspor'], 'placeholder' => 'Pilih jenis identitas', 'required' => true],
+                'nomor_identitas' => ['label' => 'Nomor identitas', 'type' => 'text', 'placeholder' => 'Masukkan nomor identitas', 'required' => true],
+                'tempat_lahir' => ['label' => 'Tempat lahir', 'type' => 'text', 'placeholder' => 'Masukkan tempat lahir', 'required' => true],
+                'tanggal_lahir' => ['label' => 'Tanggal lahir', 'type' => 'date', 'placeholder' => 'Pilih tanggal lahir', 'required' => true],
+                'jenis_kelamin' => ['label' => 'Jenis kelamin', 'type' => 'select', 'options' => ['Pria', 'Wanita'], 'placeholder' => 'Pilih jenis kelamin', 'required' => true],
+                'agama' => ['label' => 'Agama', 'type' => 'text', 'placeholder' => 'Masukkan agama'],
+                'alamat_tempat_tinggal' => ['label' => 'Alamat tempat tinggal (Provinsi s.d Desa/Kelurahan)', 'type' => 'textarea', 'placeholder' => 'Harap diisi mulai dari provinsi hingga desa/kelurahan', 'required' => true],
+                'koordinat_tempat_tinggal' => ['label' => 'Koordinat tempat tinggal (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'nomor_hp' => ['label' => 'Nomor HP', 'type' => 'text', 'placeholder' => 'Masukkan nomor HP', 'required' => true],
+                'email' => ['label' => 'Email', 'type' => 'text', 'placeholder' => 'Masukkan alamat email'],
+                'alamat_website' => ['label' => 'Alamat website', 'type' => 'text', 'placeholder' => 'https://...'],
+                'akun_facebook' => ['label' => 'Akun facebook', 'type' => 'text', 'placeholder' => 'Username/Link FB'],
+                'akun_twitter' => ['label' => 'Akun twitter', 'type' => 'text', 'placeholder' => 'Username @...'],
+                'akun_instagram' => ['label' => 'Akun instagram', 'type' => 'text', 'placeholder' => 'Username @...'],
+                'akun_youtube' => ['label' => 'Akun youtube', 'type' => 'text', 'placeholder' => 'Nama Channel/Link Youtube'],
+                'nama_ayah' => ['label' => 'Nama ayah', 'type' => 'text', 'placeholder' => 'Masukkan nama ayah'],
+                'nama_ibu' => ['label' => 'Nama ibu', 'type' => 'text', 'placeholder' => 'Masukkan nama ibu'],
+
+                // b. Media Foto (Note: separate file upload area exists, these are for record)
+                'foto_identitas' => ['label' => 'Foto identitas (KTP/Paspor)', 'type' => 'text', 'placeholder' => 'Sebutkan nama file yang diunggah'],
+                'pas_foto' => ['label' => 'Pas foto', 'type' => 'text', 'placeholder' => 'Sebutkan nama file yang diunggah'],
+
+                // c. Riwayat Pendidikan
+                'riwayat_pendidikan' => [
+                    'label' => 'Riwayat Pendidikan',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Jenjang (SD/SMP/SMA/Diploma/S1/S2/S3)', 'Program Studi', 'Nama Sekolah/Institusi', 'Kabupaten/Kota', 'Tahun Lulus'],
+                    'column_keys' => ['jenjang', 'prodi', 'institusi', 'kota', 'tahun'],
+                ],
+
+                // d. Riwayat Pelatihan
+                'riwayat_pelatihan' => [
+                    'label' => 'Riwayat Pelatihan',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Kegiatan', 'Jenis (Diklat/Bimtek/Workshop/dll)', 'Tingkat (Kab/Prov/Nas/Int)', 'Peran', 'Penyelenggara', 'Tahun', 'Sertifikat (Nama File)'],
+                    'column_keys' => ['kegiatan', 'jenis', 'tingkat', 'peran', 'penyelenggara', 'tahun', 'bukti'],
+                ],
+
+                // e. Riwayat Pekerjaan
+                'riwayat_pekerjaan' => [
+                    'label' => 'Riwayat Pekerjaan',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Pekerjaan', 'Nama Tempat Kerja', 'Jabatan/Peran', 'Status (Tetap/Tidak Tetap)', 'Mulai Kerja (Tgl/Bln/Thn)', 'Selesai Kerja (Tgl/Bln/Thn)'],
+                    'column_keys' => ['pekerjaan', 'tempat', 'jabatan', 'status', 'mulai', 'selesai'],
+                ],
+
+                // f. Riwayat Aktivitas Budaya
+                'riwayat_aktivitas_budaya' => [
+                    'label' => 'Riwayat Aktivitas Budaya',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Kegiatan', 'Peran', 'Tingkat (Kab/Prov/Nas/Int)', 'Penyelenggara', 'Tahun'],
+                    'column_keys' => ['kegiatan', 'peran', 'tingkat', 'penyelenggara', 'tahun'],
+                ],
+
+                // g. Riwayat Penghargaan
+                'riwayat_penghargaan' => [
+                    'label' => 'Riwayat Penghargaan',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Penghargaan', 'Peran', 'Tingkat', 'Pihak Pemberi', 'Tahun', 'Bukti Foto (Nama File)'],
+                    'column_keys' => ['penghargaan', 'peran', 'tingkat', 'pemberi', 'tahun', 'bukti'],
+                ],
+            ],
+            'lembaga_kebudayaan' => [
+                // a. Identitas Umum
+                'nama_objek' => ['label' => 'Nama lembaga', 'type' => 'text', 'placeholder' => 'Masukkan nama lembaga', 'required' => true],
+                'jenis_lembaga' => [
+                    'label' => 'Jenis lembaga', 
+                    'type' => 'select', 
+                    'options' => [
+                        'Dinas', 
+                        'Taman budaya', 
+                        'Asosiasi profesi', 
+                        'Lembaga adat', 
+                        'Lembaga pendidikan (padepokan, sanggar)', 
+                        'Komunitas', 
+                        'Yayasan/perkumpulan'
+                    ],
+                    'placeholder' => 'Pilih jenis lembaga',
+                    'required' => true
+                ],
+                'alamat' => ['label' => 'Alamat (Provinsi s.d Desa/Kelurahan)', 'type' => 'textarea', 'placeholder' => 'Harap diisi mulai dari provinsi hingga desa/kelurahan', 'required' => true],
+                'koordinat' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'nomor_telepon' => ['label' => 'Nomor telepon', 'type' => 'text', 'placeholder' => 'Masukkan nomor telepon'],
+                'website' => ['label' => 'Website', 'type' => 'text', 'placeholder' => 'https://...'],
+                'akun_facebook' => ['label' => 'Akun facebook', 'type' => 'text', 'placeholder' => 'Username/Link FB'],
+                'akun_twitter' => ['label' => 'Akun twitter', 'type' => 'text', 'placeholder' => 'Username @...'],
+                'akun_instagram' => ['label' => 'Akun instagram', 'type' => 'text', 'placeholder' => 'Username @...'],
+                'akun_youtube' => ['label' => 'Akun youtube', 'type' => 'text', 'placeholder' => 'Nama Channel/Link Youtube'],
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan'],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik'],
+                'status_lembaga' => ['label' => 'Status lembaga', 'type' => 'select', 'options' => ['Berbadan hukum', 'Tidak berbadan hukum'], 'placeholder' => 'Pilih status lembaga'],
+                'nomor_identitas_lembaga' => ['label' => 'Nomor identitas lembaga (AHU/NIB/SK)', 'type' => 'text', 'placeholder' => 'Masukkan nomor identitas'],
+                'tanggal_pendirian' => ['label' => 'Tanggal pendirian', 'type' => 'date', 'placeholder' => 'Pilih tanggal pendirian'],
+                'tujuan_lembaga' => ['label' => 'Tujuan lembaga', 'type' => 'textarea', 'placeholder' => 'Jelaskan visi/misi/tujuan lembaga'],
+                'dokumen_legalitas' => ['label' => 'Dokumen identitas/legalitas', 'type' => 'text', 'placeholder' => 'Sebutkan nama file yang diunggah'],
+                'nama_pengelola' => ['label' => 'Nama orang/instansi pengelola', 'type' => 'text', 'placeholder' => 'Masukkan nama pengelola'],
+                'nama_anggota_lembaga' => ['label' => 'Nama anggota lembaga', 'type' => 'textarea', 'placeholder' => 'Sebutkan nama-nama anggota utama'],
+
+                // b. Riwayat Kegiatan
+                'riwayat_kegiatan' => [
+                    'label' => 'Riwayat Kegiatan',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Kegiatan', 'Jenis (Ritual/Produksi/Pentas/dll)', 'Penyelenggara', 'Tahun', 'Tingkat (Kab/Prov/Nas/Int)'],
+                    'column_keys' => ['nama', 'jenis', 'penyelenggara', 'tahun', 'tingkat'],
+                ],
+
+                // c. Riwayat Penghargaan
+                'riwayat_penghargaan' => [
+                    'label' => 'Riwayat Penghargaan',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Penghargaan', 'Tingkat (Kab/Prov/Nas/Int)', 'Pihak Pemberi', 'Tahun', 'Bukti Foto (Nama File)'],
+                    'column_keys' => ['nama', 'tingkat', 'pemberi', 'tahun', 'bukti'],
+                ],
+            ],
+            'sarana_prasarana' => [
+                // a. Identitas Umum
+                'nama_objek' => ['label' => 'Nama sarana prasarana', 'type' => 'text', 'placeholder' => 'Masukkan nama sarana prasarana', 'required' => true],
+                'alamat' => ['label' => 'Alamat (Provinsi s.d Desa/Kelurahan)', 'type' => 'textarea', 'placeholder' => 'Harap diisi mulai dari provinsi hingga desa/kelurahan', 'required' => true],
+                'koordinat' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'kontak_person' => ['label' => 'Kontak person (Nama dan Nomor HP)', 'type' => 'text', 'placeholder' => 'Contoh: Budi - 08123456789'],
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan'],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik'],
+                'nama_pengelola' => ['label' => 'Nama orang/instansi pengelola', 'type' => 'text', 'placeholder' => 'Masukkan nama pengelola'],
+
+                // b. Fasilitas tersedia
+                'fasilitas_tersedia' => [
+                    'label' => 'Fasilitas Tersedia',
+                    'type' => 'dynamic_table',
+                    'columns' => ['Nama Fasilitas', 'Jumlah', 'Satuan (Unit/Set/m2/dll)'],
+                    'column_keys' => ['nama', 'jumlah', 'satuan'],
+                ],
+            ],
+        ],
+    ],
 ];
