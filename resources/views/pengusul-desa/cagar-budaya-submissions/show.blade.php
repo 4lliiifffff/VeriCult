@@ -144,12 +144,36 @@
                                 </h3>
                                 <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] p-8 border border-slate-100">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                                        @foreach($categoryFields as $fieldKey => $field)
+                                        @php
+                                            $displayFields = $categoryFields;
+                                            $hasSub = !empty($categoryFields['has_sub']);
+                                            $subFieldKey = $categoryFields['sub_field'] ?? 'sub_category';
+                                            $activeSub = $submission->category_data[$subFieldKey] ?? null;
+
+                                            if ($hasSub && $activeSub && isset($categoryFields['fields'][$activeSub])) {
+                                                // Include the sub-category selector label itself
+                                                $subLabel = $categoryFields['sub_label'] ?? 'Sub-Kategori';
+                                                $subValue = $categoryFields['sub_options'][$activeSub] ?? $activeSub;
+                                                
+                                                echo '<div class="space-y-1">
+                                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">'. $subLabel .'</p>
+                                                    <p class="text-slate-800 font-bold text-base">'. $subValue .'</p>
+                                                </div>';
+                                                
+                                                $displayFields = $categoryFields['fields'][$activeSub];
+                                            }
+                                        @endphp
+
+                                        @foreach($displayFields as $fieldKey => $field)
                                             @if(isset($submission->category_data[$fieldKey]))
                                                 <div class="space-y-1">
                                                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $field['label'] ?? ucfirst(str_replace('_', ' ', $fieldKey)) }}</p>
                                                     <p class="text-slate-800 font-bold text-base">
-                                                        {{ is_array($submission->category_data[$fieldKey]) ? json_encode($submission->category_data[$fieldKey]) : $submission->category_data[$fieldKey] }}
+                                                        @if(is_array($submission->category_data[$fieldKey]))
+                                                            {{ implode(', ', $submission->category_data[$fieldKey]) }}
+                                                        @else
+                                                            {{ $submission->category_data[$fieldKey] }}
+                                                        @endif
                                                     </p>
                                                 </div>
                                             @endif

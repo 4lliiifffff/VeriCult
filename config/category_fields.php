@@ -392,26 +392,860 @@ return [
     // K. CAGAR BUDAYA (existing, keep for backward compat)
     // ========================================================================
     'Cagar Budaya' => [
-        'has_sub' => false,
+        'has_sub' => true,
+        'sub_field' => 'jenis_cagar_budaya',
+        'sub_label' => 'Jenis Cagar Budaya',
+        'sub_options' => [
+            'kawasan' => 'Kawasan',
+            'situs' => 'Situs',
+            'struktur' => 'Struktur',
+            'bangunan' => 'Bangunan',
+            'benda' => 'Benda',
+        ],
         'fields' => [
-            'nama_objek' => ['label' => 'Nama Objek Cagar Budaya', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
-            'jenis_objek' => ['label' => 'Jenis Objek', 'type' => 'select', 'options' => ['Candi', 'Benteng', 'Istana/Keraton', 'Makam', 'Situs Arkeologi', 'Benda Bersejarah', 'Keris', 'Prasasti', 'Lainnya'], 'placeholder' => 'Pilih jenis objek', 'required' => true],
-            'periode_sejarah' => ['label' => 'Periode Sejarah', 'type' => 'text', 'placeholder' => 'Periode atau era sejarah', 'required' => true],
-            'kondisi' => ['label' => 'Kondisi', 'type' => 'select', 'options' => ['Baik', 'Cukup Baik', 'Rusak Ringan', 'Rusak Berat', 'Reruntuhan'], 'placeholder' => 'Pilih kondisi'],
-            'dimensi_ukuran' => ['label' => 'Dimensi / Ukuran', 'type' => 'text', 'placeholder' => 'Ukuran atau dimensi objek'],
-            'bahan_material' => ['label' => 'Bahan Material', 'type' => 'text', 'placeholder' => 'Material utama objek'],
+            'kawasan' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'fungsi_kawasan' => [
+                    'label' => 'Fungsi kawasan', 
+                    'type' => 'select', 
+                    'options' => ['Pemukiman', 'Perindustrian', 'Peribadatan', 'Kota lama', 'Militer', 'Lingkungan purba', 'Pemerintah', 'Lainnya'],
+                    'placeholder' => 'Pilih fungsi kawasan',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Dimensi
+                'luas_kawasan' => ['label' => 'Luas kawasan (m2/km2/ha)', 'type' => 'text', 'placeholder' => 'Masukkan luas kawasan'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'situs' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'kelompok_objek' => [
+                    'label' => 'Kelompok objek', 
+                    'type' => 'select', 
+                    'options' => ['Hunian', 'Perindustrian', 'Perkuburan/pemakaman', 'Peribadatan', 'Pertempuran', 'Bawah air', 'Lainnya'],
+                    'placeholder' => 'Pilih kelompok objek',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'luas_tanah' => ['label' => 'Luas tanah (m2/km2/ha)', 'type' => 'text', 'placeholder' => 'Masukkan luas tanah'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'struktur' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'fungsi_objek' => [
+                    'label' => 'Fungsi objek', 
+                    'type' => 'select', 
+                    'options' => ['Tembok', 'Sumur', 'Kapal selam', 'Kapal', 'Pesawat', 'Saluran air', 'Dermaga', 'Terowongan', 'Gua buatan', 'Menara', 'Bendung', 'Fondasi', 'Tugu', 'Gapura', 'Monumen', 'Pagar', 'Tiang', 'Lantai', 'Umpak', 'Jembatan', 'Makam', 'Lintasan rel', 'Jalan', 'Lainnya'],
+                    'placeholder' => 'Pilih fungsi objek',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Informasi Fisik
+                'bahan' => ['label' => 'Bahan', 'type' => 'select', 'options' => ['Kayu', 'Bambu', 'Tanah', 'Bata', 'Beton', 'Batu', 'Lainnya'], 'placeholder' => 'Pilih bahan'],
+                'waktu_pembuatan' => ['label' => 'Waktu pembuatan (Tahun/Abad)', 'type' => 'text', 'placeholder' => 'Contoh: Abad 14 atau Tahun 1920'],
+                'hiasan_ornamen' => [
+                    'label' => 'Hiasan/ornamen', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Lukisan/relief adegan', 'Abstrak', 'Lainnya']
+                ],
+                'tanda_struktur' => [
+                    'label' => 'Tanda yang dimiliki struktur', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Abstrak', 'Lainnya']
+                ],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'tinggi' => ['label' => 'Tinggi', 'type' => 'text', 'placeholder' => 'Masukkan tinggi'],
+                'diameter_atas' => ['label' => 'Diameter atas (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan diameter atas'],
+                'diameter_badan' => ['label' => 'Diameter badan (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan diameter badan'],
+                'diameter_kaki' => ['label' => 'Diameter kaki', 'type' => 'text', 'placeholder' => 'Masukkan diameter kaki'],
+                'luas_tanah' => ['label' => 'Luas tanah (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas tanah'],
+                'luas_struktur' => ['label' => 'Luas struktur (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas struktur'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'bangunan' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'fungsi_objek' => [
+                    'label' => 'Fungsi Objek', 
+                    'type' => 'select', 
+                    'options' => ['Penginapan', 'Rumah', 'Masjid', 'Musholla', 'Katedral', 'Gereja', 'Kapel', 'Wihara', 'Pura', 'Klenteng', 'Warung', 'Toko', 'Rumah toko', 'Pertokoan', 'Balai adat/masyarakat', 'Gedung permuan', 'Museum', 'Galeri', 'Sanggar', 'Teater', 'Rekreasi', 'Stadion', 'Gelanggang', 'Pusat Kebugaran', 'Bangunan Kelas', 'Laboratorium', 'Observatorium', 'Bangunan utama pelabuhan', 'Bangunan utama statsiun', 'Bangunan utama terminal', 'Bangunan utama bandara', 'Bengkel', 'Mercusuar', 'Penjara', 'Industri/pabrik', 'Barak', 'Pertahanan garis depan', 'Klinik', 'Puskesmas', 'Rumah sakit', 'Kantor', 'Musoleum', 'Gudang', 'Lainnya'],
+                    'placeholder' => 'Pilih fungsi objek',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat Objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Informasi Fisik
+                'bahan' => ['label' => 'Bahan', 'type' => 'checkbox_group', 'options' => ['Kayu', 'Bambu', 'Tanah', 'Bata', 'Beton bertulang', 'Batu', 'Karang', 'Lainnya']],
+                'waktu_pembuatan' => ['label' => 'Waktu pembuatan (Tahun/Abad)', 'type' => 'text', 'placeholder' => 'Contoh: Abad 14 atau Tahun 1920'],
+                'gaya_arsitektur' => ['label' => 'Gaya arsitektur', 'type' => 'select', 'options' => ['Hindu/Budha', 'Islam', 'Cina', 'Tradisional', 'Kolonial', 'Modern', 'Lainnya'], 'placeholder' => 'Pilih gaya arsitektur'],
+                'bentuk_atap' => ['label' => 'Bentuk atap', 'type' => 'select', 'options' => ['Tumpang', 'Kubah', 'Pelana', 'Limas', 'Menara', 'Lainnya'], 'placeholder' => 'Pilih bentuk atap'],
+                'hiasan_ornamen' => [
+                    'label' => 'Hiasan/ornamen', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Campuran', 'Lukisan/relief adegan', 'Abstrak', 'Lainnya']
+                ],
+                'tanda_bangunan' => [
+                    'label' => 'Tanda yang dimiliki bangunan', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Abstrak', 'Lainnya']
+                ],
+                'warna' => ['label' => 'Warna', 'type' => 'text', 'placeholder' => 'Masukkan warna bangunan'],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'tinggi' => ['label' => 'Tinggi (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan tinggi'],
+                'luas_bangunan' => ['label' => 'Luas bangunan (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas bangunan'],
+                'luas_tanah' => ['label' => 'Luas tanah (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas tanah'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'benda' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'kelompok_objek_benda' => [
+                    'label' => 'Kelompok objek benda', 
+                    'type' => 'select', 
+                    'options' => ['Prasasti/inkripsi', 'Peralatan masak', 'Peralatan rumah tangga', 'Peralatan musik', 'Senjata', 'Naskah', 'Rekaman', 'Kendaraan', 'Citra', 'Pakaian', 'Aksesori pakaian', 'Perhiasan', 'Peralatan makan', 'Peralatan seni pertunjukan', 'Peralatan komunikasi', 'Peralatan tulis/gambar', 'Peralatan pertanian/perkebunan', 'Peralatan medis', 'Peralatan perekam audio/visual', 'Peralatan spiritual', 'Fosil', 'Dekorasi rumah', 'Jam dinding/jam almari', 'Alat hitung', 'Alat pembayaran', 'Lainnya'],
+                    'placeholder' => 'Pilih kelompok objek',
+                    'required' => true
+                ],
+                'sifat_benda' => ['label' => 'Sifat benda', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_benda' => ['label' => 'Periode benda', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Informasi Fisik
+                'bahan' => [
+                    'label' => 'Bahan', 
+                    'type' => 'select', 
+                    'options' => ['Kayu', 'Rotan', 'Bambu', 'Serat', 'Daun', 'Kulit kayu', 'Karet', 'Getah', 'Bunga', 'Kelopak', 'Buah', 'Kulit buah', 'Biji', 'Tepung', 'Gabus', 'Tulang', 'Gigi', 'Gading', 'Kulit', 'Bulu', 'Rambut', 'Daging', 'Otot', 'Tanduk', 'Cula', 'Paruh', 'Kuku', 'Sutra', 'Katun', 'Sabut', 'Tempurung', 'Lidi', 'Karton', 'Duri', 'Sisik', 'Karapas', 'Kerang', 'Siput', 'Mutiara', 'Karang', 'Batu', 'Pre-fosil', 'Fosil', 'Logam', 'Kaca', 'Tanah', 'Kapur', 'Pasir', 'Keramik', 'Terakota', 'Lilin', 'Aspal', 'Plastik', 'Mika', 'Mineral', 'Poliester', 'Sintetis', 'Lainnya'],
+                    'placeholder' => 'Pilih bahan utama'
+                ],
+                'waktu_pembuatan' => ['label' => 'Waktu pembuatan (Tahun/Abad)', 'type' => 'text', 'placeholder' => 'Contoh: Abad 14 atau Tahun 1920'],
+                'hiasan_ornamen' => [
+                    'label' => 'Hiasan/ornamen', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi/tulisan', 'Manusia', 'Antromorf', 'Abstrak', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Panorama', 'Campuran', 'Lainnya']
+                ],
+                'tanda' => [
+                    'label' => 'Tanda', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi/tulisan', 'Manusia', 'Antromorf', 'Abstrak', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Panorama', 'Campuran', 'Lainnya']
+                ],
+                'warna' => ['label' => 'Warna', 'type' => 'text', 'placeholder' => 'Masukkan warna benda'],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'tinggi' => ['label' => 'Tinggi (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan tinggi'],
+                'tebal' => ['label' => 'Tebal', 'type' => 'text', 'placeholder' => 'Masukkan tebal'],
+                'berat' => ['label' => 'Berat', 'type' => 'text', 'placeholder' => 'Masukkan berat'],
+                'volume' => ['label' => 'Volume', 'type' => 'text', 'placeholder' => 'Masukkan volume'],
+                'diameter_atas' => ['label' => 'Diameter atas', 'type' => 'text', 'placeholder' => 'Masukkan diameter atas'],
+                'diameter_badan' => ['label' => 'Diameter badan', 'type' => 'text', 'placeholder' => 'Masukkan diameter badan'],
+                'diameter_kaki' => ['label' => 'Diameter kaki', 'type' => 'text', 'placeholder' => 'Masukkan diameter kaki'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_benda' => ['label' => 'Perolehan benda', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_sejarah' => ['label' => 'Deskripsi Sejarah', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi sejarah'],
+            ],
         ],
     ],
 
     'Potensi Cagar Budaya' => [
-        'has_sub' => false,
+        'has_sub' => true,
+        'sub_field' => 'jenis_cagar_budaya',
+        'sub_label' => 'Jenis Cagar Budaya',
+        'sub_options' => [
+            'kawasan' => 'Kawasan',
+            'situs' => 'Situs',
+            'struktur' => 'Struktur',
+            'bangunan' => 'Bangunan',
+            'benda' => 'Benda',
+        ],
         'fields' => [
-            'nama_objek' => ['label' => 'Nama Objek Potensi Cagar Budaya', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
-            'jenis_objek' => ['label' => 'Jenis Objek', 'type' => 'select', 'options' => ['Candi', 'Benteng', 'Istana/Keraton', 'Makam', 'Situs Arkeologi', 'Benda Bersejarah', 'Keris', 'Prasasti', 'Lainnya'], 'placeholder' => 'Pilih jenis objek', 'required' => true],
-            'periode_sejarah' => ['label' => 'Periode Sejarah', 'type' => 'text', 'placeholder' => 'Periode atau era sejarah', 'required' => true],
-            'kondisi' => ['label' => 'Kondisi', 'type' => 'select', 'options' => ['Baik', 'Cukup Baik', 'Rusak Ringan', 'Rusak Berat', 'Reruntuhan'], 'placeholder' => 'Pilih kondisi'],
-            'dimensi_ukuran' => ['label' => 'Dimensi / Ukuran', 'type' => 'text', 'placeholder' => 'Ukuran atau dimensi objek'],
-            'bahan_material' => ['label' => 'Bahan Material', 'type' => 'text', 'placeholder' => 'Material utama objek'],
+            'kawasan' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'fungsi_kawasan' => [
+                    'label' => 'Fungsi kawasan', 
+                    'type' => 'select', 
+                    'options' => ['Pemukiman', 'Perindustrian', 'Peribadatan', 'Kota lama', 'Militer', 'Lingkungan purba', 'Pemerintah', 'Lainnya'],
+                    'placeholder' => 'Pilih fungsi kawasan',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Dimensi
+                'luas_kawasan' => ['label' => 'Luas kawasan (m2/km2/ha)', 'type' => 'text', 'placeholder' => 'Masukkan luas kawasan'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'situs' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'kelompok_objek' => [
+                    'label' => 'Kelompok objek', 
+                    'type' => 'select', 
+                    'options' => ['Hunian', 'Perindustrian', 'Perkuburan/pemakaman', 'Peribadatan', 'Pertempuran', 'Bawah air', 'Lainnya'],
+                    'placeholder' => 'Pilih kelompok objek',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'luas_tanah' => ['label' => 'Luas tanah (m2/km2/ha)', 'type' => 'text', 'placeholder' => 'Masukkan luas tanah'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'struktur' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'fungsi_objek' => [
+                    'label' => 'Fungsi objek', 
+                    'type' => 'select', 
+                    'options' => ['Tembok', 'Sumur', 'Kapal selam', 'Kapal', 'Pesawat', 'Saluran air', 'Dermaga', 'Terowongan', 'Gua buatan', 'Menara', 'Bendung', 'Fondasi', 'Tugu', 'Gapura', 'Monumen', 'Pagar', 'Tiang', 'Lantai', 'Umpak', 'Jembatan', 'Makam', 'Lintasan rel', 'Jalan', 'Lainnya'],
+                    'placeholder' => 'Pilih fungsi objek',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Informasi Fisik
+                'bahan' => ['label' => 'Bahan', 'type' => 'select', 'options' => ['Kayu', 'Bambu', 'Tanah', 'Bata', 'Beton', 'Batu', 'Lainnya'], 'placeholder' => 'Pilih bahan'],
+                'waktu_pembuatan' => ['label' => 'Waktu pembuatan (Tahun/Abad)', 'type' => 'text', 'placeholder' => 'Contoh: Abad 14 atau Tahun 1920'],
+                'hiasan_ornamen' => [
+                    'label' => 'Hiasan/ornamen', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Lukisan/relief adegan', 'Abstrak', 'Lainnya']
+                ],
+                'tanda_struktur' => [
+                    'label' => 'Tanda yang dimiliki struktur', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Abstrak', 'Lainnya']
+                ],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lear (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'tinggi' => ['label' => 'Tinggi', 'type' => 'text', 'placeholder' => 'Masukkan tinggi'],
+                'diameter_atas' => ['label' => 'Diameter atas (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan diameter atas'],
+                'diameter_badan' => ['label' => 'Diameter badan (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan diameter badan'],
+                'diameter_kaki' => ['label' => 'Diameter kaki', 'type' => 'text', 'placeholder' => 'Masukkan diameter kaki'],
+                'luas_tanah' => ['label' => 'Luas tanah (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas tanah'],
+                'luas_struktur' => ['label' => 'Luas struktur (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas struktur'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'bangunan' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'fungsi_objek' => [
+                    'label' => 'Fungsi Objek', 
+                    'type' => 'select', 
+                    'options' => ['Penginapan', 'Rumah', 'Masjid', 'Musholla', 'Katedral', 'Gereja', 'Kapel', 'Wihara', 'Pura', 'Klenteng', 'Warung', 'Toko', 'Rumah toko', 'Pertokoan', 'Balai adat/masyarakat', 'Gedung permuan', 'Museum', 'Galeri', 'Sanggar', 'Teater', 'Rekreasi', 'Stadion', 'Gelanggang', 'Pusat Kebugaran', 'Bangunan Kelas', 'Laboratorium', 'Observatorium', 'Bangunan utama pelabuhan', 'Bangunan utama statsiun', 'Bangunan utama terminal', 'Bangunan utama bandara', 'Bengkel', 'Mercusuar', 'Penjara', 'Industri/pabrik', 'Barak', 'Pertahanan garis depan', 'Klinik', 'Puskesmas', 'Rumah sakit', 'Kantor', 'Musoleum', 'Gudang', 'Lainnya'],
+                    'placeholder' => 'Pilih fungsi objek',
+                    'required' => true
+                ],
+                'sifat_objek' => ['label' => 'Sifat Objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Informasi Fisik
+                'bahan' => ['label' => 'Bahan', 'type' => 'checkbox_group', 'options' => ['Kayu', 'Bambu', 'Tanah', 'Bata', 'Beton bertulang', 'Batu', 'Karang', 'Lainnya']],
+                'waktu_pembuatan' => ['label' => 'Waktu pembuatan (Tahun/Abad)', 'type' => 'text', 'placeholder' => 'Contoh: Abad 14 atau Tahun 1920'],
+                'gaya_arsitektur' => ['label' => 'Gaya arsitektur', 'type' => 'select', 'options' => ['Hindu/Budha', 'Islam', 'Cina', 'Tradisional', 'Kolonial', 'Modern', 'Lainnya'], 'placeholder' => 'Pilih gaya arsitektur'],
+                'bentuk_atap' => ['label' => 'Bentuk atap', 'type' => 'select', 'options' => ['Tumpang', 'Kubah', 'Pelana', 'Limas', 'Menara', 'Lainnya'], 'placeholder' => 'Pilih bentuk atap'],
+                'hiasan_ornamen' => [
+                    'label' => 'Hiasan/ornamen', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Campuran', 'Lukisan/relief adegan', 'Abstrak', 'Lainnya']
+                ],
+                'tanda_bangunan' => [
+                    'label' => 'Tanda yang dimiliki bangunan', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi', 'Manusia', 'Antropomorf', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Abstrak', 'Lainnya']
+                ],
+                'warna' => ['label' => 'Warna', 'type' => 'text', 'placeholder' => 'Masukkan warna bangunan'],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'tinggi' => ['label' => 'Tinggi (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan tinggi'],
+                'luas_bangunan' => ['label' => 'Luas bangunan (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas bangunan'],
+                'luas_tanah' => ['label' => 'Luas tanah (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan luas tanah'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_detail' => ['label' => 'Deskripsi', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi detail'],
+                'batas_zonasi' => ['label' => 'Batas zonasi', 'type' => 'textarea', 'placeholder' => 'Masukkan batas zonasi'],
+            ],
+            
+            'benda' => [
+                // Identitas Umum
+                'nama_objek' => ['label' => 'Nama ODCB/CB di lapangan', 'type' => 'text', 'placeholder' => 'Masukkan nama objek', 'required' => true],
+                'kelompok_objek_benda' => [
+                    'label' => 'Kelompok objek benda', 
+                    'type' => 'select', 
+                    'options' => ['Prasasti/inkripsi', 'Peralatan masak', 'Peralatan rumah tangga', 'Peralatan musik', 'Senjata', 'Naskah', 'Rekaman', 'Kendaraan', 'Citra', 'Pakaian', 'Aksesori pakaian', 'Perhiasan', 'Peralatan makan', 'Peralatan seni pertunjukan', 'Peralatan komunikasi', 'Peralatan tulis/gambar', 'Peralatan pertanian/perkebunan', 'Peralatan medis', 'Peralatan perekam audio/visual', 'Peralatan spiritual', 'Fosil', 'Dekorasi rumah', 'Jam dinding/jam almari', 'Alat hitung', 'Alat pembayaran', 'Lainnya'],
+                    'placeholder' => 'Pilih kelompok objek',
+                    'required' => true
+                ],
+                'sifat_benda' => ['label' => 'Sifat benda', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
+                'lokasi_penemuan' => ['label' => 'Lokasi penemuan (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
+                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
+                'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
+                'periode_benda' => ['label' => 'Periode benda', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
+                
+                // Informasi Fisik
+                'bahan' => [
+                    'label' => 'Bahan', 
+                    'type' => 'select', 
+                    'options' => ['Kayu', 'Rotan', 'Bambu', 'Serat', 'Daun', 'Kulit kayu', 'Karet', 'Getah', 'Bunga', 'Kelopak', 'Buah', 'Kulit buah', 'Biji', 'Tepung', 'Gabus', 'Tulang', 'Gigi', 'Gading', 'Kulit', 'Bulu', 'Rambut', 'Daging', 'Otot', 'Tanduk', 'Cula', 'Paruh', 'Kuku', 'Sutra', 'Katun', 'Sabut', 'Tempurung', 'Lidi', 'Karton', 'Duri', 'Sisik', 'Karapas', 'Kerang', 'Siput', 'Mutiara', 'Karang', 'Batu', 'Pre-fosil', 'Fosil', 'Logam', 'Kaca', 'Tanah', 'Kapur', 'Pasir', 'Keramik', 'Terakota', 'Lilin', 'Aspal', 'Plastik', 'Mika', 'Mineral', 'Poliester', 'Sintetis', 'Lainnya'],
+                    'placeholder' => 'Pilih bahan utama'
+                ],
+                'waktu_pembuatan' => ['label' => 'Waktu pembuatan (Tahun/Abad)', 'type' => 'text', 'placeholder' => 'Contoh: Abad 14 atau Tahun 1920'],
+                'hiasan_ornamen' => [
+                    'label' => 'Hiasan/ornamen', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi/tulisan', 'Manusia', 'Antromorf', 'Abstrak', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Panorama', 'Campuran', 'Lainnya']
+                ],
+                'tanda' => [
+                    'label' => 'Tanda', 
+                    'type' => 'checkbox_group', 
+                    'options' => ['Angka', 'Huruf', 'Inskripsi/tulisan', 'Manusia', 'Antromorf', 'Abstrak', 'Tumbuhan', 'Vegemorf', 'Binatang', 'Zuomorf', 'Geometris', 'Panorama', 'Campuran', 'Lainnya']
+                ],
+                'warna' => ['label' => 'Warna', 'type' => 'text', 'placeholder' => 'Masukkan warna benda'],
+                
+                // Dimensi
+                'panjang' => ['label' => 'Panjang (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan panjang'],
+                'lebar' => ['label' => 'Lebar (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan lebar'],
+                'tinggi' => ['label' => 'Tinggi (mm/cm/m)', 'type' => 'text', 'placeholder' => 'Masukkan tinggi'],
+                'tebal' => ['label' => 'Tebal', 'type' => 'text', 'placeholder' => 'Masukkan tebal'],
+                'berat' => ['label' => 'Berat', 'type' => 'text', 'placeholder' => 'Masukkan berat'],
+                'volume' => ['label' => 'Volume', 'type' => 'text', 'placeholder' => 'Masukkan volume'],
+                'diameter_atas' => ['label' => 'Diameter atas', 'type' => 'text', 'placeholder' => 'Masukkan diameter atas'],
+                'diameter_badan' => ['label' => 'Diameter badan', 'type' => 'text', 'placeholder' => 'Masukkan diameter badan'],
+                'diameter_kaki' => ['label' => 'Diameter kaki', 'type' => 'text', 'placeholder' => 'Masukkan diameter kaki'],
+                
+                // Kondisi
+                'keutuhan' => ['label' => 'Keutuhan', 'type' => 'select', 'options' => ['Utuh', 'Tinggal sebagian', 'Musnah/hilang'], 'placeholder' => 'Pilih kondisi keutuhan', 'required' => true],
+                'pemeliharaan' => ['label' => 'Pemeliharaan', 'type' => 'select', 'options' => ['Terpelihara', 'Tidak terpelihara'], 'placeholder' => 'Pilih status pemeliharaan', 'required' => true],
+                'pemugaran' => ['label' => 'Pemugaran', 'type' => 'select', 'options' => ['Pernah dipugar', 'Belum pernah dipugar'], 'placeholder' => 'Pilih status pemugaran'],
+                'riwayat_pemugaran' => [
+                    'label' => 'Riwayat pemugaran', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat pemugaran',
+                    'condition' => ['field' => 'pemugaran', 'value' => 'Pernah dipugar']
+                ],
+                'adaptasi' => ['label' => 'Adaptasi', 'type' => 'select', 'options' => ['Ada adaptasi', 'Tidak ada penambahan'], 'placeholder' => 'Pilih status adaptasi'],
+                'riwayat_adaptasi' => [
+                    'label' => 'Riwayat adaptasi', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan riwayat adaptasi',
+                    'condition' => ['field' => 'adaptasi', 'value' => 'Ada adaptasi']
+                ],
+                
+                // Kepemilikan
+                'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
+                'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
+                'alamat_pemilik' => ['label' => 'Alamat (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
+                'koordinat_pemilik' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
+                'perolehan_benda' => ['label' => 'Perolehan benda', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
+                
+                // Pengelolaan
+                'status_pengelolaan' => ['label' => 'Status pengelolaan', 'type' => 'select', 'options' => ['Dikelola sendiri', 'Dikelola pemerintah', 'Dikelola non-pemerintah'], 'placeholder' => 'Pilih status pengelolaan', 'required' => true],
+                'nama_pengelola' => [
+                    'label' => 'Nama orang/instansi pengelola', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan nama pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'alamat_pengelola' => [
+                    'label' => 'Alamat', 
+                    'type' => 'textarea', 
+                    'placeholder' => 'Masukkan alamat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                'koordinat_pengelola' => [
+                    'label' => 'Koordinat', 
+                    'type' => 'text', 
+                    'placeholder' => 'Masukkan koordinat pengelola',
+                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
+                ],
+                
+                // Deskripsi
+                'deskripsi_sejarah' => ['label' => 'Deskripsi Sejarah', 'type' => 'textarea', 'placeholder' => 'Masukkan deskripsi sejarah'],
+            ],
         ],
     ],
 
