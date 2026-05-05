@@ -118,6 +118,8 @@ Route::middleware(['auth', 'verified', 'role:validator'])
 
         Route::get('/submissions', [App\Http\Controllers\Validator\SubmissionController::class, 'index'])->name('submissions.index');
         Route::get('/submissions/{submission}', [App\Http\Controllers\Validator\SubmissionController::class, 'show'])->name('submissions.show');
+        Route::get('/submissions/{submission}/edit', [App\Http\Controllers\Validator\SubmissionController::class, 'edit'])->name('submissions.edit');
+        Route::put('/submissions/{submission}', [App\Http\Controllers\Validator\SubmissionController::class, 'update'])->name('submissions.update');
         Route::post('/submissions/{submission}/claim', [App\Http\Controllers\Validator\SubmissionController::class, 'claim'])->name('submissions.claim');
         Route::post('/submissions/{submission}/unclaim', [App\Http\Controllers\Validator\SubmissionController::class, 'unclaim'])->name('submissions.unclaim');
         Route::get('/submissions/{submission}/review', [App\Http\Controllers\Validator\SubmissionController::class, 'reviewForm'])->name('submissions.review-form');

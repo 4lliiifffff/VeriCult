@@ -87,7 +87,7 @@
                             <input type="hidden" name="category" value="{{ $submission->category }}">
                             <input type="hidden" name="address" value="{{ $submission->address }}">
                             
-                            @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'fileDestroyRoute' => 'pengusul-desa.statistic-submissions.files.destroy'])
+                            @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'fileDestroyRoute' => 'pengusul-desa.statistic-submissions.files.destroy', 'hideUnesco' => true])
 
                             <!-- Footer Actions -->
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">

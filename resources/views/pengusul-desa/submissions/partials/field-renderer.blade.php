@@ -34,6 +34,7 @@
 @endphp
 
 <div class="space-y-3 group/field"
+    @if(!empty($field['required'])) data-required="true" @endif
     @if($hasCondition)
         x-show="getFieldValue('{{ $conditionField }}') === '{{ $conditionValue }}' || 
                 ('{{ $conditionValue }}' === 'Ya' && getFieldValue('{{ $fieldKey }}') !== '')"
@@ -50,6 +51,7 @@
         <div class="flex items-center justify-between gap-4">
             <label for="category_data_{{ $fieldKey }}" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] transition-colors group-focus-within/field:text-[#0077B6]">
                 {{ $field['label'] }}
+                @if(!empty($field['required'])) <span class="text-red-500">*</span> @endif
             </label>
             
             @if($isLainnyaField)
