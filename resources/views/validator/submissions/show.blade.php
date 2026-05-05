@@ -272,11 +272,16 @@
                         <span class="shrink-0">Detail {{ $submission->category }}</span>
                         <div class="flex-1 h-px bg-slate-100"></div>
                     </h3>
-                    <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300">
                         @php
-                            $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                            $subCat = $submission->getSubCategory();
                             $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                         @endphp
+                        @if($subCat)
+                            <div class="mb-8 p-4 bg-white/50 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Jenis Cagar Budaya</span>
+                                <span class="px-3 py-1 bg-[#0077B6] text-white rounded-lg text-xs font-bold shadow-sm">{{ $subCat }}</span>
+                            </div>
+                        @endif
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                             @php
                                 $processedKeys = [];

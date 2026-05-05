@@ -86,7 +86,7 @@ class SubmissionController extends Controller
         $title = 'Pengajuan Diproses';
         $message = 'Pengajuan "' . $submission->name . '" Anda sedang ditinjau oleh Validator.';
         // Determine the correct redirect URL based on category
-        $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+        $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || 
                          $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
         
         $routeName = $isCagarBudaya 
@@ -183,7 +183,7 @@ class SubmissionController extends Controller
             $message = 'Hasil Review Administratif untuk "' . $submission->name . '" telah diperbarui.';
             
             // Determine the correct redirect URL based on category
-            $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+            $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || 
                              $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
             
             $routeName = $isCagarBudaya 
@@ -216,9 +216,17 @@ class SubmissionController extends Controller
         ];
 
         // Add category-specific validation
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
-        foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        $subCat = $submission->getSubCategory();
+        $flatFields = CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+        foreach ($flatFields as $key => $field) {
+            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:10000'];
+            // Also allow "lainnya" fields
+            $rules["category_data.{$key}_lainnya"] = ['nullable', 'string', 'max:5000'];
+        }
+        
+        // Ensure sub-category field is also allowed
+        if ($submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA || $submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
+            $rules["category_data.jenis_cagar_budaya"] = ['nullable', 'string'];
         }
 
         $request->validate($rules);
@@ -261,7 +269,7 @@ class SubmissionController extends Controller
 
             // Transition from Potensi Cagar Budaya to Cagar Budaya if verified
             if ($status === CulturalSubmission::STATUS_VERIFIED && $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
-                $updateData['category'] = CulturalSubmission::CATEGORIES['cagar-budaya'];
+                $updateData['category'] = CulturalSubmission::CATEGORY_CAGAR_BUDAYA;
                 
                 // If validator provided a new name in category_data, use it
                 if (isset($mergedCategoryData['nama_objek']) && !empty($mergedCategoryData['nama_objek'])) {
@@ -287,7 +295,7 @@ class SubmissionController extends Controller
             $message = 'Hasil Verifikasi Lapangan untuk "' . $submission->name . '" telah diperbarui.';
             
             // Determine the correct redirect URL based on category
-            $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+            $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || 
                              $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
             
             $routeName = $isCagarBudaya 
@@ -325,7 +333,7 @@ class SubmissionController extends Controller
         $message = 'Selamat! Objek budaya "' . $submission->name . '" telah resmi dipublikasikan.';
         
         // Determine the correct redirect URL based on category
-        $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || 
+        $isCagarBudaya = ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || 
                          $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA);
         
         $routeName = $isCagarBudaya 
@@ -378,9 +386,15 @@ class SubmissionController extends Controller
         ];
 
         // Add category-specific validation rules
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
-        foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        $subCat = $submission->getSubCategory();
+        $flatFields = CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+        foreach ($flatFields as $key => $field) {
+            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:10000'];
+            $rules["category_data.{$key}_lainnya"] = ['nullable', 'string', 'max:5000'];
+        }
+        
+        if ($submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA || $submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
+            $rules["category_data.jenis_cagar_budaya"] = ['nullable', 'string'];
         }
 
         $validated = $request->validate($rules);

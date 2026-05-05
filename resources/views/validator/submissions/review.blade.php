@@ -119,9 +119,15 @@
                             Detail {{ $submission->category }}
                         </label>
                         @php
-                            $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                            $subCat = $submission->getSubCategory();
                             $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                         @endphp
+                        @if($subCat)
+                            <div class="mb-6 p-3 bg-white/50 rounded-xl border border-indigo-100/50 flex items-center justify-between">
+                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Jenis Cagar Budaya</span>
+                                <span class="px-2 py-0.5 bg-indigo-500 text-white rounded-md text-[10px] font-bold shadow-sm">{{ $subCat }}</span>
+                            </div>
+                        @endif
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @foreach($submission->category_data as $dataKey => $dataValue)
                                 @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori'))

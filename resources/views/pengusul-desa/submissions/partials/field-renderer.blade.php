@@ -36,8 +36,11 @@
 <div class="space-y-3 group/field"
     @if(!empty($field['required'])) data-required="true" @endif
     @if($hasCondition)
-        x-show="getFieldValue('{{ $conditionField }}') === '{{ $conditionValue }}' || 
-                ('{{ $conditionValue }}' === 'Ya' && getFieldValue('{{ $fieldKey }}') !== '')"
+        @php
+            $isYaCondition = !is_array($conditionValue) && $conditionValue === 'Ya';
+        @endphp
+        x-show="@js($conditionValue).includes(getFieldValue('{{ $conditionField }}')) || 
+                ({{ $isYaCondition ? 'true' : 'false' }} && getFieldValue('{{ $fieldKey }}') !== '')"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 -translate-y-2"
         x-transition:enter-end="opacity-100 translate-y-0"

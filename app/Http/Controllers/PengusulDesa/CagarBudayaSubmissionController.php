@@ -78,8 +78,24 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
 
         $categoryName = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
-        foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        
+        if (!empty($categoryFields['has_sub'])) {
+            // Add rule for the sub-category selector itself
+            $subField = $categoryFields['sub_field'] ?? 'sub_category';
+            $rules["category_data.{$subField}"] = ['required', 'string'];
+            
+            // Add rules for all fields in all sub-categories
+            foreach ($categoryFields['fields'] as $subKey => $subFields) {
+                foreach ($subFields as $key => $field) {
+                    $rules["category_data.{$key}"] = ['nullable', $field['type'] === 'checkbox_group' ? 'array' : 'string', 'max:5000'];
+                }
+            }
+        } else {
+            foreach ($categoryFields as $key => $field) {
+                if (is_array($field) && isset($field['type'])) {
+                    $rules["category_data.{$key}"] = ['nullable', $field['type'] === 'checkbox_group' ? 'array' : 'string', 'max:5000'];
+                }
+            }
         }
 
         $validated = $request->validate($rules);
@@ -225,8 +241,21 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
         ];
 
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
-        foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+        if (!empty($categoryFields['has_sub'])) {
+            $subField = $categoryFields['sub_field'] ?? 'sub_category';
+            $rules["category_data.{$subField}"] = ['required', 'string'];
+            
+            foreach ($categoryFields['fields'] as $subKey => $subFields) {
+                foreach ($subFields as $key => $field) {
+                    $rules["category_data.{$key}"] = ['nullable', $field['type'] === 'checkbox_group' ? 'array' : 'string', 'max:5000'];
+                }
+            }
+        } else {
+            foreach ($categoryFields as $key => $field) {
+                if (is_array($field) && isset($field['type'])) {
+                    $rules["category_data.{$key}"] = ['nullable', $field['type'] === 'checkbox_group' ? 'array' : 'string', 'max:5000'];
+                }
+            }
         }
 
         $validated = $request->validate($rules);
