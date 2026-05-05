@@ -35,6 +35,7 @@ class CulturalSubmission extends Model
     const CATEGORY_OLAHRAGA_TRADISIONAL = 'Olahraga Tradisional';
     const CATEGORY_CAGAR_BUDAYA = 'Cagar Budaya';
     const CATEGORY_POTENSI_CAGAR_BUDAYA = 'Potensi Cagar Budaya';
+    const CATEGORY_POTENSI_KEBUDAYAAN = 'Potensi Kebudayaan';
     const CATEGORY_LAPORAN_AKTIF = 'Laporan Kebudayaan Aktif';
 
     /**
@@ -53,6 +54,7 @@ class CulturalSubmission extends Model
         'olahraga-tradisional' => self::CATEGORY_OLAHRAGA_TRADISIONAL,
         'cagar-budaya' => self::CATEGORY_CAGAR_BUDAYA,
         'potensi-cagar-budaya' => self::CATEGORY_POTENSI_CAGAR_BUDAYA,
+        'potensi-kebudayaan' => self::CATEGORY_POTENSI_KEBUDAYAAN,
         'laporan-kebudayaan-aktif' => self::CATEGORY_LAPORAN_AKTIF,
     ];
 
@@ -72,6 +74,7 @@ class CulturalSubmission extends Model
         self::CATEGORY_OLAHRAGA_TRADISIONAL,
         self::CATEGORY_CAGAR_BUDAYA,
         self::CATEGORY_POTENSI_CAGAR_BUDAYA,
+        self::CATEGORY_POTENSI_KEBUDAYAAN,
         self::CATEGORY_LAPORAN_AKTIF,
     ];
 
@@ -91,6 +94,7 @@ class CulturalSubmission extends Model
         self::CATEGORY_OLAHRAGA_TRADISIONAL => 'Aktivitas fisik/mental tradisional seperti pencak silat, karapan sapi, atau debus.',
         self::CATEGORY_CAGAR_BUDAYA => 'Benda atau tempat bersejarah seperti candi, keris, atau situs arkeologi yang telah ditetapkan.',
         self::CATEGORY_POTENSI_CAGAR_BUDAYA => 'Benda atau tempat yang memiliki potensi sejarah namun belum ditetapkan sebagai Cagar Budaya.',
+        self::CATEGORY_POTENSI_KEBUDAYAAN => 'Pendataan potensi tenaga kebudayaan, lembaga kebudayaan, serta sarana dan prasarana kebudayaan.',
         self::CATEGORY_LAPORAN_AKTIF => 'Pendataan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.',
     ];
 
