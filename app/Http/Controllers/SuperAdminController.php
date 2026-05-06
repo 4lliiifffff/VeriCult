@@ -18,7 +18,7 @@ class SuperAdminController extends Controller
 
     public function index()
     {
-        // Statistics
+        // opk
         $totalUsers = User::count();
         $newUsersThisMonth = User::whereMonth('created_at', now()->month)->count();
         $suspendedUsersCount = User::where('is_suspended', true)->count();

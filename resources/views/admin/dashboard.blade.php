@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <!-- Total Statistik -->
+            <!-- Total opk -->
             <div class="group bg-white rounded-[2.5rem] p-8 shadow-xl shadow-slate-200/40 border border-white hover:shadow-2xl hover:shadow-slate-900/10 hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-gradient-to-br from-slate-500/10 to-transparent rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
                 <div class="relative z-10 flex flex-col h-full">
@@ -66,7 +66,7 @@
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                     </div>
                     <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Statistik</p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total opk</p>
                         <h3 class="text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format(array_sum($categoryStats)) }}</h3>
                     </div>
                 </div>
@@ -119,10 +119,10 @@
                 <div class="p-8 border-b border-slate-50 flex items-center justify-between bg-white relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mt-6 -mr-6 w-24 h-24 bg-cyan-50/50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
                     <div class="relative z-10">
-                        <h3 class="text-xl font-black text-[#03045E]">Laporan Statistik</h3>
-                        <p class="text-slate-400 font-medium text-xs mt-1">Data statistik terbaru yang siap diverifikasi.</p>
+                        <h3 class="text-xl font-black text-[#03045E]">Laporan opk</h3>
+                        <p class="text-slate-400 font-medium text-xs mt-1">Data opk terbaru yang siap diverifikasi.</p>
                     </div>
-                    <a href="{{ route('admin.statistic-submissions.index') }}" class="relative z-10 px-6 py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all group/btn">
+                    <a href="{{ route('admin.opk-submissions.index') }}" class="relative z-10 px-6 py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all group/btn">
                         Semua
                         <svg class="w-4 h-4 inline ml-1 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                     </a>
@@ -147,7 +147,7 @@
                                 ])>
                                     {{ $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED ? 'Publik' : 'Valid' }}
                                 </span>
-                                <a href="{{ route('admin.statistic-submissions.show', $submission) }}" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-[#03045E] hover:text-white active:scale-95 transition-all shadow-sm">
+                                <a href="{{ route('admin.opk-submissions.show', $submission) }}" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-[#03045E] hover:text-white active:scale-95 transition-all shadow-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                                 </a>
                             </div>

@@ -70,7 +70,7 @@ class CulturalSubmissionSeeder extends Seeder
             foreach ($categories as $category) {
                 // Create multiple submissions per category per year for variety
                 for ($i = 0; $i < 2; $i++) {
-                    $type = 'statistik'; // OPK
+                    $type = 'opk'; // OPK
                     $status = $statuses[array_rand($statuses)];
                     $village = $allVillages->random();
                     $name = $category . ' - ' . $village->name . ' - ' . $year . ' (' . ($i + 1) . ')';

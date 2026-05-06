@@ -9,7 +9,7 @@
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <a href="{{ route('pengusul-desa.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Jenis</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Pilih Kategori Statistik</span>
+            <span class="text-[#03045E]">Pilih Kategori OPK</span>
         </nav>
 
         <!-- Page Header -->
@@ -29,9 +29,9 @@
                         </div>
                     </div>
                     <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                        Pilih <span class="text-[#00B4D8]">Kategori</span> Statistik
+                        Pilih <span class="text-[#00B4D8]">Kategori</span> OPK
                     </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Laporkan statistik kebudayaan yang sedang berlangsung di wilayah Anda.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Pilih salah satu dari 10 Objek Pemajuan Kebudayaan untuk memulai inventarisasi.</p>
                 </div>
 
                 <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
@@ -65,7 +65,7 @@
 @endphp
 
             @foreach($categoryData as $slug => $cat)
-                <a href="{{ route('pengusul-desa.statistic-submissions.create-form', ['category' => $slug]) }}" 
+                <a href="{{ route('pengusul-desa.opk-submissions.create-form', ['category' => $slug]) }}" 
                    class="group relative bg-white rounded-[2rem] p-7 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/70 hover:-translate-y-1 hover:border-transparent transition-all duration-500 overflow-hidden">
                     
                     <!-- Gradient overlay on hover -->
@@ -107,10 +107,10 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <div>
-                    <h3 class="font-bold text-[#03045E] mb-2 text-lg">Laporan Statistik Kebudayaan</h3>
+                    <h3 class="font-bold text-[#03045E] mb-2 text-lg">Inventarisasi Objek Pemajuan Kebudayaan (OPK)</h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        Gunakan fitur ini untuk melaporkan statistik terkait kebudayaan yang sedang berlangsung di desa atau wilayah Anda.
-                        Laporan ini akan diverifikasi oleh tim validator dan dipublikasikan sebagai referensi data kebudayaan nasional.
+                        Gunakan fitur ini untuk mendata 10 Objek Pemajuan Kebudayaan yang ada di desa atau wilayah Anda secara mendalam.
+                        Data ini akan diverifikasi oleh tim ahli dan dipublikasikan sebagai referensi data kebudayaan nasional.
                     </p>
                 </div>
             </div>

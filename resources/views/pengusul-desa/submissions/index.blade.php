@@ -59,14 +59,16 @@
                     <p class="text-[11px] text-slate-400 font-medium leading-relaxed">Pengajuan objek kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.</p>
                 </a>
 
-                <!-- Statistik Kebudayaan -->
-                <a href="{{ route('pengusul-desa.statistic-submissions.index') }}" 
-                   class="group relative bg-white p-6 rounded-[2rem] border-2 border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
-                    <div class="w-14 h-14 rounded-2xl bg-slate-50 text-slate-400 group-hover:bg-blue-50 group-hover:text-[#0077B6] flex items-center justify-center mb-5 transition-colors">
+                <!-- OPK -->
+                <a href="{{ route('pengusul-desa.opk-submissions.index') }}" 
+                   class="group relative bg-white/50 backdrop-blur-xl p-5 rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-1 flex items-center gap-5 overflow-hidden">
+                    <div class="w-14 h-14 rounded-[1.2rem] bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-inner">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h4 class="font-black text-[#03045E] mb-2 tracking-tight">Data Statistik (OPK)</h4>
-                    <p class="text-[11px] text-slate-400 font-medium leading-relaxed">Pendataan data statistik objek pemajuan kebudayaan di tingkat desa.</p>
+                    <div>
+                        <h4 class="font-black text-[#03045E] mb-2 tracking-tight">Data OPK</h4>
+                        <p class="text-[11px] text-slate-400 font-medium leading-relaxed">Inventarisasi 10 objek pemajuan kebudayaan di tingkat desa.</p>
+                    </div>
                 </a>
 
                 <!-- Cagar Budaya -->

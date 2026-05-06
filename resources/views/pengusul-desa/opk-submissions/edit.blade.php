@@ -4,9 +4,9 @@
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul-desa.statistic-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan Statistik</a>
+            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan OPK</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul-desa.statistic-submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">Detail</a>
+            <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">Detail</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Ubah Laporan</span>
         </nav>
@@ -26,7 +26,7 @@
                     </div>
                     
                     <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words max-w-4xl">
-                        Edit <span class="text-[#00B4D8]">Laporan Statistik</span>
+                        Edit <span class="text-[#00B4D8]">Laporan OPK</span>
                     </h2>
                     
                     <div class="flex flex-wrap items-center gap-4">
@@ -34,12 +34,12 @@
                             <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                             <span>Laporan Desa</span>
                         </div>
-                        <p class="text-blue-100/60 text-xs font-bold italic">Update informasi statistik: <span class="text-white ml-1">{{ $submission->name }}</span></p>
+                        <p class="text-blue-100/60 text-xs font-bold italic">Update informasi OPK: <span class="text-white ml-1">{{ $submission->name }}</span></p>
                     </div>
                 </div>
                     
                 <div class="flex items-center gap-4 mt-4 md:mt-0">
-                    <a href="{{ route('pengusul-desa.statistic-submissions.show', $submission) }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 active:scale-95">
+                    <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 active:scale-95">
                         Batal
                     </a>
                 </div>
@@ -77,7 +77,7 @@
             <div class="lg:col-span-8 space-y-10 px-4 sm:px-0">
                 <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
                     <div class="p-6 sm:p-14">
-                        <form action="{{ route('pengusul-desa.statistic-submissions.update', $submission) }}" 
+                        <form action="{{ route('pengusul-desa.opk-submissions.update', $submission) }}" 
                               method="POST" 
                               enctype="multipart/form-data" 
                               x-ref="editForm" 
@@ -87,7 +87,7 @@
                             <input type="hidden" name="category" value="{{ $submission->category }}">
                             <input type="hidden" name="address" value="{{ $submission->address }}">
                             
-                            @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'fileDestroyRoute' => 'pengusul-desa.statistic-submissions.files.destroy', 'hideUnesco' => true])
+                            @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'fileDestroyRoute' => 'pengusul-desa.opk-submissions.files.destroy', 'hideUnesco' => true])
 
                             <!-- Footer Actions -->
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
@@ -138,7 +138,7 @@
                             <p class="text-white/80 text-xs font-bold">Kategori: {{ $submission->category }}</p>
                         </div>
                         <p class="mt-6 text-blue-200/60 text-[10px] font-black uppercase tracking-widest leading-relaxed italic">
-                            Pastikan data statistik harian lengkap sebelum diajukan kembali.
+                            Pastikan data OPK harian lengkap sebelum diajukan kembali.
                         </p>
                     </div>
                 </div>
@@ -157,7 +157,7 @@
                             <div>
                                 <h4 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-1">Manajemen Berkas</h4>
                                 <p class="text-[11px] text-slate-500 leading-relaxed font-bold">
-                                    Unggah laporan baru jika perlu mengganti atau menambah dokumen statistik.
+                                    Unggah laporan baru jika perlu mengganti atau menambah dokumen OPK.
                                 </p>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                 </div>
                 <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Simpan Perubahan?</h2>
-                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Data statistik Anda akan diperbarui sebagai draft terbaru dalam sistem kami.</p>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Data pengajuan OPK Anda akan diperbarui sebagai draft terbaru dalam sistem kami.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                     <button type="button" 

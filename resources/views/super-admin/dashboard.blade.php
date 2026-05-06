@@ -74,15 +74,15 @@
             }
         });
 
-        // 3. Enhanced Trend Chart (Statistik vs Aktif)
+        // 3. Enhanced Trend Chart (opk vs Aktif)
         const trendCtx = document.getElementById('trendChart').getContext('2d');
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         
         const typeTrendData = {!! json_encode($typeTrend) !!};
-        const statistikData = months.map(m => {
+        const opkData = months.map(m => {
             const data = typeTrendData[m] || [];
-            return (data.find(d => d.submission_type === 'statistik') || {count: 0}).count;
+            return (data.find(d => d.submission_type === 'opk') || {count: 0}).count;
         });
         const aktifData = months.map(m => {
             const data = typeTrendData[m] || [];
@@ -95,8 +95,8 @@
                 labels: monthsShort,
                 datasets: [
                     {
-                        label: 'Statistik (OPK)',
-                        data: statistikData,
+                        label: 'opk (OPK)',
+                        data: opkData,
                         borderColor: '#4361EE',
                         backgroundColor: 'rgba(67, 97, 238, 0.1)',
                         fill: true,
@@ -142,8 +142,8 @@
                 labels: villageData.map(v => v.name.replace('Desa ', '')),
                 datasets: [
                     {
-                        label: 'Statistik',
-                        data: villageData.map(v => v.statistik_count),
+                        label: 'opk',
+                        data: villageData.map(v => v.opk_count),
                         backgroundColor: '#4361EE',
                         borderRadius: 5
                     },
@@ -419,7 +419,7 @@
             <!-- Section Title -->
             <div class="flex items-center gap-4">
                 <div class="h-px flex-1 bg-slate-100"></div>
-                <h4 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Statistik & Tren Sistem</h4>
+                <h4 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">opk & Tren Sistem</h4>
                 <div class="h-px flex-1 bg-slate-100"></div>
             </div>
 
@@ -462,7 +462,7 @@
                     <div class="flex items-center justify-between mb-8">
                         <div>
                             <h3 class="text-lg font-black text-[#03045E]">Perbandingan Antar Desa</h3>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Distribusi Statistik vs Laporan Aktif</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Distribusi opk vs Laporan Aktif</p>
                         </div>
                     </div>
                     <div class="h-80 relative">

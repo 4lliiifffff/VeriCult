@@ -16,19 +16,19 @@ use App\Models\User;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class StatisticSubmissionController extends Controller implements HasMiddleware
+class OPKSubmissionController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
         return [
             function ($request, $next) {
-                // Only pengusul-desa can access statistik submissions
+                // Only pengusul-desa can access opk submissions
                 if (!Auth::check() || !Auth::user()->hasRole('pengusul-desa')) {
-                    abort(403, 'Hanya pengusul desa yang dapat membuat laporan statistik.');
+                    abort(403, 'Hanya pengusul desa yang dapat membuat laporan OPK.');
                 }
     
                 if (!Auth::user()->is_approved_by_admin) {
-                    abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan statistik.');
+                    abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan OPK.');
                 }
     
                 return $next($request);
@@ -37,21 +37,21 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display a listing of statistik submissions.
+     * Display a listing of opk submissions.
      */
     public function index()
     {
         $submissions = CulturalSubmission::ownedBy(Auth::id())
-            ->where('submission_type', 'statistik')
+            ->where('submission_type', 'opk')
             ->latest()
             ->paginate(10)
             ->withQueryString();
 
-        return view('pengusul-desa.statistic-submissions.index', compact('submissions'));
+        return view('pengusul-desa.opk-submissions.index', compact('submissions'));
     }
 
     /**
-     * Show the category selection page for statistik.
+     * Show the category selection page for opk.
      */
     public function create()
     {
@@ -61,11 +61,11 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         $descriptions = CulturalSubmission::CATEGORY_DESCRIPTIONS;
         $icons = CulturalSubmission::CATEGORY_ICONS;
 
-        return view('pengusul-desa.statistic-submissions.create', compact('categories', 'descriptions', 'icons'));
+        return view('pengusul-desa.opk-submissions.create', compact('categories', 'descriptions', 'icons'));
     }
 
     /**
-     * Show the form for a specific statistik category.
+     * Show the form for a specific opk category.
      */
     public function createForm(string $category)
     {
@@ -79,7 +79,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
         $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$categoryName] ?? '';
 
-        return view('pengusul-desa.statistic-submissions.create-form', compact(
+        return view('pengusul-desa.opk-submissions.create-form', compact(
             'categoryName',
             'categorySlug',
             'categoryFields',
@@ -88,7 +88,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
     }
 
     /**
-     * Store a newly created statistik submission.
+     * Store a newly created opk submission.
      */
     public function store(Request $request)
     {
@@ -162,7 +162,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
             'description' => $validated['description'] ?? null,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
-            'submission_type' => 'statistik',
+            'submission_type' => 'opk',
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : date('Y'),
         ]);
 
@@ -171,17 +171,17 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
             $this->handleFileUploads($submission, $request->file('files'));
         }
 
-        return redirect()->route('pengusul-desa.statistic-submissions.show', $submission)
-            ->with('success', 'Draft laporan statistik berhasil dibuat.');
+        return redirect()->route('pengusul-desa.opk-submissions.show', $submission)
+            ->with('success', 'Draft laporan OPK berhasil dibuat.');
     }
 
     /**
-     * Display the specified statistik submission.
+     * Display the specified opk submission.
      */
     public function show(CulturalSubmission $submission)
     {
-        // Make sure it's a statistik submission
-        if ($submission->submission_type !== 'statistik') {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
             abort(404, 'Laporan tidak ditemukan.');
         }
 
@@ -285,7 +285,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
 
         $timeline = $timeline->sortBy('date');
 
-        return view('pengusul-desa.statistic-submissions.show', compact(
+        return view('pengusul-desa.opk-submissions.show', compact(
             'submission',
             'categoryFields',
             'timeline'
@@ -297,8 +297,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
      */
     public function edit(CulturalSubmission $submission)
     {
-        // Make sure it's a statistik submission
-        if ($submission->submission_type !== 'statistik') {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
             abort(404, 'Laporan tidak ditemukan.');
         }
 
@@ -307,7 +307,7 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
         $categoryName = $submission->category;
 
-        return view('pengusul-desa.statistic-submissions.edit', compact(
+        return view('pengusul-desa.opk-submissions.edit', compact(
             'submission',
             'categoryFields',
             'categoryName'
@@ -319,8 +319,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
      */
     public function update(Request $request, CulturalSubmission $submission)
     {
-        // Make sure it's a statistik submission
-        if ($submission->submission_type !== 'statistik') {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
             abort(404, 'Laporan tidak ditemukan.');
         }
 
@@ -398,8 +398,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : ($submission->period_year ?? date('Y')),
         ]);
 
-        return redirect()->route('pengusul-desa.statistic-submissions.show', $submission)
-            ->with('success', 'Laporan statistik berhasil diperbarui.');
+        return redirect()->route('pengusul-desa.opk-submissions.show', $submission)
+            ->with('success', 'Laporan OPK berhasil diperbarui.');
     }
 
     /**
@@ -407,8 +407,8 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
      */
     public function destroy(CulturalSubmission $submission)
     {
-        // Make sure it's a statistik submission
-        if ($submission->submission_type !== 'statistik') {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
             abort(404, 'Laporan tidak ditemukan.');
         }
 
@@ -421,17 +421,17 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
 
         $submission->delete();
 
-        return redirect()->route('pengusul-desa.statistic-submissions.index')
-            ->with('success', 'Laporan statistik berhasil dihapus.');
+        return redirect()->route('pengusul-desa.opk-submissions.index')
+            ->with('success', 'Laporan OPK berhasil dihapus.');
     }
 
     /**
-     * Submit the statistik submission for review.
+     * Submit the opk submission for review.
      */
     public function submit(CulturalSubmission $submission)
     {
-        // Make sure it's a statistik submission
-        if ($submission->submission_type !== 'statistik') {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
             abort(404, 'Laporan tidak ditemukan.');
         }
 
@@ -448,25 +448,25 @@ class StatisticSubmissionController extends Controller implements HasMiddleware
 
         // Notify Validators and Super Admins
         $admins = User::role(['super-admin', 'validator'])->get();
-        $title = 'Laporan Statistik Baru: ' . $submission->name;
-        $message = 'Laporan statistik "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' (Pengusul Desa) dan menunggu review.';
+        $title = 'Laporan OPK Baru: ' . $submission->name;
+        $message = 'Laporan OPK "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' (Pengusul Desa) dan menunggu review.';
         $url = route('validator.submissions.show', $submission);
 
         foreach ($admins as $admin) {
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
         }
 
-        return redirect()->route('pengusul-desa.statistic-submissions.show', $submission)
-            ->with('success', 'Laporan statistik telah dikirim untuk ditinjau.');
+        return redirect()->route('pengusul-desa.opk-submissions.show', $submission)
+            ->with('success', 'Laporan OPK telah dikirim untuk ditinjau.');
     }
 
     /**
-     * Remove a file from the statistik submission.
+     * Remove a file from the opk submission.
      */
     public function destroyFile(CulturalSubmission $submission, SubmissionFile $file)
     {
-        // Make sure it's a statistik submission
-        if ($submission->submission_type !== 'statistik') {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
             abort(404, 'Laporan tidak ditemukan.');
         }
 

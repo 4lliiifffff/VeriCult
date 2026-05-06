@@ -53,8 +53,8 @@
                 </div>
             </a>
 
-            <!-- Statistik Kebudayaan -->
-            <a href="{{ route('pengusul-desa.statistic-submissions.create') }}" 
+            <!-- OPK -->
+            <a href="{{ route('pengusul-desa.opk-submissions.create') }}" 
                class="group relative bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col items-center text-center">
                 <div class="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <svg class="w-8 h-8 text-indigo-500/20" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -64,9 +64,9 @@
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 </div>
                 
-                <h3 class="text-2xl font-black text-[#03045E] mb-4 tracking-tight">Data Statistik (OPK)</h3>
+                <h3 class="text-2xl font-black text-[#03045E] mb-4 tracking-tight">Data OPK</h3>
                 <p class="text-slate-400 font-medium leading-relaxed mb-8">
-                    Isi formulir statistik tahunan untuk inventarisasi Objek Pemajuan Kebudayaan desa secara mendalam.
+                    Isi formulir inventarisasi mendalam untuk 10 Objek Pemajuan Kebudayaan desa sesuai standar nasional.
                 </p>
                 
                 <div class="mt-auto px-8 py-4 bg-indigo-600/5 text-indigo-600 font-black text-xs uppercase tracking-[0.2em] rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">

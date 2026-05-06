@@ -15,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Statistics
+        // opk
         $totalUsers = User::count();
         $newUsersThisMonth = User::whereMonth('created_at', now()->month)->count();
         $suspendedUsersCount = User::where('is_suspended', true)->count();
@@ -113,7 +113,7 @@ class DashboardController extends Controller
         $villageComparison = Village::withCount([
             'submissions' => fn($q) => $q->where('period_year', $activeYear),
             'submissions as aktif_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'aktif'),
-            'submissions as statistik_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'statistik'),
+            'submissions as opk_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'opk'),
         ])->get();
 
         // 6. Active Culture Category Distribution
@@ -125,7 +125,7 @@ class DashboardController extends Controller
             $aktifCategoryStats[$cat] = ($aktifCategoryStats[$cat] ?? 0) + 1;
         }
 
-        // 7. Submission Type Trend (Statistik vs Aktif)
+        // 7. Submission Type Trend (opk vs Aktif)
         $typeTrend = (clone $yearQuery)->select(
             DB::raw('DATE_FORMAT(created_at, "%b") as month_name'),
             DB::raw('MONTH(created_at) as month_num'),
