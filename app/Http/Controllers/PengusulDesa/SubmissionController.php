@@ -22,7 +22,7 @@ class SubmissionController extends Controller
     {
         $submissions = CulturalSubmission::ownedBy(Auth::id())
             ->whereNotIn('category', [
-                CulturalSubmission::CATEGORIES['cagar-budaya'],
+                CulturalSubmission::CATEGORY_CAGAR_BUDAYA,
                 CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA
             ])
             ->latest()
@@ -34,11 +34,10 @@ class SubmissionController extends Controller
 
     /**
      * Show the category selection page.
-     * Redirects to the active culture report form directly.
      */
     public function create()
     {
-        return redirect()->route('pengusul-desa.submissions.create-form', 'laporan-kebudayaan-aktif');
+        return view('pengusul-desa.submissions.create');
     }
 
     /**
@@ -187,7 +186,7 @@ class SubmissionController extends Controller
      */
     public function show(CulturalSubmission $submission)
     {
-        if ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+        if ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
             return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission);
         }
 
@@ -311,7 +310,7 @@ class SubmissionController extends Controller
      */
     public function edit(CulturalSubmission $submission)
     {
-        if ($submission->category === CulturalSubmission::CATEGORIES['cagar-budaya'] || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+        if ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
             return redirect()->route('pengusul-desa.cagar-budaya-submissions.edit', $submission);
         }
 
