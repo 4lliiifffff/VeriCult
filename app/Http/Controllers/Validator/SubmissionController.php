@@ -137,7 +137,7 @@ class SubmissionController extends Controller
         Gate::authorize('review', $submission);
 
         $request->validate([
-            'action' => 'required|in:forwarded,revision,rejected,verified',
+            'action' => 'required|in:forwarded,revision,rejected',
             'notes' => 'required|string|min:10',
         ]);
 
@@ -153,7 +153,6 @@ class SubmissionController extends Controller
             // Map action to status
             $status = match ($request->action) {
                 'forwarded' => CulturalSubmission::STATUS_FIELD_VERIFICATION,
-                'verified' => CulturalSubmission::STATUS_VERIFIED,
                 'revision' => CulturalSubmission::STATUS_REVISION,
                 'rejected' => CulturalSubmission::STATUS_REJECTED,
             };
@@ -167,13 +166,11 @@ class SubmissionController extends Controller
             // Notify the Pengusul
             $actionTitles = [
                 'forwarded' => 'Lolos Review Administratif',
-                'verified' => 'Validasi Pengajuan Disetujui',
                 'revision' => 'Revisi Diperlukan (Administratif)',
                 'rejected' => 'Pengajuan Ditolak (Administratif)'
             ];
             $actionTypes = [
                 'forwarded' => 'success',
-                'verified' => 'success',
                 'revision' => 'warning',
                 'rejected' => 'error'
             ];
@@ -211,6 +208,8 @@ class SubmissionController extends Controller
             'notes' => 'required|string|min:10',
             'recommendation' => 'required|in:verified,rejected,revision',
             'category_data' => 'nullable|array',
+            'description' => 'nullable|string|min:50',
+            'name' => 'nullable|string|max:255',
         ];
 
         // Add category-specific validation
@@ -259,7 +258,21 @@ class SubmissionController extends Controller
             $existingCategoryData = $submission->category_data ?? [];
             $mergedCategoryData = array_merge($existingCategoryData, $categoryData);
 
+            // Auto-populate name if available
+            $submissionName = $request->input('name', $submission->name);
+            if (isset($categoryData['b1_nama_objek']) && !empty($categoryData['b1_nama_objek'])) {
+                $submissionName = $categoryData['b1_nama_objek'];
+            }
+            if (isset($categoryData['nama_objek']) && !empty($categoryData['nama_objek'])) {
+                $submissionName = $categoryData['nama_objek'];
+            }
+            if (isset($categoryData['nama_dan_jenis_kebudayaan']) && !empty($categoryData['nama_dan_jenis_kebudayaan'])) {
+                $submissionName = $categoryData['nama_dan_jenis_kebudayaan'];
+            }
+
             $updateData = [
+                'name' => $submissionName,
+                'description' => $request->input('description', $submission->description),
                 'status' => $status,
                 'category_data' => !empty($mergedCategoryData) ? $mergedCategoryData : null,
                 'verified_at' => $status === CulturalSubmission::STATUS_VERIFIED ? now() : null,

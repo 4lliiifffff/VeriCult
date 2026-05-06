@@ -281,39 +281,22 @@
                             <div>
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Keputusan Review</label>
                                 <div class="grid grid-cols-1 gap-2.5">
-                                    @if($submission->isOPK())
                                     <!-- Forward to Field (Verified Adm) -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('forwarded')">
-                                        <input type="radio" name="action" value="forwarded" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-emerald-100/30 peer-checked:ring-4 peer-checked:ring-emerald-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 peer-checked:scale-110 transition-all duration-300">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                                            </div>
-                                            <div class="flex-1">
-                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tinjau ke Lapangan</span>
-                                            </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                            </div>
-                                        </div>
-                                    </label>
-                                    @endif
-
-                                    <!-- Verify Directly -->
-                                    <label class="relative cursor-pointer group/opt" @click="selectAction('verified')">
-                                        <input type="radio" name="action" value="verified" class="peer sr-only" x-model="selectedAction">
-                                        <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-emerald-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-emerald-100/30 peer-checked:ring-4 peer-checked:ring-emerald-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                            <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-emerald-500 peer-checked:bg-emerald-50 peer-checked:border-emerald-200 peer-checked:scale-110 transition-all duration-300">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            </div>
-                                            <div class="flex-1">
-                                                <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Validasi Pengajuan</span>
-                                            </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                            </div>
-                                        </div>
-                                    </label>
+                                         <input type="radio" name="action" value="forwarded" class="peer sr-only" x-model="selectedAction">
+                                         <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-indigo-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-indigo-100/30 peer-checked:ring-4 peer-checked:ring-indigo-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
+                                             <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-indigo-500 peer-checked:bg-indigo-50 peer-checked:border-indigo-200 peer-checked:scale-110 transition-all duration-300">
+                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                                             </div>
+                                             <div class="flex-1">
+                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Lanjutkan ke Verifikasi Lapangan</span>
+                                                 <p class="text-[9px] font-bold text-slate-400 mt-0.5">Wajib sebelum validasi akhir</p>
+                                             </div>
+                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all duration-300 shrink-0">
+                                                 <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                             </div>
+                                         </div>
+                                     </label>
 
                                     <!-- Revision -->
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('revision')">
@@ -374,33 +357,34 @@
                         </form>
 
                     @elseif($submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION)
-                        <!-- Field Verification Form -->
-                        <div class="mb-6">
-                            <h4 class="text-xs font-black text-[#03045E] uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                Lengkapi Data Kebudayaan (Opsional)
-                            </h4>
-                            <div class="p-6 bg-blue-50/50 border border-blue-100 rounded-2xl relative overflow-hidden">
-                                <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-200/20 rounded-full blur-2xl"></div>
-                                <p class="text-[11px] text-slate-500 font-medium mb-4 relative z-10 leading-relaxed">
-                                    Anda dapat melengkapi pertanyaan yang sifatnya mendalam/sulit yang dikosongkan oleh Pengusul Desa sebelum melakukan verifikasi lapangan.
-                                </p>
-                                <a href="{{ route('validator.submissions.edit', $submission) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-slate-200 hover:border-[#0077B6] hover:text-[#0077B6] text-[#03045E] text-[10px] font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-sm active:scale-95 group/btn">
+                        <div class="mb-10 p-8 bg-blue-50/50 border-2 border-blue-100 rounded-[2rem] relative overflow-hidden group/header-field">
+                            <div class="absolute -right-12 -top-12 w-40 h-40 bg-blue-200/20 rounded-full blur-3xl group-hover/header-field:scale-110 transition-transform duration-700"></div>
+                            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                                <div class="space-y-2">
+                                    <h4 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-xl bg-[#0077B6] text-white flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        </div>
+                                        Lengkapi Data Kebudayaan
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 font-bold leading-relaxed mb-0">
+                                        Anda dapat melengkapi pertanyaan yang sifatnya mendalam atau memperbaiki data sebelum verifikasi lapangan.
+                                    </p>
+                                </div>
+                                <a href="{{ route('validator.submissions.edit', $submission) }}" class="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 hover:border-[#0077B6] hover:text-[#0077B6] text-[#03045E] text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm active:scale-95 group/btn shrink-0">
                                     <span>Buka Form Edit Data</span>
-                                    <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                    <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                                 </a>
                             </div>
                         </div>
 
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
-                            <div class="grid grid-cols-1 gap-6">
+                            <div class="grid grid-cols-1 gap-6 mb-10">
                                 <div class="group">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Tanggal Kunjungan</label>
-                                    <input type="date" name="visit_date" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" required>
+                                    <input type="date" name="visit_date" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" required>
                                 </div>
-
-
                             </div>
 
                             <div>
@@ -649,7 +633,6 @@
                         'forwarded': 'Tinjau ke Lapangan',
                         'revision': 'Minta Revisi',
                         'rejected': 'Tolak Pengajuan',
-                        'verified': 'Validasi Pengajuan',
                     };
                     return labels[this.selectedAction] || 'Belum dipilih';
                 },
