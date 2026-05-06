@@ -18,14 +18,26 @@ class SubmissionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $submissions = CulturalSubmission::ownedBy(Auth::id())
-            ->whereNotIn('category', [
-                CulturalSubmission::CATEGORY_CAGAR_BUDAYA,
-                CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA
-            ])
-            ->latest()
+        $query = CulturalSubmission::ownedBy(Auth::id());
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->query('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
+            });
+        }
+
+        // Type filter
+        if ($request->filled('type') && $request->query('type') !== 'all') {
+            $query->where('submission_type', $request->query('type'));
+        }
+
+        $submissions = $query->latest()
             ->paginate(10)
             ->withQueryString();
 
@@ -186,8 +198,15 @@ class SubmissionController extends Controller
      */
     public function show(CulturalSubmission $submission)
     {
-        if ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+        // Handle redirection based on type
+        if ($submission->submission_type === 'opk') {
+            return redirect()->route('pengusul-desa.opk-submissions.show', $submission);
+        }
+        if ($submission->submission_type === 'cagar-budaya') {
             return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission);
+        }
+        if ($submission->submission_type === 'potensi-kebudayaan') {
+            return redirect()->route('pengusul-desa.potensi-submissions.show', $submission);
         }
 
         $this->authorize('view', $submission);
@@ -310,8 +329,15 @@ class SubmissionController extends Controller
      */
     public function edit(CulturalSubmission $submission)
     {
-        if ($submission->category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA || $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
+        // Handle redirection based on type
+        if ($submission->submission_type === 'opk') {
+            return redirect()->route('pengusul-desa.opk-submissions.edit', $submission);
+        }
+        if ($submission->submission_type === 'cagar-budaya') {
             return redirect()->route('pengusul-desa.cagar-budaya-submissions.edit', $submission);
+        }
+        if ($submission->submission_type === 'potensi-kebudayaan') {
+            return redirect()->route('pengusul-desa.potensi-submissions.edit', $submission);
         }
 
         $this->authorize('update', $submission);
