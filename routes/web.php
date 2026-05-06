@@ -179,10 +179,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::post('/users/{user}/unsuspend', [App\Http\Controllers\Admin\UserController::class, 'unsuspend'])->name('users.unsuspend');
         Route::post('/users/{user}/verify-email', [App\Http\Controllers\Admin\UserController::class, 'verifyEmail'])->name('users.verify-email');
 
-        // Statistical Submissions Publication
-        Route::get('/statistic-submissions', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'index'])->name('statistic-submissions.index');
-        Route::get('/statistic-submissions/{submission}', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'show'])->name('statistic-submissions.show');
-        Route::post('/statistic-submissions/{submission}/update-status', [App\Http\Controllers\Admin\StatisticSubmissionController::class, 'updateStatus'])->name('statistic-submissions.update-status');
+        // OPK Submissions Publication
+        Route::get('/opk-submissions', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'index'])->name('opk-submissions.index');
+        Route::get('/opk-submissions/{submission}', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'show'])->name('opk-submissions.show');
+        Route::post('/opk-submissions/{submission}/update-status', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'updateStatus'])->name('opk-submissions.update-status');
 
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
@@ -204,13 +204,13 @@ Route::middleware(['auth', 'role:pengusul-desa', \App\Http\Middleware\CheckAdmin
         Route::post('/submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\SubmissionController::class, 'submit'])->name('submissions.submit');
         Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
 
-        // Statistik Submissions
-        Route::get('/statistic-submissions/create/{category}', [App\Http\Controllers\PengusulDesa\StatisticSubmissionController::class, 'createForm'])->name('statistic-submissions.create-form');
-        Route::resource('statistic-submissions', App\Http\Controllers\PengusulDesa\StatisticSubmissionController::class)->parameters([
-            'statistic-submissions' => 'submission'
+        // opk Submissions
+        Route::get('/opk-submissions/create/{category}', [App\Http\Controllers\PengusulDesa\OPKSubmissionController::class, 'createForm'])->name('opk-submissions.create-form');
+        Route::resource('opk-submissions', App\Http\Controllers\PengusulDesa\OPKSubmissionController::class)->parameters([
+            'opk-submissions' => 'submission'
         ]);
-        Route::post('/statistic-submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\StatisticSubmissionController::class, 'submit'])->name('statistic-submissions.submit');
-        Route::delete('/statistic-submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\StatisticSubmissionController::class, 'destroyFile'])->name('statistic-submissions.files.destroy');
+        Route::post('/opk-submissions/{submission}/submit', [App\Http\Controllers\PengusulDesa\OPKSubmissionController::class, 'submit'])->name('opk-submissions.submit');
+        Route::delete('/opk-submissions/{submission}/files/{file}', [App\Http\Controllers\PengusulDesa\OPKSubmissionController::class, 'destroyFile'])->name('opk-submissions.files.destroy');
 
         // Cagar Budaya Submissions
         Route::resource('cagar-budaya-submissions', App\Http\Controllers\PengusulDesa\CagarBudayaSubmissionController::class)->parameters([

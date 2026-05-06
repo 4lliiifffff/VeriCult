@@ -66,9 +66,9 @@ class NotificationController extends Controller
             if ($user->hasRole('super-admin')) {
                 return redirect()->route('super-admin.cultural-submissions.show', $submissionId);
             } elseif ($user->hasRole('admin')) {
-                // If it's a statistic submission, send to admin's view
-                if ($submission && $submission->submission_type === 'statistik') {
-                    return redirect()->route('admin.statistic-submissions.show', $submissionId);
+                // If it's a opk submission, send to admin's view
+                if ($submission && $submission->submission_type === 'opk') {
+                    return redirect()->route('admin.opk-submissions.show', $submissionId);
                 }
                 return redirect($url ?? route('admin.dashboard'));
             } elseif ($user->hasRole('validator')) {

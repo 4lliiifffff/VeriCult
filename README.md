@@ -10,7 +10,7 @@
 
 ## 🚀 Fitur Utama
 
-- **Pengajuan Objek Budaya**: Mendukung berbagai kategori seperti *Cagar Budaya*, *Potensi Kebudayaan*, dan *Statistik Kebudayaan*.
+- **Pengajuan Objek Budaya**: Mendukung berbagai kategori seperti *Cagar Budaya*, *Potensi Kebudayaan*, dan *OPK Kebudayaan*.
 - **Verifikasi Berjenjang**: Alur kerja sistematis mulai dari peninjauan administratif hingga verifikasi lapangan oleh tenaga ahli.
 - **Manajemen Peran (RBAC)**: Hak akses spesifik untuk Super Admin, Admin, Validator, dan Pengusul (Individu & Desa).
 - **Portal Publik**: Galeri profil kebudayaan yang telah terverifikasi dan dapat diakses oleh masyarakat umum.
@@ -36,7 +36,7 @@
 | Peran | Deskripsi |
 |-------|-----------|
 | **Super Admin** | Kontrol penuh sistem, manajemen user (Admin/Validator), audit log, dan CMS. |
-| **Admin** | Menyetujui pendaftaran Pengusul Desa dan mengelola publikasi statistik. |
+| **Admin** | Menyetujui pendaftaran Pengusul Desa dan mengelola publikasi OPK. |
 | **Validator** | Tenaga ahli yang meninjau teknis, melakukan verifikasi lapangan, dan menerbitkan data. |
 | **Pengusul** | Pengguna umum yang mengajukan data kebudayaan dasar. |
 | **Pengusul Desa** | Perwakilan desa yang mengajukan data kebudayaan detail (memerlukan persetujuan admin). |

@@ -17,21 +17,21 @@ class DashboardController extends Controller
             ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
             ->count();
 
-        // 2. Statistical Submissions awaiting publication (Verified but not Published)
-        $pendingPublicationCount = CulturalSubmission::where('submission_type', 'statistik')
+        // 2. OPK Submissions awaiting publication (Verified but not Published)
+        $pendingPublicationCount = CulturalSubmission::where('submission_type', 'opk')
             ->where('status', CulturalSubmission::STATUS_VERIFIED)
             ->count();
         
-        // 3. Stats by Category (for Statistik)
-        $categoryStats = CulturalSubmission::where('submission_type', 'statistik')
+        // 3. Stats by Category (for opk)
+        $categoryStats = CulturalSubmission::where('submission_type', 'opk')
             ->select('category', DB::raw('count(*) as count'))
             ->groupBy('category')
             ->get()
             ->pluck('count', 'category')
             ->toArray();
 
-        // 4. Recent Statistical Submissions
-        $recentStatistikalSubmissions = CulturalSubmission::where('submission_type', 'statistik')
+        // 4. Recent OPK Submissions
+        $recentopkalSubmissions = CulturalSubmission::where('submission_type', 'opk')
             ->with(['user', 'village'])
             ->latest()
             ->take(5)

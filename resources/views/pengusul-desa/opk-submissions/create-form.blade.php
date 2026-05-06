@@ -18,7 +18,7 @@
                 <div class="absolute inset-0 border-4 border-t-[#0077B6] rounded-full animate-spin"></div>
             </div>
             <h3 class="text-[#03045E] font-bold text-xl mb-2 text-center">Memproses Laporan</h3>
-            <p class="text-slate-500 text-sm text-center">Mohon tunggu sebentar, kami sedang menyiapkan laporan statistik Anda.</p>
+            <p class="text-slate-500 text-sm text-center">Mohon tunggu sebentar, kami sedang menyiapkan laporan OPK Anda.</p>
         </div>
     </div>
 
@@ -27,9 +27,9 @@
             <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
                 <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.statistic-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan Statistik</a>
+                <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan OPK</a>
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.statistic-submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Kategori</a>
+                <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Kategori</a>
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-[#03045E]">{{ $categoryName }}</span>
             </nav>
@@ -51,13 +51,13 @@
                             </div>
                         </div>
                         <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
-                            Laporkan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
+                            Laporkan <span class="text-[#00B4D8]">OPK {{ $categoryName }}</span>
                         </h2>
                         <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">{{ $categoryDescription }}</p>
                     </div>
 
                     <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
-                        <a href="{{ route('pengusul-desa.statistic-submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                        <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
                             <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                             </svg>
@@ -78,7 +78,7 @@
             <div class="lg:col-span-8 space-y-10 px-4 sm:px-0">
                 <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
                     <div class="p-6 sm:p-10">
-                        <form action="{{ route('pengusul-desa.statistic-submissions.store') }}"
+                        <form action="{{ route('pengusul-desa.opk-submissions.store') }}"
                             method="POST"
                             enctype="multipart/form-data"
                             x-ref="mainForm"
@@ -156,7 +156,7 @@
                             </div>
                             <div>
                                 <h4 class="text-sm font-bold text-slate-700 mb-1">Data Akurat</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Pastikan data statistik yang dimasukkan sesuai dengan kondisi terbaru di desa.</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">Pastikan data yang dimasukkan sesuai dengan kondisi terbaru di desa.</p>
                             </div>
                         </div>
                         <div class="flex gap-4 group">
@@ -165,7 +165,7 @@
                             </div>
                             <div>
                                 <h4 class="text-sm font-bold text-slate-700 mb-1">Detail {{ $categoryName }}</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Lengkapi kolom khusus statistik yang tersedia untuk kategori ini.</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">Lengkapi kolom khusus {{ $categoryName }} yang tersedia untuk kategori ini.</p>
                             </div>
                         </div>
                         <div class="flex gap-4 group">
@@ -174,7 +174,7 @@
                             </div>
                             <div>
                                     <h4 class="text-sm font-bold text-slate-700 mb-1">Bukti Dukung</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed">Unggah file pendukung jika diperlukan untuk memverifikasi data statistik.</p>
+                                    <p class="text-xs text-slate-500 leading-relaxed">Unggah file pendukung jika diperlukan untuk memverifikasi data OPK.</p>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                 </div>
                 <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Simpan Draft?</h2>
-                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Data statistik Anda akan disimpan sebagai draft dalam sistem kami.</p>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Data pengajuan OPK Anda akan disimpan sebagai draft dalam sistem kami.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                     <button type="button" 

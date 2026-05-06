@@ -5,7 +5,7 @@
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Laporan Statistik</span>
+            <span class="text-[#03045E]">Laporan OPK</span>
         </nav>
 
         <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
@@ -16,17 +16,17 @@
                 <div class="space-y-2">
                     <div class="flex items-center gap-3">
                         <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
-                            Kelola Statistik
+                            Kelola OPK
                         </span>
                     </div>
                     <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                        Laporan <span class="text-[#00B4D8]">Statistik</span>
+                        Laporan <span class="text-[#00B4D8]">OPK</span>
                     </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Pantau dan kelola data statistik kebudayaan dari 11 kategori OPK di wilayah Anda.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Pantau dan kelola data inventarisasi dari 10 kategori OPK di wilayah Anda.</p>
                 </div>
                     
                 <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
-                    <a href="{{ route('pengusul-desa.statistic-submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
+                    <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
                         <svg class="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                         </svg>
@@ -76,7 +76,7 @@
         <!-- Submissions Central Card -->
         <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden relative group">
             <div class="p-8 border-b border-slate-50 flex items-center justify-between">
-                <h3 class="font-bold text-xl text-[#03045E]">Riwayat Statistik</h3>
+                <h3 class="font-bold text-xl text-[#03045E]">Riwayat OPK</h3>
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-slate-300"></span>
                     <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Update Real-time</span>
@@ -136,13 +136,13 @@
                                 </td>
                                 <td class="px-6 py-5 text-right">
                                     <div class="flex justify-end gap-2">
-                                        <a href="{{ route('pengusul-desa.statistic-submissions.show', $submission) }}" 
+                                        <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" 
                                            class="group/btn p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-[#0077B6] hover:text-white transition-all duration-300"
                                            title="Lihat Detail">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </a>
                                         @if($submission->isEditable())
-                                        <a href="{{ route('pengusul-desa.statistic-submissions.edit', $submission) }}" 
+                                        <a href="{{ route('pengusul-desa.opk-submissions.edit', $submission) }}" 
                                            class="group/btn p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-amber-500 hover:text-white transition-all duration-300"
                                            title="Edit Laporan">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
@@ -161,9 +161,9 @@
                                         </div>
                                         <h4 class="text-2xl font-black text-[#03045E] mb-2 tracking-tight">Belum Ada Laporan</h4>
                                         <p class="text-slate-400 text-sm font-medium mb-10 leading-relaxed">
-                                            Sepertinya Anda belum memiliki riwayat laporan statistik kebudayaan. Mari buat laporan pertama Anda sekarang!
+                                            Sepertinya Anda belum memiliki riwayat laporan OPK. Mari buat laporan pertama Anda sekarang!
                                         </p>
-                                        <a href="{{ route('pengusul-desa.statistic-submissions.create') }}" 
+                                        <a href="{{ route('pengusul-desa.opk-submissions.create') }}" 
                                            class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#0077B6] to-[#00B4D8] text-white text-sm font-black rounded-2xl shadow-xl shadow-blue-900/20 border-b-4 border-[#023A8A] hover:scale-105 active:scale-95 transition-all">
                                             <svg class="w-5 h-5 mr-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                                             Buat Laporan Pertama

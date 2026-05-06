@@ -201,8 +201,8 @@
         </div>
     </section>
 
-    <!-- Statistics Section -->
-    <section id="statistik" class="py-16 sm:py-24 md:py-32 bg-white relative">
+    <!-- opk Section -->
+    <section id="opk" class="py-16 sm:py-24 md:py-32 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 overflow-hidden lg:overflow-visible">
             <div class="premium-gradient rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[4rem] p-6 sm:p-8 md:p-16 lg:p-24 shadow-2xl relative overflow-hidden reveal reveal-up">
                 <!-- Background Pattern -->

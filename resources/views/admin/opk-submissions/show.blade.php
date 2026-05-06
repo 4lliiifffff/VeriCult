@@ -3,7 +3,7 @@
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('admin.statistic-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Data Statistik</a>
+            <a href="{{ route('admin.opk-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Data opk</a>
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Detail Publikasi</span>
         </nav>
@@ -34,7 +34,7 @@
 
                 <div class="flex items-center gap-4 w-full md:w-auto">
                     @if($submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED)
-                        <form action="{{ route('admin.statistic-submissions.update-status', $submission) }}" method="POST" class="w-full">
+                        <form action="{{ route('admin.opk-submissions.update-status', $submission) }}" method="POST" class="w-full">
                             @csrf
                             <input type="hidden" name="status" value="{{ \App\Models\CulturalSubmission::STATUS_PUBLISHED }}">
                             <button type="submit" class="w-full bg-emerald-500 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-900/20 active:scale-95">
@@ -43,7 +43,7 @@
                             </button>
                         </form>
                     @elseif($submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED)
-                        <form action="{{ route('admin.statistic-submissions.update-status', $submission) }}" method="POST" class="w-full">
+                        <form action="{{ route('admin.opk-submissions.update-status', $submission) }}" method="POST" class="w-full">
                             @csrf
                             <input type="hidden" name="status" value="{{ \App\Models\CulturalSubmission::STATUS_VERIFIED }}">
                             <button type="submit" class="w-full bg-rose-500 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-rose-600 transition-all shadow-xl shadow-rose-900/20 active:scale-95">
@@ -98,7 +98,7 @@
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white">
                     <h3 class="text-xs font-black text-[#03045E] uppercase tracking-widest mb-6 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
-                        Data Atribut Statistik
+                        Data Atribut opk
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                         @foreach($submission->category_data as $key => $value)

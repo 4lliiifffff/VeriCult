@@ -434,7 +434,7 @@ class CulturalSubmission extends Model
      */
     public function isOPK(): bool
     {
-        return $this->submission_type === 'statistik';
+        return $this->submission_type === 'opk';
     }
 
     /**

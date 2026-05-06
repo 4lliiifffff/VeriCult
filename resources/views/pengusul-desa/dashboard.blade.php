@@ -40,13 +40,14 @@
                                 <span>Kebudayaan Aktif</span>
                             </a>
 
-                            <!-- Statistik Button (only for pengusul-desa approved) -->
+                            <!-- OPK Button (only for pengusul-desa approved) -->
                             @if($hasStatistikAccess)
-                                <a href="{{ route('pengusul-desa.statistic-submissions.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#00B4D8] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0096C7] transition-all shadow-lg shadow-blue-900/10 items-center gap-2">
+                                <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#00B4D8] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0096C7] transition-all shadow-lg shadow-blue-900/10 items-center gap-2">
                                     <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                                     </svg>
-                                    <span>Data Statistik</span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-lg shadow-cyan-500/50"></span>
+                                    <span>Data OPK</span>
                                 </a>
                             @endif
                         </div>
@@ -81,8 +82,8 @@
                 </div>
             </a>
 
-            <!-- Statistik Card -->
-            <a href="{{ route('pengusul-desa.statistic-submissions.index') }}" class="group bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-sm border border-cyan-100 hover:shadow-lg hover:border-cyan-200 transition-all hover:-translate-y-1 cursor-pointer">
+            <!-- opk Card -->
+            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="group bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-sm border border-cyan-100 hover:shadow-lg hover:border-cyan-200 transition-all hover:-translate-y-1 cursor-pointer">
                 <div class="flex items-start justify-between">
                     <div class="space-y-3 flex-1">
                         <div class="flex items-center gap-3">
@@ -91,10 +92,10 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                             </div>
-                            <span class="text-xs font-bold text-cyan-600 uppercase tracking-widest">Laporan Data Statistik</span>
+                            <span class="text-xs font-bold text-cyan-600 uppercase tracking-widest">Laporan Data OPK</span>
                         </div>
-                        <p class="text-3xl font-black text-[#03045E]">{{ $statistikCount }}</p>
-                        <p class="text-sm text-slate-600 font-medium">Data statistik dari 11 kategori OPK</p>
+                        <p class="text-3xl font-black text-[#03045E]">{{ $opkCount }}</p>
+                        <p class="text-sm text-slate-600 font-medium">Data inventarisasi dari 10 kategori OPK</p>
                     </div>
                     <svg class="w-12 h-12 text-cyan-200 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>

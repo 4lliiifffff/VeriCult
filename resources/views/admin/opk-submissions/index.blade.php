@@ -3,7 +3,7 @@
         <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
             <a href="{{ route('admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Data Statistik</span>
+            <span class="text-[#03045E]">Data opk</span>
         </nav>
 
         <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
@@ -20,9 +20,9 @@
                         </span>
                     </div>
                     <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                        Manajemen <span class="text-[#00B4D8]">Statistik</span>
+                        Manajemen <span class="text-[#00B4D8]">opk</span>
                     </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Review dan publikasi laporan statistik kebudayaan dari desa.</p>
+                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Review dan publikasi laporan opk kebudayaan dari desa.</p>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
     <!-- Filters -->
     <div class="bg-white p-6 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white mb-8">
-        <form action="{{ route('admin.statistic-submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <form action="{{ route('admin.opk-submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
                 <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori</label>
                 <select name="category" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 text-sm font-bold transition-all duration-300">
@@ -50,7 +50,7 @@
             </div>
             <div class="flex items-end gap-3">
                 <button type="submit" class="flex-1 h-11 bg-[#03045E] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#023E8A] transition-all shadow-lg shadow-blue-900/10">Filter</button>
-                <a href="{{ route('admin.statistic-submissions.index') }}" class="flex-1 h-11 bg-slate-100 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center hover:bg-slate-200 transition-all">Reset</a>
+                <a href="{{ route('admin.opk-submissions.index') }}" class="flex-1 h-11 bg-slate-100 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center hover:bg-slate-200 transition-all">Reset</a>
             </div>
         </form>
     </div>
@@ -88,7 +88,7 @@
                                 </span>
                             </td>
                             <td class="px-8 py-5 text-right">
-                                <a href="{{ route('admin.statistic-submissions.show', $submission) }}" 
+                                <a href="{{ route('admin.opk-submissions.show', $submission) }}" 
                                    class="inline-flex items-center px-4 py-2 bg-slate-50 text-slate-600 hover:bg-[#03045E] hover:text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group">
                                     Detail
                                     <svg class="ml-2 w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>

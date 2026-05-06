@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        // Statistics
+        // opk
         $totalSubmissions = CulturalSubmission::ownedBy($userId)->count();
         $draftCount = CulturalSubmission::ownedBy($userId)->status(CulturalSubmission::STATUS_DRAFT)->count();
         $inReviewCount = CulturalSubmission::ownedBy($userId)->inReview()->count();
@@ -31,12 +31,12 @@ class DashboardController extends Controller
         $isApprovedByAdmin = $user->is_approved_by_admin;
         $hasStatistikAccess = $isPenguslDesa && $isApprovedByAdmin;
 
-        // Statistics for submission types
+        // opk for submission types
         $activeCultureCount = CulturalSubmission::ownedBy($userId)
             ->where('submission_type', 'aktif')
             ->count();
         $statistikCount = CulturalSubmission::ownedBy($userId)
-            ->where('submission_type', 'statistik')
+            ->where('submission_type', 'opk')
             ->count();
 
         return view('pengusul-desa.dashboard', compact(

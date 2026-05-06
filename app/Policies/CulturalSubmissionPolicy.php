@@ -28,7 +28,7 @@ class CulturalSubmissionPolicy
      * Determine whether the user can create models.
      *
      * pengusul: can only create aktif submissions
-     * pengusul-desa: can create both statistik and aktif submissions
+     * pengusul-desa: can create both opk and aktif submissions
      */
     public function create(User $user, string $submissionType = 'aktif'): bool
     {
@@ -43,7 +43,7 @@ class CulturalSubmissionPolicy
             if (!$user->is_approved_by_admin) {
                 return false;
             }
-            return in_array($submissionType, ['statistik', 'aktif']);
+            return in_array($submissionType, ['opk', 'aktif']);
         }
 
         return false;

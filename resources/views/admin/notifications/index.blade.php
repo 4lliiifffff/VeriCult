@@ -14,7 +14,7 @@
                     <h2 class="text-4xl sm:text-5xl font-black tracking-tight leading-none">
                         Pesan <span class="text-[#00B4D8]">Sistem</span>
                     </h2>
-                    <p class="text-blue-100/80 text-sm sm:text-base font-medium max-w-xl leading-relaxed">Pantau aktivitas pengusul dan status publikasi statistik Anda.</p>
+                    <p class="text-blue-100/80 text-sm sm:text-base font-medium max-w-xl leading-relaxed">Pantau aktivitas pengusul dan status publikasi opk Anda.</p>
                 </div>
                 
                 @if(Auth::user()->unreadNotifications->count() > 0)
