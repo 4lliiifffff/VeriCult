@@ -211,7 +211,10 @@ class SubmissionController extends Controller
 
         $this->authorize('view', $submission);
 
-        $submission->load(['administrativeReviews', 'fieldVerifications']);
+        $submission->load([
+            'administrativeReviews.validator', 
+            'fieldVerifications.validator'
+        ]);
 
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
 
@@ -262,6 +265,7 @@ class SubmissionController extends Controller
                 'title' => $actionTitles[$review->action] ?? 'Review Administratif',
                 'date' => $review->created_at,
                 'description' => $review->notes,
+                'reviewer' => $review->validator->name ?? 'Validator',
                 'icon' => $review->action,
                 'color' => $actionColors[$review->action] ?? 'indigo'
             ]);
@@ -285,6 +289,7 @@ class SubmissionController extends Controller
                 'title' => $actionTitles[$review->action] ?? 'Verifikasi Lapangan',
                 'date' => $review->created_at,
                 'description' => $review->notes,
+                'verifier' => $review->validator->name ?? 'Validator',
                 'icon' => $review->action,
                 'color' => $actionColors[$review->action] ?? 'emerald'
             ]);

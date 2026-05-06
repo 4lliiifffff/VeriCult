@@ -147,7 +147,10 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
 
         $this->authorize('view', $submission);
 
-        $submission->load(['administrativeReviews', 'fieldVerifications']);
+        $submission->load([
+            'administrativeReviews.validator', 
+            'fieldVerifications.validator'
+        ]);
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
 
         $timeline = collect();
@@ -177,8 +180,8 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
                 'type' => 'review',
                 'title' => $actionTitles[$review->action] ?? 'Review Administratif',
                 'date' => $review->created_at,
-                'description' => $review->notes,
-                'reviewer' => $review->validator->name,
+                'description' => $review->notes ?? $review->feedback ?? null,
+                'reviewer' => $review->validator->name ?? 'Validator',
                 'color' => match($review->action) { 'forwarded' => 'indigo', 'revision' => 'amber', 'rejected' => 'red', default => 'gray' }
             ]);
         }
@@ -189,8 +192,8 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
                 'type' => 'verification',
                 'title' => $actionTitles[$verification->recommendation] ?? 'Verifikasi Lapangan',
                 'date' => $verification->created_at,
-                'description' => $verification->notes,
-                'verifier' => $verification->validator->name,
+                'description' => $verification->notes ?? $verification->feedback ?? null,
+                'verifier' => $verification->validator->name ?? 'Validator',
                 'color' => match($verification->recommendation) { 'verified' => 'green', 'revision' => 'amber', 'rejected' => 'red', default => 'gray' }
             ]);
         }

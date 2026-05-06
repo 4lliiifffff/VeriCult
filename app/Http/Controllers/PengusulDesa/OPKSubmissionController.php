@@ -187,7 +187,10 @@ class OPKSubmissionController extends Controller implements HasMiddleware
 
         $this->authorize('view', $submission);
 
-        $submission->load(['administrativeReviews', 'fieldVerifications']);
+        $submission->load([
+            'administrativeReviews.validator', 
+            'fieldVerifications.validator'
+        ]);
 
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
 
@@ -237,8 +240,8 @@ class OPKSubmissionController extends Controller implements HasMiddleware
                 'action' => $review->action,
                 'title' => $actionTitles[$review->action] ?? 'Review Administratif',
                 'date' => $review->created_at,
-                'description' => $review->feedback,
-                'reviewer' => $review->reviewer->name,
+                'description' => $review->notes ?? $review->feedback ?? null,
+                'reviewer' => $review->validator->name ?? 'Validator',
                 'icon' => 'review',
                 'color' => $actionColors[$review->action] ?? 'gray'
             ]);
@@ -259,13 +262,13 @@ class OPKSubmissionController extends Controller implements HasMiddleware
 
             $timeline->push([
                 'type' => 'verification',
-                'action' => $verification->action,
-                'title' => $actionTitles[$verification->action] ?? 'Verifikasi Lapangan',
+                'action' => $verification->action ?? $verification->recommendation ?? null,
+                'title' => $actionTitles[$verification->action ?? $verification->recommendation ?? ''] ?? 'Verifikasi Lapangan',
                 'date' => $verification->created_at,
-                'description' => $verification->feedback,
-                'verifier' => $verification->verifier->name,
+                'description' => $verification->notes ?? $verification->feedback ?? null,
+                'verifier' => $verification->validator->name ?? 'Validator',
                 'icon' => 'verification',
-                'color' => $actionColors[$verification->action] ?? 'gray'
+                'color' => $actionColors[$verification->action ?? $verification->recommendation ?? ''] ?? 'gray'
             ]);
         }
 
