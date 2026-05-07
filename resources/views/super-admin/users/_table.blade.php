@@ -29,9 +29,12 @@
                     <div class="flex flex-wrap gap-1.5 min-w-[120px]">
                         @forelse($user->roles as $role)
                             <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border shadow-sm
-                                {{ $role->name == 'super-admin' ? 'bg-purple-50 text-purple-700 border-purple-100' : 
-                                ($role->name == 'validator' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 
-                                'bg-sky-50 text-sky-700 border-sky-100') }}">
+                                {{ $role->name == 'super-admin' ? 'bg-rose-50 text-rose-700 border-rose-100' :
+                                ($role->name == 'admin' ? 'bg-red-50 text-red-700 border-red-100' :
+                                ($role->name == 'validator' ? 'bg-yellow-50 text-yellow-700 border-yellow-100' : 
+                                ($role->name == 'pengusul-desa' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' :
+                                ($role->name == 'pengusul' ? 'bg-sky-50 text-sky-700 border-sky-100' :
+                                'bg-sky-50 text-sky-700 border-sky-100')))) }}">
                                 {{ str_replace('-', ' ', $role->name) }}
                             </span>
                         @empty

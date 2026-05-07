@@ -41,6 +41,7 @@
                         <li><a href="{{ route('tentang') }}" class="text-sm text-slate-400 hover:text-[#03045E] transition-colors">Tentang Kami</a></li>
                         <li><a href="{{ route('fitur') }}" class="text-sm text-slate-400 hover:text-[#03045E] transition-colors">Fitur Sistem</a></li>
                         <li><a href="{{ route('profil-kebudayaan.index') }}" class="text-sm text-slate-400 hover:text-[#03045E] transition-colors">Profil Budaya</a></li>
+                        <li><a href="{{ route('edukasi') }}" class="text-sm text-slate-400 hover:text-[#03045E] transition-colors">Edukasi</a></li>
                     </ul>
                 </div>
 

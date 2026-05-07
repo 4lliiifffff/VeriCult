@@ -41,6 +41,12 @@
                         'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
                         request()->routeIs('fitur') ? 'after:w-full' : ''
                     ]">Fitur</a>
+                <a href="{{ route('edukasi') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
+                    :class="[
+                        request()->routeIs('edukasi') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
+                        'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
+                        request()->routeIs('edukasi') ? 'after:w-full' : ''
+                    ]">Edukasi</a>
                 <a href="{{ route('profil-kebudayaan.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
                     :class="[
                         request()->routeIs('profil-kebudayaan.*') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
@@ -142,6 +148,7 @@
             <a href="{{ route('beranda') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Beranda</a>
             <a href="{{ route('tentang') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Tentang</a>
             <a href="{{ route('fitur') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Fitur</a>
+            <a href="{{ route('edukasi') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Edukasi</a>
             <a href="{{ route('profil-kebudayaan.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Profil Budaya</a>
             
             <div class="pt-4 mt-2 border-t border-slate-100 flex flex-col space-y-3">
