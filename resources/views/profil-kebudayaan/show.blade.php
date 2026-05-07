@@ -7,46 +7,33 @@
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800&display=swap" rel="stylesheet" />
     
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
-        * { box-sizing: border-box; }
         [x-cloak] { display: none !important; }
-        
-        .premium-gradient {
-            background: linear-gradient(135deg, #03045E 0%, #023E8A 50%, #0077B6 100%);
+        .hero-gradient-overlay {
+            background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.8) 100%);
         }
-        
-        .premium-glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .hero-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        @keyframes revealUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .reveal {
-            animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.2, 0, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+            will-change: transform, opacity;
         }
-
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-
+        .reveal-up { transform: translateY(30px); }
+        .reveal-visible { opacity: 1; transform: translate(0, 0); }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-shadow:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
     </style>
 </head>
-<body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] text-slate-900 overflow-x-hidden" 
+<body class="antialiased font-sans bg-white text-slate-900 overflow-x-hidden" 
       x-data="{ 
         showPreviewModal: false,
         previewFile: null,
@@ -69,38 +56,27 @@
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100">
-            <div class="absolute inset-0 bg-[#03045E]/90 backdrop-blur-xl" @click="closePreview()"></div>
+            <div class="absolute inset-0 bg-slate-900/95 backdrop-blur-md" @click="closePreview()"></div>
             
-            <div class="relative w-full max-w-6xl max-h-full flex flex-col items-center"
+            <div class="relative w-full max-w-5xl max-h-full flex flex-col items-center"
                  x-transition:enter="transition ease-out duration-300 delay-100"
-                 x-transition:enter-start="opacity-0 scale-95 translate-y-10"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100">
                 
-                <!-- Modal Header -->
-                <div class="absolute -top-16 left-0 right-0 flex items-center justify-between text-white px-2">
-                    <div class="flex flex-col">
-                        <h4 class="text-sm font-black uppercase tracking-widest text-white/60 mb-1" x-text="previewFile?.type"></h4>
-                        <p class="text-lg font-black tracking-tight truncate max-w-[200px] sm:max-w-md" x-text="previewFile?.name"></p>
-                    </div>
-                    <button type="button" @click="closePreview()" class="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all group active:scale-90">
-                        <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <div class="absolute -top-12 left-0 right-0 flex items-center justify-between text-white">
+                    <p class="text-sm font-bold truncate max-w-xs" x-text="previewFile?.name"></p>
+                    <button @click="closePreview()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
 
-                <!-- Content Container -->
-                <div class="w-full bg-black/20 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center relative group/inner min-h-[300px]">
+                <div class="w-full bg-black rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
                     <template x-if="previewFile?.type === 'image'">
-                        <img :src="previewFile?.url" class="max-w-full max-h-[70vh] object-contain select-none">
+                        <img :src="previewFile?.url" class="max-w-full max-h-[80vh] object-contain">
                     </template>
                     <template x-if="previewFile?.type === 'video'">
-                        <video :src="previewFile?.url" controls preload="none" class="max-w-full max-h-[70vh] rounded-2xl"></video>
+                        <video :src="previewFile?.url" controls class="max-w-full max-h-[80vh]"></video>
                     </template>
-                    
-                    <!-- Floating Download Link -->
-                    <a :href="previewFile?.url" target="_blank" class="absolute bottom-8 right-8 px-6 py-3 bg-white text-[#03045E] rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Unduh Berkas
-                    </a>
                 </div>
             </div>
         </div>
@@ -109,121 +85,93 @@
     <!-- Navbar -->
     <x-public-navbar />
 
-    <!-- Hero Content -->
-    <div class="relative h-[60vh] lg:h-[85vh] flex items-end overflow-hidden">
+    <!-- Hero Section -->
+    <section class="relative h-[70vh] min-h-[500px] flex items-end overflow-hidden bg-slate-900">
         @php 
             $mainImage = $submission->files->first(function($file) {
                 return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
             }); 
         @endphp
         
-        <div class="absolute inset-0 z-0">
-            @if($mainImage)
-                <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="w-full h-full object-cover scale-105" x-ref="heroImg">
-            @else
-                <div class="w-full h-full premium-gradient"></div>
-            @endif
-            <div class="absolute inset-0 bg-gradient-to-t from-[#F1F5F9] via-[#03045E]/60 to-[#03045E]/30 lg:via-[#03045E]/40 lg:to-transparent"></div>
-            <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F1F5F9] to-transparent"></div>
-        </div>
+        @if($mainImage)
+            <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="absolute inset-0 w-full h-full object-cover opacity-60">
+        @endif
+        <div class="absolute inset-0 hero-gradient-overlay"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pb-8 lg:pb-24">
-            <div class="max-w-4xl reveal">
-                <div class="flex flex-wrap items-center gap-3 mb-6">
-                    <span class="px-5 py-2 bg-[#00B4D8] text-white text-[9px] font-bold uppercase tracking-[0.2em] rounded-full shadow-lg shadow-blue-500/20">
-                        {{ $submission->category }}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pb-16">
+            <div class="max-w-4xl reveal reveal-up">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="px-4 py-1 bg-[#0077B6] text-white text-[10px] font-bold uppercase tracking-wider rounded-lg">
+                        {{ ucfirst(str_replace('_', ' ', $submission->category)) }}
                     </span>
-                    <span class="px-5 py-2 bg-white/10 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-[0.2em] rounded-full border border-white/20">
+                    <span class="px-4 py-1 bg-white/10 backdrop-blur text-white text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/20">
                         VeriCult Certified
                     </span>
                 </div>
                 
-                <h1 class="text-2xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.2] lg:leading-[1.1] tracking-tight mb-10 lg:mb-8 capitalize break-words max-w-full">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 tracking-tight leading-tight">
                     {{ $submission->name }}
                 </h1>
 
-                <div class="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-6 lg:gap-12 min-w-0">
-                    <div class="flex items-center gap-4 group min-w-0">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:bg-[#00B4D8] transition-all duration-300">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                <div class="flex flex-wrap items-center gap-8 text-white/80">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                         </div>
                         <div>
-                            <p class="text-[9px] font-bold text-white/50 uppercase tracking-widest mb-0.5">Lokasi</p>
-                            <p class="text-xs sm:text-sm font-semibold text-white uppercase tracking-wider break-words">{{ $submission->address }}</p>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/40">Lokasi</p>
+                            <p class="text-sm font-semibold">{{ $submission->address }}</p>
                         </div>
                     </div>
-
-                    <div class="flex items-center gap-4 group min-w-0">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:bg-[#00B4D8] transition-all duration-300">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
                         <div>
-                            <p class="text-[9px] font-bold text-white/50 uppercase tracking-widest mb-0.5">Tgl Publikasi</p>
-                            <p class="text-xs sm:text-sm font-semibold text-white uppercase tracking-wider truncate">{{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d M Y') }}</p>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/40">Publikasi</p>
+                            <p class="text-sm font-semibold">{{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d M Y') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden lg:block animate-bounce opacity-50">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7-7-7"></path></svg>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 py-10 lg:py-24 relative z-20 overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
-            
-            <!-- Left Info Column -->
-            <div class="lg:col-span-2 space-y-12 sm:space-y-20">
+    <!-- Content Section -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-16">
                 
-                <!-- Narasi Section -->
-                <div class="reveal">
-                    <div class="flex items-center gap-6 mb-10 sm:mb-16">
-                        <div class="flex-1 h-px bg-slate-200"></div>
-                        <h2 class="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest sm:tracking-[0.4em] text-center">Deskripsi Warisan</h2>
-                        <div class="flex-1 h-px bg-slate-200"></div>
-                    </div>
-                    
-                    <div class="relative">
-                        <div class="absolute left-4 sm:-left-12 top-0 text-7xl sm:text-8xl font-bold text-slate-100 leading-none pointer-events-none opacity-50 sm:opacity-100">"</div>
-                        <p class="text-slate-500 text-sm sm:text-lg lg:text-xl leading-[1.8] font-medium italic break-words relative z-10 px-4 sm:px-2 w-full">
-                            {{ $submission->description }}.
+                <!-- Main Content -->
+                <div class="lg:col-span-8 space-y-16">
+                    <div class="reveal reveal-up">
+                        <h2 class="text-2xl font-bold text-[#03045E] mb-6 flex items-center gap-4">
+                            Deskripsi Objek
+                            <div class="h-px flex-1 bg-slate-100"></div>
+                        </h2>
+                        <p class="text-lg text-slate-500 leading-relaxed font-normal italic">
+                            "{{ $submission->description }}"
                         </p>
                     </div>
-                </div>
 
-                <!-- Detail Kategori Section -->
-                @if(!empty($submission->category_data))
-                <div class="bg-white rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-10 lg:p-16 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100 relative overflow-hidden reveal delay-100">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-[#00B4D8]/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                    
-                    <div class="relative z-10">
-                        <h2 class="text-[9px] sm:text-[10px] font-semibold text-[#0077B6] uppercase tracking-wider sm:tracking-[0.2em] mb-10 flex items-center gap-2 sm:gap-4">
-                            Data Teknis {{ $submission->category }}
-                            <div class="flex-1 max-w-[40px] h-0.5 bg-[#00B4D8]/30"></div>
-                        </h2>
+                    @if(!empty($submission->category_data))
+                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 reveal reveal-up">
+                        <h3 class="text-sm font-bold text-[#0077B6] uppercase tracking-[0.2em] mb-10">Data Teknis DetaiL</h3>
                         
-                        @php
-                            $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
-                            $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
-                        @endphp
-                        
-                        <div class="grid grid-cols-1 gap-y-10 sm:gap-y-16">
+                        <div class="grid gap-12">
                             @php
+                                $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                                $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                                 $processedKeys = [];
                             @endphp
+
                             @foreach($submission->category_data as $dataKey => $dataValue)
                                 @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $processedKeys))
                                     @php
                                         $fieldDef = $flatFields[$dataKey] ?? null;
                                         if (!$fieldDef) continue;
 
-                                        // Skip conditional check fields (Ya/Tidak) if the actual data field exists and is filled
                                         if (($fieldDef['type'] ?? '') === 'radio' && in_array($dataValue, ['Ya', 'Tidak'])) {
-                                            // Look ahead to see if there's a dependent field that is filled
                                             $hasDependentFilled = false;
                                             foreach($flatFields as $k => $f) {
                                                 if (isset($f['condition']) && $f['condition']['field'] === $dataKey && !empty($submission->category_data[$k])) {
@@ -237,7 +185,6 @@
                                         $displayValue = $dataValue;
                                         $displayLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
 
-                                        // Handle "Lainnya" merging
                                         if ($dataValue === 'Lainnya') {
                                             $otherKey = $dataKey . '_lainnya';
                                             if (!empty($submission->category_data[$otherKey])) {
@@ -245,35 +192,28 @@
                                                 $processedKeys[] = $otherKey;
                                             }
                                         }
-
-                                        // Special cleanup for Pencipta labels
-                                        if (str_contains(strtolower($displayLabel), 'pencipta manuskrip')) {
-                                            $displayLabel = 'Penulis / Pencipta Manuskrip';
-                                        }
-
-                                        $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
                                     @endphp
-                                    <div class="space-y-4">
-                                        <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">{{ $displayLabel }}</p>
+
+                                    <div class="space-y-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ $displayLabel }}</p>
                                         
                                         @if(is_array($displayValue))
                                             @if(isset($displayValue[0]) && is_array($displayValue[0]))
-                                                {{-- Dynamic table data --}}
-                                                <div class="bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden">
-                                                    <div class="overflow-x-auto custom-scrollbar">
-                                                        <table class="w-full text-left">
-                                                            <thead>
-                                                                     <tr class="bg-slate-100/50">
+                                                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+                                                    <div class="overflow-x-auto">
+                                                        <table class="w-full text-left text-sm">
+                                                            <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                                <tr>
                                                                     @foreach(array_keys($displayValue[0]) as $colKey)
-                                                                        <th class="px-3 sm:px-6 py-4 text-[9px] font-bold text-slate-500 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</th>
+                                                                        <th class="px-6 py-4">{{ str_replace('_', ' ', $colKey) }}</th>
                                                                     @endforeach
                                                                 </tr>
                                                             </thead>
-                                                            <tbody class="divide-y divide-slate-100">
+                                                            <tbody class="divide-y divide-slate-100 text-slate-600 font-medium">
                                                                 @foreach($displayValue as $row)
-                                                                    <tr class="hover:bg-white transition-colors text-slate-600">
-                                                                        @foreach($row as $cellValue)
-                                                                            <td class="px-3 sm:px-6 py-4 text-xs sm:text-sm font-semibold break-words">{{ $cellValue }}</td>
+                                                                    <tr>
+                                                                        @foreach($row as $cell)
+                                                                            <td class="px-6 py-4">{{ $cell }}</td>
                                                                         @endforeach
                                                                     </tr>
                                                                 @endforeach
@@ -282,18 +222,16 @@
                                                     </div>
                                                 </div>
                                             @else
-                                                {{-- Checkbox/List array --}}
-                                                <div class="flex flex-wrap gap-3">
+                                                <div class="flex flex-wrap gap-2">
                                                     @foreach($displayValue as $item)
-                                                        <span class="px-5 py-3 bg-slate-50 text-[#03045E] rounded-2xl text-xs font-semibold border border-slate-200/40 hover:bg-white hover:shadow-md transition-all cursor-default">
+                                                        <span class="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-semibold text-[#03045E]">
                                                             {{ $item }}
                                                         </span>
                                                     @endforeach
                                                 </div>
                                             @endif
                                         @else
-                                            @php $isLongText = strlen($displayValue) > 50 || ($fieldDef['type'] ?? '') === 'textarea'; @endphp
-                                            <p class="text-{{ $isLongText ? 'slate-500 font-medium italic text-sm leading-relaxed' : '[#03045E] font-semibold text-base lg:text-xl tracking-tight' }} break-words">
+                                            <p class="text-[#03045E] font-semibold text-lg tracking-tight">
                                                 {{ $displayValue }}
                                             </p>
                                         @endif
@@ -301,189 +239,75 @@
                                 @endif
                             @endforeach
                         </div>
+                    </div>
+                    @endif
+                </div>
 
-                        {{-- UNESCO & Special Metadata --}}
-                        @if(!empty($submission->category_data['unesco_categories']))
-                            <div class="mt-16 pt-12 border-t border-slate-100">
-                                <div class="flex flex-wrap items-center gap-8">
-                                    <div>
-                                        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-4">UNESCO Classification</p>
-                                        <div class="flex flex-wrap gap-3">
-                                            @foreach($submission->category_data['unesco_categories'] as $unescoCat)
-                                                <span class="px-5 py-3 bg-[#03045E] text-white rounded-2xl text-[9px] font-semibold uppercase tracking-widest">
-                                                    {{ $unescoCat }}
-                                                </span>
-                                            @endforeach
+                <!-- Sidebar -->
+                <div class="lg:col-span-4 space-y-12">
+                    <!-- Media Gallery -->
+                    <div class="reveal reveal-up" style="transition-delay: 100ms;">
+                        <h3 class="text-sm font-bold text-[#03045E] uppercase tracking-widest mb-6">Galeri Media</h3>
+                        <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
+                            @forelse($submission->files as $file)
+                                @if(in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']))
+                                    <button @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
+                                            class="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 card-shadow">
+                                        <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
                                         </div>
-                                    </div>
+                                    </button>
+                                @elseif(in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']))
+                                    <button @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" 
+                                            class="group relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-slate-100 card-shadow">
+                                        <div class="absolute inset-0 flex items-center justify-center text-white">
+                                            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        </div>
+                                    </button>
+                                @endif
+                            @empty
+                                <div class="col-span-full py-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Tidak ada media</p>
                                 </div>
-                            </div>
-                        @endif
-
-                        {{-- External URLs --}}
-                        @php $hasExternals = !empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url']); @endphp
-                        @if($hasExternals)
-                            <div class="mt-16 pt-12 border-t border-slate-100">
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8">Data Dukung Eksternal</p>
-                                <div class="grid grid-cols-1 gap-6">
-                                    @foreach(['video_url' => 'Dokumentasi Video', 'dokumen_kajian_url' => 'Naskah Kajian', 'dokumen_lainnya_url' => 'Arsip Pendukung'] as $urlKey => $urlLabel)
-                                        @if(!empty($submission->category_data[$urlKey]))
-                                            <div class="group/url">
-                                                <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" 
-                                                   class="flex items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] bg-slate-50 border border-slate-100 hover:bg-white hover:border-[#00B4D8] hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 overflow-hidden">
-                                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center text-[#0077B6] shadow-sm group-hover/url:bg-[#0077B6] group-hover/url:text-white transition-all duration-500 shrink-0">
-                                                        <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                                    </div>
-                                                    <div class="min-w-0">
-                                                        <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-widest mb-1">{{ $urlLabel }}</p>
-                                                        <p class="text-xs sm:text-sm font-medium text-[#03045E] truncate w-full group-hover/url:text-[#0077B6] transition-colors">{{ $submission->category_data[$urlKey] }}</p>
-                                                    </div>
-                                                </a>
-                                                
-                                                @if($urlKey === 'video_url')
-                                                    @php
-                                                        $url = $submission->category_data[$urlKey]; $embedUrl = null;
-                                                        if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i', $url, $matches)) { $embedUrl = "https://www.youtube.com/embed/" . $matches[1]; }
-                                                        elseif (preg_match('/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/i', $url, $matches)) { $embedUrl = "https://player.vimeo.com/video/" . $matches[3]; }
-                                                    @endphp
-                                                    @if($embedUrl)
-                                                        <div class="mt-6 rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl aspect-video bg-black reveal delay-200">
-                                                            <iframe src="{{ $embedUrl }}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-                @endif
-            </div>
-
-            <!-- Right Sidebar Column -->
-            <div class="lg:col-span-1 space-y-8 lg:space-y-12 reveal delay-200 lg:sticky lg:top-32 self-start">
-                <!-- Gallery Section -->
-                <div class="bg-white rounded-[2rem] lg:rounded-[3rem] p-6 lg:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100">
-                    <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">Arsip Dokumentasi</h3>
-                    
-                    <div class="grid grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
-                        @forelse($submission->files as $file)
-                            @if(in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']))
-                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
-                                        class="group relative rounded-[2rem] overflow-hidden aspect-[4/3] border border-slate-100 hover:shadow-2xl transition-all duration-500 w-full text-left">
-                                    <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#03045E]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                                        <span class="text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-2">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            Perbesar
-                                        </span>
-                                    </div>
-                                </button>
-                            @elseif(in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']))
-                                <div class="bg-slate-900 rounded-[2rem] overflow-hidden aspect-video relative group border-4 border-slate-100 shadow-xl overflow-hidden">
-                                     <video controls preload="none" class="w-full h-full object-contain bg-black">
-                                        @php
-                                            $extension = pathinfo($file->original_name, PATHINFO_EXTENSION) ?: (pathinfo($file->url, PATHINFO_EXTENSION) ?: 'mp4');
-                                            $mimeType = match(strtolower($extension)) {
-                                                'mov' => 'video/quicktime',
-                                                'webm' => 'video/webm',
-                                                'ogg' => 'video/ogg',
-                                                default => 'video/mp4'
-                                            };
-                                            $encodedUrl = str_replace(' ', '%20', $file->url);
-                                        @endphp
-                                        <source src="{{ $encodedUrl }}" type="{{ $mimeType }}">
-                                        Browser Anda tidak mendukung pemutaran video.
-                                    </video>
-                                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" class="p-3 bg-white/20 backdrop-blur-md text-white rounded-xl hover:bg-[#00B4D8] transition-all transform active:scale-90">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            @elseif(in_array(strtolower($file->file_type), ['audio', 'mp3', 'wav']))
-                                <div class="p-6 sm:p-8 bg-slate-50 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-100 group hover:bg-white hover:shadow-xl transition-all duration-500">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center text-[#0077B6] mx-auto shadow-sm mb-6 border border-slate-100 group-hover:bg-[#0077B6] group-hover:text-white transition-all">
-                                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                                    </div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-6 truncate px-2 text-ellipsis overflow-hidden">{{ $file->original_name }}</p>
-                                    <audio controls class="w-full h-10 border-0">
-                                        <source src="{{ $file->url }}" type="audio/mpeg">
-                                    </audio>
-                                </div>
-                            @else
-                                <a href="{{ $file->url }}" target="_blank" class="flex items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-slate-50 border border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] hover:bg-white hover:shadow-xl hover:border-[#00B4D8] group/doc transition-all duration-500 overflow-hidden">
-                                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center text-[#0077B6] group-hover/doc:bg-[#0077B6] group-hover/doc:text-white transition-all duration-500 shrink-0">
-                                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    </div>
-                                    <div class="min-w-0 flex-1 overflow-hidden">
-                                        <p class="text-[10px] font-bold text-[#03045E] truncate mb-0.5 text-ellipsis overflow-hidden">{{ $file->original_name }}</p>
-                                        <p class="text-[9px] font-medium text-slate-400 uppercase tracking-widest opacity-70">{{ strtoupper($file->file_type) }} • {{ $file->file_size_human }}</p>
-                                    </div>
-                                </a>
-                            @endif
-                        @empty
-                            <p class="text-center text-xs font-black text-slate-300 uppercase tracking-widest py-10 w-full col-span-2">Belum ada lampiran arsip</p>
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Verification Seal -->
-                <div class="premium-gradient rounded-[3rem] p-6 sm:p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group w-full">
-                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-[80px] group-hover:scale-150 transition-transform duration-1000"></div>
-                    
-                    <div class="relative z-10">
-                        <div class="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-white/20">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            @endforelse
                         </div>
-                        <h4 class="text-2xl font-bold mb-4 uppercase tracking-tighter leading-tight">Terverifikasi<br>Resmi VeriCult</h4>
-                        <p class="text-white/70 text-sm font-medium leading-relaxed mb-10 italic">"Memastikan setiap data warisan budaya terdokumentasi dengan akurat dan sah."</p>
-                        
-                        <div class="pt-8 border-t border-white/10 flex items-center gap-5">
-                            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center font-black text-xs border border-white/20">VC</div>
-                            <div>
-                                <p class="text-[9px] font-bold text-white/50 uppercase tracking-[0.2em] mb-1">Otoritas Verifikasi</p>
-                                <p class="text-[11px] font-black uppercase tracking-widest">Tim Kurator Lapangan</p>
+                    </div>
+
+                    <!-- Verification Badge -->
+                    <div class="bg-[#03045E] rounded-[2.5rem] p-10 text-white relative overflow-hidden reveal reveal-up" style="transition-delay: 200ms;">
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            </div>
+                            <h4 class="text-xl font-bold mb-4 tracking-tight">Terverifikasi Resmi</h4>
+                            <p class="text-white/60 text-sm leading-relaxed mb-8 italic">
+                                "Sistem VeriCult menjamin keaslian dan validitas data warisan budaya ini melalui proses verifikasi berjenjang."
+                            </p>
+                            <div class="flex items-center gap-4 pt-8 border-t border-white/10">
+                                <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-[10px] font-bold">VC</div>
+                                <div>
+                                    <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Otoritas</p>
+                                    <p class="text-xs font-bold">Tim Kurator VeriCult</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="bg-[#03045E] pt-24 pb-12 relative overflow-hidden">
-        <div class="absolute inset-0 bg-hero-pattern opacity-5"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="flex items-center justify-center gap-3 sm:gap-4 mb-10">
-                <div class="flex-1 max-w-[48px] h-px bg-white/20"></div>
-                <span class="text-2xl sm:text-3xl font-black text-white">Veri<span class="text-[#00B4D8]">Cult</span></span>
-                <div class="flex-1 max-w-[48px] h-px bg-white/20"></div>
-            </div>
-            
-            <p class="text-white/40 text-[10px] font-black uppercase tracking-widest sm:tracking-[0.5em] mb-12">
-                Melestarikan Budaya Digital Untuk Generasi Mendatang
-            </p>
-            
-            <div class="flex justify-center flex-wrap gap-8 sm:gap-16 mb-16">
-                @foreach(['Beranda' => 'beranda', 'Tentang' => 'tentang', 'Fitur' => 'fitur', 'Profil Budaya' => 'profil-kebudayaan.index'] as $label => $route)
-                    <a href="{{ route($route) }}" class="text-[9px] sm:text-[10px] font-black uppercase tracking-widest sm:tracking-[0.3em] text-white/60 hover:text-[#00B4D8] transition-colors">
-                        {{ $label }}
-                    </a>
-                @endforeach
-            </div>
+    @include('partials.footer')
 
-            <p class="text-white/20 text-[9px] font-bold uppercase tracking-widest pt-12 border-t border-white/10">
-                &copy; {{ date('Y') }} VeriCult Platform • Hak Cipta Dilindungi Undang-Undang
-            </p>
-        </div>
-    </footer>
-
-    <!-- Mobile Menu Modal Removed (Replaced by dropdown) -->
-
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal-visible'); obs.unobserve(entry.target); } });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
