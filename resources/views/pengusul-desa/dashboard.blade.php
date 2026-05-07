@@ -41,7 +41,7 @@
                             </a>
 
                             <!-- OPK Button (only for pengusul-desa approved) -->
-                            @if($hasStatistikAccess)
+                            @if($hasOPKAccess)
                                 <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#00B4D8] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0096C7] transition-all shadow-lg shadow-blue-900/10 items-center gap-2">
                                     <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
@@ -59,7 +59,7 @@
 
     <div class="space-y-8">
         <!-- Form Type Quick Links (if pengusul-desa and approved) -->
-        @if($isPenguslDesa && $hasStatistikAccess)
+        @if($isPenguslDesa && $hasOPKAccess)
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Active Culture Card -->
             <a href="{{ route('pengusul-desa.submissions.index') }}" class="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 sm:p-8 shadow-sm border border-blue-100 hover:shadow-lg hover:border-blue-200 transition-all hover:-translate-y-1 cursor-pointer">

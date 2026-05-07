@@ -29,13 +29,13 @@ class DashboardController extends Controller
         // Role & Approval Info
         $isPenguslDesa = $user->hasRole('pengusul-desa');
         $isApprovedByAdmin = $user->is_approved_by_admin;
-        $hasStatistikAccess = $isPenguslDesa && $isApprovedByAdmin;
+        $hasOPKAccess = $isPenguslDesa && $isApprovedByAdmin;
 
         // opk for submission types
         $activeCultureCount = CulturalSubmission::ownedBy($userId)
             ->where('submission_type', 'aktif')
             ->count();
-        $statistikCount = CulturalSubmission::ownedBy($userId)
+        $opkCount = CulturalSubmission::ownedBy($userId)
             ->where('submission_type', 'opk')
             ->count();
 
@@ -48,9 +48,9 @@ class DashboardController extends Controller
             'recentSubmissions',
             'isPenguslDesa',
             'isApprovedByAdmin',
-            'hasStatistikAccess',
+            'hasOPKAccess',
             'activeCultureCount',
-            'statistikCount'
+            'opkCount'
         ));
     }
 }
