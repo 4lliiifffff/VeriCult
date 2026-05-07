@@ -33,7 +33,8 @@
     }
 @endphp
 
-<div class="space-y-3 group/field"
+<div class="space-y-3 group/field relative transition-all duration-300"
+    :class="openField === '{{ $fieldKey }}' ? 'z-[100]' : 'z-0'"
     @if(!empty($field['required'])) data-required="true" @endif
     @if($hasCondition)
         @php
@@ -104,6 +105,7 @@
                             setFieldValue('{{ $fieldKey }}', option);
                         }
                      }"
+                     x-init="$watch('open', val => { if(val) openField = '{{ $fieldKey }}'; else if(openField === '{{ $fieldKey }}') openField = null; })"
                      @click.away="open = false"
                      class="relative group/input">
                     
@@ -210,6 +212,7 @@
                             setFieldValue('{{ $fieldKey }}', option);
                         }
                      }"
+                     x-init="$watch('open', val => { if(val) openField = '{{ $fieldKey }}'; else if(openField === '{{ $fieldKey }}') openField = null; })"
                      @click.away="open = false"
                      class="relative">
                     

@@ -77,7 +77,7 @@
 
             {{-- Sub-category selector --}}
             @if($hasSub)
-                <div class="space-y-4 group relative z-10">
+                <div class="space-y-4 group relative transition-all duration-300" :class="openField === 'sub_category' ? 'z-[100]' : 'z-10'">
                     <label class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">{{ $categoryConfig['sub_label'] ?? 'Pilih Sub-Kategori' }} <span class="text-red-500">*</span></label>
                     <div x-data="{ 
                             open: false, 
@@ -90,6 +90,7 @@
                                 this.activeSubCategory = key;
                             }
                          }"
+                         x-init="$watch('open', val => { if(val) openField = 'sub_category'; else if(openField === 'sub_category') openField = null; })"
                          @click.away="open = false"
                          class="relative">
                         
@@ -491,6 +492,7 @@ function categoryForm() {
         files: [],
         showPreviewModal: false,
         previewFile: null,
+        openField: null,
 
         openPreview(item) {
             this.previewFile = item;

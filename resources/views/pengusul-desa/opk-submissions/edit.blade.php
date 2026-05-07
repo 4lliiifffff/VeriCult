@@ -1,53 +1,53 @@
 <x-layouts.pengusul-desa>
     <x-slot name="header">
-        <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
-            <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan OPK</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">Detail</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Ubah Laporan</span>
-        </nav>
+        <div class="space-y-4">
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan OPK</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">Detail</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <span class="text-[#03045E]">Ubah Laporan</span>
+            </nav>
 
-        <!-- Premium Page Header Card -->
-        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-            
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-4">
-                    <div class="flex flex-wrap items-center gap-3">
-                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-sm">
-                            {{ $submission->status_label }}
-                        </span>
-                        <span class="text-[10px] font-black text-blue-100/60 uppercase tracking-[0.2em] bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">STAT-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
-                    </div>
-                    
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words max-w-4xl">
-                        Edit <span class="text-[#00B4D8]">Laporan OPK</span>
-                    </h2>
-                    
-                    <div class="flex flex-wrap items-center gap-4">
-                        <div class="flex items-center gap-2 text-blue-100/80 font-bold text-sm bg-white/5 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10">
-                            <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                            <span>Laporan Desa</span>
+            <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-blue-900/20 group">
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="px-5 py-2 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
+                                {{ $submission->status_label }}
+                            </span>
+                            <span class="px-5 py-2 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-black/10 text-[#00B4D8] border border-white/10">
+                                ID: #{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}
+                            </span>
                         </div>
-                        <p class="text-blue-100/60 text-xs font-bold italic">Update informasi OPK: <span class="text-white ml-1">{{ $submission->name }}</span></p>
+                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                            Ubah <span class="text-[#00B4D8]">Laporan OPK</span>
+                        </h2>
+                        <div class="flex items-center gap-3 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 w-fit">
+                            <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            <span class="text-white font-bold text-sm italic">{{ $submission->name }}</span>
+                        </div>
                     </div>
-                </div>
-                    
-                <div class="flex items-center gap-4 mt-4 md:mt-0">
-                    <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 active:scale-95">
-                        Batal
-                    </a>
+                        
+                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-5 rounded-[2rem] border border-white/20 shadow-inner">
+                        <a href="{{ route('pengusul-desa.opk-submissions.show', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#03045E] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-all shadow-lg shadow-blue-900/20 active:scale-95 gap-2 group/btn">
+                            <svg class="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            Kembali
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </x-slot>
 
-    <div class="py-10" 
+    <div class="pb-20" 
          x-data="submissionForm()"
          @dragover.prevent="dragover = true"
          @dragleave.prevent="dragover = false"
@@ -58,25 +58,25 @@
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             class="fixed inset-0 bg-slate-900/75 flex items-center justify-center z-[100]"
+             class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-[110]"
              style="display: none;">
-            <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl flex flex-col items-center max-w-xs w-full mx-4 border border-white">
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl flex flex-col items-center max-w-xs w-full mx-4 border border-white/20">
                 <div class="relative w-20 h-20 mb-8">
                     <div class="absolute inset-0 border-4 border-[#0077B6]/10 rounded-full"></div>
-                    <div class="absolute inset-0 border-4 border-t-[#0077B6] rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 border-4 border-t-[#0077B6] rounded-full animate-spin shadow-lg"></div>
                 </div>
-                <h3 class="text-[#03045E] font-black text-xl mb-2 text-center">Menyimpan Perubahan</h3>
-                <p class="text-slate-500 text-xs font-bold tracking-wide uppercase text-center leading-relaxed">Mohon tunggu sebentar...</p>
+                <h3 class="text-[#03045E] font-black text-xl mb-3 text-center tracking-tight">Menyimpan Perubahan</h3>
+                <p class="text-slate-500 text-sm font-medium text-center leading-relaxed">Mohon tunggu sebentar, kami sedang memperbarui laporan OPK Anda.</p>
             </div>
         </div>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 relative pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative">
             
             <!-- Form Section -->
-            <div class="lg:col-span-8 space-y-10 px-4 sm:px-0">
-                <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white">
-                    <div class="p-6 sm:p-14">
+            <div class="lg:col-span-8 space-y-12">
+                <div class="bg-white rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl shadow-slate-200/50 border border-white overflow-hidden group/form transition-all duration-700">
+                    <div class="p-8 sm:p-14">
                         <form action="{{ route('pengusul-desa.opk-submissions.update', $submission) }}" 
                               method="POST" 
                               enctype="multipart/form-data" 
@@ -91,19 +91,22 @@
 
                             <!-- Footer Actions -->
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
-                                <div class="flex items-center gap-4 text-slate-400">
-                                    <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
-                                        <svg class="w-5 h-5 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div class="flex items-center gap-4 bg-slate-50 px-6 py-4 rounded-[1.5rem] border border-slate-100">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-100/50 flex items-center justify-center text-[#0077B6] shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     </div>
-                                    <span class="text-xs font-black uppercase tracking-widest italic">Pembaruan Draft Terakhir: {{ $submission->updated_at->diffForHumans() }}</span>
+                                    <div class="space-y-0.5">
+                                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Update Terakhir</span>
+                                        <span class="text-xs font-bold text-slate-600">{{ $submission->updated_at->translatedFormat('d M Y, H:i') }}</span>
+                                    </div>
                                 </div>
                                 
                                 <button type="submit" 
-                                        class="w-full sm:w-auto px-12 py-5 bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white font-black rounded-[1.5rem] shadow-2xl shadow-blue-900/30 hover:shadow-blue-900/40 hover:-translate-y-1 transition-all duration-300 active:scale-95 group"
+                                        class="w-full sm:w-auto px-12 py-5 bg-gradient-to-br from-[#03045E] via-[#023E8A] to-[#0077B6] text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl shadow-2xl shadow-blue-900/40 hover:shadow-blue-900/60 hover:-translate-y-1 transition-all duration-300 active:scale-95 group/submit"
                                         :disabled="loading">
                                     <div class="flex items-center justify-center gap-4">
-                                        <span class="tracking-[0.2em] uppercase text-xs">Simpan Perubahan</span>
-                                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                        <span>Simpan Perubahan</span>
+                                        <svg class="w-5 h-5 group-hover/submit:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                     </div>
                                 </button>
                             </div>
@@ -113,66 +116,70 @@
             </div>
 
             <!-- Sidebar Info -->
-            <div class="lg:col-span-4 relative px-4 sm:px-0 mt-8 lg:mt-0">
-                <div class="space-y-10 sticky top-8">
-                <!-- Progress Card -->
-                <div class="bg-[#03045E] rounded-[2.5rem] p-10 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
-                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-4 mb-8">
-                            <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <div class="lg:col-span-4 relative mt-8 lg:mt-0">
+                <div class="space-y-8 sticky top-8">
+                <!-- Data Meter Card -->
+                <div class="bg-gradient-to-br from-[#03045E] to-[#023E8A] rounded-[2.5rem] p-8 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group/status transition-all duration-700 hover:shadow-blue-900/60">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover/status:scale-125 transition-transform duration-1000"></div>
+                    <div class="relative z-10 space-y-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center border border-white/20 shadow-inner">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                             </div>
-                            <span class="font-black tracking-tight text-2xl">Data Meter</span>
+                            <div>
+                                <h3 class="font-black tracking-tight text-2xl">Data Meter</h3>
+                                <p class="text-blue-100/50 text-[10px] font-black uppercase tracking-widest">Update Laporan</p>
+                            </div>
                         </div>
-                        <div class="space-y-6">
-                            <div class="flex items-center justify-between text-white/70 text-[10px] font-black uppercase tracking-widest">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-blue-100/70 text-[10px] font-black uppercase tracking-widest">
                                 <span>Kelengkapan Berkas</span>
-                                <span class="text-[#00B4D8]" x-text="progress + '%'">0%</span>
+                                <span class="bg-white/10 px-2 py-0.5 rounded-lg border border-white/10" x-text="progress + '%'">0%</span>
                             </div>
                             <div class="h-3 bg-white/10 rounded-full overflow-hidden border border-white/5 p-0.5">
-                                <div class="h-full bg-gradient-to-r from-[#00B4D8] to-[#0077B6] rounded-full transition-all duration-700 ease-out" :style="'width: ' + progress + '%'"></div>
+                                <div class="h-full bg-gradient-to-r from-[#00B4D8] to-[#90E0EF] rounded-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(144,224,239,0.5)]" :style="'width: ' + progress + '%'"></div>
                             </div>
+                            <p class="text-blue-100/40 text-[10px] font-black uppercase tracking-widest text-center" x-text="progress >= 100 ? '✓ Semua field telah terisi' : 'Lengkapi sisa kolom formulir'"></p>
                         </div>
-                        <div class="mt-6 px-4 py-2 rounded-xl bg-white/10 border border-white/10">
-                            <p class="text-white/80 text-xs font-bold">Kategori: {{ $submission->category }}</p>
+                        
+                        <div class="pt-6 border-t border-white/10">
+                            <p class="text-blue-100/60 text-xs leading-relaxed font-medium italic">
+                                Pastikan lampiran dokumen dan deskripsi objek telah diperbarui sesuai kondisi terkini di lapangan.
+                            </p>
                         </div>
-                        <p class="mt-6 text-blue-200/60 text-[10px] font-black uppercase tracking-widest leading-relaxed italic">
-                            Pastikan data OPK harian lengkap sebelum diajukan kembali.
-                        </p>
                     </div>
                 </div>
 
-                <!-- Info Card -->
-                <div class="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 space-y-8">
-                    <h3 class="text-[#03045E] font-black text-xl tracking-tight flex items-center gap-4">
-                        <span class="w-1.5 h-6 bg-[#0077B6] rounded-full"></span>
-                        Petunjuk Edit
-                    </h3>
-                    <div class="space-y-6">
-                        <div class="flex gap-5 group">
-                            <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0077B6] group-hover:scale-110 transition-transform border border-slate-100 shrink-0">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-1">Manajemen Berkas</h4>
-                                <p class="text-[11px] text-slate-500 leading-relaxed font-bold">
-                                    Unggah laporan baru jika perlu mengganti atau menambah dokumen OPK.
-                                </p>
+                <!-- Petunjuk Card -->
+                <div class="bg-white rounded-[2.5rem] p-10 border border-slate-50 shadow-xl shadow-slate-200/40 space-y-10 group/tips">
+                    <div class="flex items-center gap-4">
+                        <div class="w-1.5 h-8 bg-gradient-to-b from-[#03045E] to-[#0077B6] rounded-full"></div>
+                        <h3 class="text-[#03045E] font-black text-xl tracking-tight">Petunjuk Ubah</h3>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <div class="flex gap-6 group/item">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">01</div>
+                            <div class="space-y-1">
+                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Manajemen Berkas</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Ganti berkas lama dengan bukti dokumentasi terbaru untuk akurasi data OPK.</p>
                             </div>
                         </div>
-                        <div class="flex gap-5 group">
-                            <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0077B6] group-hover:scale-110 transition-transform border border-slate-100 shrink-0">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <div class="flex gap-6 group/item">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">02</div>
+                            <div class="space-y-1">
+                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Status Revisi</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Perhatikan catatan revisi dari validator jika ada kolom yang perlu diperbaiki.</p>
                             </div>
-                            <div>
-                                <h4 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-1">Status Laporan</h4>
-                                <p class="text-[11px] text-slate-500 leading-relaxed font-bold">
-                                    Laporan dengan status <span class="text-[#03045E]">Draft</span> atau <span class="text-amber-600">Revisi</span> dapat diubah.
-                                </p>
                         </div>
                     </div>
-                </div>
+
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4 group/alert">
+                        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-500 shrink-0 shadow-sm transition-transform group-hover/alert:scale-110">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Seluruh perubahan akan terekam dalam riwayat log sistem.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,11 +187,11 @@
         <!-- Confirmation Modal -->
         <x-modal name="confirm-update-submission" :show="false" focusable>
             <div class="p-10 sm:p-14 text-center">
-                <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center text-[#0077B6] mx-auto mb-8 shadow-inner animate-bounce-slow">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner animate-bounce-slow">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                 </div>
-                <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Simpan Perubahan?</h2>
-                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Data pengajuan OPK Anda akan diperbarui sebagai draft terbaru dalam sistem kami.</p>
+                <h2 class="text-3xl font-black text-[#03045E] mb-3 tracking-tight">Simpan Perubahan?</h2>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-12">Laporan OPK Anda akan diperbarui dengan data terbaru yang telah Anda isi.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                     <button type="button" 
@@ -204,15 +211,15 @@
         <!-- Max File Warning Modal -->
         <x-modal name="max-file-warning" :show="false" focusable>
             <div class="p-10 sm:p-14 text-center">
-                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-8 shadow-inner">
+                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                 </div>
                 <h2 class="text-3xl font-black text-rose-900 mb-3 tracking-tight">Batas Berkas Tercapai</h2>
-                <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-10">Total berkas (lama + baru) tidak boleh melebihi 5 berkas sebagai bukti pendukung.</p>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-12">Total berkas (lama + baru) tidak boleh melebihi 5 berkas untuk satu laporan OPK.</p>
 
                 <button type="button" 
                         @click="$dispatch('close')" 
-                        class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-xs tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
+                        class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
                     SAYA MENGERTI
                 </button>
             </div>
@@ -221,7 +228,7 @@
         <!-- Delete Confirmation Modal -->
         <x-modal name="confirm-delete-file" :show="false" focusable>
             <div class="p-10 sm:p-14 text-center">
-                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-8 shadow-inner animate-pulse">
+                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner animate-pulse">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </div>
                 <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Hapus Lampiran?</h2>
@@ -312,21 +319,21 @@
                 loading: false,
                 files: [],
                 dragover: false,
-                progress: {{ $submission->progress ?? 0 }},
+                progress: 0,
                 activeSubCategory: '{{ $submission->category_data[$categoryFields['sub_field'] ?? ''] ?? '' }}',
                 
                 init() {
                     this.$nextTick(() => {
-                        this.progress = this.calculateProgress();
+                        this.recalcProgress();
                     });
 
                     const form = this.$refs.editForm;
                     if (form) {
-                        form.addEventListener('input', () => this.progress = this.calculateProgress());
-                        form.addEventListener('change', () => this.progress = this.calculateProgress());
+                        form.addEventListener('input', () => this.recalcProgress());
+                        form.addEventListener('change', () => this.recalcProgress());
                     }
 
-                    this.$watch('files', () => this.$nextTick(() => this.progress = this.calculateProgress()));
+                    this.$watch('files', () => this.$nextTick(() => this.recalcProgress()));
                 },
 
                 handleFileSelect(e) {
@@ -379,6 +386,10 @@
                     if (input) input.files = dt.files;
                 },
 
+                recalcProgress() {
+                    this.progress = this.calculateProgress();
+                },
+
                 calculateProgress() {
                     let totalRequired = 0;
                     let filledRequired = 0;
@@ -386,14 +397,12 @@
                     const form = this.$refs.editForm;
                     if (!form) return {{ $submission->progress ?? 0 }};
 
-                    // 1. Inputs with data-required (includes text, textarea, select hidden, radio)
                     const requiredContainers = form.querySelectorAll('[data-required="true"]');
                     requiredContainers.forEach(container => {
                         if (!this.isVisible(container)) return;
                         
                         totalRequired++;
                         
-                        // Check if any input within this container is filled
                         const inputs = container.querySelectorAll('input, textarea, select');
                         let isFilled = false;
                         
@@ -408,7 +417,6 @@
                         if (isFilled) filledRequired++;
                     });
 
-                    // 2. Files (always one unit of progress)
                     totalRequired++;
                     if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledRequired++;
 
