@@ -29,7 +29,7 @@ class DashboardController extends Controller
         // Role & Approval Info
         $isPenguslDesa = $user->hasRole('pengusul-desa');
         $isApprovedByAdmin = $user->is_approved_by_admin;
-        $hasopkAccess = $isPenguslDesa && $isApprovedByAdmin;
+        $hasOPKAccess = $isPenguslDesa && $isApprovedByAdmin;
 
         // opk for submission types
         $activeCultureCount = CulturalSubmission::ownedBy($userId)

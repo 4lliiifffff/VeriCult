@@ -7,173 +7,180 @@
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=outfit:400,500,600,700,800,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800&display=swap" rel="stylesheet" />
     
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
-        .premium-gradient {
-            background: linear-gradient(135deg, #03045E 0%, #023E8A 50%, #0077B6 100%);
+        .hero-gradient {
+            background: radial-gradient(circle at 70% 30%, rgba(0, 119, 182, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 70%, rgba(3, 4, 94, 0.05) 0%, transparent 50%),
+                        #FFFFFF;
         }
-        .premium-glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .reveal {
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.2, 0, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+            will-change: transform, opacity;
         }
-        .hero-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        .reveal-up { transform: translateY(30px); }
+        .reveal-visible { opacity: 1; transform: translate(0, 0); }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+        .card-shadow:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            transform: translateY(-4px);
+        }
+        .filter-btn-active {
+            background: #03045E;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
+        }
     </style>
 </head>
-<body class="antialiased font-sans custom-scrollbar bg-[#F8FAFC] overflow-x-hidden">
+<body class="antialiased font-sans bg-white text-slate-900">
     
     <!-- Navbar -->
     <x-public-navbar />
 
     <!-- Header Section -->
-    <section class="premium-gradient pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-24 relative overflow-hidden">
-        <div class="absolute inset-0 hero-pattern opacity-10"></div>
+    <section class="hero-gradient pt-32 pb-16 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 backdrop-blur-xl rounded-2xl text-white text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-6 sm:mb-8 border border-white/20">
+            <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 rounded-full border border-slate-100 text-[#0077B6] text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
                 Eksplorasi Budaya Nusantara
             </div>
-            <h1 class="text-2xl xs:text-3xl sm:text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#90E0EF] to-[#00B4D8]">Kebudayaan Indonesia</span></h1>
-            <p class="text-sm sm:text-base md:text-lg text-[#CAF0F8]/80 max-w-2xl mx-auto font-medium leading-relaxed">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#03045E] mb-6 tracking-tight">Profil <span class="text-[#0077B6]">Kebudayaan Indonesia</span></h1>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto font-normal leading-relaxed">
                 Temukan kekayaan tradisi, seni, dan warisan budaya yang telah tervalidasi oleh tim ahli VeriCult.
             </p>
         </div>
     </section>
 
-    <!-- Filter & Gallery Section -->
-    <section class="py-16 -mt-12 relative z-20">
+    <!-- Main Content -->
+    <section class="py-12 bg-white min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Filter Bar -->
-            <div class="premium-glass rounded-[2.5rem] p-4 mb-16 shadow-2xl overflow-x-auto whitespace-nowrap scrollbar-hide">
-                <div class="flex items-center gap-2 p-1">
+            
+            <!-- Filters & Search -->
+            <div class="mb-16 space-y-8">
+                <!-- Category Filter -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-hide">
                     <a href="{{ route('profil-kebudayaan.index') }}" 
-                       class="px-6 py-3 rounded-[1.5rem] text-[10px] font-black uppercase tracking-widest transition-all {{ !$activeCategory ? 'bg-[#03045E] text-white shadow-xl shadow-blue-900/20' : 'text-[#03045E]/60 hover:bg-[#03045E]/5' }}">
-                        Semua Kategori
+                       class="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ !$activeCategory ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
+                        Semua
                     </a>
                     @foreach($categories as $category)
                         <a href="{{ route('profil-kebudayaan.index', ['category' => $category]) }}" 
-                           class="px-6 py-3 rounded-[1.5rem] text-[10px] font-black uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'bg-[#03045E] text-white shadow-xl shadow-blue-900/20' : 'text-[#03045E]/60 hover:bg-[#03045E]/5' }}">
-                            {{ $category }}
+                           class="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
+                            {{ ucfirst(str_replace('_', ' ', $category)) }}
                         </a>
                     @endforeach
                 </div>
-            </div>
 
-            <!-- Search & Year Filter Form -->
-            <div class="mb-12 max-w-3xl mx-auto text-center relative z-30">
-                <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 w-full auto-submit">
-                    @if(request('category'))
-                        <input type="hidden" name="category" value="{{ request('category') }}">
-                    @endif
-                    
-                    <!-- Year Filter -->
-                    <div class="relative min-w-full md:min-w-[220px]">
-                        <x-dropdown-select 
-                            name="year" 
-                            id="year" 
-                            placeholder="Pilih Periode"
-                            all-label="Semua Periode"
-                            variant="light"
-                            :selected="$activeYear" 
-                            :options="!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')]" 
-                        />
-                    </div>
+                <!-- Search & Year -->
+                <div class="bg-slate-50 rounded-3xl p-6 md:p-8 border border-slate-100">
+                    <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="grid md:grid-cols-12 gap-4">
+                        @if(request('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                        @endif
+                        
+                        <div class="md:col-span-3">
+                            <x-dropdown-select 
+                                name="year" 
+                                id="year" 
+                                placeholder="Pilih Periode"
+                                all-label="Semua Periode"
+                                variant="light"
+                                :selected="$activeYear" 
+                                :options="!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')]" 
+                            />
+                        </div>
 
-                    <!-- Search Input -->
-                    <div class="relative flex-1 group">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
-                               class="w-full h-full bg-white border-2 border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] pl-5 pr-24 sm:pl-8 sm:pr-32 py-4 sm:py-5 text-slate-700 font-bold text-xs sm:text-base focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-sm placeholder:text-slate-300">
-                        <button type="submit" class="absolute right-1.5 top-1.5 bottom-1.5 px-5 sm:px-8 bg-[#03045E] text-white rounded-[1rem] sm:rounded-[1.5rem] font-black text-[8px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
-                            Cari
-                        </button>
-                    </div>
-                </form>
+                        <div class="md:col-span-7 relative group">
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
+                                   class="w-full bg-white border border-slate-200 rounded-xl px-6 py-3.5 text-slate-700 font-medium text-sm focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6] transition-all outline-none">
+                        </div>
 
-                @if($activeYear != date('Y') && $activeYear == $defaultYear && !request()->has('year') && !empty($availableYears))
-                    <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Menampilkan data periode terbaru yang tersedia ({{ $activeYear }})
-                    </div>
-                @endif
+                        <div class="md:col-span-2">
+                            <button type="submit" class="w-full bg-[#03045E] text-white rounded-xl py-3.5 font-bold text-xs uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-md">
+                                Cari
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <!-- Gallery Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($submissions as $submission)
-                <a href="{{ route('profil-kebudayaan.show', $submission->slug) }}" class="group bg-white rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col h-full">
-                    <!-- Image Wrapper -->
-                    <div class="relative h-64 overflow-hidden">
+                <a href="{{ route('profil-kebudayaan.show', $submission->slug) }}" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 card-shadow flex flex-col h-full reveal reveal-up">
+                    <div class="aspect-[4/3] relative overflow-hidden bg-slate-50">
                         @php 
                             $mainImage = $submission->files->first(function($file) {
                                 return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
                             }); 
                         @endphp
                         @if($mainImage)
-                            <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         @else
-                            <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
-                                <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <div class="w-full h-full flex items-center justify-center text-slate-300">
+                                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                         @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#03045E]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         <div class="absolute top-4 left-4">
-                            <span class="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[#03045E] text-[9px] font-black uppercase tracking-widest shadow-lg">
-                                {{ $submission->category }}
+                            <span class="px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-[9px] font-bold text-[#0077B6] uppercase tracking-wider border border-slate-100">
+                                {{ ucfirst(str_replace('_', ' ', $submission->category)) }}
                             </span>
                         </div>
                     </div>
 
-                    <!-- Content -->
-                    <div class="p-5 sm:p-8 md:p-10 flex flex-col flex-grow">
-                        <h3 class="text-base sm:text-lg md:text-2xl font-black text-[#03045E] mb-3 line-clamp-1 capitalize group-hover:text-[#0077B6] transition-colors">{{ $submission->name }}</h3>
-                        <p class="text-slate-500 text-[10px] sm:text-xs md:text-sm font-medium line-clamp-3 mb-8 leading-relaxed">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-[#03045E] mb-3 line-clamp-1 group-hover:text-[#0077B6] transition-colors tracking-tight">{{ $submission->name }}</h3>
+                        <p class="text-slate-500 text-sm line-clamp-3 mb-8 leading-relaxed">
                             {{ $submission->description }}
                         </p>
                         
                         <div class="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
                             <div class="flex items-center gap-2 text-slate-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                                <span class="text-[10px] font-bold uppercase tracking-widest truncate w-32 pb-0.5" title="{{ $submission->address }}">{{ $submission->address }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                                <span class="text-[10px] font-bold uppercase tracking-widest truncate w-32" title="{{ $submission->address }}">{{ $submission->address }}</span>
                             </div>
-                            <div class="text-[#0077B6] font-black text-[10px] uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-2">
-                                Selengkapnya
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+                            <div class="text-[#0077B6] font-bold text-[10px] uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                                Detail
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                             </div>
                         </div>
                     </div>
                 </a>
                 @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-3 py-20 text-center">
-                    <div class="w-24 h-24 bg-slate-100 rounded-[2rem] flex items-center justify-center mx-auto mb-6 text-slate-300">
-                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="col-span-full py-24 text-center bg-slate-50 rounded-[2.5rem] border border-dashed border-slate-200">
+                    <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm text-slate-200">
+                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-black text-[#03045E] mb-2 tracking-tighter">Belum Ada Objek Budaya</h3>
-                    <p class="text-slate-400 font-medium">Beberapa kategori mungkin masih dalam tahap verifikasi oleh tim validator.</p>
+                    <h3 class="text-xl font-bold text-[#03045E] mb-2">Belum Ada Objek Budaya</h3>
+                    <p class="text-slate-400 text-sm">Coba ubah kriteria pencarian atau pilih kategori lain.</p>
                 </div>
                 @endforelse
             </div>
 
             <!-- Pagination -->
-            <div class="mt-16">
+            <div class="mt-20">
                 {{ $submissions->links() }}
             </div>
         </div>
     </section>
 
-    <!-- Footer (Simplified) -->
-    <footer class="bg-[#03045E] text-white py-12 relative overflow-hidden">
-        <div class="absolute inset-0 hero-pattern opacity-5"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <p class="text-slate-400 text-xs font-black uppercase tracking-[0.3em]">&copy; {{ date('Y') }} VeriCult Platform. Melestarikan Budaya Digital.</p>
-        </div>
-    </footer>
+    <!-- Footer -->
+    @include('partials.footer')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal-visible'); obs.unobserve(entry.target); } });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
