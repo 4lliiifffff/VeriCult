@@ -126,7 +126,7 @@
 
         <!-- Submissions Table Card -->
         <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white overflow-hidden group">
-            <div class="p-8 sm:p-10 border-b border-slate-50 flex items-center justify-between">
+            <div class="p-8 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div>
                     <h3 class="text-xl sm:text-2xl font-black text-[#03045E]">Riwayat Pengajuan</h3>
                     <p class="text-slate-400 font-medium text-xs sm:text-sm mt-1 uppercase tracking-widest">
@@ -137,9 +137,9 @@
                         @endif
                     </p>
                 </div>
-                <div class="hidden sm:flex items-center gap-2">
+                <div class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 self-start sm:self-auto">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Aktif</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Sinkronisasi Aktif</span>
                 </div>
             </div>
 
