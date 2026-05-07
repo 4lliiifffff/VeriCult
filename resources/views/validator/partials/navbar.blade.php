@@ -11,12 +11,12 @@
 
         <!-- Left Side: Status / Info -->
         <div class="hidden lg:flex items-center gap-4">
-            <div class="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#0077B6] rounded-full border border-blue-100">
+            <!-- <div class="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#0077B6] rounded-full border border-blue-100">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12l2 2 4-4"></path></svg>
                 <span class="text-[10px] font-black uppercase tracking-widest">Otoritas Validasi</span>
             </div>
             <div class="h-6 w-[1px] bg-slate-100"></div>
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Pusat Verifikasi Kebudayaan</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Pusat Verifikasi Kebudayaan</span> -->
         </div>
 
         <!-- Right Side -->

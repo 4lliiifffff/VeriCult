@@ -46,6 +46,10 @@ Route::get('/fitur', function () {
     return view('fitur', compact('content'));
 })->name('fitur');
 
+Route::get('/edukasi', function () {
+    return view('edukasi');
+})->name('edukasi');
+
 // Public Cultural Profile Routes
 Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
 Route::get('/profil-kebudayaan/{slug}', [\App\Http\Controllers\PublicCulturalController::class, 'show'])->name('profil-kebudayaan.show');

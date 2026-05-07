@@ -11,7 +11,7 @@
 
         <!-- Left Side: Status / Breadcrumbs -->
         <div class="hidden lg:flex items-center gap-4">
-            <div class="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-600 rounded-full border border-green-100">
+            <!-- <div class="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-600 rounded-full border border-green-100">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -19,7 +19,7 @@
                 <span class="text-[10px] font-black uppercase tracking-widest">Sistem Aktif</span>
             </div>
             <div class="h-6 w-[1px] bg-slate-100"></div>
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Pusat Kendali VeriCult</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Pusat Kendali VeriCult</span> -->
         </div>
 
         <!-- Right Side -->
