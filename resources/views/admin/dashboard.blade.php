@@ -128,7 +128,7 @@
                     </a>
                 </div>
                 <div class="flex-1">
-                    @forelse($recentStatistikalSubmissions as $submission)
+                    @forelse($recentOPKSubmissions as $submission)
                         <div class="p-6 border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors flex items-center justify-between group/row">
                             <div class="flex items-center gap-4 max-w-[70%]">
                                 <div class="w-12 h-12 rounded-2xl bg-cyan-50 flex items-center justify-center text-[#00B4D8] shrink-0 shadow-inner group-hover/row:bg-[#00B4D8] group-hover/row:text-white transition-all">

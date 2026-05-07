@@ -48,9 +48,9 @@ class DashboardController extends Controller
             'recentSubmissions',
             'isPenguslDesa',
             'isApprovedByAdmin',
-            'hasStatistikAccess',
+            'hasOPKAccess',
             'activeCultureCount',
-            'statistikCount'
+            'opkCount'
         ));
     }
 }

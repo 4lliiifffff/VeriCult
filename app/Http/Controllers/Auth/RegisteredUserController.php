@@ -49,7 +49,8 @@ class RegisteredUserController extends Controller
         $user->assignRole($role);
 
         // Create appropriate profile
-        $user->profile()->create([
+        $profileRelation = ($role === 'pengusul-desa') ? 'pengusulDesaProfile' : 'pengusulProfile';
+        $user->{$profileRelation}()->create([
             'is_approved_by_admin' => $isApprovedByAdmin,
             'approved_by_admin_at' => $isApprovedByAdmin ? now() : null,
         ]);

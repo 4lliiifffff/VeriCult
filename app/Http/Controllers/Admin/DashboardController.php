@@ -49,7 +49,7 @@ class DashboardController extends Controller
             'pendingApprovalsCount',
             'pendingPublicationCount',
             'categoryStats',
-            'recentStatistikalSubmissions',
+            'recentOPKSubmissions',
             'recentPendingUsers'
         ));
     }
