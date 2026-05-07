@@ -8,13 +8,22 @@
         <title>{{ config('app.name', 'VeriCult') }} - Validator</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700,800&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <style>
+            [x-cloak] { display: none !important; }
+            .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
+        </style>
     </head>
-    <body class="font-sans antialiased bg-[#F8FAFC]" x-data="{ 
+    <body class="font-sans antialiased bg-[#FDFDFF] text-slate-900" x-data="{ 
         sidebarOpen: false, 
         sidebarMinimized: localStorage.getItem('sidebarMinimized') === 'true',
         loaded: false,
@@ -31,6 +40,7 @@
         <div class="flex h-screen overflow-hidden">
             <!-- Mobile Sidebar Backdrop -->
             <div x-show="sidebarOpen" 
+                 x-cloak
                  x-transition:enter="transition-opacity ease-linear duration-300"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
@@ -38,8 +48,7 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  @click="sidebarOpen = false"
-                 class="fixed inset-0 bg-slate-900/75 z-40 lg:hidden"
-                 style="display: none;"></div>
+                 class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"></div>
 
             <!-- Sidebar -->
             @include('validator.partials.sidebar')
@@ -49,41 +58,30 @@
                  :class="[
                     sidebarMinimized ? 'lg:pl-20' : 'lg:pl-64',
                     loaded ? 'transition-all duration-300' : ''
-                 ]"
-                 x-show="loaded"
-                 x-transition:enter="transition opacity ease-out duration-500"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 style="display: none;">
+                 ]">
                 <!-- Navbar -->
                 @include('validator.partials.navbar')
 
                 <!-- Main Content -->
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8FAFC] p-4 sm:p-8">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#FDFDFF] p-4 sm:p-10"
+                      x-show="loaded"
+                      x-cloak
+                      x-transition:enter="transition opacity ease-out duration-500"
+                      x-transition:enter-start="opacity-0 translate-y-4"
+                      x-transition:enter-end="opacity-100 translate-y-0">
+                    
                     @if (isset($header))
-                        {{ $header }}
-                    @endif
-
-                    <!-- Flash Messages -->
-                    @if (session('success'))
-                        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl relative" role="alert">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span class="block sm:inline font-medium">{!! session('success') !!}</span>
-                            </div>
+                        <div class="mb-8">
+                            {{ $header }}
                         </div>
                     @endif
 
-                    @if (session('error'))
-                        <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl relative" role="alert">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span class="block sm:inline font-medium">{{ session('error') }}</span>
-                            </div>
-                        </div>
-                    @endif
+                    <!-- Flash Messages Modal -->
+                    <x-flash-modal />
 
-                    {{ $slot }}
+                    <div class="max-w-[1600px] mx-auto">
+                        {{ $slot }}
+                    </div>
                 </main>
             </div>
         </div>
