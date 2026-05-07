@@ -31,7 +31,7 @@ class DashboardController extends Controller
             ->toArray();
 
         // 4. Recent OPK Submissions
-        $recentopkalSubmissions = CulturalSubmission::where('submission_type', 'opk')
+        $recentOPKSubmissions = CulturalSubmission::where('submission_type', 'opk')
             ->with(['user', 'village'])
             ->latest()
             ->take(5)

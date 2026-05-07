@@ -1,53 +1,49 @@
-<!-- Header -->
 <x-layouts.pengusul-desa>
     <x-slot name="header">
-        <div class="relative mb-6 sm:mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-8 sm:p-10 overflow-hidden shadow-2xl shadow-blue-900/20 text-white">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2">
+        <div class="relative bg-white rounded-[2.5rem] p-10 shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden group">
+            <!-- Subtle Background Pattern -->
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <div class="space-y-3">
                     <div class="flex items-center gap-3">
-                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
-                            Dashboard Pengusul Desa
-                        </span>
+                        <div class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">
+                            Pengusul Desa
+                        </div>
+                        <div class="h-4 w-[1px] bg-slate-200"></div>
+                        <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Portal Inventarisasi</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                        Dashboard <span class="text-[#00B4D8]">Pengusul Desa</span>
+                    <h2 class="text-4xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                        Dashboard <span class="text-[#0077B6]">Desa</span>
                     </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Selamat datang, {{ Auth::user()->name }}.</p>
+                    <p class="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed">
+                        Selamat datang kembali, {{ explode(' ', Auth::user()->name)[0] }}. Kelola data kebudayaan desa Anda secara digital dan profesional.
+                    </p>
                 </div>
-
-                <!-- Form Type Selector / Action Buttons -->
-                <div class="flex flex-col gap-3 w-full md:w-auto mt-4 md:mt-0">
+                
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 shadow-inner relative z-20">
                     @if($isPenguslDesa && !$isApprovedByAdmin)
                         <!-- Approval Pending Status -->
-                        <div class="flex items-center gap-3 bg-amber-400/20 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-amber-400/40 shadow-inner w-full">
-                            <svg class="w-5 h-5 text-amber-300 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
-                            <div class="min-w-0">
-                                <p class="text-xs sm:text-sm font-bold text-amber-100">Menunggu Persetujuan</p>
-                                <p class="text-[10px] sm:text-xs text-amber-100/70">Akun Anda sedang dalam review oleh super admin.</p>
+                        <div class="flex items-center gap-4 px-6 py-4 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 shadow-inner">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-0.5">Akun Menunggu Review</p>
+                                <p class="text-xs font-bold text-amber-900/60 leading-tight">Admin sedang memverifikasi profil desa Anda.</p>
                             </div>
                         </div>
                     @else
-                        <!-- Form Type Selector Buttons -->
-                        <div class="flex items-center gap-3 flex-wrap md:flex-nowrap">
-                            <!-- Kebudayaan Aktif Button -->
-                            <a href="{{ route('pengusul-desa.submissions.create-form', 'laporan-kebudayaan-aktif') }}" class="w-full sm:w-auto justify-center inline-flex bg-white text-[#03045E] px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-all shadow-lg shadow-blue-900/10 border-2 border-white hover:border-blue-200 items-center gap-2">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
-                                </svg>
-                                <span>Kebudayaan Aktif</span>
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="{{ route('pengusul-desa.submissions.create-form', 'laporan-kebudayaan-aktif') }}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#03045E] border-2 border-slate-100 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:border-[#0077B6] hover:text-[#0077B6] transition-all shadow-sm active:scale-95 gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                                Kebudayaan Aktif
                             </a>
-
-                            <!-- OPK Button (only for pengusul-desa approved) -->
                             @if($hasOPKAccess)
-                                <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#00B4D8] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0096C7] transition-all shadow-lg shadow-blue-900/10 items-center gap-2">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
-                                    </svg>
-                                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-lg shadow-cyan-500/50"></span>
-                                    <span>Data OPK</span>
+                                <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="inline-flex items-center justify-center px-8 py-4 bg-[#03045E] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                                    Data OPK
                                 </a>
                             @endif
                         </div>
@@ -57,166 +53,140 @@
         </div>
     </x-slot>
 
-    <div class="space-y-8">
-        <!-- Form Type Quick Links (if pengusul-desa and approved) -->
+    <div class="space-y-10 pb-12">
+        <!-- Highlight Cards (Approved Only) -->
         @if($isPenguslDesa && $hasOPKAccess)
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Active Culture Card -->
-            <a href="{{ route('pengusul-desa.submissions.index') }}" class="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 sm:p-8 shadow-sm border border-blue-100 hover:shadow-lg hover:border-blue-200 transition-all hover:-translate-y-1 cursor-pointer">
-                <div class="flex items-start justify-between">
-                    <div class="space-y-3 flex-1">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-[#0077B6] text-white flex items-center justify-center">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                </svg>
-                            </div>
-                            <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Melaporkan Kebudayaan Aktif</span>
+            <a href="{{ route('pengusul-desa.submissions.index') }}" class="group relative bg-[#03045E] rounded-[2.5rem] p-10 overflow-hidden shadow-xl shadow-blue-900/20 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="relative z-10 flex flex-col h-full justify-between gap-10">
+                    <div class="flex items-start justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#00B4D8] border border-white/10 group-hover:bg-white group-hover:text-[#03045E] transition-all duration-500">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
-                        <p class="text-3xl font-black text-[#03045E]">{{ $activeCultureCount }}</p>
-                        <p class="text-sm text-slate-600 font-medium">Laporan kebudayaan yang sedang terjadi</p>
+                        <div class="text-right">
+                            <p class="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-1">Total Laporan</p>
+                            <p class="text-5xl font-black text-white tabular-nums tracking-tighter">{{ number_format($activeCultureCount) }}</p>
+                        </div>
                     </div>
-                    <svg class="w-12 h-12 text-blue-200 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
+                    <div>
+                        <h3 class="text-2xl font-black text-white mb-2">Kebudayaan Aktif</h3>
+                        <p class="text-blue-100/60 font-medium text-sm leading-relaxed">Inventarisasi kejadian dan fenomena kebudayaan di desa Anda.</p>
+                    </div>
                 </div>
             </a>
 
-            <!-- opk Card -->
-            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="group bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 sm:p-8 shadow-sm border border-cyan-100 hover:shadow-lg hover:border-cyan-200 transition-all hover:-translate-y-1 cursor-pointer">
-                <div class="flex items-start justify-between">
-                    <div class="space-y-3 flex-1">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-[#00B4D8] text-white flex items-center justify-center">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                </svg>
-                            </div>
-                            <span class="text-xs font-bold text-cyan-600 uppercase tracking-widest">Laporan Data OPK</span>
+            <!-- OPK Card -->
+            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="group relative bg-white rounded-[2.5rem] p-10 overflow-hidden shadow-xl shadow-slate-200/30 border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-cyan-50/50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="relative z-10 flex flex-col h-full justify-between gap-10">
+                    <div class="flex items-start justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-50 flex items-center justify-center text-[#00B4D8] border border-cyan-100 group-hover:bg-[#00B4D8] group-hover:text-white transition-all duration-500">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                         </div>
-                        <p class="text-3xl font-black text-[#03045E]">{{ $opkCount }}</p>
-                        <p class="text-sm text-slate-600 font-medium">Data inventarisasi dari 10 kategori OPK</p>
+                        <div class="text-right">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Data Inventaris</p>
+                            <p class="text-5xl font-black text-[#03045E] tabular-nums tracking-tighter">{{ number_format($opkCount) }}</p>
+                        </div>
                     </div>
-                    <svg class="w-12 h-12 text-cyan-200 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-                    </svg>
+                    <div>
+                        <h3 class="text-2xl font-black text-[#03045E] mb-2">Objek Pemajuan</h3>
+                        <p class="text-slate-500 font-medium text-sm leading-relaxed">Kelola 10 kategori Objek Pemajuan Kebudayaan desa secara terstruktur.</p>
+                    </div>
                 </div>
             </a>
         </div>
         @endif
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <!-- Total -->
-            <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-shadow duration-300">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total</p>
-                        <h3 class="text-3xl font-black text-[#0077B6] mt-1 tabular-nums tracking-tight">{{ number_format($totalSubmissions) }}</h3>
-                    </div>
-                    <div class="p-2.5 bg-blue-50/50 rounded-xl text-[#0077B6]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            @php
+                $statItems = [
+                    ['key' => 'totalSubmissions', 'label' => 'Total Usulan', 'color' => 'blue', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>'],
+                    ['key' => 'draftCount', 'label' => 'Draft', 'color' => 'slate', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>'],
+                    ['key' => 'inReviewCount', 'label' => 'In Review', 'color' => 'amber', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>'],
+                    ['key' => 'publishedCount', 'label' => 'Published', 'color' => 'emerald', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>'],
+                    ['key' => 'rejectedCount', 'label' => 'Ditolak', 'color' => 'rose', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>'],
+                ];
+            @endphp
 
-            <!-- Draft -->
-            <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-shadow duration-300">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Draft</p>
-                        <h3 class="text-3xl font-black text-[#0077B6] mt-1 tabular-nums tracking-tight">{{ number_format($draftCount) }}</h3>
+            @foreach($statItems as $item)
+            <div class="group bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/30 border border-white hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-24 h-24 bg-slate-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="relative z-10">
+                    <div @class([
+                        'w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 mb-4',
+                        'bg-blue-50 text-[#0077B6]' => $item['color'] == 'blue',
+                        'bg-slate-50 text-slate-400' => $item['color'] == 'slate',
+                        'bg-amber-50 text-amber-500' => $item['color'] == 'amber',
+                        'bg-emerald-50 text-emerald-500' => $item['color'] == 'emerald',
+                        'bg-rose-50 text-rose-500' => $item['color'] == 'rose',
+                    ])>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $item['icon'] !!}</svg>
                     </div>
-                    <div class="p-2.5 bg-gray-50/50 rounded-xl text-gray-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    </div>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $item['label'] }}</p>
+                    <h3 class="text-3xl font-black text-[#03045E] mt-1 tabular-nums tracking-tight">{{ number_format(${ $item['key'] }) }}</h3>
                 </div>
             </div>
-
-            <!-- In Review -->
-            <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-shadow duration-300">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dalam Review</p>
-                        <h3 class="text-3xl font-black text-[#0077B6] mt-1 tabular-nums tracking-tight">{{ number_format($inReviewCount) }}</h3>
-                    </div>
-                    <div class="p-2.5 bg-indigo-50/50 rounded-xl text-indigo-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Published -->
-            <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-shadow duration-300">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dipublikasi</p>
-                        <h3 class="text-3xl font-black text-[#0077B6] mt-1 tabular-nums tracking-tight">{{ number_format($publishedCount) }}</h3>
-                    </div>
-                    <div class="p-2.5 bg-cyan-50/50 rounded-xl text-cyan-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Rejected -->
-            <div class="group bg-white rounded-2xl p-5 shadow-sm border border-slate-100/60 hover:shadow-md transition-shadow duration-300">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ditolak</p>
-                        <h3 class="text-3xl font-black text-[#0077B6] mt-1 tabular-nums tracking-tight">{{ number_format($rejectedCount) }}</h3>
-                    </div>
-                    <div class="p-2.5 bg-red-50/50 rounded-xl text-red-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
-        <!-- Recent Submissions -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100/60 overflow-hidden">
-            <div class="p-5 border-b border-slate-50 flex justify-between items-center">
+        <!-- Recent Submissions Table -->
+        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white overflow-hidden group">
+            <div class="p-8 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-base font-bold text-[#03045E]">Pengajuan Terbaru</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">5 pengajuan terakhir Anda.</p>
+                    <h3 class="text-xl sm:text-2xl font-black text-[#03045E]">Aktivitas Terkini</h3>
+                    <p class="text-slate-400 font-medium text-xs mt-1">Status 5 pengajuan terbaru dari desa Anda.</p>
                 </div>
-                <a href="{{ route('pengusul-desa.submissions.index') }}" class="text-xs font-medium text-[#0077B6] hover:text-[#0096C7] transition-colors bg-blue-50/50 hover:bg-blue-100 px-3 py-1.5 rounded-lg">
+                <a href="{{ route('pengusul-desa.submissions.index') }}" class="px-6 py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all">
                     Lihat Semua &rarr;
                 </a>
             </div>
+            
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse min-w-max">
                     <thead>
-                        <tr class="text-[10px] font-black text-slate-400 uppercase bg-slate-50/30 border-b border-slate-100 tracking-[0.1em]">
-                            <th class="px-5 py-4 tracking-[0.15em]">Nama Pengajuan</th>
-                            <th class="px-5 py-4 tracking-[0.15em]">Kategori</th>
-                            <th class="px-5 py-4 tracking-[0.15em] text-center">Status</th>
-                            <th class="px-5 py-4 tracking-[0.15em] text-right">Tanggal</th>
+                        <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
+                            <th class="px-10 py-6">Judul Usulan</th>
+                            <th class="px-10 py-6">Kategori</th>
+                            <th class="px-10 py-6 text-center">Status</th>
+                            <th class="px-10 py-6 text-right">Tanggal Diajukan</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
                         @forelse($recentSubmissions as $submission)
-                        <tr class="hover:bg-slate-50/50 transition-colors group">
-                            <td class="px-5 py-3.5">
-                                <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="font-bold text-sm text-[#03045E] group-hover:text-[#0077B6] transition-colors">{{ $submission->name }}</a>
+                        <tr class="hover:bg-slate-50/50 transition-colors group/row">
+                            <td class="px-10 py-6">
+                                <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="font-bold text-sm text-[#03045E] group-hover/row:text-[#0077B6] transition-colors block">{{ $submission->name }}</a>
                             </td>
-                            <td class="px-5 py-3.5">
-                                <span class="text-xs text-slate-600">{{ $submission->category }}</span>
+                            <td class="px-10 py-6">
+                                <div class="inline-flex px-3 py-1 bg-slate-50 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-lg border border-slate-100">{{ $submission->category }}</div>
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-{{ $submission->status_color }}-50 text-{{ $submission->status_color }}-600 border border-{{ $submission->status_color }}-100">
+                            <td class="px-10 py-6 text-center">
+                                <span @class([
+                                    'inline-flex items-center px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm border',
+                                    'bg-slate-50 text-slate-500 border-slate-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_DRAFT,
+                                    'bg-blue-50 text-[#0077B6] border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED,
+                                    'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED,
+                                    'bg-emerald-50 text-emerald-600 border-emerald-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED,
+                                    'bg-rose-50 text-rose-500 border-rose-100' => in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_REJECTED, \App\Models\CulturalSubmission::STATUS_REVISION]),
+                                ])>
                                     {{ $submission->status_label }}
                                 </span>
                             </td>
-                            <td class="px-5 py-3.5 text-right text-xs text-slate-500">
-                                {{ $submission->created_at->translatedFormat('d F Y') }}
+                            <td class="px-10 py-6 text-right">
+                                <div class="text-xs font-bold text-[#03045E]">{{ $submission->created_at->translatedFormat('d M Y') }}</div>
+                                <div class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">{{ $submission->created_at->diffForHumans() }}</div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-5 py-8 text-center text-slate-400 text-xs">
-                                Belum ada pengajuan. <a href="{{ route('pengusul-desa.submissions.create') }}" class="text-[#0077B6] hover:underline">Buat pengajuan pertama Anda!</a>
+                            <td colspan="4" class="px-10 py-20 text-center flex flex-col items-center">
+                                <div class="w-16 h-16 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-200 mb-4 shadow-inner">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                                </div>
+                                <p class="text-slate-400 font-black text-[10px] tracking-[0.2em] uppercase">Belum ada aktivitas pengajuan</p>
                             </td>
                         </tr>
                         @endforelse
@@ -224,5 +194,5 @@
                 </table>
             </div>
         </div>
-</div>
+    </div>
 </x-layouts.pengusul-desa>
