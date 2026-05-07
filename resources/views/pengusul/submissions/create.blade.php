@@ -1,52 +1,42 @@
 <x-layouts.pengusul>
     <x-slot name="header">
-        
-        <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
-            <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Pilih Kategori</span>
-        </nav>
+        <div class="space-y-4">
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <span class="text-[#03045E]">Pilih Kategori</span>
+            </nav>
 
-        <!-- Page Header -->
-        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-            
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3">
-                        <div class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-white/10 text-[#00B4D8] border border-white/20 backdrop-blur-md">
-                            <span class="relative inline-flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0077B6] opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0077B6]"></span>
-                            </span>
-                            <span class="px-1 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Langkah 1 dari 2</span>
-                        </div>
+            <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-blue-900/20 group text-center">
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+                
+                <div class="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6">
+                    <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl mb-2">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500 shadow-sm"></span>
+                        </span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-white">Langkah 1 dari 2</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                        Pilih <span class="text-[#00B4D8]">Kategori</span> Kebudayaan
+                    <h2 class="text-3xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+                        Pilih <span class="text-[#00B4D8]">Kategori</span>
                     </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Langkah awal untuk mendokumentasikan dan melestarikan warisan budaya.</p>
-                </div>
-                    
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto mt-4 md:mt-0">
-                    <a href="{{ route('pengusul.submissions.index') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-4 sm:px-6 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10">
-                        <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 8l-4 4m0 0l4 4m-4-4h18"></path>
-                        </svg>
-                        Kembali
-                    </a>
+                    <p class="text-blue-100/70 text-sm sm:text-xl font-medium leading-relaxed">
+                        Silakan pilih jenis data kebudayaan yang ingin Anda ajukan untuk memulai proses dokumentasi dan pelestarian.
+                    </p>
                 </div>
             </div>
         </div>
+    </x-slot>
 
-        
-
+    <div class="pb-20 space-y-12">
         <!-- Category Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             @php
                 $categoryData = [
                     'tradisi-lisan' => ['name' => 'Tradisi Lisan', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>', 'color' => 'from-blue-500 to-blue-600', 'bgLight' => 'bg-blue-50', 'textColor' => 'text-blue-600'],
@@ -65,7 +55,7 @@
 
             @foreach($categoryData as $slug => $cat)
                 <a href="{{ route('pengusul.submissions.create-form', $slug) }}" 
-                   class="group relative bg-white rounded-[2rem] p-7 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/70 hover:-translate-y-1 hover:border-transparent transition-all duration-500 overflow-hidden">
+                   class="group relative bg-white rounded-[2rem] p-8 border border-white shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-300/50 hover:-translate-y-2 hover:border-transparent transition-all duration-500 overflow-hidden">
                     
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 bg-gradient-to-br {{ $cat['color'] }} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]"></div>
@@ -73,22 +63,22 @@
                     <!-- Content -->
                     <div class="relative z-10">
                         <!-- Icon -->
-                        <div class="w-14 h-14 rounded-2xl {{ $cat['bgLight'] }} {{ $cat['textColor'] }} flex items-center justify-center mb-5 group-hover:bg-white/20 group-hover:text-white transition-all duration-500 shadow-sm">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $cat['icon'] !!}</svg>
+                        <div class="w-16 h-16 rounded-2xl {{ $cat['bgLight'] }} {{ $cat['textColor'] }} flex items-center justify-center mb-6 group-hover:bg-white/20 group-hover:text-white transition-all duration-500 shadow-sm ring-4 ring-white group-hover:ring-transparent">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $cat['icon'] !!}</svg>
                         </div>
                         
                         <!-- Title -->
-                        <h3 class="text-lg font-black text-[#03045E] mb-2 group-hover:text-white transition-colors duration-500 tracking-tight">
+                        <h3 class="text-xl font-black text-[#03045E] mb-3 group-hover:text-white transition-colors duration-500 tracking-tight">
                             {{ $cat['name'] }}
                         </h3>
                         
                         <!-- Description -->
-                        <p class="text-sm text-slate-500 leading-relaxed group-hover:text-white/80 transition-colors duration-500 line-clamp-2">
-                            {{ \App\Models\CulturalSubmission::CATEGORY_DESCRIPTIONS[$cat['name']] ?? '' }}
+                        <p class="text-sm text-slate-400 leading-relaxed group-hover:text-white/80 transition-colors duration-500 line-clamp-3">
+                            {{ \App\Models\CulturalSubmission::CATEGORY_DESCRIPTIONS[$cat['name']] ?? 'Dokumentasikan dan lestarikan warisan budaya Indonesia untuk masa depan.' }}
                         </p>
                         
-                        <!-- Arrow indicator -->
-                        <div class="mt-5 flex items-center gap-2 text-slate-300 group-hover:text-white/70 transition-colors duration-500">
+                        <!-- Action indicator -->
+                        <div class="mt-8 flex items-center gap-3 text-slate-300 group-hover:text-white transition-colors duration-500">
                             <span class="text-[10px] font-black uppercase tracking-[0.2em]">Pilih Kategori</span>
                             <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </div>
@@ -97,22 +87,21 @@
             @endforeach
         </div>
 
-        <!-- Info Section -->
-        <div class="mt-12 bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-100 shadow-sm">
-            <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#0077B6] shrink-0">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <!-- Info Card -->
+        <div class="bg-white rounded-[2.5rem] p-8 sm:p-12 border border-white shadow-xl shadow-slate-200/40 relative overflow-hidden group/info">
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl group-hover/info:scale-110 transition-transform duration-1000"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 sm:gap-10">
+                <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#0077B6] shrink-0 shadow-inner ring-4 ring-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-                <div>
-                    <h4 class="font-bold text-[#03045E] mb-1 sm:mb-2 text-base sm:text-lg">Tentang 10+1 Objek Kebudayaan Indonesia</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed text-left">
-                        Setiap kategori mewakili satu aspek warisan budaya Indonesia yang perlu didokumentasikan dan dilestarikan. 
-                        Pilih kategori yang paling sesuai dengan objek kebudayaan yang ingin Anda daftarkan. 
-                        Setiap formulir memiliki kolom-kolom khusus untuk menangkap detail unik dari masing-masing jenis kebudayaan.
+                <div class="space-y-3">
+                    <h4 class="font-black text-[#03045E] text-xl sm:text-2xl tracking-tight">Pelestarian Warisan Budaya</h4>
+                    <p class="text-sm sm:text-base text-slate-500 leading-relaxed max-w-4xl">
+                        Setiap kategori mewakili aspek vital dari identitas budaya kita. Pilih kategori yang paling akurat menggambarkan pengajuan Anda. Sistem akan menyesuaikan formulir data teknis berdasarkan pilihan Anda untuk memastikan dokumentasi yang komprehensif sesuai standar nasional.
                     </p>
                 </div>
             </div>
         </div>
-
-    </x-slot>
+    </div>
 </x-layouts.pengusul>
