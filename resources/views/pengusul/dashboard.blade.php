@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <!-- Subtle Background Pattern -->
-            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/60 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-            <div class="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-cyan-50/40 rounded-full blur-2xl"></div>
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/60 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            <div class="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-cyan-50/40 rounded-full"></div>
 
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
@@ -38,7 +38,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <!-- All Submissions Card -->
             <a href="{{ route('pengusul.submissions.index') }}" class="group relative bg-[#03045E] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 overflow-hidden shadow-xl shadow-blue-900/20 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/5 rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
                 <div class="relative z-10 flex flex-col h-full justify-between gap-8 sm:gap-10">
                     <div class="flex items-start justify-between">
                         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#4CC9F0] border border-white/10 group-hover:bg-white group-hover:text-[#03045E] transition-all duration-500 shadow-lg">
@@ -58,7 +58,7 @@
 
             <!-- Published Card -->
             <a href="{{ route('pengusul.submissions.index') }}" class="group relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 overflow-hidden shadow-xl shadow-slate-200/30 border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-emerald-50/50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-emerald-50/50 rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
                 <div class="relative z-10 flex flex-col h-full justify-between gap-8 sm:gap-10">
                     <div class="flex items-start justify-between">
                         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-500 border border-emerald-100 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-500 shadow-sm">
@@ -95,7 +95,7 @@
                     @elseif($item['color'] == 'amber') bg-amber-50
                     @elseif($item['color'] == 'emerald') bg-emerald-50
                     @else bg-rose-50 @endif
-                    rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
+                    rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
                 <div class="relative z-10">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center transition-all duration-500 mb-4 sm:mb-5
                         @if($item['color'] == 'slate') bg-slate-50 text-slate-400
