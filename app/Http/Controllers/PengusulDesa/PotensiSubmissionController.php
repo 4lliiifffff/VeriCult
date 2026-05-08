@@ -269,6 +269,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             'name' => $validated['name'] ?? ($categoryData['nama_objek'] ?? $submission->name),
             'description' => $validated['description'] ?? $submission->description,
             'address' => $validated['address'] ?? $submission->address,
+            'village_id' => Auth::user()->village_id,
             'category_data' => !empty($categoryData) ? $categoryData : $submission->category_data,
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : $submission->period_year,
         ]);

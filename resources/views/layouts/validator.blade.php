@@ -48,7 +48,7 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  @click="sidebarOpen = false"
-                 class="fixed inset-0 bg-slate-900/70 z-40 lg:hidden"></div>
+                 class="fixed inset-0 bg-slate-900/70 z-[45] lg:hidden"></div>
 
             <!-- Sidebar -->
             @include('validator.partials.sidebar')

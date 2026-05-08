@@ -172,11 +172,16 @@ class SubmissionController extends Controller
         $submissionAddress = $validated['address'] ?? null;
         $submissionDescription = $validated['description'] ?? null;
 
+        $category = $validated['category'];
+        if ($category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
+            $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
+        }
+
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
             'village_id' => Auth::user()->village_id,
             'name' => $submissionName,
-            'category' => $validated['category'],
+            'category' => $category,
             'address' => $submissionAddress,
             'description' => $submissionDescription,
             'category_data' => !empty($categoryData) ? $categoryData : null,
@@ -440,9 +445,14 @@ class SubmissionController extends Controller
             $submissionName = $categoryData['b1_nama_objek'] ?? $submission->name;
         }
 
+        $category = $validated['category'];
+        if ($category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
+            $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
+        }
+
         $submission->update([
             'name' => $submissionName,
-            'category' => $validated['category'],
+            'category' => $category,
             'village_id' => Auth::user()->village_id,
             'address' => $validated['address'] ?? $submission->address,
             'description' => $validated['description'] ?? $submission->description,

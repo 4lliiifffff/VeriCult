@@ -1,14 +1,31 @@
 <x-layouts.super-admin>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-                <div class="flex items-center gap-3 sm:gap-4 mb-2">
-                    <a href="{{ route('super-admin.site-content.index') }}" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#03045E] shadow-sm hover:bg-[#03045E] hover:text-white transition-all shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-                    </a>
-                    <h1 class="text-2xl sm:text-3xl font-black text-[#03045E] tracking-tighter truncate break-words">Edit Konten: {{ $pageLabel }}</h1>
+        <!-- Breadcrumbs & Navigation -->
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
+            <a href="{{ route('super-admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('super-admin.site-content.index') }}" class="hover:text-[#0077B6] transition-colors">Kelola Konten</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">Edit Halaman</span>
+        </nav>
+
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">
+                            CMS Editor
+                        </div>
+                        <div class="h-3 sm:h-4 w-[1px] bg-slate-200"></div>
+                        <span class="text-slate-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest">Penyuntingan Konten Dinamis</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                        Edit Halaman <span class="text-[#0077B6]">{{ $pageLabel }}</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Perbarui teks dan pengaturan visual untuk halaman ini secara real-time.</p>
                 </div>
-                <p class="text-slate-500 font-medium text-[11px] sm:text-sm ml-12 sm:ml-14">Perbarui teks dan pengaturan visual untuk halaman ini.</p>
             </div>
         </div>
     </x-slot>

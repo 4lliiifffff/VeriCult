@@ -165,11 +165,16 @@ class SubmissionController extends Controller
             }
         }
 
+        $category = $validated['category'];
+        if ($category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
+            $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
+        }
+
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
             'village_id' => $villageId,
             'name' => $submissionName,
-            'category' => $validated['category'],
+            'category' => $category,
             'address' => $submissionAddress,
             'description' => $validated['description'] ?? '',
             'category_data' => !empty($categoryData) ? $categoryData : null,
@@ -412,9 +417,14 @@ class SubmissionController extends Controller
             }
         }
 
+        $category = $validated['category'];
+        if ($category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
+            $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
+        }
+
         $submission->update([
             'name' => $submissionName,
-            'category' => $validated['category'],
+            'category' => $category,
             'village_id' => $villageId,
             'address' => $validated['address'] ?? $submission->address,
             'description' => $validated['description'] ?? $submission->description,

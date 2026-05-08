@@ -348,14 +348,27 @@ class UserController extends Controller
     /**
      * Show pending pengusul-desa approvals
      */
-    public function pendingPenguslDesaApprovals()
+    public function pendingPenguslDesaApprovals(Request $request)
     {
-        $pendingUsers = User::role('pengusul-desa')
+        $query = User::role('pengusul-desa')
             ->with('pengusulDesaProfile')
-            ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
-            ->latest('created_at')
+            ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false));
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $pendingUsers = $query->latest('created_at')
             ->paginate(10)
             ->withQueryString();
+
+        if ($request->ajax()) {
+            return view('super-admin.users._pending_table', compact('pendingUsers'))->render();
+        }
 
         return view('super-admin.users.pending-pengusul-desa', compact('pendingUsers'));
     }
