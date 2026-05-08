@@ -46,7 +46,7 @@
                         <svg class="h-5 w-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama desa..." 
-                        class="block w-full pl-14 pr-6 py-4 bg-slate-50 border-slate-100 rounded-2xl text-sm font-bold text-[#03045E] focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all placeholder:text-slate-300 shadow-inner">
+                        class="block w-full pl-14 pr-6 py-6 bg-slate-50 border-slate-100 rounded-2xl text-sm font-bold text-[#03045E] focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all placeholder:text-slate-300 shadow-inner">
                 </div>
                 <div class="w-full md:w-80">
                     <x-dropdown-select 
