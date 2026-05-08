@@ -86,26 +86,27 @@
         new Chart(yearlyCtx, {
             type: 'line',
             data: {
-                labels: {!! json_encode($yearlyComparison->pluck('period_year')) !!}.map(String),
+                labels: {!! json_encode($yearlyComparison->keys()->map(fn($y) => (string)$y)->toArray()) !!},
                 datasets: [{
                     label: 'Total Pengajuan',
-                    data: {!! json_encode($yearlyComparison->pluck('count')) !!},
+                    data: {!! json_encode($yearlyComparison->values()->toArray()) !!},
                     borderColor: '#03045E',
                     backgroundColor: 'rgba(3, 4, 94, 0.05)',
                     fill: true,
                     tension: 0.4,
                     borderWidth: 4,
-                    pointRadius: 4,
+                    pointRadius: 6,
                     pointBackgroundColor: '#fff',
                     pointBorderColor: '#03045E',
-                    pointBorderWidth: 2
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 8
                 }]
             },
             options: {
                 ...chartOptions,
                 plugins: { ...chartOptions.plugins, legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#F8FAFC', borderDash: [5, 5], drawBorder: false }, ticks: { font: { size: 10 } } },
+                    y: { beginAtZero: true, grid: { color: '#F8FAFC', borderDash: [5, 5], drawBorder: false }, ticks: { font: { size: 10 }, precision: 0 } },
                     x: { grid: { display: false }, ticks: { font: { weight: '800', size: 11 } } }
                 }
             }
@@ -164,7 +165,7 @@
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 bg-slate-50 p-5 sm:p-6 rounded-[2rem] border border-slate-100 shadow-inner relative z-20">
                     <form action="{{ route('validator.dashboard') }}" method="GET" class="flex-1 sm:flex-none">
                         <select name="year" onchange="this.form.submit()" class="w-full sm:w-48 bg-white border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-[#03045E] focus:ring-4 focus:ring-blue-900/5 focus:border-[#0077B6] transition-all py-3 px-5 shadow-sm">
-                            <option value="">Semua Periode</option>
+                            <option value="" {{ is_null($activeYear) ? 'selected' : '' }}>Semua Periode</option>
                             @foreach($availableYears as $year)
                                 <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }}>Tahun {{ $year }}</option>
                             @endforeach
@@ -272,7 +273,7 @@
             <div class="p-6 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h3 class="text-lg sm:text-2xl font-black text-[#03045E]">Antrean Verifikasi</h3>
-                    <p class="text-slate-400 font-medium text-[10px] sm:text-sm mt-1">Submission terbaru yang menunggu tindak lanjut.</p>
+                    <p class="text-slate-400 font-medium text-[10px] sm:text-sm mt-1">Semua pengajuan yang menunggu tindak lanjut (seluruh periode).</p>
                 </div>
                 <a href="{{ route('validator.submissions.index') }}" class="px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[9px] sm:text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all">
                     Lihat Semua &rarr;
@@ -280,7 +281,7 @@
             </div>
             
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-max">
+                <table class="w-full text-left border-collapse min-w-[640px]">
                     <thead>
                         <tr class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                             <th class="px-6 sm:px-10 py-4 sm:py-5">Objek Kebudayaan</th>
