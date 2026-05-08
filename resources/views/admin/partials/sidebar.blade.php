@@ -101,6 +101,23 @@
                 <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Data OPK</span>
                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Data OPK</div>
             </a>
+
+            <!-- Kecamatan -->
+            <a href="{{ route('admin.kecamatans.index') }}" 
+               :class="sidebarMinimized ? 'justify-center !px-0' : ''"
+               @class([
+                   'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
+                   'bg-[#03045E]/5 text-[#03045E]' => request()->routeIs('admin.kecamatans.*'),
+                   'text-slate-500 hover:bg-slate-50 hover:text-[#03045E]' => !request()->routeIs('admin.kecamatans.*')
+               ])>
+                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('admin.kecamatans.*') ? 'text-[#03045E]' : 'text-slate-400 group-hover:text-[#03045E]' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+                <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Kelola Kecamatan</span>
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Kelola Kecamatan</div>
+            </a>
         </nav>
     </div>
 
