@@ -19,8 +19,44 @@
         @csrf
 
         <div class="grid sm:grid-cols-2 gap-6">
+            <!-- Kecamatan Name -->
+            <div class="space-y-2" x-data="{ 
+                    open: false, 
+                    search: '{{ addslashes(old('kecamatan_name', '')) }}',
+                    allOptions: @js($kecamatans->pluck('name')),
+                    get filteredOptions() {
+                        if (!this.search) return this.allOptions;
+                        return this.allOptions.filter(i => i.toLowerCase().includes(this.search.toLowerCase()));
+                    },
+                    selectOption(option) {
+                        this.search = option;
+                        this.open = false;
+                    }
+                 }" @click.away="open = false">
+                <x-input-label for="kecamatan_name" :value="__('Kecamatan')" class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1" />
+                <div class="relative group">
+                    <input type="text"
+                        name="kecamatan_name"
+                        id="kecamatan_name"
+                        x-model="search"
+                        @focus="open = true"
+                        @input="open = true"
+                        required
+                        autocomplete="off"
+                        placeholder="Cari kecamatan..."
+                        class="block w-full px-4 py-4 bg-slate-50 border-slate-100 rounded-2xl text-sm font-medium focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all placeholder:text-slate-300" />
+                    
+                    <div x-show="open && filteredOptions.length > 0" class="absolute z-[60] w-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 max-h-48 overflow-y-auto overflow-x-hidden">
+                        <template x-for="option in filteredOptions" :key="option">
+                            <button type="button" @click="selectOption(option)" class="w-full text-left px-5 py-3 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] transition-colors" x-text="option"></button>
+                        </template>
+                    </div>
+                </div>
+                <x-input-error :messages="$errors->get('kecamatan_name')" class="mt-2" />
+            </div>
+
             <!-- Village Name -->
-            <div class="space-y-2 col-span-full" x-data="{ 
+            <div class="space-y-2" x-data="{ 
                     open: false, 
                     search: '{{ addslashes(old('village_name', '')) }}',
                     allOptions: @js($villages->pluck('name')),

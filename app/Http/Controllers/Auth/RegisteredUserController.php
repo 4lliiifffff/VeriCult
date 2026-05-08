@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use App\Models\Village;
+use App\Models\Kecamatan;
 
 class RegisteredUserController extends Controller
 {
@@ -67,8 +68,9 @@ class RegisteredUserController extends Controller
      */
     public function createDesa(): View
     {
-        $villages = Village::orderBy('name')->get();
-        return view('auth.register-desa', compact('villages'));
+        $villages    = Village::with('kecamatan')->orderBy('name')->get();
+        $kecamatans  = Kecamatan::orderBy('name')->get();
+        return view('auth.register-desa', compact('villages', 'kecamatans'));
     }
 
     /**
@@ -79,15 +81,28 @@ class RegisteredUserController extends Controller
     public function storeDesa(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
-            'village_name' => ['required', 'string', 'max:255'],
-            'surat_pengajuan' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
+            'name'             => ['required', 'string', 'max:255'],
+            'email'            => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password'         => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
+            'kecamatan_name'   => ['required', 'string', 'max:255'],
+            'village_name'     => ['required', 'string', 'max:255'],
+            'surat_pengajuan'  => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
         ]);
 
-        // Find or create the village
-        $village = Village::firstOrCreate(['name' => $request->village_name]);
+        // Find or create kecamatan, then find or create village linked to that kecamatan
+        $kecamatan = Kecamatan::firstOrCreate(
+            ['name' => trim($request->kecamatan_name)]
+        );
+
+        $village = Village::firstOrCreate(
+            ['name' => trim($request->village_name)],
+            ['kecamatan_id' => $kecamatan->id]
+        );
+
+        // Jika desa sudah ada tapi belum punya kecamatan, isi kecamatan_id-nya
+        if (is_null($village->kecamatan_id)) {
+            $village->update(['kecamatan_id' => $kecamatan->id]);
+        }
 
         $user = User::create([
             'name'     => $request->name,
