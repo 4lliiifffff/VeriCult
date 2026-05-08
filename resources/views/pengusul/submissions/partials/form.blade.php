@@ -179,17 +179,18 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative" x-data="{ descCount: {{ strlen(old('description', $submission->description ?? '')) }} }">
             <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] mb-4">Deskripsi Kebudayaan <span class="text-red-500">*</span></label>
-            <div class="relative group/field">
+            <div class="relative group">
                 <textarea name="description" id="description" rows="10" 
-                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover/field:shadow-md"
+                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover:shadow-md"
                     placeholder="Ceritakan sejarah, filosofi, dan karakteristik kebudayaan ini secara mendalam (Minimal 50 karakter)..."
                     required
+                    @input="descCount = $el.value.length"
                     data-category-field>{{ old('description', $submission->description ?? '') }}</textarea>
                 
                 <div class="absolute bottom-6 right-8 flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest border border-slate-100">
-                    <span x-text="$el.closest('.group/field').querySelector('textarea').value.length"></span>/50 Karakter
+                    <span x-text="descCount"></span>/50 Karakter
                 </div>
             </div>
             @error('description')

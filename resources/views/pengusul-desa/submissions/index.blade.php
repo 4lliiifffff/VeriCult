@@ -1,37 +1,41 @@
 <x-layouts.pengusul-desa>
     <x-slot name="header">
-        <div class="space-y-4">
-            <!-- Breadcrumbs -->
-            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <span class="text-[#03045E]">Pengajuan Saya</span>
-            </nav>
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-black text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-[0.2em]">
+            <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">Pengajuan Saya</span>
+        </nav>
 
-            <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 overflow-hidden shadow-2xl shadow-blue-900/20 group">
-                <!-- Decorative Elements -->
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-                
-                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3">
-                            <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
+            <!-- Decorative Bubbles -->
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/5 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
+                <div class="flex items-center gap-4 sm:gap-8">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl uppercase">
+                        <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <div class="space-y-1 sm:space-y-2">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="px-2.5 py-1 rounded-full text-[7px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-blue-50 text-[#0077B6] border border-blue-100">
                                 Inventarisasi Budaya
-                            </span>
+                            </div>
+                            <div class="h-3 w-[1px] bg-slate-200"></div>
+                            <span class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">Portal Pengusul Desa</span>
                         </div>
-                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                        <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight">
                             Kelola <span class="text-[#00B4D8]">Pengajuan</span>
                         </h2>
-                        <p class="text-blue-100/70 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Pantau dan kelola seluruh inventarisasi data kebudayaan Anda dalam satu dasbor terpadu.</p>
                     </div>
-                        
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/10 backdrop-blur-xl p-5 rounded-[2rem] border border-white/20 shadow-inner">
-                        <a href="{{ route('pengusul-desa.submissions.create') }}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#03045E] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-all shadow-lg shadow-blue-900/20 active:scale-95 gap-2 group/btn">
-                            <svg class="w-4 h-4 group-hover/btn:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                            Tambah Pengajuan
-                        </a>
-                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                    <a href="{{ route('pengusul-desa.submissions.create') }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-[#03045E] text-white rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#0077B6] hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-blue-900/20 active:scale-95 gap-3 group/btn">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                        <span>Tambah Pengajuan</span>
+                    </a>
                 </div>
             </div>
         </div>
