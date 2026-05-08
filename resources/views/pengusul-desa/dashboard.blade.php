@@ -3,7 +3,7 @@
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden group">
             <!-- Subtle Background Pattern -->
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -20,8 +20,8 @@
                         Selamat datang kembali, {{ explode(' ', Auth::user()->name)[0] }}. Kelola data kebudayaan desa Anda.
                     </p>
                 </div>
-                
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 bg-slate-50 p-5 sm:p-6 rounded-[2rem] border border-slate-100 shadow-inner relative z-20 self-start md:self-auto">
+
+                {{-- <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 bg-slate-50 p-5 sm:p-6 rounded-[2rem] border border-slate-100 shadow-inner relative z-20 self-start md:self-auto">
                     @if($isPenguslDesa && !$isApprovedByAdmin)
                         <!-- Approval Pending Status -->
                         <div class="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm">
@@ -48,7 +48,7 @@
                             @endif
                         </div>
                     @endif
-                </div>
+                </div> --}}
             </div>
         </div>
     </x-slot>
@@ -143,7 +143,7 @@
                     Semua &rarr;
                 </a>
             </div>
-            
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-max">
                     <thead>

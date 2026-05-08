@@ -73,6 +73,7 @@
                         value="{{ $fieldValue }}"
                         data-category-field
                         x-on:input="setFieldValue('{{ $fieldKey }}', $event.target.value)"
+                        @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                         class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm group-hover/input:shadow-md"
                         placeholder="{{ $field['placeholder'] ?? '' }}">
                     <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
@@ -109,7 +110,7 @@
                      @click.away="open = false"
                      class="relative group/input">
                     
-                    <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="search" data-category-field>
+                    <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="search" data-category-field @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif>
                     
                     <div class="relative">
                         <input type="text"
@@ -119,6 +120,7 @@
                             @input="open = true; setFieldValue('{{ $fieldKey }}', search)"
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm group-hover/input:shadow-md"
                             placeholder="{{ $field['placeholder'] ?? 'Cari atau ketik nama desa...' }}"
+                            @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                             autocomplete="off">
                             
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
@@ -183,6 +185,7 @@
                         value="{{ $fieldValue }}"
                         data-category-field
                         readonly
+                        @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                         class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm group-hover/input:shadow-md cursor-pointer"
                         placeholder="{{ $field['placeholder'] ?? 'Pilih tanggal' }}">
                     <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
@@ -196,6 +199,7 @@
                 <textarea name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" rows="4" 
                     data-category-field
                     x-on:input="setFieldValue('{{ $fieldKey }}', $event.target.value)"
+                    @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                     class="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-3xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover/field:shadow-md"
                     placeholder="{{ $field['placeholder'] ?? '' }}">{{ $fieldValue }}</textarea>
                 @break
@@ -216,7 +220,7 @@
                      @click.away="open = false"
                      class="relative">
                     
-                    <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="selected" data-category-field>
+                    <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="selected" data-category-field @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif>
                     
                     <button type="button" 
                         @click="open = !open"
@@ -260,6 +264,7 @@
                                 class="peer sr-only"
                                 data-category-field
                                 x-on:change="setFieldValue('{{ $fieldKey }}', '{{ $option }}')"
+                                @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                                 @if($fieldValue === $option) checked @endif>
                             <div class="px-6 py-3 rounded-2xl border-2 border-slate-100 bg-white text-sm font-black text-slate-500 
                                 peer-checked:border-[#0077B6] peer-checked:bg-[#0077B6]/5 peer-checked:text-[#0077B6] peer-checked:shadow-lg peer-checked:shadow-blue-500/5
@@ -282,6 +287,7 @@
                             <input type="checkbox" name="category_data[{{ $fieldKey }}][]" value="{{ $option }}"
                                 class="w-6 h-6 rounded-lg border-2 border-slate-200 text-[#0077B6] focus:ring-[#0077B6]/20 focus:ring-offset-0 transition-all group-hover/cb:border-[#0077B6]/50"
                                 data-category-field
+                                @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                                 @if(in_array($option, $checkedValues)) checked @endif>
                             <span class="text-sm font-black text-slate-600 group-hover/cb:text-[#03045E] transition-colors leading-tight">{{ $option }}</span>
                         </label>
@@ -317,6 +323,7 @@
                                                     :name="'category_data[{{ $fieldKey }}][' + rowIndex + '][{{ $colKey }}]'"
                                                     x-model="row.{{ $colKey }}"
                                                     data-category-field
+                                                    @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                                                     class="w-full px-4 py-3 bg-transparent border-2 border-transparent rounded-xl focus:border-[#0077B6] focus:bg-white focus:ring-[6px] focus:ring-[#0077B6]/5 text-sm font-bold text-slate-700 placeholder:text-slate-300 outline-none hover:bg-white/50 transition-all"
                                                     placeholder="{{ $columns[$colIdx] ?? '' }}">
                                             </div>

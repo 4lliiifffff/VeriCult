@@ -120,9 +120,10 @@ class SubmissionController extends Controller
         ];
 
         // Add category-specific validation rules
-        $categoryFields = CulturalSubmission::getCategoryFields($request->input('category', ''));
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
         foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+            $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
+            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
         try {
@@ -180,7 +181,7 @@ class SubmissionController extends Controller
             'description' => $submissionDescription,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
-            'submission_type' => 'aktif',
+            'submission_type' => $request->input('category') === CulturalSubmission::CATEGORY_LAPORAN_AKTIF ? 'aktif' : 'opk',
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : date('Y'),
         ]);
 
@@ -388,9 +389,10 @@ class SubmissionController extends Controller
         ];
 
         // Add category-specific validation rules
-        $categoryFields = CulturalSubmission::getCategoryFields($request->input('category', ''));
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
         foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+            $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
+            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
         try {

@@ -186,22 +186,25 @@
 
         <!-- Confirmation Modal -->
         <x-modal name="confirm-update-submission" :show="false" focusable>
-            <div class="p-10 sm:p-14 text-center">
-                <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner animate-bounce-slow">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+            <div class="p-10 sm:p-16 text-center">
+                <div class="w-28 h-28 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2.5rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner relative group/icon overflow-hidden">
+                    <div class="absolute inset-0 bg-[#00B4D8]/10 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                    <svg class="w-14 h-14 relative z-10 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                    </svg>
                 </div>
-                <h2 class="text-3xl font-black text-[#03045E] mb-3 tracking-tight">Simpan Perubahan?</h2>
-                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-12">Data yang Anda ubah akan diperbarui sebagai draft terbaru dalam sistem kami.</p>
+                <h2 class="text-4xl font-black text-[#03045E] mb-4 tracking-tight leading-tight">Simpan Perubahan?</h2>
+                <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Data laporan Anda akan diperbarui. Anda bisa melanjutkan pengisian kapan saja.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                     <button type="button" 
                             @click="$dispatch('close')" 
                             class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
-                        Batal
+                        Kembali
                     </button>
                     <button type="button" 
                             @click="doSubmit()" 
-                            class="px-8 py-5 rounded-2xl bg-[#03045E] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-blue-900/20 hover:bg-[#0077B6] transition-all active:scale-[0.98]">
+                            class="px-8 py-5 rounded-2xl bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(3,4,94,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(3,4,94,0.5)] transition-all active:scale-[0.98]">
                         Ya, Simpan
                     </button>
                 </div>
@@ -210,16 +213,18 @@
 
         <!-- Max File Warning Modal -->
         <x-modal name="max-file-warning" :show="false" focusable>
-            <div class="p-10 sm:p-14 text-center">
-                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <div class="p-10 sm:p-16 text-center">
+                <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/warn">
+                    <svg class="w-14 h-14 transition-transform duration-500 group-hover/warn:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
                 </div>
-                <h2 class="text-3xl font-black text-rose-900 mb-3 tracking-tight">Batas Berkas Tercapai</h2>
-                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-12">Total berkas (lama + baru) tidak boleh melebihi 5 berkas untuk satu pengajuan inventarisasi.</p>
+                <h2 class="text-4xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Batas Maksimal</h2>
+                <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Mohon maaf, Anda hanya dapat mengunggah maksimal 5 berkas pendukung saja.</p>
 
                 <button type="button" 
                         @click="$dispatch('close')" 
-                        class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
+                        class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
                     SAYA MENGERTI
                 </button>
             </div>
@@ -227,12 +232,14 @@
 
         <!-- Delete Confirmation Modal -->
         <x-modal name="confirm-delete-file" :show="false" focusable>
-            <div class="p-10 sm:p-14 text-center">
-                <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner animate-pulse">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            <div class="p-10 sm:p-16 text-center">
+                <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/del overflow-hidden">
+                    <svg class="w-14 h-14 transition-transform duration-500 group-hover/del:scale-110 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
                 </div>
-                <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Hapus Lampiran?</h2>
-                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Berkas akan dihapus secara permanen dari sistem. Tindakan ini tidak dapat dibatalkan.</p>
+                <h2 class="text-4xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Hapus Berkas?</h2>
+                <p class="text-slate-500 max-w-xs mx-auto leading-relaxed font-bold text-sm mb-12">Berkas akan dihapus secara permanen. Anda tidak dapat mengembalikan berkas ini setelah dihapus.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                     <button type="button" 
@@ -244,7 +251,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" 
-                                class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
+                                class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
                             Ya, Hapus
                         </button>
                     </form>
