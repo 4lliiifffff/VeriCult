@@ -23,46 +23,44 @@
     </div>
 
     <x-slot name="header">
-        <div class="space-y-4">
-            <!-- Breadcrumbs -->
-            <nav class="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Jenis</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Kategori OPK</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <span class="text-[#03045E]">{{ $categoryName }}</span>
-            </nav>
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
+            <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul-desa.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Jenis</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Kategori OPK</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">{{ $categoryName }}</span>
+        </nav>
 
-            <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-blue-900/20 group">
-                <!-- Decorative Elements -->
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-                
-                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl">
-                                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-white">Inventarisasi OPK</span>
-                            </div>
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 group">
+            <div class="absolute inset-0 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] pointer-events-none">
+                <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            </div>
+            
+            <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">
+                            Pengajuan OPK
                         </div>
-                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-                            Laporan <span class="text-[#00B4D8]">{{ $categoryName }}</span>
-                        </h2>
-                        <p class="text-blue-100/70 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">
-                            {{ $categoryDescription }}
-                        </p>
                     </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                        Laporan <span class="text-[#0077B6]">{{ $categoryName }}</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">
+                        {{ $categoryDescription }}
+                    </p>
+                </div>
                         
-                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-5 rounded-[2rem] border border-white/20 shadow-inner">
-                        <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#03045E] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-all shadow-lg shadow-blue-900/20 active:scale-95 gap-2 group/btn">
-                            <svg class="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                            Ganti Kategori
-                        </a>
-                    </div>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-50 p-4 sm:p-5 rounded-[2rem] border border-slate-100 shadow-inner relative z-20">
+                    <a href="{{ route('pengusul-desa.opk-submissions.create') }}" class="w-full sm:w-auto bg-[#03045E] text-white px-8 py-4 sm:py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 group/print">
+                    <svg class="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Ganti Kategori
+                    </a>
                 </div>
             </div>
         </div>

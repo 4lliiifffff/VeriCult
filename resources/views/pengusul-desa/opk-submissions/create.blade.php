@@ -2,35 +2,40 @@
     <x-slot name="header">
         <div class="space-y-4">
             <!-- Breadcrumbs -->
-            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
                 <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                 <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                 <a href="{{ route('pengusul-desa.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Jenis</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                 <span class="text-[#03045E]">Pilih Kategori OPK</span>
             </nav>
 
-            <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-blue-900/20 group text-center">
-                <!-- Decorative Elements -->
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+            <div class="relative bg-white rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-16 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group text-center max-w-5xl mx-auto">
+                <!-- Decorative Bubbles -->
+                <div class="absolute top-0 right-0 -mt-24 -mr-24 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+                <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-64 h-64 bg-[#00B4D8]/5 rounded-full blur-3xl"></div>
                 
-                <div class="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6">
-                    <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl mb-2">
+                <div class="relative z-10 space-y-6 sm:space-y-8">
+                    <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-blue-50/50 border border-blue-100/50 backdrop-blur-xl mb-2">
                         <span class="relative flex h-2.5 w-2.5">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500 shadow-sm"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#0077B6] shadow-sm"></span>
                         </span>
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-white">Langkah 2 dari 2</span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#03045E]">Langkah 2 dari 2</span>
                     </div>
-                    <h2 class="text-3xl sm:text-6xl font-black text-white tracking-tight leading-tight">
-                        Kategori <span class="text-[#00B4D8]">OPK</span>
-                    </h2>
-                    <p class="text-blue-100/70 text-sm sm:text-xl font-medium leading-relaxed">
-                        Pilih salah satu dari 10 Objek Pemajuan Kebudayaan untuk memulai inventarisasi mendalam di desa Anda.
-                    </p>
+
+                    <div class="space-y-4">
+
+                        <h2 class="text-3xl sm:text-6xl font-black text-[#03045E] tracking-tight leading-tight">
+                            Kategori <span class="text-[#00B4D8]">OPK</span>
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto uppercase tracking-wide">
+                            Pilih salah satu dari 10 Objek Pemajuan Kebudayaan untuk memulai inventarisasi mendalam di desa Anda.
+                        </p>
+
+                    </div>
                 </div>
             </div>
         </div>

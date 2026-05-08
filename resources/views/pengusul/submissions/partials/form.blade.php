@@ -175,7 +175,7 @@
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
             </div>
-            <h3 class="text-sm font-black text-[#03045E] uppercase tracking-[0.2em]">C. Deskripsi</h3>
+            <h3 class="text-sm font-black text-[#03045E] uppercase tracking-[0.2em]">Deskripsi</h3>
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 

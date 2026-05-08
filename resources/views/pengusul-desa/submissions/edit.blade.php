@@ -1,47 +1,52 @@
 <x-layouts.pengusul-desa>
     <x-slot name="header">
-        <div class="space-y-4">
-            <!-- Breadcrumbs -->
-            <nav class="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">{{ $submission->name }}</a>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                <span class="text-[#03045E]">Ubah Data</span>
-            </nav>
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-black text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-[0.2em]">
+            <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">{{ $submission->name }}</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">Ubah Data</span>
+        </nav>
 
-            <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-blue-900/20 group">
-                <!-- Decorative Elements -->
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-                
-                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                    <div class="space-y-4">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <span class="px-5 py-2 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
+            <!-- Decorative Bubbles -->
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/5 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
+                <div class="flex items-center gap-4 sm:gap-8">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl uppercase">
+                        <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    </div>
+                    <div class="space-y-2 sm:space-y-3">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <span class="px-2.5 py-1 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.15em] uppercase bg-blue-50 text-[#0077B6] border border-blue-100 shadow-sm">
                                 {{ $submission->status_label }}
                             </span>
-                            <span class="px-5 py-2 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-black/10 text-[#00B4D8] border border-white/10">
-                                ID: #{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}
-                            </span>
+                            <div class="h-3 w-[1px] bg-slate-200"></div>
+                            <span class="text-slate-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em]">ID: #{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                         </div>
-                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                        
+                        <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight break-words max-w-2xl">
                             Ubah <span class="text-[#00B4D8]">Inventarisasi</span>
                         </h2>
-                        <div class="flex items-center gap-3 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 w-fit">
-                            <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                            <span class="text-white font-bold text-sm italic">{{ $submission->name }}</span>
+                        
+                        <div class="flex flex-wrap items-center gap-4">
+                            <div class="flex items-center gap-2 text-slate-500 font-bold text-[10px] sm:text-xs bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 uppercase tracking-widest italic">
+                                <span>"{{ $submission->name }}"</span>
+                            </div>
                         </div>
                     </div>
-                        
-                    <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-5 rounded-[2rem] border border-white/20 shadow-inner">
-                        <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#03045E] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 transition-all shadow-lg shadow-blue-900/20 active:scale-95 gap-2 group/btn">
-                            <svg class="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                            Kembali
-                        </a>
-                    </div>
+                </div>
+                    
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-slate-50 text-slate-400 rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#03045E] hover:text-white hover:-translate-x-1 transition-all duration-300 shadow-sm active:scale-95 gap-3">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        <span>Batal</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -270,47 +275,60 @@
         }
     </style>
 
-    {{-- Standalone Existing File Preview Modal (outside any form) --}}
-    <div id="existingFilePreviewModal" style="display:none;" class="fixed inset-0 z-[200] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/80" onclick="closeExistingPreview()"></div>
-        <div class="relative z-10 w-full max-w-4xl max-h-[90vh] flex flex-col items-center gap-4">
-            <div class="w-full flex items-center justify-end">
-                <button type="button" onclick="closeExistingPreview()" class="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all backdrop-blur-sm border border-white/20">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+
+    {{-- Premium Alpine.js File Preview Modal (x-teleport to body, matches create form style) --}}
+    <template x-teleport="body">
+        <div class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
+             x-show="showPreviewModal"
+             x-cloak
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+            <div class="absolute inset-0 bg-slate-900/80" @click="closePreview()"></div>
+            <div class="relative w-full max-w-6xl max-h-full bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/10 flex flex-col">
+                <!-- Modal Header -->
+                <div class="p-6 sm:p-8 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-md">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-[#00B4D8]">
+                            <template x-if="previewFile?.isImage">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </template>
+                            <template x-if="previewFile?.isVideo">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </template>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-black text-lg tracking-tight" x-text="previewFile?.name"></h3>
+                            <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]" x-text="formatSize(previewFile?.size || 0)"></p>
+                        </div>
+                    </div>
+                    <button type="button" @click="closePreview()" class="w-12 h-12 rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group">
+                        <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <!-- Content Container -->
+                <div class="w-full bg-black/20 flex items-center justify-center relative group/inner min-h-[300px] max-h-[75vh] overflow-hidden">
+                    <template x-if="previewFile?.isImage">
+                        <img :src="previewFile?.previewUrl" class="max-w-full max-h-[70vh] object-contain select-none">
+                    </template>
+                    <template x-if="previewFile?.isVideo">
+                        <video :src="previewFile?.previewUrl" controls autoplay class="max-w-full max-h-[70vh]"></video>
+                    </template>
+                    <template x-if="previewFile && !previewFile.isExisting">
+                        <a :href="previewFile?.previewUrl" x-bind:download="previewFile?.name" class="absolute bottom-8 right-8 px-6 py-3 bg-white text-[#03045E] rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Unduh Berkas
+                        </a>
+                    </template>
+                </div>
             </div>
-            <div id="existingFilePreviewContent" class="w-full flex items-center justify-center rounded-3xl overflow-hidden bg-slate-900/50 backdrop-blur-sm" style="max-height: 75vh;">
-                <!-- content injected by JS -->
-            </div>
-            <p id="existingFilePreviewName" class="text-white/80 text-sm font-bold tracking-wide text-center truncate max-w-full px-4"></p>
         </div>
-    </div>
+    </template>
 
     <script>
-        function openExistingPreview(url, type, name) {
-            const modal = document.getElementById('existingFilePreviewModal');
-            const content = document.getElementById('existingFilePreviewContent');
-            const nameEl = document.getElementById('existingFilePreviewName');
-            if (type === 'image') {
-                content.innerHTML = `<img src="${url}" class="max-w-full max-h-[70vh] object-contain rounded-2xl shadow-2xl">`;
-            } else if (type === 'video') {
-                content.innerHTML = `<video src="${url}" controls autoplay class="max-w-full max-h-[70vh] rounded-2xl shadow-2xl" style="max-height:70vh;"></video>`;
-            }
-            nameEl.textContent = name;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeExistingPreview() {
-            const modal = document.getElementById('existingFilePreviewModal');
-            const content = document.getElementById('existingFilePreviewContent');
-            const video = content.querySelector('video');
-            if (video) { video.pause(); video.src = ''; }
-            content.innerHTML = '';
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-
         function deleteExistingFile(url) {
             const form = document.getElementById('deleteFileForm');
             if (form) {
@@ -327,7 +345,22 @@
                 files: [],
                 dragover: false,
                 progress: 0,
-                
+                showPreviewModal: false,
+                previewFile: null,
+
+                openPreview(item) {
+                    this.previewFile = item;
+                    this.showPreviewModal = true;
+                    document.body.style.overflow = 'hidden';
+                },
+
+                closePreview() {
+                    this.showPreviewModal = false;
+                    document.querySelectorAll('video').forEach(v => v.pause());
+                    document.body.style.overflow = '';
+                    setTimeout(() => { this.previewFile = null; }, 300);
+                },
+
                 init() {
                     this.$nextTick(() => {
                         this.recalcProgress();
