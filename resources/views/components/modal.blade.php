@@ -61,7 +61,7 @@ $maxWidth = [
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
         >
-            <div class="absolute inset-0 bg-[#03045E]/40 backdrop-blur-md"></div>
+            <div class="absolute inset-0 bg-[#03045E]/60"></div>
         </div>
 
         <div
@@ -75,8 +75,8 @@ $maxWidth = [
             x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95"
         >
             {{-- Decorative Gradient Background --}}
-            <div class="absolute top-0 right-0 -mt-24 -mr-24 w-64 h-64 bg-slate-50 rounded-full blur-3xl opacity-50"></div>
-            <div class="absolute bottom-0 left-0 -mb-24 -ml-24 w-64 h-64 bg-[#0077B6]/5 rounded-full blur-3xl opacity-50"></div>
+            <div class="absolute top-0 right-0 -mt-24 -mr-24 w-64 h-64 bg-slate-50 rounded-full opacity-50"></div>
+            <div class="absolute bottom-0 left-0 -mb-24 -ml-24 w-64 h-64 bg-[#0077B6]/5 rounded-full opacity-50"></div>
             
             <div class="relative z-10">
                 {{ $slot }}
