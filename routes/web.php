@@ -105,6 +105,10 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     Route::get('/notifications/{id}/redirect', [\App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
     Route::post('/notifications/{id}/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
     Route::post('/notifications/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+
+    // Wilayah Management
+    Route::resource('kecamatans', \App\Http\Controllers\SuperAdmin\KecamatanController::class);
+    Route::resource('villages', \App\Http\Controllers\SuperAdmin\VillageController::class);
 });
 
 

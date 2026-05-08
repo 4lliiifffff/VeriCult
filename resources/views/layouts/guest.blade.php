@@ -67,7 +67,7 @@
                 <!-- Footer Text -->
                 <div class="mt-12 text-center">
                     <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                        &copy; {{ date('Y') }} VeriCult &bull; Digital Heritage System &bull; <a href="/" class="hover:text-[#0077B6] transition-colors">Beranda</a>
+                        &copy; {{ date('Y') }} VeriCult &bull; <a href="/" class="hover:text-[#0077B6] transition-colors">Beranda</a>
                     </p>
                 </div>
             </div>
