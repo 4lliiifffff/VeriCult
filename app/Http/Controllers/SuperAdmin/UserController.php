@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         try {
             $this->governanceService->suspendUser($user, auth()->user());
-            return back()->with('success', 'User suspended successfully.');
+            return back()->with('success', 'User berhasil diblokir.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -75,7 +75,7 @@ class UserController extends Controller
     {
         try {
             $this->governanceService->unsuspendUser($user, auth()->user());
-            return back()->with('success', 'User unsuspended successfully.');
+            return back()->with('success', 'User berhasil diaktifkan.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -101,7 +101,7 @@ class UserController extends Controller
                 'user_agent' => request()->userAgent(),
             ]);
 
-            return back()->with('success', 'Email pengguna berhasil diverifikasi secara manual.');
+            return back()->with('success', 'Email user berhasil diverifikasi.');
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal memverifikasi email: ' . $e->getMessage());
         }
@@ -142,13 +142,13 @@ class UserController extends Controller
             ]);
 
             // Create a clear success message with the password
-            $message = 'Admin created successfully.';
+            $message = 'Admin berhasil dibuat.';
             $message .= ' <strong>Password: ' . $password . '</strong>';
-            $message .= ' (Please copy this password immediately)';
+            $message .= ' (Silahkan simpan password ini)';
 
             return redirect()->route('super-admin.users.index')->with('success', $message);
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create admin: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Gagal membuat admin: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -187,13 +187,13 @@ class UserController extends Controller
             ]);
 
             // Create a clear success message with the password
-            $message = 'Validator created successfully.';
+            $message = 'Validator berhasil dibuat.';
             $message .= ' <strong>Password: ' . $password . '</strong>';
-            $message .= ' (Please copy this password immediately)';
+            $message .= ' (Silahkan simpan password ini)';
 
             return redirect()->route('super-admin.users.index')->with('success', $message);
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create validator: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Gagal membuat validator: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -209,7 +209,7 @@ class UserController extends Controller
     {
         // Protect Master Admin from being edited
         if ($user->id === 1 && $user->id !== auth()->id()) {
-            return redirect()->route('super-admin.users.index')->with('error', 'The Master Administrator account cannot be edited.');
+            return redirect()->route('super-admin.users.index')->with('error', 'Akun Super Admin tidak dapat diubah oleh orang lain.');
         }
 
         $roles = Role::all();
@@ -224,12 +224,12 @@ class UserController extends Controller
              // Allow Master Admin to update their own profile, but maybe restrict role changes?
              // Actually, usually Master Admin updates via Profile Controller, not User Management.
              // But if another admin tries to edit ID 1, block it.
-             return back()->with('error', 'The Master Administrator account cannot be modified by others.');
+             return back()->with('error', 'Akun Super Admin tidak dapat diubah oleh orang lain.');
         }
 
         // If it is ID 1 updating themselves here (rare), ensure they don't lose super-admin role.
         if ($user->id === 1 && $request->role !== 'super-admin') {
-             return back()->with('error', 'The Master Administrator cannot change their own role.');
+             return back()->with('error', 'Akun Super Admin tidak dapat mengubah role mereka sendiri.');
         }
 
         $request->validate([
@@ -306,9 +306,9 @@ class UserController extends Controller
                 'user_agent' => request()->userAgent(),
             ]);
 
-            return redirect()->route('super-admin.users.index')->with('success', 'User updated successfully.');
+            return redirect()->route('super-admin.users.index')->with('success', 'Data user berhasil diubah.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update user: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mengubah data user: ' . $e->getMessage());
         }
     }
 
@@ -316,12 +316,12 @@ class UserController extends Controller
     {
         // Protect Master Admin (ID 1)
         if ($user->id === 1) {
-            return back()->with('error', 'The Master Administrator account cannot be deleted.');
+            return back()->with('error', 'Super Admin tidak dapat dihapus.');
         }
 
         // Prevent self-deletion
         if ($user->id === auth()->id()) {
-            return back()->with('error', 'You cannot delete your own account.');
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
 
         // Removed generic Super Admin restriction to allow managing other admins
@@ -339,9 +339,9 @@ class UserController extends Controller
                 'user_agent' => request()->userAgent(),
             ]);
 
-            return redirect()->route('super-admin.users.index')->with('success', 'User deleted successfully.');
+            return redirect()->route('super-admin.users.index')->with('success', 'User berhasil dihapus.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to delete user: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus user: ' . $e->getMessage());
         }
     }
 

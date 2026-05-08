@@ -6,7 +6,7 @@
     {{-- ================================================================== --}}
     {{-- SECTION A: UNESCO Category Table --}}
     {{-- ================================================================== --}}
-    @if($categorySlug !== 'laporan-kebudayaan-aktif' && (!isset($hideUnesco) || !$hideUnesco))
+    <!-- @if($categorySlug !== 'laporan-kebudayaan-aktif' && (!isset($hideUnesco) || !$hideUnesco))
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    @endif
+    @endif -->
 
     {{-- ================================================================== --}}
     {{-- SECTION B: Identitas Umum (Category-Specific Fields) --}}
