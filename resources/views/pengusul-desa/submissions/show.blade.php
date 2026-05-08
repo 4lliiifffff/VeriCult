@@ -1,20 +1,20 @@
 <x-layouts.pengusul-desa>
     <x-slot name="header">
         <!-- Breadcrumbs -->
-        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest mb-8">
             <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
             <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E] truncate max-w-[150px] sm:max-w-none">{{ $submission->name }}</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E] truncate max-w-[200px] sm:max-w-none">{{ $submission->name }}</span>
         </nav>
 
         <!-- Premium Page Header Card -->
-        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
+        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-6 sm:p-10 overflow-hidden shadow-2xl shadow-blue-900/20">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
             
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                 <div class="space-y-4">
                     <div class="flex flex-wrap items-center gap-3">
                         <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-sm">
@@ -23,7 +23,7 @@
                         <span class="text-[10px] font-black text-blue-100/60 uppercase tracking-[0.2em] bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                     </div>
                     
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words max-w-4xl">
+                    <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight break-words max-w-4xl">
                         {{ $submission->name }}
                     </h2>
                     
@@ -43,8 +43,8 @@
                 </div>
                     
                 <div class="flex items-center gap-4 mt-4 md:mt-0">
-                    <a href="{{ route('pengusul-desa.submissions.index') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 active:scale-95">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('pengusul-desa.submissions.index') }}" class="w-full md:w-auto justify-center bg-white text-[#03045E] px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
                         Kembali
@@ -124,7 +124,58 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <!-- Left Info Column -->
-            <div class="lg:col-span-8 space-y-8">
+            <div class="lg:col-span-8 space-y-10">
+                
+                <!-- Admin Remarks Section (If exists) - Moved to Top for better visibility -->
+                @php
+                    $latestReview = $submission->administrativeReviews->last();
+                @endphp
+                @if($latestReview && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_REVISION, \App\Models\CulturalSubmission::STATUS_REJECTED]))
+                <div class="group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'from-amber-500 to-orange-600' : 'from-rose-500 to-red-600' }} opacity-10 rounded-[2.5rem]"></div>
+                    <div class="relative bg-white/40 backdrop-blur-xl rounded-[2.5rem] p-8 sm:p-12 border {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'border-amber-200/50 shadow-amber-200/20' : 'border-rose-200/50 shadow-rose-200/20' }} shadow-2xl overflow-hidden group/card transition-all duration-500 hover:bg-white/60">
+                        <!-- Animated background elements -->
+                        <div class="absolute -right-10 -top-10 w-48 h-48 {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'bg-amber-100/50' : 'bg-rose-100/50' }} rounded-full blur-3xl group-hover/card:scale-150 transition-transform duration-1000"></div>
+                        <div class="absolute -left-10 -bottom-10 w-32 h-32 {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'bg-orange-50/50' : 'bg-red-50/50' }} rounded-full blur-2xl"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
+                                <div class="flex items-center gap-5">
+                                    <div class="w-14 h-14 rounded-2xl {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'bg-amber-500 text-white shadow-amber-500/30' : 'bg-rose-500 text-white shadow-rose-500/30' }} flex items-center justify-center shadow-lg group-hover/card:scale-110 transition-transform duration-500">
+                                        @if($submission->status === \App\Models\CulturalSubmission::STATUS_REVISION)
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        @else
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <h3 class="{{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'text-amber-900' : 'text-rose-900' }} font-black text-2xl tracking-tight mb-1">
+                                            Catatan {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'Revisi' : 'Penolakan' }}
+                                        </h3>
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-2 h-2 rounded-full {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'bg-amber-500' : 'bg-rose-500' }} animate-pulse"></span>
+                                            <p class="{{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'text-amber-600/80' : 'text-rose-600/80' }} text-[10px] font-black uppercase tracking-[0.2em]">{{ $latestReview->created_at->translatedFormat('d M Y') }} • Oleh {{ $latestReview->validator->name ?? 'Tim Review' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if($submission->status === \App\Models\CulturalSubmission::STATUS_REVISION)
+                                    <a href="{{ route('pengusul-desa.submissions.edit', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 bg-white {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'text-amber-600 border-amber-100 hover:bg-amber-50' : 'text-rose-600 border-rose-100 hover:bg-rose-50' }} border-2 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm active:scale-95 gap-3 group/btn">
+                                        <span>Perbaiki Sekarang</span>
+                                        <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </a>
+                                @endif
+                            </div>
+
+                            <div class="relative">
+                                <div class="absolute -left-6 top-0 bottom-0 w-1.5 {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'bg-amber-200' : 'bg-rose-200' }} rounded-full opacity-50"></div>
+                                <div class="p-8 sm:p-10 rounded-[2rem] bg-white border {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'border-amber-100 shadow-amber-100/20' : 'border-rose-100 shadow-rose-100/20' }} text-slate-700 leading-relaxed font-bold italic text-base sm:text-xl shadow-xl break-words">
+                                    "{{ $latestReview->notes }}"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 
                 <!-- Main Details Card -->
                 <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative">
@@ -135,123 +186,123 @@
 
                             <!-- Active Culture Summary (The 3 Ws) -->
                             @if($submission->isActiveCulture())
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="bg-indigo-50/30 rounded-[2rem] p-8 border border-indigo-100/20 group hover:bg-indigo-50/50 transition-colors">
-                                    <p class="text-[9px] font-black text-indigo-400 uppercase tracking-widest mb-3">Apa (Aktivitas)</p>
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                        </div>
-                                        <p class="text-[#03045E] font-black text-lg leading-tight">{{ $submission->category_data['nama_dan_jenis_kebudayaan'] ?? '-' }}</p>
-                                    </div>
-                                </div>
-                                <div class="bg-emerald-50/30 rounded-[2rem] p-8 border border-emerald-100/20 group hover:bg-emerald-50/50 transition-colors">
-                                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-3">Di Mana (Lokasi)</p>
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-emerald-600 shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        </div>
-                                        <div class="space-y-1">
-                                            <p class="text-[#03045E] font-black text-lg leading-tight">{{ $submission->category_data['desa_lokasi'] ?? '-' }}</p>
-                                            <p class="text-slate-500 text-xs font-bold">{{ $submission->category_data['detail_lokasi'] ?? '' }}</p>
+                                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div class="bg-indigo-50/50 rounded-[2.5rem] p-10 border border-indigo-100/30 group hover:bg-indigo-50/80 transition-all duration-300 shadow-sm hover:shadow-indigo-100/50">
+                                        <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-6">Apa (Aktivitas)</p>
+                                        <div class="flex items-start gap-5">
+                                            <div class="w-12 h-12 rounded-2xl bg-white shadow-xl shadow-indigo-100 flex items-center justify-center text-indigo-600 shrink-0 border border-indigo-50">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                            </div>
+                                            <p class="text-[#03045E] font-black text-xl leading-tight tracking-tight">{{ $submission->category_data['nama_dan_jenis_kebudayaan'] ?? '-' }}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bg-amber-50/30 rounded-[2rem] p-8 border border-amber-100/20 group hover:bg-amber-50/50 transition-colors">
-                                    <p class="text-[9px] font-black text-amber-400 uppercase tracking-widest mb-3">Kapan (Pelaksanaan)</p>
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-amber-600 shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <div class="bg-emerald-50/50 rounded-[2.5rem] p-10 border border-emerald-100/30 group hover:bg-emerald-50/80 transition-all duration-300 shadow-sm hover:shadow-emerald-100/50">
+                                        <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-6">Di Mana (Lokasi)</p>
+                                        <div class="flex items-start gap-5">
+                                            <div class="w-12 h-12 rounded-2xl bg-white shadow-xl shadow-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-50">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <p class="text-[#03045E] font-black text-xl leading-tight tracking-tight">{{ $submission->category_data['desa_lokasi'] ?? '-' }}</p>
+                                                <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">{{ $submission->category_data['detail_lokasi'] ?? '' }}</p>
+                                            </div>
                                         </div>
-                                        <p class="text-[#03045E] font-black text-lg leading-tight">
-                                            {{ !empty($submission->category_data['tanggal_pelaksanaan']) ? \Carbon\Carbon::parse($submission->category_data['tanggal_pelaksanaan'])->translatedFormat('d F Y') : '-' }}
-                                        </p>
+                                    </div>
+                                    <div class="bg-amber-50/50 rounded-[2.5rem] p-10 border border-amber-100/30 group hover:bg-amber-50/80 transition-all duration-300 shadow-sm hover:shadow-amber-100/50">
+                                        <p class="text-[10px] font-black text-amber-400 uppercase tracking-[0.2em] mb-6">Kapan (Pelaksanaan)</p>
+                                        <div class="flex items-start gap-5">
+                                            <div class="w-12 h-12 rounded-2xl bg-white shadow-xl shadow-amber-100 flex items-center justify-center text-amber-600 shrink-0 border border-amber-50">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                            </div>
+                                            <p class="text-[#03045E] font-black text-xl leading-tight tracking-tight">
+                                                {{ !empty($submission->category_data['tanggal_pelaksanaan']) ? \Carbon\Carbon::parse($submission->category_data['tanggal_pelaksanaan'])->translatedFormat('d F Y') : '-' }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @endif
+                                @endif
 
-                            <!-- Description -->
-                            @if(!empty($submission->description))
-                            <div class="space-y-6">
-                                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
-                                    <span class="shrink-0">{{ $submission->isActiveCulture() ? 'Keterangan Tambahan' : 'Narasi Kebudayaan' }}</span>
-                                    <div class="flex-1 h-px bg-slate-100"></div>
-                                </h3>
-                                <div class="p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
-                                    <div class="prose prose-slate max-w-none w-full break-words">
-                                        <p class="text-slate-700 leading-[1.8] sm:leading-[2] font-medium text-base sm:text-lg italic">
-                                            "{{ $submission->description }}"
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-
-                            {{-- Category-Specific Data --}}
-                                @php
-                                    $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
-                                    $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
-                                    $excludedFields = $submission->isActiveCulture() ? ['nama_dan_jenis_kebudayaan', 'desa_lokasi', 'detail_lokasi', 'tanggal_pelaksanaan', 'kategori_opk'] : [];
-                                    
-                                    $hasVisibleFields = false;
-                                    foreach($submission->category_data as $dataKey => $dataValue) {
-                                        if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $excludedFields)) {
-                                            $hasVisibleFields = true;
-                                            break;
-                                        }
-                                    }
-                                @endphp
-
-                                @if($hasVisibleFields || !empty($submission->category_data['unesco_categories']) || (!empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url'])))
+                                <!-- Description -->
+                                @if(!empty($submission->description))
                                 <div class="space-y-6">
                                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
-                                        <span class="shrink-0">Detail {{ $submission->category }}</span>
+                                        <span class="shrink-0 text-[#03045E]">{{ $submission->isActiveCulture() ? 'Keterangan Tambahan' : 'Narasi Kebudayaan' }}</span>
                                         <div class="flex-1 h-px bg-slate-100"></div>
                                     </h3>
-                                    <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] p-8 border border-slate-100">
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                            @foreach($submission->category_data as $dataKey => $dataValue)
-                                                @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $excludedFields))
-                                                    @php
-                                                        $fieldDef = $flatFields[$dataKey] ?? null;
-                                                        $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
-                                                        $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
-                                                    @endphp
-                                                    <div class="space-y-1 {{ $isWide ? 'sm:col-span-2' : '' }}">
-                                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $fieldLabel }}</p>
-                                                        @if(is_array($dataValue))
-                                                            @if(isset($dataValue[0]) && is_array($dataValue[0]))
-                                                                {{-- Dynamic table data --}}
-                                                                <div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
-                                                                    <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
-                                                                        @foreach(array_keys($dataValue[0]) as $colKey)
-                                                                            <div class="px-4 py-2 text-xs font-bold text-slate-500 uppercase">{{ str_replace('_', ' ', $colKey) }}</div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                    @foreach($dataValue as $row)
-                                                                        <div class="grid gap-0 border-b border-slate-50" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
-                                                                            @foreach($row as $cellValue)
-                                                                                <div class="px-4 py-2 text-sm font-medium text-slate-700 break-words">{{ $cellValue }}</div>
+                                    <div class="p-8 sm:p-10 rounded-[2.5rem] bg-blue-50/10 border border-blue-100/30 overflow-hidden">
+                                        <div class="prose prose-slate max-w-none w-full break-words">
+                                            <p class="text-slate-700 leading-[1.8] sm:leading-[2] font-medium text-base sm:text-lg italic">
+                                                "{{ $submission->description }}"
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                {{-- Category-Specific Data --}}
+                                    @php
+                                        $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                                        $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+                                        $excludedFields = $submission->isActiveCulture() ? ['nama_dan_jenis_kebudayaan', 'desa_lokasi', 'detail_lokasi', 'tanggal_pelaksanaan', 'kategori_opk'] : [];
+                                        
+                                        $hasVisibleFields = false;
+                                        foreach($submission->category_data as $dataKey => $dataValue) {
+                                            if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $excludedFields)) {
+                                                $hasVisibleFields = true;
+                                                break;
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if($hasVisibleFields || !empty($submission->category_data['unesco_categories']) || (!empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url'])))
+                                    <div class="space-y-6">
+                                        <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
+                                            <span class="shrink-0 text-[#03045E]">Detail {{ $submission->category }}</span>
+                                            <div class="flex-1 h-px bg-slate-100"></div>
+                                        </h3>
+                                        <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] p-8 sm:p-12 border border-slate-100 shadow-inner overflow-hidden">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10">
+                                                @foreach($submission->category_data as $dataKey => $dataValue)
+                                                    @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $excludedFields))
+                                                        @php
+                                                            $fieldDef = $flatFields[$dataKey] ?? null;
+                                                            $fieldLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+                                                            $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
+                                                        @endphp
+                                                        <div class="space-y-2 min-w-0 flex-1 overflow-hidden">
+                                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">{{ $fieldLabel }}</p>
+                                                            @if(is_array($dataValue))
+                                                                @if(isset($dataValue[0]) && is_array($dataValue[0]))
+                                                                    {{-- Dynamic table data --}}
+                                                                    <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+                                                                        <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
+                                                                            @foreach(array_keys($dataValue[0]) as $colKey)
+                                                                                <div class="px-5 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</div>
                                                                             @endforeach
                                                                         </div>
-                                                                    @endforeach
-                                                                </div>
+                                                                        @foreach($dataValue as $row)
+                                                                            <div class="grid gap-0 border-b border-slate-50 last:border-0" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
+                                                                                @foreach($row as $cellValue)
+                                                                                    <div class="px-5 py-4 text-sm font-bold text-[#03045E] break-words">{{ $cellValue }}</div>
+                                                                                @endforeach
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @else
+                                                                    {{-- Checkbox array --}}
+                                                                    <div class="flex flex-wrap gap-2 mt-2">
+                                                                        @foreach($dataValue as $item)
+                                                                            <span class="px-3 py-1.5 bg-blue-50 text-[#0077B6] rounded-lg text-xs sm:text-sm font-bold border border-blue-100/50">{{ $item }}</span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @endif
                                                             @else
-                                                                {{-- Checkbox array --}}
-                                                                <div class="flex flex-wrap gap-2 mt-2">
-                                                                    @foreach($dataValue as $item)
-                                                                        <span class="px-3 py-1.5 bg-[#0077B6]/10 text-[#0077B6] rounded-lg text-xs sm:text-sm font-bold">{{ $item }}</span>
-                                                                    @endforeach
-                                                                </div>
+                                                                <p class="text-[#03045E] font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'bold text-base leading-relaxed whitespace-pre-wrap' : 'black text-base sm:text-lg tracking-tight' }} break-all sm:break-words">{{ $dataValue }}</p>
                                                             @endif
-                                                        @else
-                                                            <p class="text-slate-700 font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-sm leading-relaxed whitespace-pre-wrap' : 'bold text-base' }} break-all sm:break-words">{{ $dataValue }}</p>
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
 
                                         {{-- UNESCO Categories --}}
                                         @if(!empty($submission->category_data['unesco_categories']))
@@ -377,23 +428,6 @@
                 </div>
 
                 <!-- Admin Remarks Section (If exists) -->
-                @php
-                    $latestReview = $submission->administrativeReviews->first();
-                @endphp
-                @if($latestReview && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_REVISION, \App\Models\CulturalSubmission::STATUS_REJECTED]))
-                <div class="bg-amber-50/50 rounded-[2.5rem] p-8 border border-amber-100 shadow-sm relative overflow-hidden group">
-                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-100/40 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
-                    <div class="relative z-10">
-                        <h3 class="text-[11px] font-black text-amber-600 uppercase tracking-[0.25em] mb-6 flex items-center gap-4">
-                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                            Catatan {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'Revisi' : 'Penolakan' }} ({{ $latestReview->created_at->translatedFormat('d M Y') }})
-                        </h3>
-                        <div class="p-8 rounded-[1.5rem] bg-white border border-amber-200/50 text-slate-700 leading-relaxed font-bold italic text-base shadow-sm break-words">
-                            "{{ $latestReview->notes }}"
-                        </div>
-                    </div>
-                </div>
-                @endif
             </div>
 
             <!-- Right: Action & Sidebar -->
@@ -456,14 +490,16 @@
     <!-- Modals -->
     <!-- Final Submission Confirmation -->
     <x-modal name="confirm-final-submission" :show="false" focusable>
-        <div class="p-10 sm:p-14">
-            <div class="flex flex-col items-center text-center mb-10">
-                <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center text-[#0077B6] mb-8 shadow-inner relative group/icon">
-                    <div class="absolute inset-0 bg-[#00B4D8]/20 rounded-[2rem] animate-ping opacity-0 group-hover/icon:opacity-100 transition-opacity"></div>
-                    <svg class="w-12 h-12 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+        <div class="p-10 sm:p-16">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-28 h-28 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2.5rem] flex items-center justify-center text-[#0077B6] mb-10 shadow-inner relative group/icon overflow-hidden">
+                    <div class="absolute inset-0 bg-[#00B4D8]/20 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                    <svg class="w-14 h-14 relative z-10 transition-transform duration-500 group-hover/icon:-translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
                 </div>
-                <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Kirim Sekarang?</h2>
-                <p class="text-slate-500 max-w-sm leading-relaxed font-bold text-sm">Data akan dikunci dan dikirim ke tim Reviewer. Anda tidak dapat mengubah data ini hingga proses selesai.</p>
+                <h2 class="text-4xl font-black text-[#03045E] mb-4 tracking-tight leading-tight">Kirim Sekarang?</h2>
+                <p class="text-slate-500 max-w-xs mx-auto leading-relaxed font-bold text-sm mb-12">Data akan dikunci dan dikirim untuk direview. Anda tidak dapat mengubah data ini setelah dikirim.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
@@ -476,7 +512,7 @@
                     @csrf
                     <button type="submit" 
                             @click="submitting = true; $dispatch('close')" 
-                            class="w-full px-8 py-5 rounded-2xl bg-[#03045E] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-blue-900/20 hover:bg-[#0077B6] transition-all active:scale-[0.98]">
+                            class="w-full px-8 py-5 rounded-2xl bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(3,4,94,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(3,4,94,0.5)] transition-all active:scale-[0.98]">
                         Ya, Kirim
                     </button>
                 </form>
@@ -486,12 +522,14 @@
 
     <!-- Deletion Confirmation -->
     <x-modal name="confirm-submission-deletion" :show="false" focusable>
-        <div class="p-10 sm:p-14 text-center">
-            <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-8 shadow-inner">
-                <svg class="w-12 h-12 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        <div class="p-10 sm:p-16 text-center">
+            <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/del overflow-hidden">
+                <svg class="w-14 h-14 transition-transform duration-500 group-hover/del:scale-110 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
             </div>
-            <h2 class="text-3xl font-black text-[#03045E] mb-3 tracking-tight leading-tight">Batalkan Pengajuan?</h2>
-            <p class="text-slate-500 max-w-sm mx-auto leading-relaxed font-bold text-sm mb-10">Tindakan ini permanen. Seluruh data dan file yang telah Anda unggah akan dihapus sepenuhnya.</p>
+            <h2 class="text-4xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Hapus Data?</h2>
+            <p class="text-slate-500 max-w-xs mx-auto leading-relaxed font-bold text-sm mb-12">Tindakan ini permanen. Seluruh data dan berkas yang telah Anda unggah akan dihapus selamanya.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                 <button type="button" 
@@ -504,7 +542,7 @@
                     @method('DELETE')
                     <button type="submit" 
                             @click="deleting = true; $dispatch('close')" 
-                            class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
+                            class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
                         Ya, Hapus
                     </button>
                 </form>

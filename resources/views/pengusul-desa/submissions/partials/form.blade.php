@@ -1,3 +1,7 @@
+@php
+    $categorySlug = $categorySlug ?? (\App\Models\CulturalSubmission::getCategorySlug($submission->category ?? '') ?? '');
+@endphp
+
 <div class="space-y-12" x-data="categoryForm()" x-init="initData()">
     {{-- ================================================================== --}}
     {{-- SECTION A: UNESCO Category Table --}}
@@ -141,7 +145,8 @@
                                 'fieldKey' => $fieldKey,
                                 'field' => $field,
                                 'categoryDataValues' => $categoryDataValues,
-                                'categoryFields' => $subFields
+                                'categoryFields' => $subFields,
+                                'subKey' => $subKey
                             ])
                         @endforeach
                     </div>

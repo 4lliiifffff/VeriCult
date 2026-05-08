@@ -103,9 +103,10 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         ];
 
         // Add category-specific validation rules
-        $categoryFields = CulturalSubmission::getCategoryFields($request->input('category', ''));
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
         foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+            $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
+            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
         try {
@@ -309,11 +310,13 @@ class OPKSubmissionController extends Controller implements HasMiddleware
 
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
         $categoryName = $submission->category;
+        $categorySlug = CulturalSubmission::getCategorySlug($submission->category);
 
         return view('pengusul-desa.opk-submissions.edit', compact(
             'submission',
             'categoryFields',
-            'categoryName'
+            'categoryName',
+            'categorySlug'
         ));
     }
 
@@ -344,9 +347,10 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         ];
 
         // Add category-specific validation
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category);
         foreach ($categoryFields as $key => $field) {
-            $rules["category_data.{$key}"] = ['nullable', 'string', 'max:5000'];
+            $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
+            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
         try {

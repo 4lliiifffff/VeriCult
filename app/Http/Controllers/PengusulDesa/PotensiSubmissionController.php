@@ -82,12 +82,12 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
         if (!empty($categoryFields['has_sub'])) {
             $subField = $categoryFields['sub_field'] ?? 'sub_category';
             $rules["category_data.{$subField}"] = ['required', 'string'];
-            
-            foreach ($categoryFields['fields'] as $subKey => $subFields) {
-                foreach ($subFields as $key => $field) {
-                    $rules["category_data.{$key}"] = ['nullable', $field['type'] === 'checkbox_group' ? 'array' : 'string', 'max:5000'];
-                }
-            }
+        }
+
+        $flatFields = CulturalSubmission::getFlatCategoryFields($categoryName);
+        foreach ($flatFields as $key => $field) {
+            $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
+            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
         $validated = $request->validate($rules);
@@ -208,8 +208,9 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
 
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
         $categoryName = $submission->category;
+        $categorySlug = CulturalSubmission::getCategorySlug($submission->category);
 
-        return view('pengusul-desa.potensi-submissions.edit', compact('submission', 'categoryFields', 'categoryName'));
+        return view('pengusul-desa.potensi-submissions.edit', compact('submission', 'categoryFields', 'categoryName', 'categorySlug'));
     }
 
     /**
@@ -235,16 +236,18 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryName = $submission->category;
+        $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
+        
         if (!empty($categoryFields['has_sub'])) {
             $subField = $categoryFields['sub_field'] ?? 'sub_category';
             $rules["category_data.{$subField}"] = ['required', 'string'];
-            
-            foreach ($categoryFields['fields'] as $subKey => $subFields) {
-                foreach ($subFields as $key => $field) {
-                    $rules["category_data.{$key}"] = ['nullable', $field['type'] === 'checkbox_group' ? 'array' : 'string', 'max:5000'];
-                }
-            }
+        }
+
+        $flatFields = CulturalSubmission::getFlatCategoryFields($categoryName);
+        foreach ($flatFields as $key => $field) {
+            $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
+            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
         $validated = $request->validate($rules);

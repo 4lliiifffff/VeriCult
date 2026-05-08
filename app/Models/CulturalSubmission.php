@@ -156,15 +156,32 @@ class CulturalSubmission extends Model
                 return $config['fields'][$subCategory];
             }
             
-            // Otherwise, merge all fields (fallback, but caution with key collisions)
+            // Otherwise, merge all fields (fallback for validation)
             $merged = [];
-            foreach ($config['fields'] as $subFields) {
-                $merged = array_merge($merged, $subFields);
+            foreach ($config['fields'] as $subKey => $fields) {
+                // We use array_merge to collect all possible field keys for validation
+                $merged = array_merge($merged, $fields);
             }
             return $merged;
         }
 
-        return $config['fields'] ?? [];
+        // For categories without sub, return fields directly
+        return $config['fields'] ?? $config;
+    }
+
+    /**
+     * Helper to determine if a field is an array type (checkbox_group, dynamic_table)
+     */
+    public static function isArrayField(string $category, string $fieldKey): bool
+    {
+        $fields = self::getFlatCategoryFields($category);
+        $field = $fields[$fieldKey] ?? null;
+        
+        if (!$field || !isset($field['type'])) {
+            return false;
+        }
+
+        return in_array($field['type'], ['checkbox_group', 'dynamic_table']);
     }
 
     /**

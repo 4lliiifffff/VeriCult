@@ -80,13 +80,13 @@
             </a>
 
             <!-- Section Label -->
-            <h3 x-show="!sidebarMinimized" class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 mt-6"
+            <!-- <h3 x-show="!sidebarMinimized" class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 mt-6"
                 x-transition:enter="transition ease-out duration-300 delay-100">
                 Laporan & Inventarisasi
-            </h3>
+            </h3> -->
 
             <!-- Laporan OPK -->
-            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" 
+            <!-- <a href="{{ route('pengusul-desa.opk-submissions.index') }}" 
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -100,10 +100,10 @@
                 </div>
                 <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Laporan OPK</span>
                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Laporan OPK</div>
-            </a>
+            </a> -->
 
             <!-- Cagar Budaya -->
-            <a href="{{ route('pengusul-desa.cagar-budaya-submissions.index') }}" 
+            <!-- <a href="{{ route('pengusul-desa.cagar-budaya-submissions.index') }}" 
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -117,10 +117,10 @@
                 </div>
                 <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Cagar Budaya</span>
                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Cagar Budaya</div>
-            </a>
+            </a> -->
 
             <!-- Potensi Kebudayaan -->
-            <a href="{{ route('pengusul-desa.potensi-submissions.index') }}" 
+            <!-- <a href="{{ route('pengusul-desa.potensi-submissions.index') }}" 
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -134,7 +134,7 @@
                 </div>
                 <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Potensi Kebudayaan</span>
                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Potensi Kebudayaan</div>
-            </a>
+            </a> -->
         </nav>
     </div>
 

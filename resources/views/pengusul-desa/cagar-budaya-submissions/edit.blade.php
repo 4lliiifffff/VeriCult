@@ -155,7 +155,7 @@
                                 </div>
                                 <span class="text-xs font-bold text-slate-600 truncate">{{ $file->original_name }}</span>
                             </div>
-                            <form action="{{ route('pengusul-desa.cagar-budaya-submissions.destroy-file', [$submission, $file]) }}" method="POST" @submit.prevent="if(confirm('Hapus berkas ini?')) $el.submit()">
+                            <form action="{{ route('pengusul-desa.cagar-budaya-submissions.files.destroy', [$submission, $file]) }}" method="POST" @submit.prevent="if(confirm('Hapus berkas ini?')) $el.submit()">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="p-2 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
@@ -181,22 +181,25 @@
 
     <!-- Confirmation Modal -->
     <x-modal name="confirm-submission" :show="false" focusable>
-        <div class="p-10 sm:p-14 text-center">
-            <div class="w-24 h-24 bg-blue-50 rounded-[2rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner animate-bounce-slow">
-                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+        <div class="p-10 sm:p-16 text-center">
+            <div class="w-28 h-28 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2.5rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner relative group/icon overflow-hidden">
+                <div class="absolute inset-0 bg-[#00B4D8]/10 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                <svg class="w-14 h-14 relative z-10 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
             </div>
-            <h2 class="text-3xl font-black text-[#03045E] mb-3 tracking-tight">Simpan Perubahan?</h2>
-            <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-12">Data potensi cagar budaya Anda akan diperbarui dengan informasi terbaru.</p>
+            <h2 class="text-4xl font-black text-[#03045E] mb-4 tracking-tight leading-tight">Simpan Perubahan?</h2>
+            <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Perubahan pada laporan potensi cagar budaya Anda akan disimpan sebagai draf.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
                 <button type="button" 
                         @click="$dispatch('close')" 
                         class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
-                    Batal
+                    Kembali
                 </button>
                 <button type="button" 
                         @click="doSubmit()" 
-                        class="px-8 py-5 rounded-2xl bg-[#03045E] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-blue-900/20 hover:bg-[#0077B6] transition-all active:scale-[0.98]">
+                        class="px-8 py-5 rounded-2xl bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(3,4,94,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(3,4,94,0.5)] transition-all active:scale-[0.98]">
                     Ya, Simpan
                 </button>
             </div>
