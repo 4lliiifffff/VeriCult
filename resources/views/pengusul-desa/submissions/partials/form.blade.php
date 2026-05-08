@@ -185,17 +185,18 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative" x-data="{ descCount: {{ strlen(old('description', $submission->description ?? '')) }} }">
             <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] mb-4">Deskripsi Kebudayaan <span class="text-red-500">*</span></label>
-            <div class="relative group/field">
+            <div class="relative group">
                 <textarea name="description" id="description" rows="10" 
-                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover/field:shadow-md"
+                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover:shadow-md"
                     placeholder="Ceritakan sejarah, filosofi, dan karakteristik kebudayaan ini secara mendalam (Minimal 50 karakter)..."
                     required
+                    @input="descCount = $el.value.length"
                     data-category-field>{{ old('description', $submission->description ?? '') }}</textarea>
                 
                 <div class="absolute bottom-6 right-8 flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest border border-slate-100">
-                    <span x-text="$el.closest('.group/field').querySelector('textarea').value.length"></span>/50 Karakter
+                    <span x-text="descCount"></span>/50 Karakter
                 </div>
             </div>
             @error('description')
@@ -244,7 +245,7 @@
                                 @if($existingFile->file_icon === 'image')
                                     <img src="{{ Storage::url($existingFile->path) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" alt="{{ $existingFile->original_name }}">
                                     <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
-                                        <button type="button" onclick="openExistingPreview('{{ Storage::url($existingFile->path) }}', 'image', '{{ addslashes($existingFile->original_name) }}')" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                        <button type="button" @click="openPreview({ previewUrl: '{{ Storage::url($existingFile->path) }}', isImage: true, isVideo: false, isExisting: true, name: '{{ addslashes($existingFile->original_name) }}', size: {{ $existingFile->file_size ?? 0 }} })" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
                                     </div>
@@ -252,7 +253,7 @@
                                     <div class="w-full h-full bg-slate-200 flex items-center justify-center relative">
                                         <video src="{{ Storage::url($existingFile->path) }}" class="w-full h-full object-cover" preload="metadata"></video>
                                         <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
-                                            <button type="button" onclick="openExistingPreview('{{ Storage::url($existingFile->path) }}', 'video', '{{ addslashes($existingFile->original_name) }}')" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                            <button type="button" @click="openPreview({ previewUrl: '{{ Storage::url($existingFile->path) }}', isImage: false, isVideo: true, isExisting: true, name: '{{ addslashes($existingFile->original_name) }}', size: {{ $existingFile->file_size ?? 0 }} })" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             </button>
                                         </div>
