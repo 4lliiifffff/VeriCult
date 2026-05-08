@@ -10,10 +10,30 @@ class NotificationController extends Controller
     /**
      * Display a listing of notifications.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $notifications = $user->notifications()->paginate(20);
+        $query = $user->notifications();
+
+        // Search Filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('data->title', 'like', "%{$search}%")
+                  ->orWhere('data->message', 'like', "%{$search}%");
+            });
+        }
+
+        // Date Filters
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $notifications = $query->latest()->paginate(20)->withQueryString();
         
         $view = 'dashboard';
         if ($user->hasRole('super-admin')) {
@@ -26,6 +46,10 @@ class NotificationController extends Controller
             $view = 'pengusul.notifications.index';
         } elseif ($user->hasRole('pengusul-desa')) {
             $view = 'pengusul-desa.notifications.index';
+        }
+
+        if ($request->ajax()) {
+            return view('notifications._list', compact('notifications'))->render();
         }
 
         return view($view, compact('notifications'));

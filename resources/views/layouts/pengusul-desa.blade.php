@@ -12,19 +12,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-        <!-- Flatpickr Date Picker -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-        <style>
-            .flatpickr-day.selected, .flatpickr-day.selected:hover { background: #03045E !important; border-color: #03045E !important; }
-            .flatpickr-day.today { border-color: #03045E !important; }
-            .flatpickr-day:hover { background: #F1F5F9 !important; }
-            .flatpickr-months .flatpickr-month { color: #03045E !important; fill: #03045E !important; }
-            .flatpickr-current-month .flatpickr-monthDropdown-months { font-weight: 800 !important; }
-            .flatpickr-calendar { border-radius: 1.5rem !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important; border: 1px solid #F1F5F9 !important; padding: 10px !important; }
-            .flatpickr-input { font-family: 'Outfit', sans-serif !important; }
+
             
             [x-cloak] { display: none !important; }
             .custom-scrollbar::-webkit-scrollbar { width: 5px; }
