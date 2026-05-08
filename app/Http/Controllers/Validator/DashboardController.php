@@ -15,24 +15,27 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Get available years
-        $availableYears = CulturalSubmission::select('period_year')
-            ->whereNotNull('period_year')
-            ->distinct()
-            ->orderBy('period_year', 'desc')
-            ->pluck('period_year')
+        // Ambil semua tahun dari YEAR(created_at) agar data lama (period_year NULL) ikut muncul
+        $availableYears = CulturalSubmission::selectRaw('YEAR(created_at) as yr')
+            ->groupBy('yr')
+            ->orderBy('yr', 'desc')
+            ->pluck('yr')
+            ->map(fn($y) => (int)$y)
             ->toArray();
 
-        // If availableYears is empty, fallback to current year
         if (empty($availableYears)) {
             $availableYears = [(int)date('Y')];
         }
 
-        $defaultYear = $availableYears[0];
-        $activeYear = request('year', $defaultYear);
+        // Jika tidak ada year dipilih (atau ""), tampilkan semua periode
+        $activeYear = request('year');
+        $activeYear = ($activeYear !== null && $activeYear !== '') ? (int)$activeYear : null;
 
-        // Base query filtered by year
-        $yearQuery = CulturalSubmission::where('period_year', $activeYear);
+        // Base query: filter per tahun jika dipilih, atau semua data jika tidak dipilih
+        $yearQuery = CulturalSubmission::when(
+            $activeYear,
+            fn($q) => $q->whereRaw('YEAR(created_at) = ?', [$activeYear])
+        );
 
         $stats = [
             'total_submitted' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_SUBMITTED)
@@ -42,29 +45,32 @@ class DashboardController extends Controller
                 ->where('status', CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW)
                 ->count(),
             'needs_revision' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REVISION)->count(),
-            'forwarded' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_FIELD_VERIFICATION)->count(),
-            'rejected' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REJECTED)->count(),
+            'forwarded'      => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_FIELD_VERIFICATION)->count(),
+            'rejected'       => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REJECTED)->count(),
             'my_submissions' => CulturalSubmission::ownedBy(Auth::id())->count(),
         ];
 
-        $recentSubmissions = (clone $yearQuery)->with('user')
+        // Antrean verifikasi: ikut filter tahun jika dipilih, batas 10
+        $recentSubmissions = (clone $yearQuery)
+            ->with('user')
             ->where('status', CulturalSubmission::STATUS_SUBMITTED)
             ->latest()
-            ->limit(5)
+            ->limit(10)
             ->get();
 
         // --- Dashboard Charts Data ---
-        
-        // 1. My Review Pipeline (Status of submissions reviewed by me)
+
+        // 1. My Review Pipeline
         $myReviewStats = (clone $yearQuery)->where('reviewed_by', Auth::id())
             ->select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
             ->get()
             ->pluck('count', 'status')
             ->toArray();
-            
-        // 2. Global Category Distribution (Top performance areas)
-        $categoryStats = (clone $yearQuery)->select('category', DB::raw('count(*) as count'))
+
+        // 2. Global Category Distribution
+        $categoryStats = (clone $yearQuery)
+            ->select('category', DB::raw('count(*) as count'))
             ->groupBy('category')
             ->orderBy('count', 'desc')
             ->limit(5)
@@ -72,17 +78,21 @@ class DashboardController extends Controller
             ->pluck('count', 'category')
             ->toArray();
 
-        // 3. Yearly Comparison
-        $yearlyComparison = CulturalSubmission::select(
-            'period_year',
-            DB::raw('count(*) as count')
-        )
-        ->whereNotNull('period_year')
-        ->groupBy('period_year')
-        ->orderBy('period_year', 'asc')
-        ->get();
+        // 3. Tren Pertumbuhan — 5 tahun ke belakang dari tahun terbaru
+        $latestYear = CulturalSubmission::max(DB::raw('YEAR(created_at)')) ?? (int)date('Y');
+        $startYear  = $latestYear - 4;
 
-        // 4. Review Distribution by Village (My workload by village)
+        $yearlyRaw = CulturalSubmission::selectRaw('YEAR(created_at) as yr, count(*) as count')
+            ->whereRaw('YEAR(created_at) BETWEEN ? AND ?', [$startYear, $latestYear])
+            ->groupBy('yr')
+            ->orderBy('yr', 'asc')
+            ->pluck('count', 'yr');
+
+        // Isi tahun tanpa data dengan 0 agar sumbu X lengkap
+        $yearlyComparison = collect(range($startYear, $latestYear))
+            ->mapWithKeys(fn($y) => [$y => (int)$yearlyRaw->get($y, 0)]);
+
+        // 4. Review Distribution by Village
         $villageReviewStats = (clone $yearQuery)->where('reviewed_by', Auth::id())
             ->join('villages', 'cultural_submissions.village_id', '=', 'villages.id')
             ->select('villages.name', DB::raw('count(*) as count'))
@@ -91,7 +101,7 @@ class DashboardController extends Controller
             ->pluck('count', 'name')
             ->toArray();
 
-        // 5. Active Culture Categories (For this year)
+        // 5. Active Culture Categories
         $aktifSubmissions = (clone $yearQuery)->where('submission_type', 'aktif')->get();
         $aktifCategoryStats = [];
         foreach ($aktifSubmissions as $sub) {
