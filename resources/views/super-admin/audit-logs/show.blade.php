@@ -1,26 +1,38 @@
 <x-layouts.super-admin>
     <x-slot name="header">
         <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-10 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
             <a href="{{ route('super-admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('super-admin.audit-logs.index') }}" class="hover:text-[#0077B6] transition-colors">Log Audit</a>
-            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Detail Aktivitas</span>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('super-admin.audit-logs.index') }}" class="hover:text-[#0077B6] transition-colors">Audit Trail</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">Detail Log</span>
         </nav>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div>
-                <h2 class="font-black text-2xl sm:text-3xl text-[#03045E] leading-tight tracking-tight break-words">
-                    Detail <span class="text-[#0077B6]">Aktivitas Sistem</span>
-                </h2>
-                <p class="text-[13px] sm:text-sm text-slate-500 mt-2 font-medium">Record unik ID #{{ $auditLog->id }} — Pelacakan rekaman data secara mendalam.</p>
-            </div>
-            <div>
-                <a href="{{ route('super-admin.audit-logs.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 sm:py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 shadow-sm shadow-slate-200/50 active:scale-95">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Kembali ke Log
-                </a>
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group mb-2 sm:mb-4">
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-slate-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">
+                            Detail Aktivitas
+                        </div>
+                        <div class="h-3 sm:h-4 w-[1px] bg-slate-200"></div>
+                        <span class="text-slate-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest">ID Log #{{ $auditLog->id }}</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                        Detail <span class="text-[#0077B6]">Log Audit</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Pelacakan perubahan data sistem secara mendalam untuk keamanan dan transparansi.</p>
+                </div>
+                    
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <a href="{{ route('super-admin.audit-logs.index') }}" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-4 sm:py-3.5 bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all duration-300 hover:border-[#03045E] hover:text-[#03045E] shadow-sm active:scale-95 group/btn">
+                        <svg class="w-4 h-4 mr-2 group-hover/btn:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Kembali
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>

@@ -112,7 +112,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             'user_id' => Auth::id(),
             'village_id' => Auth::user()->village_id,
             'name' => $submissionName,
-            'category' => $categoryName,
+            'category' => CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA,
             'address' => $validated['address'] ?? '-',
             'description' => $validated['description'] ?? null,
             'category_data' => !empty($categoryData) ? $categoryData : null,
@@ -270,6 +270,8 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             'name' => $validated['name'] ?? ($categoryData['nama_objek'] ?? $submission->name),
             'description' => $validated['description'] ?? $submission->description,
             'address' => $validated['address'] ?? $submission->address,
+            'category' => CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA,
+            'village_id' => Auth::user()->village_id,
             'category_data' => !empty($categoryData) ? $categoryData : $submission->category_data,
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : $submission->period_year,
         ]);

@@ -1,4 +1,4 @@
-<header class="bg-white/80 backdrop-blur-xl border-b border-slate-100 sticky top-0 z-40 transition-all duration-300">
+<header class="bg-white border-b border-slate-100 sticky top-0 z-40 transition-all duration-300 shadow-sm">
     <div class="flex items-center justify-between px-4 sm:px-10 h-20">
         <!-- Sidebar Toggle (Mobile) -->
         <div class="flex items-center gap-4 lg:hidden">

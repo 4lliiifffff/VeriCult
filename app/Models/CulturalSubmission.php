@@ -260,6 +260,11 @@ class CulturalSubmission extends Model
             if (empty($submission->period_year)) {
                 $submission->period_year = date('Y');
             }
+
+            // Auto-populate village_id for village proposers if not set
+            if (!$submission->village_id && auth()->check() && auth()->user()->hasRole('pengusul-desa')) {
+                $submission->village_id = auth()->user()->village_id;
+            }
         });
     }
 
