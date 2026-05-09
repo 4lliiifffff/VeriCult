@@ -23,45 +23,44 @@
     </div>
 
     <x-slot name="header">
-        <div class="space-y-4">
-            <!-- Breadcrumbs -->
-            <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
-                <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
-                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                <a href="{{ route('pengusul.submissions.create') }}" class="hover:text-[#0077B6] transition-colors text-slate-400">Pilih Jenis</a>
-                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-                <span class="text-[#03045E]">{{ $categoryName }}</span>
-            </nav>
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
+            <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul.submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Pilih Jenis</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('pengusul.opk-submissions.create') }}" class="hover:text-[#0077B6] transition-colors">Kategori OPK</a>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">{{ $categoryName }}</span>
+        </nav>
 
-            <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 group">
-                <!-- Decorative Elements -->
-                <div class="absolute inset-0 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] pointer-events-none">
-                    <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-                </div>
-                
-                <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 group">
+            <div class="absolute inset-0 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] pointer-events-none">
+                <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            </div>
+            
+            <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
                         <div class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">
-                                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-white">Langkah 2 dari 2</span>
-                            </div>
+                            Pengajuan OPK
                         </div>
-                        <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
-                            {{ $categorySlug === 'laporan-kebudayaan-aktif' ? 'Melaporkan Kebudayaan Aktif' : 'Daftarkan ' . $categoryName }}
-                        </h2>
-                        <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">
-                            {{ $categorySlug === 'laporan-kebudayaan-aktif' ? 'Dokumentasikan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.' : $categoryDescription }}
-                        </p>
                     </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                        Laporan <span class="text-[#0077B6]">{{ $categoryName }}</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">
+                        {{ $categoryDescription }}
+                    </p>
+                </div>
                         
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-50 p-4 sm:p-5 rounded-[2rem] border border-slate-100 shadow-inner relative z-20">
-                        <a href="{{ route('pengusul.submissions.create') }}" class="w-full sm:w-auto bg-[#03045E] text-white px-8 py-4 sm:py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 group/print">
-                            <svg class="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                            Ganti Jenis Pengajuan
-                        </a>
-                    </div>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-50 p-4 sm:p-5 rounded-[2rem] border border-slate-100 shadow-inner relative z-20">
+                    <a href="{{ route('pengusul.opk-submissions.create') }}" class="w-full sm:w-auto bg-[#03045E] text-white px-8 py-4 sm:py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 group/print">
+                    <svg class="w-4 h-4 group-hover/btn:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Ganti Kategori
+                    </a>
                 </div>
             </div>
         </div>
@@ -74,14 +73,13 @@
         <div class="lg:col-span-8 space-y-12">
             <div class="bg-white rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl shadow-slate-200/50 border border-white overflow-hidden group/form transition-all duration-700">
                 <div class="p-8 sm:p-14">
-                    <form action="{{ route('pengusul.submissions.store') }}" 
+                    <form action="{{ route('pengusul.opk-submissions.store') }}" 
                         method="POST" 
                         enctype="multipart/form-data" 
                         x-ref="mainForm" 
                         @submit.prevent="openConfirm()">
                         @csrf
                         <input type="hidden" name="category" value="{{ $categoryName }}">
-                        <input type="hidden" name="address" value="-">
                         
                         @php $submission = new \stdClass; $submission->name = ''; $submission->address = ''; $submission->description = ''; $submission->category_data = old('category_data', []); $submission->category = $categoryName; @endphp
                         @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $categoryName, 'submission' => $submission])
@@ -99,7 +97,7 @@
                                     class="w-full sm:w-auto px-12 py-5 bg-gradient-to-br from-[#03045E] via-[#023E8A] to-[#0077B6] text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl shadow-2xl shadow-blue-900/40 hover:shadow-blue-900/60 hover:-translate-y-1 transition-all duration-300 active:scale-95 group/submit"
                                     :disabled="loading">
                                 <div class="flex items-center justify-center gap-3">
-                                    <span>Simpan Draft Pengajuan</span>
+                                    <span>Simpan Draft Laporan</span>
                                     <svg class="w-5 h-5 group-hover/submit:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </div>
                             </button>
@@ -138,7 +136,7 @@
                         
                         <div class="pt-6 border-t border-white/10">
                             <p class="text-blue-100/60 text-xs leading-relaxed font-medium italic">
-                                Draft akan tersimpan otomatis setelah diproses. Anda dapat melanjutkan pengisian kapan saja dari dashboard.
+                                Draft laporan OPK Anda akan tersimpan otomatis. Pastikan deskripsi dan data dukung terisi lengkap untuk memudahkan verifikasi.
                             </p>
                         </div>
                     </div>
@@ -148,38 +146,38 @@
                 <div class="bg-white rounded-[2.5rem] p-10 border border-slate-50 shadow-xl shadow-slate-200/40 space-y-10 group/tips">
                     <div class="flex items-center gap-4">
                         <div class="w-1.5 h-8 bg-gradient-to-b from-[#03045E] to-[#0077B6] rounded-full"></div>
-                        <h3 class="text-[#03045E] font-black text-xl tracking-tight">Panduan Pengisian</h3>
+                        <h3 class="text-[#03045E] font-black text-xl tracking-tight">Panduan Laporan</h3>
                     </div>
                     
                     <div class="space-y-8">
                         <div class="flex gap-6 group/item">
                             <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">01</div>
                             <div class="space-y-1">
-                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Informasi Dasar</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Isi nama, alamat, dan deskripsi lengkap objek kebudayaan.</p>
+                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Identitas OPK</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Isi detail lengkap objek pemajuan kebudayaan sesuai kategori yang dipilih.</p>
                             </div>
                         </div>
                         <div class="flex gap-6 group/item">
                             <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">02</div>
                             <div class="space-y-1">
-                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Detail Kategori</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Lengkapi kolom khusus yang tersedia untuk kategori ini.</p>
+                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Sejarah & Karakter</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Ceritakan latar belakang dan nilai penting OPK tersebut bagi masyarakat.</p>
                             </div>
                         </div>
                         <div class="flex gap-6 group/item">
                             <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">03</div>
                             <div class="space-y-1">
-                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Bukti Digital</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Unggah foto atau dokumen otentik untuk memperkuat pengajuan.</p>
+                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Dokumentasi</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Unggah minimal 1 foto berkualitas tinggi sebagai representasi visual objek.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4 group/alert">
-                        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-500 shrink-0 shadow-sm transition-transform group-hover/alert:scale-110">
+                        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#0077B6] shrink-0 shadow-sm transition-transform group-hover/alert:scale-110">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Pastikan semua data benar sebelum mengirim.</p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Data yang lengkap membantu percepatan verifikasi data.</p>
                     </div>
                 </div>
             </div>

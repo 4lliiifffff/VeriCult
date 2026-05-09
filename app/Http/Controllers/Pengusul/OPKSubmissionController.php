@@ -13,76 +13,64 @@ use Illuminate\Support\Facades\Gate;
 use App\Notifications\SubmissionNotification;
 use App\Models\User;
 
-class SubmissionController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class OPKSubmissionController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    public static function middleware(): array
     {
-        $query = CulturalSubmission::ownedBy(Auth::id());
+        return [
+            function ($request, $next) {
+                // Only pengusul-desa can access opk submissions
+                if (!Auth::check() || !Auth::user()->hasRole('pengusul')) {
+                    abort(403, 'Hanya pengusul umum yang dapat membuat laporan OPK.');
+                }
+    
+                if (!Auth::user()->is_approved_by_admin) {
+                    abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan OPK.');
+                }
+    
+                return $next($request);
+            }
+        ];
+    }
 
-        // Search filter
-        if ($request->filled('search')) {
-            $search = $request->query('search');
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('address', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%");
-            });
-        }
-
-        // Type filter
-        if ($request->filled('type') && $request->query('type') !== 'all') {
-            $query->where('submission_type', $request->query('type'));
-        }
-
-        $submissions = $query->latest()
+    /**
+     * Display a listing of opk submissions.
+     */
+    public function index()
+    {
+        $submissions = CulturalSubmission::ownedBy(Auth::id())
+            ->where('submission_type', 'opk')
+            ->latest()
             ->paginate(10)
             ->withQueryString();
 
-        return view('pengusul.submissions.index', compact('submissions'));
+        return view('pengusul.opk-submissions.index', compact('submissions'));
     }
 
     /**
-     * Show the category selection page.
+     * Show the category selection page for opk.
      */
     public function create()
     {
-        return view('pengusul.submissions.create');
+        $categories = collect(CulturalSubmission::CATEGORY_SLUGS)
+            ->except(['cagar-budaya', 'potensi-cagar-budaya', 'laporan-kebudayaan-aktif'])
+            ->toArray();
+        $descriptions = CulturalSubmission::CATEGORY_DESCRIPTIONS;
+        $icons = CulturalSubmission::CATEGORY_ICONS;
+
+        return view('pengusul.opk-submissions.create', compact('categories', 'descriptions', 'icons'));
     }
 
     /**
-     * Show the form for a specific category.
+     * Show the form for a specific opk category.
      */
     public function createForm(string $category)
     {
-        // Special handling for Active Culture Report
-        if ($category === 'laporan-kebudayaan-aktif') {
-            $categoryName = 'Laporan Kebudayaan Aktif';
-            $categorySlug = $category;
-            $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
-            $categoryDescription = 'Formulir untuk melaporkan kebudayaan yang sedang dilaksanakan secara aktif di masyarakat.';
-
-            $villages = \App\Models\Village::orderBy('name')->get();
-
-            return view('pengusul.submissions.create-form', compact(
-                'categoryName',
-                'categorySlug',
-                'categoryFields',
-                'categoryDescription',
-                'villages'
-            ));
-        }
-
-        // Regular Pengusul shouldn't access other categories directly anymore
-        if (!Auth::user()->hasRole('pengusul')) {
-            return redirect()->route('pengusul.submissions.create-form', 'laporan-kebudayaan-aktif');
-        }
-
-        // ... rest of the original logic for other roles if they access this ...
-        // Validate category slug
-        if (!array_key_exists($category, CulturalSubmission::CATEGORY_SLUGS)) {
+        // Validate category slug and ensure it's not Cagar Budaya or Laporan Aktif
+        if (!array_key_exists($category, CulturalSubmission::CATEGORY_SLUGS) || in_array($category, ['cagar-budaya', 'potensi-cagar-budaya', 'laporan-kebudayaan-aktif'])) {
             abort(404, 'Kategori tidak ditemukan.');
         }
 
@@ -91,19 +79,16 @@ class SubmissionController extends Controller
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
         $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$categoryName] ?? '';
 
-        $villages = \App\Models\Village::orderBy('name')->get();
-
-        return view('pengusul.submissions.create-form', compact(
+        return view('pengusul.opk-submissions.create-form', compact(
             'categoryName',
             'categorySlug',
             'categoryFields',
-            'categoryDescription',
-            'villages'
+            'categoryDescription'
         ));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created opk submission.
      */
     public function store(Request $request)
     {
@@ -113,10 +98,8 @@ class SubmissionController extends Controller
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
             'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
-            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'period_year' => ['nullable', 'string'],
-            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
+            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
         // Add category-specific validation rules
@@ -165,28 +148,22 @@ class SubmissionController extends Controller
         // Auto-populate name from b1_nama_objek if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
+            $submissionName = $categoryData['nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
         }
 
-        // Address and Description: handled as nullable in DB
-        $submissionAddress = $validated['address'] ?? null;
-        $submissionDescription = $validated['description'] ?? null;
-
-        $category = $validated['category'];
-        if ($category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
-            $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
-        }
+        // Auto-populate address from category data if empty
+        $submissionAddress = $validated['address'] ?? '-';
 
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
             'village_id' => null,
             'name' => $submissionName,
-            'category' => $category,
+            'category' => $validated['category'],
             'address' => $submissionAddress,
-            'description' => $submissionDescription,
+            'description' => $validated['description'] ?? null,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
-            'submission_type' => $request->input('category') === CulturalSubmission::CATEGORY_LAPORAN_AKTIF ? 'aktif' : 'opk',
+            'submission_type' => 'opk',
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : date('Y'),
         ]);
 
@@ -195,24 +172,18 @@ class SubmissionController extends Controller
             $this->handleFileUploads($submission, $request->file('files'));
         }
 
-        return redirect()->route('pengusul.submissions.show', $submission)
-            ->with('success', 'Draft pengajuan berhasil dibuat.');
+        return redirect()->route('pengusul.opk-submissions.show', $submission)
+            ->with('success', 'Draft laporan OPK berhasil dibuat.');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified opk submission.
      */
     public function show(CulturalSubmission $submission)
     {
-        // Handle redirection based on type
-        if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul-desa.opk-submissions.show', $submission);
-        }
-        if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission);
-        }
-        if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul-desa.potensi-submissions.show', $submission);
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
+            abort(404, 'Laporan tidak ditemukan.');
         }
 
         $this->authorize('view', $submission);
@@ -232,11 +203,11 @@ class SubmissionController extends Controller
             'type' => 'status',
             'status' => CulturalSubmission::STATUS_DRAFT,
             'title' => 'Draf Disimpan',
-            'display_status' => 'Draf',
+            'status' => 'Draf',
+            'icon' => 'draf',
+            'color' => 'gray',
             'date' => $submission->created_at,
             'description' => null,
-            'icon' => 'draf',
-            'color' => 'gray'
         ]);
 
         // 2. Submitted
@@ -244,11 +215,10 @@ class SubmissionController extends Controller
             $timeline->push([
                 'type' => 'status',
                 'status' => CulturalSubmission::STATUS_SUBMITTED,
-                'title' => 'Pengajuan Dikirim',
-                'display_status' => 'Diajukan',
+                'title' => 'Dikirim untuk Review',
                 'date' => $submission->submitted_at,
                 'description' => null,
-                'icon' => 'diajukan',
+                'icon' => 'submitted',
                 'color' => 'blue'
             ]);
         }
@@ -265,136 +235,119 @@ class SubmissionController extends Controller
                 'revision' => 'amber',
                 'rejected' => 'red'
             ];
+
             $timeline->push([
                 'type' => 'review',
-                'status' => $review->action,
+                'action' => $review->action,
                 'title' => $actionTitles[$review->action] ?? 'Review Administratif',
                 'date' => $review->created_at,
-                'description' => $review->notes,
+                'description' => $review->notes ?? $review->feedback ?? null,
                 'reviewer' => $review->validator->name ?? 'Validator',
-                'icon' => $review->action,
-                'color' => $actionColors[$review->action] ?? 'indigo'
+                'icon' => 'review',
+                'color' => $actionColors[$review->action] ?? 'gray'
             ]);
         }
 
         // 4. Field Verifications
-        foreach ($submission->fieldVerifications as $review) {
+        foreach ($submission->fieldVerifications as $verification) {
             $actionTitles = [
-                'verified' => 'Verifikasi Lapangan Disetujui',
+                'verified' => 'Terverifikasi (Verifikasi Lapangan)',
                 'revision' => 'Butuh Revisi (Verifikasi Lapangan)',
                 'rejected' => 'Ditolak (Verifikasi Lapangan)'
             ];
             $actionColors = [
-                'verified' => 'emerald',
+                'verified' => 'green',
                 'revision' => 'amber',
                 'rejected' => 'red'
             ];
+
             $timeline->push([
-                'type' => 'review',
-                'status' => $review->action,
-                'title' => $actionTitles[$review->action] ?? 'Verifikasi Lapangan',
-                'date' => $review->created_at,
-                'description' => $review->notes,
-                'verifier' => $review->validator->name ?? 'Validator',
-                'icon' => $review->action,
-                'color' => $actionColors[$review->action] ?? 'emerald'
+                'type' => 'verification',
+                'action' => $verification->action ?? $verification->recommendation ?? null,
+                'title' => $actionTitles[$verification->action ?? $verification->recommendation ?? ''] ?? 'Verifikasi Lapangan',
+                'date' => $verification->created_at,
+                'description' => $verification->notes ?? $verification->feedback ?? null,
+                'verifier' => $verification->validator->name ?? 'Validator',
+                'icon' => 'verification',
+                'color' => $actionColors[$verification->action ?? $verification->recommendation ?? ''] ?? 'gray'
             ]);
         }
 
-        // 5. Publisher / Verified At
-        if ($submission->verified_at) {
-            // Check if we don't already have a 'verified' from field verifications right at this exact time to avoid dupes,
-            // but normally it's fine.
-            $timeline->push([
-                'type' => 'status',
-                'status' => CulturalSubmission::STATUS_VERIFIED,
-                'title' => 'Diverifikasi',
-                'date' => $submission->verified_at,
-                'description' => null,
-                'icon' => 'verified',
-                'color' => 'emerald'
-            ]);
-        }
-
-        if ($submission->published_at) {
+        // 5. Published
+        if ($submission->status === CulturalSubmission::STATUS_PUBLISHED) {
             $timeline->push([
                 'type' => 'status',
                 'status' => CulturalSubmission::STATUS_PUBLISHED,
-                'title' => 'Data Diterbitkan',
-                'display_status' => 'Diterbitkan',
-                'date' => $submission->published_at,
+                'title' => 'Pengajuan Dikirim',
+                'status' => 'Diajukan',
+                'color' => 'blue',
+                'icon' => 'diajukan',
+                'date' => $submission->updated_at,
                 'description' => null,
-                'icon' => 'diterbitkan',
-                'color' => 'green'
             ]);
         }
 
-        // Sort timeline by date ascending
-        $timeline = $timeline->sortBy('date')->values();
+        $timeline = $timeline->sortBy('date');
 
-        return view('pengusul.submissions.show', compact('submission', 'categoryFields', 'timeline'));
+        return view('pengusul.opk-submissions.show', compact(
+            'submission',
+            'categoryFields',
+            'timeline'
+        ));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form for editing submission.
      */
     public function edit(CulturalSubmission $submission)
     {
-        // Handle redirection based on type
-        if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul-desa.opk-submissions.edit', $submission);
-        }
-        if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul-desa.cagar-budaya-submissions.edit', $submission);
-        }
-        if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul-desa.potensi-submissions.edit', $submission);
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
+            abort(404, 'Laporan tidak ditemukan.');
         }
 
         $this->authorize('update', $submission);
 
-        // Check if submission is editable
-        if (!$submission->isEditable()) {
-            return redirect()->route('pengusul.submissions.show', $submission)
-                ->with('error', 'Pengajuan ini tidak dapat diubah pada status saat ini.');
-        }
-
-        $categorySlug = CulturalSubmission::getCategorySlug($submission->category);
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
-        $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$submission->category] ?? '';
+        $categoryName = $submission->category;
+        $categorySlug = CulturalSubmission::getCategorySlug($submission->category);
 
-        $villages = \App\Models\Village::orderBy('name')->get();
-
-        return view('pengusul.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription', 'villages'));
+        return view('pengusul.opk-submissions.edit', compact(
+            'submission',
+            'categoryFields',
+            'categoryName',
+            'categorySlug'
+        ));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the submission.
      */
     public function update(Request $request, CulturalSubmission $submission)
     {
-        $this->authorize('update', $submission);
-
-        // Check if submission is editable
-        if (!$submission->isEditable()) {
-            return redirect()->route('pengusul.submissions.show', $submission)
-                ->with('error', 'This submission cannot be edited in its current status.');
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
+            abort(404, 'Laporan tidak ditemukan.');
         }
 
-        // Base validation rules
+        $this->authorize('update', $submission);
+
+        // Only allow update if still in draft or revision status
+        if (!in_array($submission->status, [CulturalSubmission::STATUS_DRAFT, CulturalSubmission::STATUS_REVISION])) {
+            return back()->with('error', 'Tidak dapat mengedit laporan yang sudah diajukan.');
+        }
+
+        // Base validation rules (similar to store)
         $rules = [
             'name' => ['nullable', 'string', 'max:255'],
-            'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
-            'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
-            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'address' => ['nullable', 'string'],
             'period_year' => ['nullable', 'string'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
-        // Add category-specific validation rules
-        $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
+        // Add category-specific validation
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category);
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
             $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
@@ -403,96 +356,92 @@ class SubmissionController extends Controller
         try {
             $validated = $request->validate($rules);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
-            return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
+            return back()->with('error', 'Gagal memvalidasi file.')->withInput();
         }
 
-        // Custom validation for file sizes based on type
+        // Handle new file uploads
         if ($request->hasFile('files')) {
             $files = $request->file('files');
-            // Count existing + new files
-            $totalFiles = $submission->files()->count() + count($files);
-
-            if ($totalFiles > 5) {
-                return back()->withErrors(['files' => 'Maksimal 5 file diperbolehkan. Anda sudah memiliki ' . $submission->files()->count() . ' file.'])->withInput();
+            if (count($submission->files) + count($files) > 5) {
+                return back()->withErrors(['files' => 'Total files tidak boleh melebihi 5.'])->withInput();
             }
 
             foreach ($files as $file) {
                 $mimeType = $file->getMimeType();
                 $fileSize = $file->getSize();
 
-                // Video files: max 1GB
                 if (str_starts_with($mimeType, 'video/') && $fileSize > 1073741824) {
                     return back()->withErrors(['files' => 'File video tidak boleh melebihi 1GB.'])->withInput();
                 }
 
-                // Documents and images: max 10MB
                 if (!str_starts_with($mimeType, 'video/') && $fileSize > 10485760) {
                     return back()->withErrors(['files' => 'Dokumen dan gambar tidak boleh melebihi 10MB.'])->withInput();
                 }
             }
+
+            $this->handleFileUploads($submission, $files);
         }
 
-        // Clean category_data — remove empty values but keep arrays
+        // Clean category_data
         $categoryData = $request->input('category_data', []);
         $categoryData = array_filter($categoryData, function($v) {
             if (is_array($v)) return !empty($v);
             return !is_null($v) && $v !== '';
         });
 
-        // Auto-populate name from b1_nama_objek if not provided
+        // Auto-populate name from nama_objek if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? $submission->name;
+            $submissionName = $categoryData['nama_objek'] ?? $submission->name;
         }
 
-        $category = $validated['category'];
-        if ($category === CulturalSubmission::CATEGORY_CAGAR_BUDAYA) {
-            $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
-        }
-
+        // Update submission
         $submission->update([
             'name' => $submissionName,
-            'category' => $category,
             'village_id' => null,
-            'address' => $validated['address'] ?? $submission->address,
             'description' => $validated['description'] ?? $submission->description,
-            'category_data' => !empty($categoryData) ? $categoryData : null,
-            'latitude' => $validated['latitude'] ?? null,
-            'longitude' => $validated['longitude'] ?? null,
+            'address' => $validated['address'] ?? $submission->address,
+            'category_data' => !empty($categoryData) ? $categoryData : $submission->category_data,
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : ($submission->period_year ?? date('Y')),
         ]);
 
-        // Handle file uploads
-        if ($request->hasFile('files')) {
-            $this->handleFileUploads($submission, $request->file('files'));
-        }
-
-        return redirect()->route('pengusul.submissions.show', $submission)
-            ->with('success', 'Pengajuan berhasil diperbarui.');
+        return redirect()->route('pengusul.opk-submissions.show', $submission)
+            ->with('success', 'Laporan OPK berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the submission.
      */
     public function destroy(CulturalSubmission $submission)
     {
-        if ($submission->status !== CulturalSubmission::STATUS_DRAFT) {
-            abort(403, 'Hanya draft yang dapat dihapus.');
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
+            abort(404, 'Laporan tidak ditemukan.');
         }
 
-        Gate::authorize('delete', $submission);
+        $this->authorize('delete', $submission);
+
+        // Delete associated files
+        foreach ($submission->files as $file) {
+            $file->delete();
+        }
 
         $submission->delete();
 
-        return redirect()->route('pengusul.submissions.index')
-            ->with('success', 'Draft pengajuan berhasil dihapus.');
+        return redirect()->route('pengusul.opk-submissions.index')
+            ->with('success', 'Laporan OPK berhasil dihapus.');
     }
 
     /**
-     * Submit the submission for review.
+     * Submit the opk submission for review.
      */
     public function submit(CulturalSubmission $submission)
     {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
+            abort(404, 'Laporan tidak ditemukan.');
+        }
+
         Gate::authorize('update', $submission);
 
         if (!$submission->canBeSubmitted()) {
@@ -502,28 +451,32 @@ class SubmissionController extends Controller
         $submission->update([
             'status' => CulturalSubmission::STATUS_SUBMITTED,
             'submitted_at' => now(),
-            // Remove the clear reviewer info block to preserve history
         ]);
 
         // Notify Validators and Super Admins
         $admins = User::role(['super-admin', 'validator'])->get();
-        $title = 'Pengajuan Baru: ' . $submission->name;
-        $message = 'Objek budaya baru "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' dan menunggu review.';
-        $url = route('validator.submissions.show', $submission); // Most likely destination for review
+        $title = 'Laporan OPK Baru: ' . $submission->name;
+        $message = 'Laporan OPK "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' (pengusul umum) dan menunggu review.';
+        $url = route('validator.submissions.show', $submission);
 
         foreach ($admins as $admin) {
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
         }
 
-        return redirect()->route('pengusul.submissions.show', $submission)
-            ->with('success', 'Pengajuan telah dikirim untuk ditinjau.');
+        return redirect()->route('pengusul.opk-submissions.show', $submission)
+            ->with('success', 'Laporan OPK telah dikirim untuk ditinjau.');
     }
 
     /**
-     * Remove a file from the submission.
+     * Remove a file from the opk submission.
      */
     public function destroyFile(CulturalSubmission $submission, SubmissionFile $file)
     {
+        // Make sure it's a opk submission
+        if ($submission->submission_type !== 'opk') {
+            abort(404, 'Laporan tidak ditemukan.');
+        }
+
         Gate::authorize('update', $submission);
 
         if (!$submission->isEditable()) {
@@ -540,31 +493,20 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Handle file uploads for submission.
+     * Handle file uploads for a submission.
      */
-    private function handleFileUploads(CulturalSubmission $submission, array $files)
+    private function handleFileUploads(CulturalSubmission $submission, $files)
     {
         foreach ($files as $file) {
             $originalName = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
+            $storedName = time() . '_' . $originalName;
             $mimeType = $file->getMimeType();
             $size = $file->getSize();
 
-            // Generate unique filename
-            $storedName = time() . '_' . uniqid() . '.' . $extension;
-
             try {
-                // Store file
-                $path = $file->storeAs(
-                    'submissions/' . $submission->id,
-                    $storedName,
-                    'public'
-                );
+                $path = $file->storeAs('submissions/' . $submission->id, $storedName, 'public');
 
-                if (!$path) {
-                    \Log::error("Failed to store file: " . $originalName);
-                    continue;
-                }
+                if (!$path) continue;
 
                 // Determine file type
                 $fileType = SubmissionFile::TYPE_DOCUMENT;
@@ -574,7 +516,6 @@ class SubmissionController extends Controller
                     $fileType = SubmissionFile::TYPE_VIDEO;
                 }
 
-                // Create database record
                 $submission->files()->create([
                     'original_name' => $originalName,
                     'stored_name' => $storedName,
@@ -583,7 +524,6 @@ class SubmissionController extends Controller
                     'file_size' => $size,
                     'path' => $path,
                 ]);
-
             } catch (\Exception $e) {
                 \Log::error("Error handling file upload " . $originalName . ": " . $e->getMessage());
             }
