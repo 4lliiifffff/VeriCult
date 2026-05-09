@@ -161,6 +161,21 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
         Route::post('/submissions/{submission}/submit', [App\Http\Controllers\Pengusul\SubmissionController::class, 'submit'])->name('submissions.submit');
         Route::delete('/submissions/{submission}/files/{file}', [App\Http\Controllers\Pengusul\SubmissionController::class, 'destroyFile'])->name('submissions.files.destroy');
 
+        // opk Submissions
+        Route::get('/opk-submissions/create/{category}', [App\Http\Controllers\Pengusul\OPKSubmissionController::class, 'createForm'])->name('opk-submissions.create-form');
+        Route::resource('opk-submissions', App\Http\Controllers\Pengusul\OPKSubmissionController::class)->parameters([
+            'opk-submissions' => 'submission'
+        ]);
+        Route::post('/opk-submissions/{submission}/submit', [App\Http\Controllers\Pengusul\OPKSubmissionController::class, 'submit'])->name('opk-submissions.submit');
+        Route::delete('/opk-submissions/{submission}/files/{file}', [App\Http\Controllers\Pengusul\OPKSubmissionController::class, 'destroyFile'])->name('opk-submissions.files.destroy');
+
+        // Cagar Budaya Submissions
+        Route::resource('cagar-budaya-submissions', App\Http\Controllers\Pengusul\CagarBudayaSubmissionController::class)->parameters([
+            'cagar-budaya-submissions' => 'submission'
+        ]);
+        Route::post('/cagar-budaya-submissions/{submission}/submit', [App\Http\Controllers\Pengusul\CagarBudayaSubmissionController::class, 'submit'])->name('cagar-budaya-submissions.submit');
+        Route::delete('/cagar-budaya-submissions/{submission}/files/{file}', [App\Http\Controllers\Pengusul\CagarBudayaSubmissionController::class, 'destroyFile'])->name('cagar-budaya-submissions.files.destroy');
+
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');

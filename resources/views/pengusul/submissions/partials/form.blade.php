@@ -1,8 +1,12 @@
+@php
+    $categorySlug = $categorySlug ?? (\App\Models\CulturalSubmission::getCategorySlug($submission->category ?? '') ?? '');
+@endphp
+
 <div class="space-y-12" x-data="categoryForm()" x-init="initData()">
     {{-- ================================================================== --}}
     {{-- SECTION A: UNESCO Category Table --}}
     {{-- ================================================================== --}}
-    <!-- @if($categorySlug !== 'laporan-kebudayaan-aktif')
+    <!-- @if($categorySlug !== 'laporan-kebudayaan-aktif' && (!isset($hideUnesco) || !$hideUnesco))
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
@@ -77,7 +81,7 @@
 
             {{-- Sub-category selector --}}
             @if($hasSub)
-                <div class="space-y-4 group relative z-10">
+                <div class="space-y-4 group relative transition-all duration-300" :class="openField === 'sub_category' ? 'z-[100]' : 'z-10'">
                     <label class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">{{ $categoryConfig['sub_label'] ?? 'Pilih Sub-Kategori' }} <span class="text-red-500">*</span></label>
                     <div x-data="{ 
                             open: false, 
@@ -90,6 +94,7 @@
                                 this.activeSubCategory = key;
                             }
                          }"
+                         x-init="$watch('open', val => { if(val) openField = 'sub_category'; else if(openField === 'sub_category') openField = null; })"
                          @click.away="open = false"
                          class="relative">
                         
@@ -140,7 +145,8 @@
                                 'fieldKey' => $fieldKey,
                                 'field' => $field,
                                 'categoryDataValues' => $categoryDataValues,
-                                'categoryFields' => $subFields
+                                'categoryFields' => $subFields,
+                                'subKey' => $subKey
                             ])
                         @endforeach
                     </div>
@@ -206,6 +212,7 @@
     {{-- ================================================================== --}}
     {{-- SECTION D: Data Dukung --}}
     {{-- ================================================================== --}}
+    @if(!isset($hideFiles) || !$hideFiles)
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
@@ -238,7 +245,7 @@
                                 @if($existingFile->file_icon === 'image')
                                     <img src="{{ Storage::url($existingFile->path) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" alt="{{ $existingFile->original_name }}">
                                     <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
-                                        <button type="button" onclick="openExistingPreview('{{ Storage::url($existingFile->path) }}', 'image', '{{ addslashes($existingFile->original_name) }}')" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                        <button type="button" @click="openPreview({ previewUrl: '{{ Storage::url($existingFile->path) }}', isImage: true, isVideo: false, isExisting: true, name: '{{ addslashes($existingFile->original_name) }}', size: {{ $existingFile->file_size ?? 0 }} })" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
                                     </div>
@@ -246,7 +253,7 @@
                                     <div class="w-full h-full bg-slate-200 flex items-center justify-center relative">
                                         <video src="{{ Storage::url($existingFile->path) }}" class="w-full h-full object-cover" preload="metadata"></video>
                                         <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
-                                            <button type="button" onclick="openExistingPreview('{{ Storage::url($existingFile->path) }}', 'video', '{{ addslashes($existingFile->original_name) }}')" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                            <button type="button" @click="openPreview({ previewUrl: '{{ Storage::url($existingFile->path) }}', isImage: false, isVideo: true, isExisting: true, name: '{{ addslashes($existingFile->original_name) }}', size: {{ $existingFile->file_size ?? 0 }} })" class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             </button>
                                         </div>
@@ -419,6 +426,7 @@
             @endif
         </div>
     </div>
+    @endif
 
     {{-- Fullscreen Preview Modal --}}
     <template x-teleport="body">
@@ -490,6 +498,7 @@ function categoryForm() {
         files: [],
         showPreviewModal: false,
         previewFile: null,
+        openField: null,
 
         openPreview(item) {
             this.previewFile = item;

@@ -4,7 +4,7 @@
         <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
             <a href="{{ route('pengusul.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Pengajuan Saya</span>
+            <span class="text-[#03045E]">Potensi Cagar Budaya</span>
         </nav>
 
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
@@ -15,26 +15,26 @@
             <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
                 <div class="flex items-center gap-4 sm:gap-8">
                     <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl uppercase">
-                        <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                     </div>
                     <div class="space-y-1 sm:space-y-2">
                         <div class="flex items-center gap-2 sm:gap-3">
                             <div class="px-2.5 py-1 rounded-full text-[7px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-blue-50 text-[#0077B6] border border-blue-100">
-                                Inventarisasi Budaya
+                                Pelestarian Budaya
                             </div>
                             <div class="h-3 w-[1px] bg-slate-200"></div>
                             <span class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">Portal Pengusul Umum</span>
                         </div>
                         <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight">
-                            Kelola <span class="text-[#00B4D8]">Pengajuan</span>
+                            Potensi <span class="text-[#00B4D8]">Cagar Budaya</span>
                         </h2>
                     </div>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                    <a href="{{ route('pengusul.submissions.create') }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-[#03045E] text-white rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#0077B6] hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-blue-900/20 active:scale-95 gap-3 group/btn">
+                    <a href="{{ route('pengusul.cagar-budaya-submissions.create') }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-[#03045E] text-white rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#0077B6] hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-blue-900/20 active:scale-95 gap-3 group/btn">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                        <span>Tambah Pengajuan</span>
+                        <span>Daftar Potensi Baru</span>
                     </a>
                 </div>
             </div>
@@ -48,9 +48,9 @@
                 <div class="absolute top-0 right-0 -mt-8 -mr-8 w-24 h-24 bg-blue-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
                 <div class="relative z-10">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-[#0077B6] flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                     </div>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Pengajuan</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Potensi</p>
                     <h3 class="text-3xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($submissions->total()) }}</h3>
                 </div>
             </div>
@@ -61,10 +61,8 @@
                     <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-6">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Draft & Revisi</p>
-                    <h3 class="text-3xl font-black text-[#03045E] tabular-nums tracking-tight">
-                        {{ number_format($submissions->whereIn('status', [\App\Models\CulturalSubmission::STATUS_DRAFT, \App\Models\CulturalSubmission::STATUS_REVISION])->count()) }}
-                    </h3>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Dalam Proses</p>
+                    <h3 class="text-3xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($submissions->whereNotIn('status', [\App\Models\CulturalSubmission::STATUS_VERIFIED, \App\Models\CulturalSubmission::STATUS_PUBLISHED, \App\Models\CulturalSubmission::STATUS_REJECTED])->count()) }}</h3>
                 </div>
             </div>
 
@@ -74,75 +72,22 @@
                     <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Terverifikasi</p>
-                    <h3 class="text-3xl font-black text-[#03045E] tabular-nums tracking-tight">
-                        {{ number_format($submissions->where('status', \App\Models\CulturalSubmission::STATUS_VERIFIED)->count()) }}
-                    </h3>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Ditetapkan</p>
+                    <h3 class="text-3xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($submissions->whereIn('status', [\App\Models\CulturalSubmission::STATUS_VERIFIED, \App\Models\CulturalSubmission::STATUS_PUBLISHED])->count()) }}</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Filter & Search Bar -->
-        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white space-y-6 sm:space-y-8">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div class="relative flex-1 max-w-2xl group">
-                    <form action="{{ route('pengusul.submissions.index') }}" method="GET">
-                        @if(request('type'))
-                            <input type="hidden" name="type" value="{{ request('type') }}">
-                        @endif
-                        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-slate-400 group-focus-within:text-[#0077B6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        <input type="text" name="search" value="{{ request('search') }}" 
-                               placeholder="Cari nama pengajuan, alamat, atau kategori..." 
-                               class="w-full pl-14 pr-32 py-4 bg-slate-50 border-2 border-transparent rounded-2xl text-sm font-medium focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-blue-500/5 transition-all outline-none">
-                        <button type="submit" class="absolute right-3 top-2.5 px-6 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#0077B6] transition-colors shadow-lg">Cari</button>
-                    </form>
-                </div>
-
-                <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
-                    @php
-                        $currentType = request('type', 'all');
-                        $types = [
-                            'all' => ['label' => 'Semua', 'color' => 'slate'],
-                            'aktif' => ['label' => 'Aktif', 'color' => 'blue'],
-                            'opk' => ['label' => 'OPK', 'color' => 'indigo'],
-                            'cagar-budaya' => ['label' => 'Cagar Budaya', 'color' => 'amber'],
-                        ];
-                    @endphp
-
-                    @foreach($types as $key => $type)
-                        <a href="{{ route('pengusul.submissions.index', array_merge(request()->query(), ['type' => $key])) }}" 
-                           @class([
-                               'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shrink-0 border-2',
-                               'bg-[#03045E] text-white border-[#03045E] shadow-lg shadow-blue-900/20' => $currentType === $key,
-                               'bg-white text-slate-400 border-slate-100 hover:border-[#0077B6] hover:text-[#0077B6]' => $currentType !== $key,
-                           ])>
-                            {{ $type['label'] }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        <!-- Submissions Table Card -->
+        <!-- Main Card -->
         <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white overflow-hidden group">
-            <div class="p-8 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div class="p-8 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-xl sm:text-2xl font-black text-[#03045E]">Riwayat Pengajuan</h3>
-                    <p class="text-slate-400 font-medium text-xs sm:text-sm mt-1 uppercase tracking-widest">
-                        @if(request('type') && request('type') !== 'all')
-                            Kategori: {{ $types[request('type')]['label'] }}
-                        @else
-                            Seluruh Jenis Inventarisasi
-                        @endif
-                    </p>
+                    <h3 class="text-xl sm:text-2xl font-black text-[#03045E]">Riwayat Potensi CB</h3>
+                    <p class="text-slate-400 font-medium text-xs sm:text-sm mt-1 uppercase tracking-widest">Daftar Pengajuan Potensi Cagar Budaya Desa</p>
                 </div>
-                <div class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 self-start sm:self-auto">
+                <div class="hidden sm:flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Sinkronisasi Aktif</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Update Real-time</span>
                 </div>
             </div>
 
@@ -150,10 +95,10 @@
                 <table class="w-full text-left border-collapse min-w-max">
                     <thead>
                         <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
-                            <th class="px-10 py-6">Informasi Pengajuan</th>
-                            <th class="px-10 py-6">Jenis</th>
+                            <th class="px-10 py-6">Nama Objek</th>
+                            <th class="px-10 py-6">Label</th>
                             <th class="px-10 py-6 text-center">Status</th>
-                            <th class="px-10 py-6 text-center">Tgl. Pengajuan</th>
+                            <th class="px-10 py-6 text-center">Tgl. Lapor</th>
                             <th class="px-10 py-6 text-right">Opsi</th>
                         </tr>
                     </thead>
@@ -166,30 +111,18 @@
                                         {{ substr($submission->name, 0, 1) }}
                                     </div>
                                     <div>
-                                        <div class="font-bold text-[15px] text-[#03045E] group-hover/row:text-[#0077B6] transition-colors">{{ $submission->name }}</div>
-                                        <div class="text-xs text-slate-400 font-medium flex items-center gap-1 mt-0.5">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                                            <span class="line-clamp-1 max-w-[200px]">{{ $submission->address }}</span>
-                                        </div>
+                                        <div class="font-bold text-[15px] text-[#03045E] group-hover/row:text-[#0077B6] transition-colors line-clamp-1">{{ $submission->name }}</div>
+                                        <div class="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-0.5">CB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-10 py-6">
-                                <div class="space-y-1">
-                                    @php
-                                        $typeInfo = match($submission->submission_type) {
-                                            'aktif' => ['label' => 'KEBUDAYAAN AKTIF', 'color' => 'text-blue-500 bg-blue-50 border-blue-100'],
-                                            'opk' => ['label' => 'DATA OPK', 'color' => 'text-indigo-500 bg-indigo-50 border-indigo-100'],
-                                            'cagar-budaya' => ['label' => 'CAGAR BUDAYA', 'color' => 'text-amber-500 bg-amber-50 border-amber-100'],
-                                            'potensi-kebudayaan' => ['label' => 'POTENSI BUDAYA', 'color' => 'text-emerald-500 bg-emerald-50 border-emerald-100'],
-                                            default => ['label' => 'UMUM', 'color' => 'text-slate-500 bg-slate-50 border-slate-100'],
-                                        };
-                                    @endphp
-                                    <span class="inline-flex px-2.5 py-1 rounded-lg border {{ $typeInfo['color'] }} text-[9px] font-black tracking-widest shadow-sm">
-                                        {{ $typeInfo['label'] }}
-                                    </span>
-                                    <div class="text-[11px] font-bold text-slate-400 px-1">{{ $submission->category }}</div>
-                                </div>
+                                @php
+                                    $isVerified = in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_VERIFIED, \App\Models\CulturalSubmission::STATUS_PUBLISHED]);
+                                @endphp
+                                <span class="inline-flex px-3 py-1.5 rounded-xl {{ $isVerified ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100' }} text-[10px] font-black tracking-widest border uppercase">
+                                    {{ $submission->category }}
+                                </span>
                             </td>
                             <td class="px-10 py-6 text-center">
                                 @php
@@ -211,13 +144,13 @@
                             </td>
                             <td class="px-10 py-6 text-right">
                                 <div class="flex justify-end gap-2">
-                                    <a href="{{ route('pengusul.submissions.show', $submission) }}" 
+                                    <a href="{{ route('pengusul.cagar-budaya-submissions.show', $submission) }}" 
                                        class="p-2.5 rounded-xl bg-slate-50 text-slate-400 hover:bg-[#03045E] hover:text-white transition-all shadow-sm"
                                        title="Lihat Detail">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                     </a>
                                     @if($submission->isEditable())
-                                    <a href="{{ route('pengusul.submissions.edit', $submission) }}" 
+                                    <a href="{{ route('pengusul.cagar-budaya-submissions.edit', $submission) }}" 
                                        class="p-2.5 rounded-xl bg-slate-50 text-slate-400 hover:bg-amber-500 hover:text-white transition-all shadow-sm"
                                        title="Edit Pengajuan">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
@@ -231,13 +164,13 @@
                             <td colspan="5" class="px-10 py-32 text-center">
                                 <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
                                     <div class="w-24 h-24 bg-slate-50 rounded-[2rem] flex items-center justify-center mb-8 relative group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                                        <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                                     </div>
                                     <h4 class="text-2xl font-black text-[#03045E] mb-2 tracking-tight">Belum Ada Pengajuan</h4>
-                                    <p class="text-slate-400 text-sm font-medium mb-10 leading-relaxed">Sepertinya Anda belum memiliki riwayat pengajuan data kebudayaan. Mari buat pengajuan pertama Anda sekarang!</p>
-                                    <a href="{{ route('pengusul.submissions.create') }}" 
+                                    <p class="text-slate-400 text-sm font-medium mb-10 leading-relaxed">Anda belum mendaftarkan potensi cagar budaya di wilayah Anda. Mari mulai mendaftarkan potensi pertama!</p>
+                                    <a href="{{ route('pengusul.cagar-budaya-submissions.create') }}" 
                                        class="inline-flex items-center px-10 py-4 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#0077B6] active:scale-95 transition-all">
-                                        Mulai Pengajuan
+                                        Mulai Mendaftar
                                     </a>
                                 </div>
                             </td>
