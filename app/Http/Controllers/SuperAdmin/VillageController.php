@@ -27,6 +27,47 @@ class VillageController extends Controller
         return view('super-admin.villages.index', compact('villages', 'kecamatans'));
     }
 
+    public function create()
+    {
+        $kecamatans = Kecamatan::orderBy('name')->get();
+        return view('super-admin.villages.create', compact('kecamatans'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'kecamatan_id' => 'nullable|exists:kecamatans,id',
+            'kecamatan_name' => 'nullable|string|max:255',
+        ]);
+
+        if ($request->kecamatan_id) {
+            $kecamatanId = $request->kecamatan_id;
+        } elseif ($request->kecamatan_name) {
+            $kecamatan = Kecamatan::firstOrCreate(['name' => $request->kecamatan_name]);
+            $kecamatanId = $kecamatan->id;
+        } else {
+            return back()->withErrors(['kecamatan_id' => 'Silakan pilih atau masukkan nama kecamatan.'])->withInput();
+        }
+
+        $village = Village::create([
+            'name' => $request->name,
+            'kecamatan_id' => $kecamatanId,
+        ]);
+
+        // Audit Log
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'created_village',
+            'model_type' => get_class($village),
+            'model_id' => $village->id,
+            'details' => "Created new village '{$request->name}' in kecamatan ID '{$kecamatanId}'"
+        ]);
+
+        return redirect()->route('super-admin.villages.index')
+            ->with('success', 'Desa baru berhasil ditambahkan.');
+    }
+
     public function edit(Village $village)
     {
         $kecamatans = Kecamatan::orderBy('name')->get();

@@ -1,37 +1,39 @@
 <x-layouts.admin>
     <x-slot name="header">
         <!-- Breadcrumbs & Navigation -->
-        <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
             <a href="{{ route('admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Kelola Pengguna</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden">
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
             
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
-                            Tata Kelola Sistem
-                        </span>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">
+                            User Management
+                        </div>
+                        <div class="h-3 sm:h-4 w-[1px] bg-slate-200"></div>
+                        <span class="text-slate-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest">Kontrol Akses</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
-                        Kelola <span class="text-[#00B4D8]">Pengguna</span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                        Kelola <span class="text-[#0077B6]">Pengguna</span>
                     </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Pantau status akses dan validasi pengguna dalam ekosistem VeriCult.</p>
+                    <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Pantau status akses dan validasi pengguna dalam ekosistem VeriCult.</p>
                 </div>
                     
-                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-inner w-full md:w-auto">
-                    <a href="{{ route('admin.user-approvals.index') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/10 transition-transform active:scale-95 group">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-4 sm:p-5 rounded-[2rem] border border-slate-100 shadow-inner w-full md:w-auto self-start md:self-auto">
+                    <a href="{{ route('admin.user-approvals.index') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/5 transition-transform active:scale-95 group border border-slate-100">
+                        <svg class="w-4 h-4 text-[#0077B6] group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         Antrian Persetujuan
                     </a>
                 </div>
+                
             </div>
         </div>
     </x-slot>
@@ -76,7 +78,7 @@
                     const link = e.target.closest('.pagination a');
                     if (link) {
                         e.preventDefault();
-                        this.fetchUsers(link.href);
+                        this.fetchUsers(link.href.split('?')[0] + '?' + link.href.split('?')[1]);
                     }
                 });
             },
@@ -85,37 +87,39 @@
                 this.targetUser = user;
                 this.actionUrl = url;
                 this.suspendModalOpen = true;
-                this.$dispatch('open-modal', 'suspend-modal');
             },
             openUnsuspendModal(user, url) {
                 this.targetUser = user;
                 this.actionUrl = url;
                 this.unsuspendModalOpen = true;
-                this.$dispatch('open-modal', 'unsuspend-modal');
             },
             openVerifyModal(user, url) {
                 this.targetUser = user;
                 this.actionUrl = url;
                 this.verifyModalOpen = true;
-                this.$dispatch('open-modal', 'verify-modal');
             },
             openApproveModal(user, url) {
                 this.targetUser = user;
                 this.actionUrl = url;
                 this.approveModalOpen = true;
-                this.$dispatch('open-modal', 'approve-modal');
             },
             openRejectModal(user, url) {
                 this.targetUser = user;
                 this.actionUrl = url;
                 this.rejectModalOpen = true;
-                this.$dispatch('open-modal', 'reject-modal');
             }
         }" 
-        class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white relative group min-h-[500px]">
+        class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white relative group">
         
         <!-- Loading Overlay -->
-        <div x-show="loading" class="absolute inset-0 z-40 bg-white/60 backdrop-blur-[2px] flex items-center justify-center rounded-[2.5rem]" style="display: none;">
+        <div x-show="loading" 
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="absolute inset-0 z-40 bg-white/60 backdrop-blur-[2px] flex items-center justify-center" style="display: none;">
             <div class="flex flex-col items-center gap-4">
                 <div class="w-12 h-12 border-4 border-slate-100 border-t-[#0077B6] rounded-full animate-spin"></div>
                 <span class="text-[10px] font-black text-[#03045E] uppercase tracking-widest animate-pulse">Memperbarui Data...</span>
@@ -127,14 +131,14 @@
             <form x-ref="filterForm" action="{{ route('admin.users.index') }}" method="GET" @submit.prevent="fetchUsers()" class="flex flex-col lg:flex-row gap-6 auto-submit">
                 <div class="flex-1">
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#0077B6]">
-                            <svg class="h-5 w-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-[#0077B6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
                         <input type="text" name="search" value="{{ request('search') }}" 
-                            @input.debounce.500ms="fetchUsers()"
-                            placeholder="Cari pengguna berdasarkan nama atau email..." 
+                            @input.debounce.300ms="$refs.filterForm.requestSubmit()"
+                            placeholder="Cari berdasarkan nama atau email..." 
                             class="pl-12 block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-medium">
                     </div>
                 </div>
@@ -158,7 +162,7 @@
                             all-label="Semua Status"
                             variant="light"
                             :selected="request('status')" 
-                            :options="['active' => 'Aktif', 'suspended' => 'Ditangguhkan']" 
+                            :options="['active' => 'Aktif', 'pending' => 'Menunggu Persetujuan', 'suspended' => 'Ditangguhkan']" 
                         />
                     </div>
                 </div>
@@ -170,106 +174,201 @@
         </div>
 
         <!-- ====== MODALS ====== -->
-
+ 
         <!-- Suspend Modal -->
-        <x-modal name="suspend-modal" :show="false" focusable>
-            <div x-show="suspendModalOpen" class="p-8 sm:p-12 text-center">
-                <div class="mx-auto border-4 border-amber-400 bg-amber-50 h-20 w-20 rounded-3xl flex items-center justify-center text-amber-500 mb-6 font-black text-3xl shadow-inner italic">!</div>
-                <h3 class="text-2xl font-black text-[#03045E] mb-2">Tangguhkan User?</h3>
-                <p class="text-slate-500 font-medium leading-relaxed max-w-sm mx-auto">
-                    Akun <span x-text="targetUser?.name" class="font-black text-amber-600"></span> tidak akan bisa mengakses sistem sementara waktu.
-                </p>
-                <div class="grid grid-cols-2 gap-4 w-full mt-10">
-                    <button type="button" @click="suspendModalOpen = false; $dispatch('close')" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Batal</button>
-                    <form :action="actionUrl" method="POST" class="w-full">
-                        @csrf
-                        <button type="submit" class="w-full px-6 py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-amber-900/20 transition-all duration-300">Ya, Tangguhkan</button>
-                    </form>
+        <div x-show="suspendModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="suspendModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+ 
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                        <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-amber-50 text-amber-600 mb-6 font-black text-2xl shadow-inner italic">!</div>
+                        <h3 class="text-2xl font-black text-[#03045E]">Tangguhkan User?</h3>
+                        <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                            Yakin ingin menangguhkan akses <span x-text="targetUser?.name" class="font-black text-amber-600"></span>? User tidak akan bisa login sampai akun diaktifkan kembali.
+                        </p>
+                    </div>
+                    <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3 font-sans">
+                        <form :action="actionUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-amber-900/20">
+                                Ya, Tangguhkan
+                            </button>
+                        </form>
+                        <button type="button" @click="suspendModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                            Batal
+                        </button>
+                    </div>
                 </div>
             </div>
-        </x-modal>
-
-        <!-- Unsuspend Modal -->
-        <x-modal name="unsuspend-modal" :show="false" focusable>
-            <div x-show="unsuspendModalOpen" class="p-8 sm:p-12 text-center">
-                <div class="mx-auto w-20 h-20 bg-emerald-50 rounded-3xl flex items-center justify-center text-emerald-600 mb-6 shadow-inner italic font-black text-2xl">✓</div>
-                <h3 class="text-2xl font-black text-[#03045E] mb-2">Aktifkan Pengguna?</h3>
-                <p class="text-slate-500 font-medium leading-relaxed max-w-sm mx-auto">
-                    Anda akan memulihkan akses penuh untuk <span x-text="targetUser?.name" class="font-black text-emerald-600"></span>.
-                </p>
-                <div class="grid grid-cols-2 gap-4 w-full mt-10">
-                    <button type="button" @click="unsuspendModalOpen = false; $dispatch('close')" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Batal</button>
-                    <form :action="actionUrl" method="POST" class="w-full">
-                        @csrf
-                        <button type="submit" class="w-full px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-emerald-900/20 transition-all duration-300">Ya, Aktifkan</button>
-                    </form>
+        </div>
+ 
+           <!-- Unsuspend Modal -->
+        <div x-show="unsuspendModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="unsuspendModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+ 
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                        <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-emerald-50 text-emerald-600 mb-6">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#03045E]">Aktifkan User?</h3>
+                        <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                            Apakah Anda yakin ingin mengaktifkan kembali akses untuk <span x-text="targetUser?.name" class="font-black text-emerald-600"></span>?
+                        </p>
+                    </div>
+                    <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                        <form :action="actionUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-emerald-900/20">
+                                Ya, Aktifkan
+                            </button>
+                        </form>
+                        <button type="button" @click="unsuspendModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                            Batal
+                        </button>
+                    </div>
                 </div>
             </div>
-        </x-modal>
+        </div>
 
         <!-- Verify Modal -->
-        <x-modal name="verify-modal" :show="false" focusable>
-            <div x-show="verifyModalOpen" class="p-8 sm:p-12 text-center">
-                <div class="mx-auto w-20 h-20 bg-sky-50 rounded-3xl flex items-center justify-center text-sky-600 mb-6 shadow-inner">
-                    <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <h3 class="text-2xl font-black text-[#03045E] mb-2">Verifikasi Manual?</h3>
-                <p class="text-slate-500 font-medium leading-relaxed max-w-sm mx-auto">
-                    Tandai alamat email <span x-text="targetUser?.name" class="font-black text-sky-600"></span> sebagai terverifikasi sekarang.
-                </p>
-                <div class="grid grid-cols-2 gap-4 w-full mt-10">
-                    <button type="button" @click="verifyModalOpen = false; $dispatch('close')" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Batal</button>
-                    <form :action="actionUrl" method="POST" class="w-full">
-                        @csrf
-                        <button type="submit" class="w-full px-6 py-4 bg-sky-600 hover:bg-sky-700 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-sky-900/20 transition-all duration-300">Verifikasi</button>
-                    </form>
+        <div x-show="verifyModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="verifyModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+ 
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                        <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-sky-50 text-sky-600 mb-6">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#03045E]">Verifikasi Manual?</h3>
+                        <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                            Anda akan memverifikasi alamat email untuk <span x-text="targetUser?.name" class="font-black text-sky-600"></span> secara manual.
+                        </p>
+                    </div>
+                    <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                        <form :action="actionUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-4 bg-sky-600 hover:bg-sky-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-sky-900/20">
+                                Verifikasi
+                            </button>
+                        </form>
+                        <button type="button" @click="verifyModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                            Batal
+                        </button>
+                    </div>
                 </div>
             </div>
-        </x-modal>
+        </div>
 
         <!-- Approve Modal -->
-        <x-modal name="approve-modal" :show="false" focusable>
-            <div x-show="approveModalOpen" class="p-8 sm:p-12 text-center">
-                <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-3xl bg-emerald-50 text-emerald-600 mb-6 shadow-sm border border-emerald-100">
-                    <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+        <div x-show="approveModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="approveModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                        <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-emerald-50 text-emerald-600 mb-6">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#03045E]">Setujui Akses?</h3>
+                        <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                            Anda akan menyetujui <span x-text="targetUser?.name" class="font-black text-emerald-600"></span> sebagai Pengusul Desa. Email dan akun akan diaktifkan secara bersamaan.
+                        </p>
+                    </div>
+                    <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                        <form :action="actionUrl" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-emerald-900/20">
+                                Ya, Setujui
+                            </button>
+                        </form>
+                        <button type="button" @click="approveModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                            Batal
+                        </button>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-black text-[#03045E]">Setujui Akses?</h3>
-                <p class="mt-3 text-slate-500 font-medium leading-relaxed max-w-sm mx-auto">
-                    Anda akan menyetujui <span x-text="targetUser?.name" class="font-black text-emerald-600"></span> sebagai Pengusul Desa. Akun ini akan langsung aktif.
-                </p>
-                <div class="grid grid-cols-2 gap-4 w-full mt-10">
-                    <button type="button" @click="approveModalOpen = false; $dispatch('close')" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Batal</button>
-                    <form :action="actionUrl" method="POST" class="w-full">
+            </div>
+        </div>
+
+        <!-- Reject Modal -->
+        <div x-show="rejectModalOpen" style="display: none;"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div @click="rejectModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
+                    <form :action="actionUrl" method="POST">
                         @csrf
-                        <button type="submit" class="w-full px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-emerald-900/20 transition-all duration-300">Ya, Setujui</button>
+                        <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
+                            <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-red-50 text-red-600 mb-6">
+                                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-black text-[#03045E]">Tolak Pengajuan?</h3>
+                            <p class="mt-3 text-slate-500 font-medium leading-relaxed">
+                                Anda akan menolak dan menghapus akun <span x-text="targetUser?.name" class="font-black text-red-600"></span>.
+                            </p>
+                            <div class="mt-6">
+                                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Alasan Penolakan (Wajib)</label>
+                                <textarea name="rejection_reason" rows="3" required
+                                    class="block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 sm:text-sm transition-all duration-300 font-medium p-4"
+                                    placeholder="Jelaskan alasan penolakan..."></textarea>
+                            </div>
+                        </div>
+                        <div class="px-8 py-8 sm:px-10 flex flex-col sm:flex-row-reverse gap-3">
+                            <button type="submit" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-red-900/20">
+                                Tolak & Hapus
+                            </button>
+                            <button type="button" @click="rejectModalOpen = false" class="flex-1 inline-flex justify-center items-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                                Batal
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </x-modal>
-
-        <!-- Reject Modal -->
-        <x-modal name="reject-modal" :show="false" focusable>
-            <form :action="actionUrl" method="POST" x-show="rejectModalOpen">
-                @csrf
-                <div class="p-8 sm:p-12 text-center">
-                    <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-3xl bg-red-50 text-red-600 mb-6 shadow-sm border border-red-100 italic font-black text-3xl">X</div>
-                    <h3 class="text-2xl font-black text-[#03045E]">Tolak Pengajuan?</h3>
-                    <p class="mt-3 text-slate-500 font-medium leading-relaxed max-w-sm mx-auto">
-                        Tolak pengajuan dan hapus akun <span x-text="targetUser?.name" class="font-black text-red-600"></span> secara permanen.
-                    </p>
-                    <div class="mt-8 text-left">
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Alasan Penolakan (Wajib)</label>
-                        <textarea name="rejection_reason" rows="3" required
-                            class="block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 sm:text-sm transition-all duration-300 font-medium p-5"
-                            placeholder="Jelaskan alasan penolakan..."></textarea>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 w-full mt-10">
-                        <button type="button" @click="rejectModalOpen = false; $dispatch('close')" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all">Batal</button>
-                        <button type="submit" class="w-full px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-red-900/20 transition-all duration-300">Tolak & Hapus</button>
-                    </div>
-                </div>
-            </form>
-        </x-modal>
+        </div>
 
     </div>
 </x-layouts.admin>

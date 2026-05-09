@@ -18,6 +18,34 @@ class KecamatanController extends Controller
         return view('super-admin.kecamatans.index', compact('kecamatans'));
     }
 
+    public function create()
+    {
+        return view('super-admin.kecamatans.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:kecamatans,name',
+        ]);
+
+        $kecamatan = Kecamatan::create([
+            'name' => $request->name,
+        ]);
+
+        // Audit Log
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'created_kecamatan',
+            'model_type' => get_class($kecamatan),
+            'model_id' => $kecamatan->id,
+            'details' => "Created new kecamatan '{$request->name}'"
+        ]);
+
+        return redirect()->route('super-admin.kecamatans.index')
+            ->with('success', 'Kecamatan baru berhasil ditambahkan.');
+    }
+
     public function edit(Kecamatan $kecamatan)
     {
         return view('super-admin.kecamatans.edit', compact('kecamatan'));

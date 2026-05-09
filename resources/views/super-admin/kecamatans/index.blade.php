@@ -24,6 +24,15 @@
                     </h2>
                     <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Kelola daftar kecamatan dan pantau persebaran data kebudayaan di setiap wilayah.</p>
                 </div>
+
+                <div class="shrink-0 flex flex-col sm:flex-row gap-4 sm:gap-6">
+                    <a href="{{ route('super-admin.kecamatans.create') }}" class="group/btn px-8 py-5 bg-[#03045E] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 flex items-center justify-center gap-3">
+                        <div class="p-1.5 rounded-lg bg-white/10 group-hover/btn:bg-white/20 transition-colors">
+                            <svg class="w-4 h-4 group-hover/btn:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        </div>
+                        Tambah Kecamatan
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>
