@@ -191,8 +191,8 @@
 
         <!-- Links -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 text-center">
-            <a href="{{ route('register') }}" class="text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-[#0077B6] transition-colors">
-                Bukan Perwakilan Desa? <span class="text-[#0077B6] underline">Daftar Biasa</span>
+            <a href="{{ route('register') }}" class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                Bukan Perwakilan Desa? <span class="text-[#0077B6] hover:underline ml-1">Daftar Biasa</span>
             </a>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
                 Sudah punya akun? 
