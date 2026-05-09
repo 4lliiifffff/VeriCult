@@ -360,8 +360,8 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
 
     <!-- Modals -->
     <!-- Final Submission Confirmation -->
@@ -421,5 +421,6 @@
             </div>
         </div>
     </x-modal>
+    </div>
 </x-layouts.validator>
 

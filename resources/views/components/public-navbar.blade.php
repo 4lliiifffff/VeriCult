@@ -9,7 +9,7 @@
             <!-- Logo Section -->
             <div class="flex items-center">
                 <a href="{{ route('beranda') }}" class="flex items-center space-x-3 group">
-                    <div class="w-9 h-9 bg-gradient-to-br from-[#0077B6] to-[#00B4D8] rounded-lg flex items-center justify-center shadow-md shadow-[#0077B6]/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-9 h-9 bg-[#03045E] rounded-lg flex items-center justify-center shadow-md shadow-[#0077B6]/20 group-hover:scale-105 transition-transform duration-300">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                         </svg>
@@ -23,36 +23,16 @@
             
             <!-- Desktop Navigation (Centered) -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="{{ route('beranda') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
-                    :class="[
-                        request()->routeIs('beranda') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
-                        'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
-                        request()->routeIs('beranda') ? 'after:w-full' : ''
-                    ]">Beranda</a>
-                <a href="{{ route('tentang') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
-                    :class="[
-                        request()->routeIs('tentang') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
-                        'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
-                        request()->routeIs('tentang') ? 'after:w-full' : ''
-                    ]">Tentang</a>
-                <a href="{{ route('fitur') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
-                    :class="[
-                        request()->routeIs('fitur') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
-                        'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
-                        request()->routeIs('fitur') ? 'after:w-full' : ''
-                    ]">Fitur</a>
-                <a href="{{ route('edukasi') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
-                    :class="[
-                        request()->routeIs('edukasi') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
-                        'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
-                        request()->routeIs('edukasi') ? 'after:w-full' : ''
-                    ]">Edukasi</a>
-                <a href="{{ route('profil-kebudayaan.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100"
-                    :class="[
-                        request()->routeIs('profil-kebudayaan.*') ? (scrolled ? 'text-[#0077B6]' : 'text-[#90E0EF]') : (scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-white/80 hover:text-white'),
-                        'relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full',
-                        request()->routeIs('profil-kebudayaan.*') ? 'after:w-full' : ''
-                    ]">Profil Budaya</a>
+                <a href="{{ route('beranda') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('beranda') ? 'after:w-full' : '' }}"
+                    :class="scrolled ? '{{ request()->routeIs('beranda') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('beranda') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Beranda</a>
+                <a href="{{ route('tentang') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('tentang') ? 'after:w-full' : '' }}"
+                    :class="scrolled ? '{{ request()->routeIs('tentang') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('tentang') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Tentang</a>
+                <a href="{{ route('fitur') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('fitur') ? 'after:w-full' : '' }}"
+                    :class="scrolled ? '{{ request()->routeIs('fitur') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('fitur') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Fitur</a>
+                <a href="{{ route('edukasi') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('edukasi') ? 'after:w-full' : '' }}"
+                    :class="scrolled ? '{{ request()->routeIs('edukasi') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('edukasi') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Edukasi</a>
+                <a href="{{ route('profil-kebudayaan.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('profil-kebudayaan.*') ? 'after:w-full' : '' }}"
+                    :class="scrolled ? '{{ request()->routeIs('profil-kebudayaan.*') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('profil-kebudayaan.*') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Profil Budaya</a>
             </div>
             
             <!-- Right Actions Section -->
@@ -108,21 +88,20 @@
                     <div class="hidden sm:flex items-center gap-5">
                         <a href="{{ route('login') }}" 
                            class="text-xs font-bold transition-all duration-300"
-                           :class="scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-[#64748B] hover:text-[#00B4D8]'">
+                           :class="scrolled ? 'text-slate-600 hover:text-[#03045E]' : 'text-[#64748B] hover:text-[#03045E]'">
                             Masuk
                         </a>
                         <a href="{{ route('register') }}" 
                            class="px-6 py-2 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all duration-300 transform active:scale-95"
-                           :class="scrolled ? 'bg-[#0077B6] text-white shadow-lg shadow-blue-500/20 hover:bg-[#023E8A]' : 'bg-[#0077B6] text-white hover:bg-[#CAF0F8]'">
+                           :class="scrolled ? 'bg-[#03045E] text-white shadow-lg shadow-blue-500/20 hover:bg-[#023E8A]' : 'bg-[#03045E] text-white hover:bg-[#023E8A]'">
                             Daftar
                         </a>
                     </div>
                 @endauth
 
-                <!-- Mobile Menu Button -->
                 <button class="md:hidden p-2 rounded-lg transition-colors duration-300"
                         @click="mobileMenu = !mobileMenu"
-                        :class="scrolled || mobileMenu ? 'text-[#0F172A] hover:bg-slate-100' : 'text-[#0F172A]">
+                        :class="scrolled || mobileMenu ? 'text-[#0F172A] hover:bg-slate-100' : 'text-[#0F172A]'">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!mobileMenu">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
@@ -135,15 +114,7 @@
     </div>
 
     <!-- Mobile Navigation Dropdown -->
-    <div class="bg-white border-b border-slate-100 md:hidden overflow-hidden transition-all duration-300 shadow-xl"
-         x-show="mobileMenu"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="max-h-0 opacity-0"
-         x-transition:enter-end="max-h-[500px] opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="max-h-[500px] opacity-100"
-         x-transition:leave-end="max-h-0 opacity-0"
-         x-cloak>
+    <div :class="{'block': mobileMenu, 'hidden': !mobileMenu}" class="hidden md:hidden bg-white border-b border-slate-100 shadow-xl transition-all duration-300">
         <div class="flex flex-col space-y-1 p-4">
             <a href="{{ route('beranda') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Beranda</a>
             <a href="{{ route('tentang') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Tentang</a>
@@ -160,7 +131,7 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="text-slate-600 font-bold py-2 text-center text-sm">Masuk</a>
-                    <a href="{{ route('register') }}" class="bg-[#0077B6] text-white py-3 rounded-lg font-bold text-sm text-center shadow-md">Daftar Akun</a>
+                    <a href="{{ route('register') }}" class="bg-[#03045E] text-white py-3 rounded-lg font-bold text-sm text-center shadow-md">Daftar Akun</a>
                 @endauth
             </div>
         </div>

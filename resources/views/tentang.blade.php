@@ -33,15 +33,18 @@
     <x-public-navbar />
 
     <!-- Hero -->
-    <section class="hero-gradient pt-32 pb-20 relative overflow-hidden">
+    <section class="hero-gradient pt-40 pb-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMyw0LDk0LDAuMDMpIi8+PC9zdmc+')]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 rounded-full border border-slate-100 text-[#0077B6] text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-blue-100 text-[#0077B6] text-[10px] font-black uppercase tracking-[0.2em] mb-8 shadow-sm shadow-blue-500/5 reveal reveal-up">
+                <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                 {{ $content['hero_badge'] ?? 'Tentang Platform' }}
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold text-[#03045E] mb-6 tracking-tight leading-[1.1]">
-                {!! $content['hero_title'] ?? 'Misi Kami Untuk<br><span class="text-[#0077B6]">Pelestarian Budaya Indonesia</span>' !!}
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-[#03045E] mb-6 tracking-tight leading-[1.1] reveal reveal-up" style="transition-delay: 100ms;">
+                {!! $content['hero_title'] ?? 'Misi Kami Untuk<br><span class="text-[#0077B6] relative inline-block">Pelestarian Budaya Indonesia </span>' !!}
+                
             </h1>
-            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-normal leading-relaxed">
+            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed reveal reveal-up" style="transition-delay: 200ms;">
                 {{ $content['hero_subtitle'] ?? 'VeriCult adalah sistem digital inovatif yang dirancang untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia.' }}
             </p>
         </div>
@@ -52,57 +55,58 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-20 items-center">
                 <div class="reveal reveal-up">
-                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 shadow-sm space-y-8">
-                        <div class="flex items-center gap-6">
-                            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm text-[#0077B6]">
-                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <div class="bg-white rounded-[3rem] p-10 sm:p-12 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 space-y-8 relative overflow-hidden group">
+                        <div class="absolute -right-20 -top-20 w-56 h-56 bg-blue-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
+                        
+                        <div class="flex items-center gap-6 relative z-10">
+                            <div class="w-16 h-16 bg-blue-50/50 rounded-2xl flex items-center justify-center text-[#0077B6] shadow-sm border border-white group-hover:bg-gradient-to-br group-hover:from-[#03045E] group-hover:to-[#0077B6] group-hover:text-white transition-all duration-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-[#03045E] uppercase tracking-wide">Pengajuan Digital</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest opacity-70">Efisien & Terdata</p>
+                                <h4 class="text-lg font-black text-[#03045E] mb-1">Pengajuan Digital</h4>
+                                <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Efisien & Terdata</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-6">
-                            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm text-[#0077B6]">
-                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        <div class="flex items-center gap-6 relative z-10">
+                            <div class="w-16 h-16 bg-blue-50/50 rounded-2xl flex items-center justify-center text-[#0077B6] shadow-sm border border-white group-hover:bg-gradient-to-br group-hover:from-[#03045E] group-hover:to-[#0077B6] group-hover:text-white transition-all duration-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-[#03045E] uppercase tracking-wide">Validasi Berjenjang</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest opacity-70">Akurasi Terjamin</p>
+                                <h4 class="text-lg font-black text-[#03045E] mb-1">Validasi Berjenjang</h4>
+                                <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Akurasi Terjamin</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-6">
-                            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm text-[#0077B6]">
-                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0"></path>
-                                </svg>
+                        <div class="flex items-center gap-6 relative z-10">
+                            <div class="w-16 h-16 bg-blue-50/50 rounded-2xl flex items-center justify-center text-[#0077B6] shadow-sm border border-white group-hover:bg-gradient-to-br group-hover:from-[#03045E] group-hover:to-[#0077B6] group-hover:text-white transition-all duration-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806"></path></svg>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-[#03045E] uppercase tracking-wide">Sertifikasi Resmi</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest opacity-70">Legalitas Digital</p>
+                                <h4 class="text-lg font-black text-[#03045E] mb-1">Sertifikasi Resmi</h4>
+                                <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Legalitas Digital</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="reveal reveal-up" style="transition-delay: 200ms;">
-                    <h2 class="text-3xl md:text-5xl font-bold text-[#03045E] mb-8 tracking-tight leading-tight">
-                        {!! $content['about_title'] ?? 'Mengapa<br><span class="text-[#0077B6]">VeriCult?</span>' !!}
+                    <h2 class="text-3xl md:text-4xl lg:text-6xl font-black text-[#03045E] mb-8 tracking-tight leading-tight">
+                        {!! str_replace('text-[#0077B6]', 'text-[#0077B6] relative inline-block', $content['about_title'] ?? 'Mengapa<br><span class="text-[#0077B6] relative inline-block">VeriCult?</span>') !!}
                     </h2>
-                    <p class="text-lg text-slate-500 mb-10 leading-relaxed">
+                    <p class="text-lg text-slate-500 mb-10 leading-relaxed font-medium">
                         {{ $content['about_description'] ?? 'VeriCult adalah platform digital terintegrasi yang dirancang khusus untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia. Kami berkomitmen menjaga otentisitas data melalui teknologi mutakhir dan sistem verifikasi berjenjang.' }}
                     </p>
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
-                            <div class="mt-1 w-5 h-5 text-[#0077B6] flex-shrink-0">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <div class="mt-1 w-6 h-6 text-[#0077B6] flex-shrink-0 bg-blue-50 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <p class="text-slate-600 font-medium text-sm">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
+                            <p class="text-slate-600 font-bold text-sm">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
                         </div>
                         <div class="flex items-start gap-4">
-                            <div class="mt-1 w-5 h-5 text-[#0077B6] flex-shrink-0">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <div class="mt-1 w-6 h-6 text-[#0077B6] flex-shrink-0 bg-blue-50 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <p class="text-slate-600 font-medium text-sm">Seluruh data pengajuan terdokumentasi dengan aman dan dapat dilacak secara real-time.</p>
+                            <p class="text-slate-600 font-bold text-sm">Seluruh data pengajuan terdokumentasi dengan aman dan dapat dilacak secara real-time.</p>
                         </div>
                     </div>
                 </div>

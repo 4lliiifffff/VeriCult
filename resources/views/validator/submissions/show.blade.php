@@ -567,7 +567,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Modals -->
     <!-- Claim Confirmation Modal -->
@@ -657,4 +656,5 @@
             </div>
         </div>
     </template>
+    </div>
 </x-layouts.validator>

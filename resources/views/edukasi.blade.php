@@ -39,16 +39,21 @@
     <x-public-navbar />
 
     <!-- Hero Section -->
-    <section class="hero-gradient pt-32 pb-20 relative overflow-hidden">
+    <section class="hero-gradient pt-40 pb-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMyw0LDk0LDAuMDMpIi8+PC9zdmc+')]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 rounded-full border border-slate-100 text-[#0077B6] text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-blue-100 text-[#0077B6] text-[10px] font-black uppercase tracking-[0.2em] mb-8 shadow-sm shadow-blue-500/5 reveal reveal-up">
+                <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" clip-rule="evenodd"></path></svg>
                 Pusat Edukasi Budaya
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold text-[#03045E] mb-6 tracking-tight leading-[1.1]">
-                Kenali & Lindungi<br><span class="text-[#0077B6]">Warisan Budaya Kita</span>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-[#03045E] mb-6 tracking-tight leading-[1.1] reveal reveal-up" style="transition-delay: 100ms;">
+                Kenali & Lindungi<br>
+                <span class="text-[#0077B6] relative inline-block">Warisan Budaya Kita
+                     
+                </span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-normal leading-relaxed">
-                Pahami landasan hukum dan kategori kebudayaan Indonesia untuk berkontribusi dalam pelestarian kekayaan bangsa.
+            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed reveal reveal-up" style="transition-delay: 200ms;">
+                Pahami landasan hukum dan kategori kebudayaan Indonesia untuk berkontribusi secara aktif dalam pelestarian kekayaan bangsa.
             </p>
         </div>
     </section>
@@ -90,7 +95,7 @@
             </div>
 
             <!-- 10 Categories -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @php
                     $categories = [
                         ['title' => 'Tradisi Lisan', 'desc' => 'Tuturan yang diwariskan secara turun-temurun seperti pantun, cerita rakyat, dan doa.'],
@@ -108,11 +113,11 @@
 
                 @foreach($categories as $idx => $cat)
                 <div class="reveal reveal-up group" style="transition-delay: {{ $idx * 50 }}ms;">
-                    <div class="h-full p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#0077B6]/20 transition-all duration-500">
-                        <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-[#0077B6] mb-6 group-hover:bg-[#03045E] group-hover:text-white transition-all">
-                            <span class="text-sm font-black">{{ str_pad($idx + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    <div class="h-full p-8 sm:p-10 bg-white rounded-[2rem] sm:rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-2 transition-all duration-500 flex flex-col">
+                        <div class="w-14 h-14 bg-blue-50/50 rounded-2xl flex items-center justify-center text-[#0077B6] mb-8 group-hover:bg-gradient-to-br group-hover:from-[#03045E] group-hover:to-[#0077B6] group-hover:text-white transition-all duration-500 shadow-sm">
+                            <span class="text-lg font-black tracking-tighter">{{ str_pad($idx + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         </div>
-                        <h4 class="text-lg font-bold text-[#03045E] mb-3">{{ $cat['title'] }}</h4>
+                        <h4 class="text-xl font-black text-[#03045E] mb-4 tracking-tight group-hover:text-[#0077B6] transition-colors">{{ $cat['title'] }}</h4>
                         <p class="text-sm text-slate-500 leading-relaxed font-medium">
                             {{ $cat['desc'] }}
                         </p>
@@ -129,40 +134,44 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12">
                 <!-- Cagar Budaya -->
-                <div class="reveal reveal-up bg-white p-10 rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/50">
-                    <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-[#0077B6] mb-8">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                <div class="reveal reveal-up bg-white p-10 sm:p-14 rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50 hover:-translate-y-2 transition-all duration-500">
+                    <div class="w-20 h-20 bg-[#0077B6]/10 rounded-3xl flex items-center justify-center text-[#0077B6] mb-8 border border-[#0077B6]/10">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-[#03045E] mb-4">Cagar Budaya</h3>
-                    <p class="text-slate-500 leading-relaxed font-medium mb-6">
+                    <h3 class="text-3xl font-black text-[#03045E] mb-6 tracking-tight">Cagar Budaya</h3>
+                    <p class="text-slate-500 leading-relaxed font-medium mb-8 text-lg">
                         Warisan budaya bersifat kebendaan berupa Benda, Bangunan, Struktur, Situs, dan Kawasan Cagar Budaya di darat dan/atau di air yang perlu dilestarikan keberadaannya karena memiliki nilai penting bagi sejarah, ilmu pengetahuan, pendidikan, agama, dan/atau kebudayaan.
                     </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-3 text-sm font-bold text-[#0077B6]">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-sm font-black uppercase tracking-widest text-[#0077B6]">
+                            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
                             Bersifat Tangible (Kebendaan)
                         </li>
-                        <li class="flex items-center gap-3 text-sm font-bold text-[#0077B6]">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        <li class="flex items-center gap-4 text-sm font-black uppercase tracking-widest text-[#0077B6]">
+                            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
                             Berusia 50 Tahun atau Lebih
                         </li>
                     </ul>
                 </div>
 
                 <!-- Potensi Kebudayaan -->
-                <div class="reveal reveal-up bg-white p-10 rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/50" style="transition-delay: 200ms;">
-                    <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-8">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <div class="reveal reveal-up bg-white p-10 sm:p-14 rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50 hover:-translate-y-2 transition-all duration-500" style="transition-delay: 200ms;">
+                    <div class="w-20 h-20 bg-amber-50 rounded-3xl flex items-center justify-center text-amber-500 mb-8 border border-amber-100/50">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-[#03045E] mb-4">Potensi Kebudayaan</h3>
-                    <p class="text-slate-500 leading-relaxed font-medium mb-6">
+                    <h3 class="text-3xl font-black text-[#03045E] mb-6 tracking-tight">Potensi Kebudayaan</h3>
+                    <p class="text-slate-500 leading-relaxed font-medium mb-8 text-lg">
                         Meliputi sumber daya manusia dan sarana prasarana yang mendukung ekosistem kebudayaan. Ini termasuk Tenaga Kebudayaan (ahli, pelestari, pengelola) dan Lembaga Kebudayaan yang aktif bergerak di bidang seni, adat, dan tradisi.
                     </p>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-100">Tenaga Kebudayaan</div>
-                        <div class="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-100">Lembaga Budaya</div>
-                        <div class="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-100">Sarana Prasarana</div>
-                        <div class="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-100">Ruang Publik</div>
+                        <div class="px-5 py-3 bg-slate-50 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-100 text-center">Tenaga Budaya</div>
+                        <div class="px-5 py-3 bg-slate-50 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-100 text-center">Lembaga</div>
+                        <div class="px-5 py-3 bg-slate-50 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-100 text-center">Infrastruktur</div>
+                        <div class="px-5 py-3 bg-slate-50 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-100 text-center">Ruang Publik</div>
                     </div>
                 </div>
             </div>

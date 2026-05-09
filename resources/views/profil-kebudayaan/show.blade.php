@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth overflow-x-clip">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth overflow-x-hidden">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -86,7 +86,7 @@
     <x-public-navbar />
 
     <!-- Hero Section -->
-    <section class="relative h-[70vh] min-h-[500px] flex items-end overflow-hidden bg-slate-900">
+    <section class="relative min-h-[70vh] flex items-end overflow-hidden bg-slate-50 pt-32 pb-16">
         @php 
             $mainImage = $submission->files->first(function($file) {
                 return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
@@ -94,42 +94,53 @@
         @endphp
         
         @if($mainImage)
-            <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply">
         @endif
-        <div class="absolute inset-0 hero-gradient-overlay"></div>
+        
+        <!-- Light Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent"></div>
+        
+        <!-- Decorative subtle pattern -->
+        <div class="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMyw0LDk0LDAuMDMpIi8+PC9zdmc+')]"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
             <div class="max-w-4xl reveal reveal-up">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="px-4 py-1 bg-[#0077B6] text-white text-[10px] font-bold uppercase tracking-wider rounded-lg">
-                        {{ ucfirst(str_replace('_', ' ', $submission->category)) }}
+                <div class="flex flex-wrap items-center gap-3 mb-6">
+                    <span class="px-4 py-1.5 bg-[#00B4D8]/10 text-[#0077B6] border border-[#00B4D8]/20 text-[10px] font-black uppercase tracking-widest rounded-xl backdrop-blur-md shadow-sm">
+                        {{ $submission->category }}
                     </span>
-                    <span class="px-4 py-1 bg-white/10 backdrop-blur text-white text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/20">
-                        VeriCult Certified
+                    <span class="px-4 py-1.5 bg-[#03045E] text-white border border-[#03045E]/20 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-md shadow-blue-900/20 flex items-center gap-2">
+                        <svg class="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        Terverifikasi
+                    </span>
+                    <span class="px-4 py-1.5 bg-white border border-slate-200 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-sm">
+                        SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}
                     </span>
                 </div>
                 
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 tracking-tight leading-tight">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-[#03045E] mb-8 tracking-tight leading-[1.1] drop-shadow-sm break-words">
                     {{ $submission->name }}
                 </h1>
 
-                <div class="flex flex-wrap items-center gap-8 text-white/80">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                <div class="flex flex-wrap items-center gap-4 sm:gap-8 bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-slate-200/50 p-6 rounded-[2rem] w-full sm:w-auto sm:inline-flex">
+                    <div class="flex items-center gap-4 flex-1 min-w-0 w-full sm:w-auto">
+                        <div class="w-12 h-12 rounded-2xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                         </div>
-                        <div>
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/40">Lokasi</p>
-                            <p class="text-sm font-semibold">{{ $submission->address }}</p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Lokasi</p>
+                            <p class="text-sm font-bold text-slate-700 truncate" title="{{ $submission->address }}">{{ $submission->address }}</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <div class="hidden sm:block w-px h-10 bg-slate-200"></div>
+                    <div class="flex items-center gap-4 shrink-0">
+                        <div class="w-12 h-12 rounded-2xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
                         <div>
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/40">Publikasi</p>
-                            <p class="text-sm font-semibold">{{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d M Y') }}</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Tanggal Publikasi</p>
+                            <p class="text-sm font-bold text-slate-700">{{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d F Y') }}</p>
                         </div>
                     </div>
                 </div>
@@ -143,154 +154,216 @@
             <div class="grid lg:grid-cols-12 gap-16">
                 
                 <!-- Main Content -->
-                <div class="lg:col-span-8 space-y-16">
-                    <div class="reveal reveal-up">
-                        <h2 class="text-2xl font-bold text-[#03045E] mb-6 flex items-center gap-4">
-                            Deskripsi Objek
-                            <div class="h-px flex-1 bg-slate-100"></div>
-                        </h2>
-                        <p class="text-lg text-slate-500 leading-relaxed font-normal italic">
-                            "{{ $submission->description }}"
-                        </p>
-                    </div>
+                <div class="lg:col-span-8 space-y-10 min-w-0">
+                    
+                    <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-8 sm:p-14 reveal reveal-up">
+                        <!-- Description -->
+                        <div class="space-y-6">
+                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
+                                <span class="shrink-0">Narasi Kebudayaan</span>
+                                <div class="flex-1 h-px bg-slate-100"></div>
+                            </h3>
+                            <div class="p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
+                                <div class="prose prose-slate max-w-none w-full break-words">
+                                    <p class="text-slate-700 leading-[1.8] sm:leading-[2] font-medium text-base sm:text-lg italic">
+                                        "{{ $submission->description }}"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                    @if(!empty($submission->category_data))
-                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 reveal reveal-up">
-                        <h3 class="text-sm font-bold text-[#0077B6] uppercase tracking-[0.2em] mb-10">Data Teknis DetaiL</h3>
-                        
-                        <div class="grid gap-12">
-                            @php
-                                $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
-                                $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
-                                $processedKeys = [];
-                            @endphp
-
-                            @foreach($submission->category_data as $dataKey => $dataValue)
-                                @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $processedKeys))
+                        @if(!empty($submission->category_data))
+                        <div class="space-y-6 mt-14">
+                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
+                                <span class="shrink-0">Detail {{ $submission->category }}</span>
+                                <div class="flex-1 h-px bg-slate-100"></div>
+                            </h3>
+                            <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 border border-slate-100">
+                                @php
+                                    $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
+                                    $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+                                @endphp
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10">
                                     @php
-                                        $fieldDef = $flatFields[$dataKey] ?? null;
-                                        if (!$fieldDef) continue;
-
-                                        if (($fieldDef['type'] ?? '') === 'radio' && in_array($dataValue, ['Ya', 'Tidak'])) {
-                                            $hasDependentFilled = false;
-                                            foreach($flatFields as $k => $f) {
-                                                if (isset($f['condition']) && $f['condition']['field'] === $dataKey && !empty($submission->category_data[$k])) {
-                                                    $hasDependentFilled = true;
-                                                    break;
-                                                }
-                                            }
-                                            if ($hasDependentFilled) continue;
-                                        }
-
-                                        $displayValue = $dataValue;
-                                        $displayLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
-
-                                        if ($dataValue === 'Lainnya') {
-                                            $otherKey = $dataKey . '_lainnya';
-                                            if (!empty($submission->category_data[$otherKey])) {
-                                                $displayValue = $submission->category_data[$otherKey];
-                                                $processedKeys[] = $otherKey;
-                                            }
-                                        }
+                                        $processedKeys = [];
                                     @endphp
+                                    @foreach($submission->category_data as $dataKey => $dataValue)
+                                        @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $processedKeys))
+                                            @php
+                                                $fieldDef = $flatFields[$dataKey] ?? null;
+                                                if (!$fieldDef) continue;
 
-                                    <div class="space-y-3">
-                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ $displayLabel }}</p>
-                                        
-                                        @if(is_array($displayValue))
-                                            @if(isset($displayValue[0]) && is_array($displayValue[0]))
-                                                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
-                                                    <div class="overflow-x-auto">
-                                                        <table class="w-full text-left text-sm">
-                                                            <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                                                <tr>
-                                                                    @foreach(array_keys($displayValue[0]) as $colKey)
-                                                                        <th class="px-6 py-4">{{ str_replace('_', ' ', $colKey) }}</th>
-                                                                    @endforeach
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="divide-y divide-slate-100 text-slate-600 font-medium">
-                                                                @foreach($displayValue as $row)
-                                                                    <tr>
-                                                                        @foreach($row as $cell)
-                                                                            <td class="px-6 py-4">{{ $cell }}</td>
+                                                if (($fieldDef['type'] ?? '') === 'radio' && in_array($dataValue, ['Ya', 'Tidak'])) {
+                                                    $hasDependentFilled = false;
+                                                    foreach($flatFields as $k => $f) {
+                                                        if (isset($f['condition']) && $f['condition']['field'] === $dataKey && !empty($submission->category_data[$k])) {
+                                                            $hasDependentFilled = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if ($hasDependentFilled) continue;
+                                                }
+
+                                                $displayValue = $dataValue;
+                                                $displayLabel = $fieldDef['label'] ?? str_replace('_', ' ', ucfirst($dataKey));
+
+                                                if ($dataValue === 'Lainnya') {
+                                                    $otherKey = $dataKey . '_lainnya';
+                                                    if (!empty($submission->category_data[$otherKey])) {
+                                                        $displayValue = $submission->category_data[$otherKey];
+                                                        $processedKeys[] = $otherKey;
+                                                    }
+                                                }
+
+                                                if (str_contains(strtolower($displayLabel), 'nama pencipta')) {
+                                                    $displayLabel = 'Penulis / Pencipta';
+                                                }
+
+                                                $isWide = ($fieldDef['type'] ?? '') === 'textarea' || is_array($dataValue);
+                                            @endphp
+
+                                            <div class="space-y-2 {{ $isWide ? 'sm:col-span-2' : '' }} min-w-0">
+                                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{{ $displayLabel }}</p>
+                                                
+                                                @if(is_array($displayValue))
+                                                    @if(isset($displayValue[0]) && is_array($displayValue[0]))
+                                                        <div class="bg-white rounded-[1.5rem] border border-slate-100 overflow-hidden shadow-sm mt-3">
+                                                            <div class="overflow-x-auto">
+                                                                <table class="w-full text-left text-sm min-w-max">
+                                                                    <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                                                                        <tr>
+                                                                            @foreach(array_keys($displayValue[0]) as $colKey)
+                                                                                <th class="px-6 py-4">{{ str_replace('_', ' ', $colKey) }}</th>
+                                                                            @endforeach
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="divide-y divide-slate-50 text-slate-600 font-medium text-sm">
+                                                                        @foreach($displayValue as $row)
+                                                                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                                                                @foreach($row as $cell)
+                                                                                    <td class="px-6 py-4">{{ $cell }}</td>
+                                                                                @endforeach
+                                                                            </tr>
                                                                         @endforeach
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            @else
-                                                <div class="flex flex-wrap gap-2">
-                                                    @foreach($displayValue as $item)
-                                                        <span class="px-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-semibold text-[#03045E]">
-                                                            {{ $item }}
-                                                        </span>
-                                                    @endforeach
-                                                </div>
-                                            @endif
-                                        @else
-                                            <p class="text-[#03045E] font-semibold text-lg tracking-tight">
-                                                {{ $displayValue }}
-                                            </p>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="flex flex-wrap gap-2 mt-2">
+                                                            @foreach($displayValue as $item)
+                                                                <span class="px-4 py-2 bg-white border border-blue-100 shadow-sm shadow-blue-500/5 rounded-xl text-xs font-bold text-[#0077B6]">
+                                                                    {{ $item }}
+                                                                </span>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <p class="text-slate-700 break-words font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap' : 'black text-lg' }}">
+                                                        {{ $displayValue }}
+                                                    </p>
+                                                @endif
+                                            </div>
                                         @endif
+                                    @endforeach
+                                </div>
+
+                                {{-- UNESCO Categories --}}
+                                @if(!empty($submission->category_data['unesco_categories']))
+                                    <div class="mt-10 pt-8 border-t border-slate-100">
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Kategori UNESCO</p>
+                                        <div class="flex flex-wrap gap-2">
+                                            @foreach($submission->category_data['unesco_categories'] as $unescoCat)
+                                                <span class="px-4 py-2 bg-[#03045E]/5 text-[#03045E] rounded-xl text-xs font-bold border border-[#03045E]/10">{{ $unescoCat }}</span>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 @endif
-                            @endforeach
+
+                                {{-- Data Dukung URLs --}}
+                                @if(!empty($submission->category_data['video_url']) || !empty($submission->category_data['dokumen_kajian_url']) || !empty($submission->category_data['dokumen_lainnya_url']))
+                                    <div class="mt-8 pt-8 border-t border-slate-100 space-y-4">
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tautan Pendukung Eksternal</p>
+                                        @foreach(['video_url' => 'Video', 'dokumen_kajian_url' => 'Dokumen Kajian', 'dokumen_lainnya_url' => 'Dokumen Lainnya'] as $urlKey => $urlLabel)
+                                            @if(!empty($submission->category_data[$urlKey]))
+                                                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 w-full min-w-0">
+                                                    <span class="text-[11px] font-black uppercase tracking-widest text-slate-500 w-full sm:w-36 shrink-0">{{ $urlLabel }}:</span>
+                                                    <div class="flex-1 min-w-0 w-full">
+                                                        <a href="{{ $submission->category_data[$urlKey] }}" target="_blank" class="text-sm text-[#0077B6] font-medium hover:underline truncate block">{{ $submission->category_data[$urlKey] }}</a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                         </div>
+                        @endif
                     </div>
-                    @endif
                 </div>
 
                 <!-- Sidebar -->
-                <div class="lg:col-span-4 space-y-12">
+                <div class="lg:col-span-4 space-y-8 min-w-0">
+                    <!-- Verification Badge -->
+                    <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20 group reveal reveal-up">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPjwvc3ZnPg==')] opacity-50"></div>
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#00B4D8]/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-inner">
+                                <svg class="w-7 h-7 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <h4 class="text-2xl font-black mb-3 tracking-tight">Terverifikasi Resmi</h4>
+                            <p class="text-blue-100 text-sm leading-relaxed mb-8 font-medium">
+                                Data warisan budaya ini telah melalui proses verifikasi berjenjang dan dijamin keasliannya oleh sistem VeriCult.
+                            </p>
+                            <div class="flex items-center gap-4 pt-6 border-t border-white/10">
+                                <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center text-xs font-black border border-white/20 shadow-sm">VC</div>
+                                <div>
+                                    <p class="text-[10px] font-black text-blue-200 uppercase tracking-widest mb-0.5">Otoritas Validasi</p>
+                                    <p class="text-sm font-bold">Tim Kurator VeriCult</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Media Gallery -->
-                    <div class="reveal reveal-up" style="transition-delay: 100ms;">
-                        <h3 class="text-sm font-bold text-[#03045E] uppercase tracking-widest mb-6">Galeri Media</h3>
+                    <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-8 reveal reveal-up" style="transition-delay: 100ms;">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
+                                <span class="shrink-0">Galeri Media</span>
+                            </h3>
+                            <span class="px-3 py-1 rounded-lg bg-[#03045E] text-white text-[10px] font-black tracking-widest">{{ $submission->files->count() }} BERKAS</span>
+                        </div>
+                        
                         <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
                             @forelse($submission->files as $file)
                                 @if(in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']))
                                     <button @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
-                                            class="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 card-shadow">
+                                            class="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 card-shadow w-full focus:outline-none focus:ring-4 focus:ring-blue-500/20">
                                         <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-50 group-hover:scale-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
                                         </div>
                                     </button>
                                 @elseif(in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']))
                                     <button @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" 
-                                            class="group relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-slate-100 card-shadow">
-                                        <div class="absolute inset-0 flex items-center justify-center text-white">
-                                            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                            class="group relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-slate-100 card-shadow w-full focus:outline-none focus:ring-4 focus:ring-blue-500/20">
+                                        <div class="absolute inset-0 flex items-center justify-center text-white bg-slate-800/50 group-hover:bg-slate-800/30 transition-colors">
+                                            <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform">
+                                                <svg class="w-6 h-6 translate-x-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                            </div>
                                         </div>
                                     </button>
                                 @endif
                             @empty
-                                <div class="col-span-full py-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Tidak ada media</p>
+                                <div class="col-span-full py-16 text-center bg-slate-50 rounded-[1.5rem] border-2 border-dashed border-slate-200 group">
+                                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300 shadow-sm group-hover:scale-110 transition-transform">
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Belum ada media</p>
                                 </div>
                             @endforelse
-                        </div>
-                    </div>
-
-                    <!-- Verification Badge -->
-                    <div class="bg-[#03045E] rounded-[2.5rem] p-10 text-white relative overflow-hidden reveal reveal-up" style="transition-delay: 200ms;">
-                        <div class="relative z-10">
-                            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/20">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                            <h4 class="text-xl font-bold mb-4 tracking-tight">Terverifikasi Resmi</h4>
-                            <p class="text-white/60 text-sm leading-relaxed mb-8 italic">
-                                "Sistem VeriCult menjamin keaslian dan validitas data warisan budaya ini melalui proses verifikasi berjenjang."
-                            </p>
-                            <div class="flex items-center gap-4 pt-8 border-t border-white/10">
-                                <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-[10px] font-bold">VC</div>
-                                <div>
-                                    <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Otoritas</p>
-                                    <p class="text-xs font-bold">Tim Kurator VeriCult</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
