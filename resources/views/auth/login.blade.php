@@ -83,9 +83,9 @@
 
         <!-- Register Link -->
         <div class="text-center pt-6">
-            <p class="text-xs text-slate-400 font-medium">
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
                 Belum punya akun? 
-                <a href="{{ route('register') }}" class="text-[#0077B6] font-bold hover:text-[#03045E] transition-colors ml-1 uppercase tracking-widest">Daftar</a>
+                <a href="{{ route('register') }}" class="text-[#0077B6] hover:underline ml-1">Daftar</a>
             </p>
         </div>
     </form>

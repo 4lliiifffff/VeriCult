@@ -49,8 +49,8 @@
 
         <!-- Login Link -->
         <div class="text-center pt-6">
-            <a href="{{ route('login') }}" class="text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-[#0077B6] transition-colors">
-                Ingat sandi anda? <span class="text-[#0077B6] underline">Masuk</span>
+            <a href="{{ route('login') }}" class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                Ingat sandi anda? <span class="text-[#0077B6] hover:underline ml-1">Masuk</span>
             </a>
         </div>
     </form>
