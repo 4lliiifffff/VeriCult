@@ -171,10 +171,10 @@
                             @endforeach
                         </select>
                     </form>
-                    <a href="{{ route('validator.cultural.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#03045E] text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 gap-2 items-center active:scale-95 group/btn">
+                    <!-- <a href="{{ route('validator.cultural.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#03045E] text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 gap-2 items-center active:scale-95 group/btn">
                         <svg class="w-4 h-4 group-hover/btn:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                         Buat Pengajuan
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>

@@ -6,21 +6,29 @@
             <span class="text-[#03045E]">Antrian Validasi</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group mb-8">
+            <!-- Decorative Bubbles -->
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/5 rounded-full blur-2xl"></div>
             
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
-                            Antrian Validasi
-                        </span>
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
+                <div class="flex items-center gap-4 sm:gap-8">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl uppercase">
+                        <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words">
-                        Antrian <span class="text-[#00B4D8]">Validasi</span>
-                    </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium break-words">Kelola dan review seluruh pengajuan kebudayaan yang masuk.</p>
+                    <div class="space-y-1 sm:space-y-2">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="px-2.5 py-1 rounded-full text-[7px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-blue-50 text-[#0077B6] border border-blue-100">
+                                Antrian Validasi
+                            </div>
+                            <div class="h-3 w-[1px] bg-slate-200"></div>
+                            <span class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">Portal Validator</span>
+                        </div>
+                        <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight">
+                            Antrian <span class="text-[#00B4D8]">Validasi</span>
+                        </h2>
+                        <p class="text-slate-500 text-xs sm:text-sm font-medium">Kelola dan review seluruh pengajuan kebudayaan yang masuk.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,7 +86,20 @@
         </div>
 
         <!-- List Table -->
-        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden group">
+            <div class="p-8 sm:p-10 border-b border-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-xl sm:text-2xl font-black text-[#03045E]">Daftar Pengajuan</h3>
+                    <p class="text-slate-400 font-medium text-xs sm:text-sm mt-1 uppercase tracking-widest">
+                        Seluruh Antrian Validasi
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 self-start sm:self-auto">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Live Data</span>
+                </div>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-max">
                     <thead>
@@ -157,12 +178,13 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-8 py-24 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-200 mb-4">
-                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            <td colspan="5" class="px-10 py-32 text-center">
+                                <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
+                                    <div class="w-24 h-24 bg-slate-50 rounded-[2rem] flex items-center justify-center mb-8 relative group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                                        <svg class="w-12 h-12 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     </div>
-                                    <p class="text-slate-400 font-bold tracking-wide uppercase text-xs">Tidak ada data ditemukan.</p>
+                                    <h4 class="text-2xl font-black text-[#03045E] mb-2 tracking-tight">Antrian Kosong</h4>
+                                    <p class="text-slate-400 text-sm font-medium mb-4 leading-relaxed">Belum ada pengajuan masuk yang sesuai dengan filter yang Anda gunakan.</p>
                                 </div>
                             </td>
                         </tr>

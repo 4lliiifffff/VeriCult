@@ -11,34 +11,34 @@
         </nav>
 
         <!-- Premium Page Header Card -->
-        <div class="relative mb-8 bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-2xl shadow-blue-900/20">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group mb-8">
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
             
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-4">
-                    <div class="flex flex-wrap items-center gap-3">
-                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.15em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-sm">
-                            Keputusan Validasi
-                        </span>
-                        <span class="text-[10px] font-black text-blue-100/60 uppercase tracking-[0.2em] bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
+                <div class="flex items-center gap-4 sm:gap-8">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#0077B6] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl">
+                        <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    
-                    <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight break-words max-w-4xl">
-                        {{ $submission->name }}
-                    </h1>
-                    
-                    <div class="flex flex-wrap items-center gap-4">
-                        <div class="flex items-center gap-2 text-blue-100/80 font-bold text-sm bg-white/5 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10">
+                    <div class="space-y-1 sm:space-y-2">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="px-2.5 py-1 rounded-full text-[7px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-slate-100 text-slate-500 border border-slate-200">
+                                Keputusan Validasi
+                            </div>
+                            <div class="h-3 w-[1px] bg-slate-200"></div>
+                            <span class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
+                        </div>
+                        <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight break-words max-w-4xl">
+                            {{ $submission->name }}
+                        </h2>
+                        <div class="flex items-center gap-2 text-slate-500 font-bold text-xs sm:text-sm mt-1 sm:mt-2">
                             <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                             <span>{{ $submission->category }}</span>
                         </div>
                     </div>
                 </div>
-                    
-                <div class="flex items-center gap-4 w-full md:w-auto">
-                    <a href="{{ route('validator.submissions.show', $submission) }}" class="w-full md:w-auto justify-center bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-white/20 transition-all active:scale-95 group">
-                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('validator.submissions.show', $submission) }}" class="flex-1 sm:flex-none px-5 py-3 sm:px-6 sm:py-4 bg-slate-50 text-slate-500 rounded-xl sm:rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#03045E] hover:text-white transition-all flex items-center justify-center gap-3 border border-slate-100 active:scale-95 group/btn">
+                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform text-slate-400 group-hover/btn:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
                         Kembali
                     </a>
                 </div>
@@ -292,9 +292,6 @@
                                                  <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Lanjutkan ke Verifikasi Lapangan</span>
                                                  <p class="text-[9px] font-bold text-slate-400 mt-0.5">Wajib sebelum validasi akhir</p>
                                              </div>
-                                             <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                 <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                             </div>
                                          </div>
                                      </label>
 
@@ -308,9 +305,6 @@
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Minta Revisi</span>
                                             </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                            </div>
                                         </div>
                                     </label>
                                     <!-- Reject -->
@@ -322,9 +316,6 @@
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tolak Pengajuan</span>
-                                            </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
@@ -414,9 +405,6 @@
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Validkan & Verifikasi</span>
                                             </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                            </div>
                                         </div>
                                     </label>
                                     <!-- Reject -->
@@ -428,9 +416,6 @@
                                             </div>
                                             <div class="flex-1">
                                                 <span class="block font-black text-[11px] uppercase tracking-widest text-[#03045E]">Tolak Permanen</span>
-                                            </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-500 flex items-center justify-center transition-all duration-300 shrink-0">
-                                                <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
                                     </label>
