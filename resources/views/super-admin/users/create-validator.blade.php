@@ -40,7 +40,7 @@
         </div>
     </x-slot>
     
-    <div class="max-w-5xl mx-auto pb-20">
+    <div>
         <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative group">
             <div class="p-6 sm:p-14 lg:p-16">
                 <form action="{{ route('super-admin.users.store-validator') }}" method="POST" class="space-y-10 sm:space-y-12">
