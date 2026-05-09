@@ -213,9 +213,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
         Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
 
-        // Kecamatan Management
-        Route::get('/kecamatans', [App\Http\Controllers\Admin\KecamatanController::class, 'index'])->name('kecamatans.index');
-        Route::delete('/kecamatans/{kecamatan}', [App\Http\Controllers\Admin\KecamatanController::class, 'destroy'])->name('kecamatans.destroy');
+        // Wilayah Management
+        Route::resource('kecamatans', \App\Http\Controllers\Admin\KecamatanController::class);
+        Route::resource('villages', \App\Http\Controllers\Admin\VillageController::class);
     });
 
 // Pengusul Desa Routes (only pengusul-desa)
