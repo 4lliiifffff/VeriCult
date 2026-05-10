@@ -498,20 +498,49 @@
 
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                            @if($categorySlug === 'laporan-kebudayaan-aktif')
+                                <div class="mb-8 p-6 bg-emerald-50 border-2 border-emerald-100 rounded-3xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer" 
+                                     @click="toggleDirectValidation()">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-emerald-500 shadow-sm transition-transform group-hover/direct:scale-110">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-sm font-black text-emerald-900 uppercase tracking-wider">Validasi Langsung</h4>
+                                                <p class="text-[10px] text-emerald-600 font-bold">Verifikasi tanpa kunjungan lapangan (khusus Laporan Aktif)</p>
+                                            </div>
+                                        </div>
+                                        <div class="w-12 h-6 rounded-full transition-colors relative" :class="isDirectValidation ? 'bg-emerald-500' : 'bg-slate-200'">
+                                            <div class="absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm" :class="isDirectValidation ? 'left-7' : 'left-1'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10" x-show="!isDirectValidation" x-collapse>
                                 <div class="group">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Tanggal Kunjungan</label>
-                                    <input type="date" name="visit_date" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" required>
+                                    <input type="date" name="visit_date" id="visit_date_input" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" :required="!isDirectValidation">
                                 </div>
                                 <div class="group">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Lintang (Lat)</label>
-                                    <input type="text" name="verified_latitude" placeholder="-6.xxx" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
+                                    <input type="text" name="verified_latitude" placeholder="-6.xxx" value="{{ $submission->latitude }}" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
                                 </div>
                                 <div class="group">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Bujur (Lng)</label>
-                                    <input type="text" name="verified_longitude" placeholder="106.xxx" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
+                                    <input type="text" name="verified_longitude" placeholder="106.xxx" value="{{ $submission->longitude }}" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
                                 </div>
                             </div>
+
+                            {{-- Hidden inputs for Direct Validation mode --}}
+                            <template x-if="isDirectValidation">
+                                <div>
+                                    <input type="hidden" name="visit_date" value="{{ date('Y-m-d') }}">
+                                    <input type="hidden" name="verified_latitude" value="{{ $submission->latitude }}">
+                                    <input type="hidden" name="verified_longitude" value="{{ $submission->longitude }}">
+                                </div>
+                            </template>
 
                             <div>
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">
@@ -801,6 +830,7 @@
                 showModal: false,
                 showWarningModal: false,
                 submitting: false,
+                isDirectValidation: false,
                 missingFieldsList: @js(array_values($missingFields ?? [])),
 
                 selectAction(action) {
@@ -833,8 +863,25 @@
                     if (this.submitting) return;
                     this.submitting = true;
                     this.showModal = false;
-                    document.getElementById('reviewForm').removeEventListener('submit', () => {});
+
+                    // If direct validation is on, ensure values are set
+                    if (this.isDirectValidation) {
+                        const today = new Date().toISOString().split('T')[0];
+                        const dateInput = document.getElementById('visit_date_input');
+                        if (dateInput && !dateInput.value) dateInput.value = today;
+                    }
+
                     document.getElementById('reviewForm').submit();
+                },
+
+                toggleDirectValidation() {
+                    this.isDirectValidation = !this.isDirectValidation;
+                    if (this.isDirectValidation) {
+                        if (this.notes.length < 10) {
+                            this.notes = 'Validasi langsung berdasarkan laporan kebudayaan aktif yang valid.';
+                        }
+                        this.selectedAction = 'verified';
+                    }
                 }
             }
         }
