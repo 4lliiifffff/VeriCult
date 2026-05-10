@@ -190,7 +190,7 @@
                             @endif
 
                             <!-- Description -->
-                            @if(!empty($submission->description))
+                            @if(!empty($submission->description) && $submission->category !== \App\Models\CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
                                 <div class="space-y-6">
                                     <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
                                         <span class="shrink-0 text-[#03045E]">{{ $submission->isActiveCulture() ? 'Keterangan Tambahan' : 'Narasi Kebudayaan' }}</span>
