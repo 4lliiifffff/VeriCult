@@ -31,11 +31,12 @@
             }
         }
     }
+    $isActuallyRequired = !empty($field['required']) || ($forceRequired ?? false);
 @endphp
 
 <div class="space-y-3 group/field relative transition-all duration-300"
     :class="openField === '{{ $fieldKey }}' ? 'z-[100]' : 'z-0'"
-    @if(!empty($field['required'])) data-required="true" @endif
+    @if($isActuallyRequired) data-required="true" @endif
     @if($hasCondition)
         @php
             $isYaCondition = !is_array($conditionValue) && $conditionValue === 'Ya';
@@ -51,18 +52,16 @@
     @endif
 >
     {{-- Field Header --}}
-    @if($field['type'] !== 'dynamic_table')
-        <div class="flex items-center justify-between gap-4">
-            <label for="category_data_{{ $fieldKey }}" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] transition-colors group-focus-within/field:text-[#0077B6]">
-                {{ $field['label'] }}
-                @if(!empty($field['required'])) <span class="text-red-500">*</span> @endif
-            </label>
-            
-            @if($isLainnyaField)
-                <span class="px-3 py-1 bg-amber-50 text-amber-600 rounded-lg text-[9px] font-black uppercase tracking-widest border border-amber-100">Detail Tambahan</span>
-            @endif
-        </div>
-    @endif
+    <div class="flex items-center justify-between gap-4">
+        <label for="category_data_{{ $fieldKey }}" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] transition-colors group-focus-within/field:text-[#0077B6]">
+            {{ $field['label'] }}
+            @if($isActuallyRequired) <span class="text-red-500">*</span> @endif
+        </label>
+        
+        @if($isLainnyaField)
+            <span class="px-3 py-1 bg-amber-50 text-amber-600 rounded-lg text-[9px] font-black uppercase tracking-widest border border-amber-100">Detail Tambahan</span>
+        @endif
+    </div>
 
     <div class="relative">
         @switch($field['type'])
