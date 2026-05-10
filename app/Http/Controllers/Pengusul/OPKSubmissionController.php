@@ -198,7 +198,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             'fieldVerifications.validator'
         ]);
 
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
         // Build chronological timeline
         $timeline = collect();

@@ -149,7 +149,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             'administrativeReviews.validator', 
             'fieldVerifications.validator'
         ]);
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
         $timeline = collect();
         $timeline->push([

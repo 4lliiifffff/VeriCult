@@ -148,7 +148,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             'administrativeReviews.validator', 
             'fieldVerifications.validator'
         ]);
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
         $timeline = collect();
         $timeline->push([

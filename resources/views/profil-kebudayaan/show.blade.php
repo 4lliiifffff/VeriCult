@@ -241,7 +241,7 @@
                                                                         @foreach($displayValue as $row)
                                                                             <tr class="hover:bg-slate-50/50 transition-colors">
                                                                                 @foreach($row as $cell)
-                                                                                    <td class="px-6 py-4">{{ $cell }}</td>
+                                                                                    <td class="px-6 py-4">{{ is_array($cell) ? implode(', ', $cell) : $cell }}</td>
                                                                                 @endforeach
                                                                             </tr>
                                                                         @endforeach
@@ -253,14 +253,14 @@
                                                         <div class="flex flex-wrap gap-2 mt-2">
                                                             @foreach($displayValue as $item)
                                                                 <span class="px-4 py-2 bg-white border border-blue-100 shadow-sm shadow-blue-500/5 rounded-xl text-xs font-bold text-[#0077B6]">
-                                                                    {{ $item }}
+                                                                    {{ is_array($item) ? implode(', ', $item) : $item }}
                                                                 </span>
                                                             @endforeach
                                                         </div>
                                                     @endif
                                                 @else
                                                     <p class="text-slate-700 break-words font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'medium text-base leading-relaxed whitespace-pre-wrap' : 'black text-lg' }}">
-                                                        {{ $displayValue }}
+                                                        {{ is_array($displayValue) ? implode(', ', $displayValue) : $displayValue }}
                                                     </p>
                                                 @endif
                                             </div>

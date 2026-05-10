@@ -7,39 +7,48 @@
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
             <a href="{{ route('validator.submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">Detail</a>
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Review Workspace</span>
+            <span class="text-[#03045E] truncate max-w-[150px] sm:max-w-none">Review Workspace</span>
         </nav>
 
-        <!-- Premium Page Header Card -->
-        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group mb-8">
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/5 rounded-full blur-2xl"></div>
+
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
                 <div class="flex items-center gap-4 sm:gap-8">
-                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#0077B6] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#0077B6] flex items-center justify-center text-white shadow-xl shadow-blue-900/20">
                         <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <div class="space-y-1 sm:space-y-2">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <div class="px-2.5 py-1 rounded-full text-[7px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-slate-100 text-slate-500 border border-slate-200">
-                                Keputusan Validasi
-                            </div>
+                    <div class="space-y-2 sm:space-y-3">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <span class="px-2.5 py-1 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.15em] uppercase bg-amber-50 text-amber-600 border border-amber-100 shadow-sm">
+                                Review Workspace
+                            </span>
                             <div class="h-3 w-[1px] bg-slate-200"></div>
-                            <span class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
+                            <span class="text-slate-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em]">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</span>
                         </div>
-                        <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight break-words max-w-4xl">
+                        <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight break-words max-w-2xl">
                             {{ $submission->name }}
                         </h2>
-                        <div class="flex items-center gap-2 text-slate-500 font-bold text-xs sm:text-sm mt-1 sm:mt-2">
-                            <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                            <span>{{ $submission->category }}</span>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <div class="flex items-center gap-2 text-slate-500 font-bold text-[10px] sm:text-xs bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 uppercase tracking-widest">
+                                <svg class="w-3.5 h-3.5 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                                <span>{{ $submission->category }}</span>
+                            </div>
+                            <span @class([
+                                'px-2.5 py-1 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.15em] uppercase border shadow-sm',
+                                'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
+                                'bg-indigo-50 text-indigo-600 border-indigo-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION,
+                            ])>
+                                {{ $submission->status_label }}
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('validator.submissions.show', $submission) }}" class="flex-1 sm:flex-none px-5 py-3 sm:px-6 sm:py-4 bg-slate-50 text-slate-500 rounded-xl sm:rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#03045E] hover:text-white transition-all flex items-center justify-center gap-3 border border-slate-100 active:scale-95 group/btn">
-                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform text-slate-400 group-hover/btn:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
-                        Kembali
+                    <a href="{{ route('validator.submissions.show', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-slate-50 text-slate-400 rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#03045E] hover:text-white hover:-translate-x-1 transition-all duration-300 shadow-sm active:scale-95 gap-3">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        <span>Kembali</span>
                     </a>
                 </div>
             </div>
@@ -71,25 +80,25 @@
     @endif
 
     <div x-data="reviewWorkspace()">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 items-start">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 pb-16 items-start">
 
         <!-- Left: Submission Details & Files -->
-        <div class="lg:col-span-7 space-y-12">
-            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden hover:shadow-2xl transition-shadow duration-500">
-                <div class="p-6 lg:p-10 border-b border-slate-50 flex items-center justify-between bg-gradient-to-r from-slate-50/80 to-white">
+        <div class="xl:col-span-7 space-y-6 lg:space-y-8">
+            <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+                <div class="px-6 py-5 lg:px-10 lg:py-6 border-b border-slate-50 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-slate-50/80 to-white">
                     <div>
-                        <h3 class="font-black text-xl text-[#03045E] tracking-tight">Informasi Pengajuan</h3>
-                        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</p>
+                        <h3 class="font-black text-lg lg:text-xl text-[#03045E] tracking-tight">Informasi Pengajuan</h3>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">SUB-{{ str_pad($submission->id, 6, '0', STR_PAD_LEFT) }}</p>
                     </div>
                     <span @class([
-                        'px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border animate-pulse hidden sm:inline-block',
+                        'px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border',
                         'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
                         'bg-indigo-50 text-indigo-600 border-indigo-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION,
                     ])>
                         {{ $submission->status_label }}
                     </span>
                 </div>
-                <div class="p-6 lg:p-10 space-y-8">
+                <div class="p-5 lg:p-10 space-y-6 lg:space-y-8">
                     <!-- Info Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
@@ -112,16 +121,105 @@
                     </div>
 
                     <!-- Category-Specific Data -->
+                    @php
+                        $subCat = $submission->getSubCategory();
+                        $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+
+                        // Compute missing and filled fields
+                        $missingFields = [];
+                        $filledFields = [];
+                        foreach ($flatFields as $key => $fieldDef) {
+                            $val = $submission->category_data[$key] ?? null;
+                            $isEmpty = is_null($val) || $val === '' || (is_array($val) && empty($val));
+                            if ($isEmpty) {
+                                $missingFields[$key] = $fieldDef['label'] ?? ucfirst(str_replace('_', ' ', $key));
+                            } else {
+                                $filledFields[$key] = $fieldDef['label'] ?? ucfirst(str_replace('_', ' ', $key));
+                            }
+                        }
+                        $totalFields = count($flatFields);
+                        $filledCount = count($filledFields);
+                        $missingCount = count($missingFields);
+                        $completionPct = $totalFields > 0 ? round(($filledCount / $totalFields) * 100) : 100;
+                        $isFieldVerification = $submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION;
+                    @endphp
+
+                    {{-- Completion Status Card --}}
+                    @if($totalFields > 0)
+                    <div @class([
+                        'p-5 rounded-2xl border flex flex-col gap-4',
+                        'bg-emerald-50/50 border-emerald-100' => $missingCount === 0,
+                        'bg-amber-50/50 border-amber-100' => $missingCount > 0,
+                    ])>
+                        <div class="flex items-center justify-between gap-4 flex-wrap">
+                            <div class="flex items-center gap-3">
+                                @if($missingCount === 0)
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-emerald-800 uppercase tracking-widest">Data Lengkap</p>
+                                        <p class="text-[10px] text-emerald-600 font-bold">Semua {{ $totalFields }} field telah diisi</p>
+                                    </div>
+                                @else
+                                    <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-black text-amber-800 uppercase tracking-widest">Data Belum Lengkap</p>
+                                        <p class="text-[10px] text-amber-600 font-bold">{{ $filledCount }} dari {{ $totalFields }} field telah diisi</p>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span @class([
+                                    'px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border',
+                                    'bg-emerald-100 text-emerald-700 border-emerald-200' => $missingCount === 0,
+                                    'bg-amber-100 text-amber-700 border-amber-200' => $missingCount > 0,
+                                ])>{{ $completionPct }}% Lengkap</span>
+                                @if($missingCount > 0 && $isFieldVerification)
+                                    <a href="{{ route('validator.submissions.edit', $submission) }}"
+                                       class="flex items-center gap-1.5 px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-amber-500/25">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                        Lengkapi Data
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Progress bar --}}
+                        <div class="w-full h-2 rounded-full bg-white/70 overflow-hidden">
+                            <div class="h-full rounded-full transition-all duration-700 @if($missingCount === 0) bg-emerald-500 @else bg-amber-400 @endif"
+                                 style="width: {{ $completionPct }}%"></div>
+                        </div>
+
+                        {{-- Missing fields list --}}
+                        @if($missingCount > 0)
+                        <div x-data="{ expanded: false }">
+                            <button type="button" @click="expanded = !expanded"
+                                    class="flex items-center gap-2 text-[10px] font-black text-amber-700 uppercase tracking-widest hover:text-amber-900 transition-colors">
+                                <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="expanded ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+                                <span x-text="expanded ? 'Sembunyikan daftar' : 'Lihat {{ $missingCount }} field yang belum diisi'"></span>
+                            </button>
+                            <div x-show="expanded" x-transition class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                @foreach($missingFields as $mKey => $mLabel)
+                                    <div class="flex items-center gap-2 px-3 py-2 bg-white/60 rounded-xl border border-amber-100">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                                        <span class="text-[11px] font-bold text-amber-800 leading-tight">{{ $mLabel }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
+
                     @if(!empty($submission->category_data))
                     <div class="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-indigo-50/30 to-blue-50/20 border border-indigo-100/50">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 block flex items-center gap-2">
                             <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                             Detail {{ $submission->category }}
                         </label>
-                        @php
-                            $subCat = $submission->getSubCategory();
-                            $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
-                        @endphp
                         @if($subCat)
                             <div class="mb-6 p-3 bg-white/50 rounded-xl border border-indigo-100/50 flex items-center justify-between">
                                 <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Jenis Cagar Budaya</span>
@@ -236,44 +334,41 @@
             </div>
 
             <!-- Pengusul Info Card -->
-            <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 lg:p-10 hover:shadow-2xl transition-shadow duration-500">
-                <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+            <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white p-5 lg:p-8">
+                <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
                     <svg class="w-4 h-4 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     Informasi Pengusul
                 </h3>
-                <div class="flex items-center gap-4 group">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#03045E] to-[#0077B6] flex items-center justify-center text-lg font-black text-white shadow-xl shadow-blue-900/20 group-hover:scale-105 transition-transform duration-300">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 shrink-0 rounded-2xl bg-gradient-to-br from-[#03045E] to-[#0077B6] flex items-center justify-center text-base font-black text-white shadow-lg shadow-blue-900/20">
                         {{ substr($submission->user->name, 0, 1) }}
                     </div>
-                    <div>
-                        <p class="text-base font-black text-[#03045E]">{{ $submission->user->name }}</p>
-                        <p class="text-xs font-bold text-slate-400 mt-1">{{ $submission->user->email }}</p>
+                    <div class="min-w-0">
+                        <p class="text-sm font-black text-[#03045E] truncate">{{ $submission->user->name }}</p>
+                        <p class="text-xs font-bold text-slate-400 mt-0.5 truncate">{{ $submission->user->email }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Right: Review Actions -->
-        <div class="lg:col-span-5 space-y-10 sticky top-8">
-            <!-- Focused Review Form -->
-            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden hover:border-[#0077B6]/40 transition-colors duration-500">
-                <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-6 lg:p-8 text-white relative overflow-hidden">
+        <div class="xl:col-span-5 space-y-6 lg:space-y-8 xl:sticky xl:top-8">
+            <div class="bg-white rounded-[2rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-5 lg:p-8 text-white relative overflow-hidden">
                     <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-                    <div class="absolute -left-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
                     <div class="relative z-10 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                         <div>
-                            <h2 class="font-black text-xl tracking-tight">Keputusan Validasi</h2>
+                            <h2 class="font-black text-lg lg:text-xl tracking-tight">Keputusan Validasi</h2>
                             <p class="text-[10px] font-bold uppercase tracking-widest text-blue-200 mt-0.5">
                                 Tahap: {{ \App\Models\CulturalSubmission::isReviewPhase($submission->status) ? 'Review Administratif' : 'Verifikasi Lapangan' }}
                             </p>
                         </div>
                     </div>
                 </div>
-
-                <div class="p-6 lg:p-10">
+                <div class="p-5 lg:p-10">
                     @if(in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_SUBMITTED]))
                         <!-- Administrative Review Form -->
                         <form id="reviewForm" action="{{ route('validator.submissions.review', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
@@ -446,9 +541,9 @@
 
             <!-- Review History -->
             @if($submission->administrativeReviews->isNotEmpty() || $submission->fieldVerifications->isNotEmpty())
-            <div class="bg-white rounded-[2rem] sm:rounded-[3rem] p-6 lg:p-12 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-shadow duration-500">
-                <h3 class="font-black text-sm text-[#03045E] uppercase tracking-widest mb-8 flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-lg bg-[#0077B6]/10 flex items-center justify-center">
+            <div class="bg-white rounded-[2rem] p-5 lg:p-10 border border-slate-100 shadow-xl shadow-slate-200/50">
+                <h3 class="font-black text-sm text-[#03045E] uppercase tracking-widest mb-6 flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-lg bg-[#0077B6]/10 flex items-center justify-center shrink-0">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#0077B6]"></span>
                     </div>
                     Riwayat Review

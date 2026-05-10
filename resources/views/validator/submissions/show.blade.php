@@ -250,7 +250,7 @@
                                                                     @foreach($dataValue as $row)
                                                                         <div class="grid gap-0 border-b border-slate-50 last:border-0" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
                                                                             @foreach($row as $cellValue)
-                                                                                <div class="px-5 py-4 text-sm font-bold text-[#03045E] break-words">{{ $cellValue }}</div>
+                                                                                <div class="px-5 py-4 text-sm font-bold text-[#03045E] break-words">{{ is_array($cellValue) ? implode(', ', $cellValue) : $cellValue }}</div>
                                                                             @endforeach
                                                                         </div>
                                                                     @endforeach
@@ -259,12 +259,12 @@
                                                                 {{-- Checkbox array --}}
                                                                 <div class="flex flex-wrap gap-2 mt-2">
                                                                     @foreach($dataValue as $item)
-                                                                        <span class="px-3 py-1.5 bg-blue-50 text-[#0077B6] rounded-lg text-xs sm:text-sm font-bold border border-blue-100/50">{{ $item }}</span>
+                                                                        <span class="px-3 py-1.5 bg-blue-50 text-[#0077B6] rounded-lg text-xs sm:text-sm font-bold border border-blue-100/50">{{ is_array($item) ? implode(', ', $item) : $item }}</span>
                                                                     @endforeach
                                                                 </div>
                                                             @endif
                                                         @else
-                                                            <p class="text-[#03045E] font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'bold text-base leading-relaxed whitespace-pre-wrap italic' : 'black text-base sm:text-lg tracking-tight' }} break-all sm:break-words">{{ $dataValue }}</p>
+                                                            <p class="text-[#03045E] font-{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'bold text-base leading-relaxed whitespace-pre-wrap italic' : 'black text-base sm:text-lg tracking-tight' }} break-all sm:break-words">{{ is_array($dataValue) ? implode(', ', $dataValue) : $dataValue }}</p>
                                                         @endif
                                                     </div>
                                                 @endif

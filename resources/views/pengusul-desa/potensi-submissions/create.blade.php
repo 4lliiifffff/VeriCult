@@ -248,21 +248,31 @@
                 },
 
                 calculateProgress() {
-                    let totalRequired = 0, filledRequired = 0;
-                    const form = this.$refs.mainForm;
+                    let total = 0, filled = 0;
+                    const form = (this.$refs.mainForm || this.$refs.editForm);
                     if (!form) return 0;
-                    form.querySelectorAll('[data-required="true"]').forEach(container => {
-                        if (!this.isVisible(container)) return;
-                        totalRequired++;
-                        let isFilled = false;
-                        container.querySelectorAll('input, textarea, select').forEach(input => {
-                            if ((input.type === 'radio' || input.type === 'checkbox') ? input.checked : (input.value && input.value.trim() !== '')) isFilled = true;
-                        });
-                        if (isFilled) filledRequired++;
+                    
+                    form.querySelectorAll('[data-category-field]').forEach(el => {
+                        if (!this.isVisible(el)) return;
+                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address')) return;
+                        
+                        if (el.type === 'radio' || el.type === 'checkbox') {
+                            if (el.dataset.counted) return;
+                            total++;
+                            const checked = form.querySelector(`input[name="${el.name}"]:checked`);
+                            if (checked) filled++;
+                            el.dataset.counted = "true";
+                        } else {
+                            total++;
+                            if (el.value && el.value.trim() !== '') filled++;
+                        }
                     });
-                    totalRequired++;
-                    if (this.files.length > 0) filledRequired++;
-                    return totalRequired === 0 ? 0 : Math.min(100, Math.round((filledRequired / totalRequired) * 100));
+                    form.querySelectorAll('[data-counted]').forEach(el => delete el.dataset.counted);
+                    
+                    total++;
+                    if (this.files.length > 0) filled++;
+                    
+                    return total === 0 ? 0 : Math.min(100, Math.round((filled / total) * 100));
                 },
 
                 isVisible(el) {
@@ -296,7 +306,7 @@
                     const filesInput = document.getElementById('files');
                     if (filesInput) {
                         const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
-                        const hasExistingFiles = document.querySelectorAll('.group\\\\/file:not([x-show])').length > 0;
+                        const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
                         if (!hasNewFiles && !hasExistingFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
                     }
                     if (emptyRequired.length > 0) {

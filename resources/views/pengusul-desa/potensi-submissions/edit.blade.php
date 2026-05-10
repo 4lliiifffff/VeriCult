@@ -239,19 +239,31 @@
                 },
 
                 calculateProgress() {
-                    let totalQuestions = 0, filledQuestions = 0;
-                    const desc = document.getElementById('description');
-                    if (desc) { totalQuestions++; if (desc.value && desc.value.trim().length >= 10) filledQuestions++; }
-                    const form = this.$refs.mainForm;
+                    let total = 0, filled = 0;
+                    const form = (this.$refs.mainForm || this.$refs.editForm);
                     if (!form) return 0;
-                    form.querySelectorAll('input[type="text"][data-category-field], textarea[data-category-field]:not(#description)').forEach(el => {
+                    
+                    form.querySelectorAll('[data-category-field]').forEach(el => {
                         if (!this.isVisible(el)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
+                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address')) return;
+                        
+                        if (el.type === 'radio' || el.type === 'checkbox') {
+                            if (el.dataset.counted) return;
+                            total++;
+                            const checked = form.querySelector(`input[name="${el.name}"]:checked`);
+                            if (checked) filled++;
+                            el.dataset.counted = "true";
+                        } else {
+                            total++;
+                            if (el.value && el.value.trim() !== '') filled++;
+                        }
                     });
-                    totalQuestions++;
-                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledQuestions++;
-                    return totalQuestions === 0 ? 0 : Math.min(100, Math.round((filledQuestions / totalQuestions) * 100));
+                    form.querySelectorAll('[data-counted]').forEach(el => delete el.dataset.counted);
+                    
+                    total++;
+                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filled++;
+                    
+                    return total === 0 ? 0 : Math.min(100, Math.round((filled / total) * 100));
                 },
 
                 isVisible(el) {
@@ -285,7 +297,7 @@
                     const filesInput = document.getElementById('files');
                     if (filesInput) {
                         const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
-                        const hasExistingFiles = document.querySelectorAll('.group\\\\/file:not([x-show])').length > 0;
+                        const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
                         if (!hasNewFiles && !hasExistingFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
                     }
                     if (emptyRequired.length > 0) {

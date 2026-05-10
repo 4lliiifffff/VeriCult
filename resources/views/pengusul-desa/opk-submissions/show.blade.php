@@ -218,11 +218,11 @@
                                                         @if(is_array($submission->category_data[$fieldKey]))
                                                             <div class="flex flex-wrap gap-2 mt-2">
                                                                 @foreach($submission->category_data[$fieldKey] as $item)
-                                                                    <span class="px-3 py-1 bg-blue-50 text-[#0077B6] rounded-lg text-xs font-bold border border-blue-100/50">{{ $item }}</span>
+                                                                    <span class="px-3 py-1 bg-blue-50 text-[#0077B6] rounded-lg text-xs font-bold border border-blue-100/50">{{ is_array($item) ? implode(', ', $item) : $item }}</span>
                                                                 @endforeach
                                                             </div>
                                                         @else
-                                                            {{ $submission->category_data[$fieldKey] }}
+                                                            {{ is_array($submission->category_data[$fieldKey]) ? implode(', ', $submission->category_data[$fieldKey]) : $submission->category_data[$fieldKey] }}
                                                         @endif
                                                     </div>
                                                 </div>
