@@ -79,6 +79,7 @@
                         enctype="multipart/form-data" 
                         x-ref="mainForm" 
                         @submit.prevent="openConfirm()">
+                        @csrf
                         <input type="hidden" name="address" value="-">
                         
                         @php $submission = new \stdClass; $submission->name = ''; $submission->address = ''; $submission->description = ''; $submission->category_data = old('category_data', []); $submission->category = $categoryName; @endphp
