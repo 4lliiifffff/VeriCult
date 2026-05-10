@@ -237,13 +237,13 @@ class SubmissionController extends Controller
     {
         // Handle redirection based on type
         if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul-desa.opk-submissions.show', $submission);
+            return redirect()->route('pengusul.opk-submissions.show', $submission);
         }
         if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission);
+            return redirect()->route('pengusul.cagar-budaya-submissions.show', $submission);
         }
         if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul-desa.potensi-submissions.show', $submission);
+            return redirect()->route('pengusul.dashboard')->with('error', 'Akses tidak diizinkan.');
         }
 
         $this->authorize('view', $submission);
@@ -373,13 +373,13 @@ class SubmissionController extends Controller
     {
         // Handle redirection based on type
         if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul-desa.opk-submissions.edit', $submission);
+            return redirect()->route('pengusul.opk-submissions.edit', $submission);
         }
         if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul-desa.cagar-budaya-submissions.edit', $submission);
+            return redirect()->route('pengusul.cagar-budaya-submissions.edit', $submission);
         }
         if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul-desa.potensi-submissions.edit', $submission);
+            return redirect()->route('pengusul.dashboard')->with('error', 'Akses tidak diizinkan.');
         }
 
         $this->authorize('update', $submission);

@@ -16,14 +16,14 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, string $role): Response
     {
         if (!$request->user()) {
-            abort(403, 'Unauthorized');
+            abort(403, 'Anda Tidak Memiliki Akses');
         }
 
         $roles = explode('|', $role);
 
         // Check against Spatie permissions
         if (!$request->user()->hasAnyRole($roles)) {
-            abort(403, 'Unauthorized');
+            abort(403, 'Anda Tidak Memiliki Akses');
         }
 
         // For pengusul-desa users, check if they are approved by admin
