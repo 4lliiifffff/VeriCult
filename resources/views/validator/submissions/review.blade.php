@@ -111,33 +111,38 @@
                         </div>
                     </div>
 
-
-
+                    @if($submission->category !== \App\Models\CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
                     <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Deskripsi</label>
                         <div class="prose prose-slate prose-sm font-medium text-slate-600 leading-relaxed max-w-none w-full break-words break-all overflow-hidden">
                             {{ $submission->description }}
                         </div>
                     </div>
+                    @endif
 
                     <!-- Category-Specific Data -->
                     @php
                         $subCat = $submission->getSubCategory();
                         $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
+                        $categorySlug = \App\Models\CulturalSubmission::getCategorySlug($submission->category);
 
                         // Compute missing and filled fields
                         $missingFields = [];
                         $filledFields = [];
 
-                        // 1. Check Description (top-level)
-                        if (empty($submission->description)) {
-                            $missingFields['description'] = 'Deskripsi Kebudayaan';
-                        } else {
-                            $filledFields['description'] = 'Deskripsi Kebudayaan';
+                        $activeFieldsCount = 0;
+                        $isLaporanAktif = $submission->category === \App\Models\CulturalSubmission::CATEGORY_LAPORAN_AKTIF;
+
+                        // 1. Check Description (top-level) - Skip for Laporan Aktif
+                        if (!$isLaporanAktif) {
+                            if (empty($submission->description)) {
+                                $missingFields['description'] = 'Deskripsi Kebudayaan';
+                            } else {
+                                $filledFields['description'] = 'Deskripsi Kebudayaan';
+                            }
                         }
 
                         // 2. Check Category Data
-                        $activeFieldsCount = 0;
                         foreach ($flatFields as $key => $fieldDef) {
                             // Check if field has a condition and if it's met
                             if (!empty($fieldDef['condition'])) {
@@ -169,7 +174,7 @@
                                 $filledFields[$key] = $fieldDef['label'] ?? ucfirst(str_replace('_', ' ', $key));
                             }
                         }
-                        $totalFields = $activeFieldsCount + 1; // +1 for description
+                        $totalFields = $activeFieldsCount + (!$isLaporanAktif ? 1 : 0); // +1 for description only if not Laporan Aktif
                         $filledCount = count($filledFields);
                         $missingCount = count($missingFields);
                         $completionPct = $totalFields > 0 ? round(($filledCount / $totalFields) * 100) : 100;
@@ -499,7 +504,7 @@
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
                             @if($categorySlug === 'laporan-kebudayaan-aktif')
-                                <div class="mb-8 p-6 bg-emerald-50 border-2 border-emerald-100 rounded-3xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer" 
+                                <div class="p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer" 
                                      @click="toggleDirectValidation()">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-4">
