@@ -31,7 +31,7 @@ class ReportController extends Controller
         }
 
         // Fallback
-        abort(403, 'Unauthorized access to reports.');
+        abort(403, 'Anda Tidak Memiliki Akses');
     }
 
     /**
