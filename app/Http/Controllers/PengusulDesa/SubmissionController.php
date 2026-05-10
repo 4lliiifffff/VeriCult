@@ -109,14 +109,15 @@ class SubmissionController extends Controller
     {
         // Base validation rules
         $rules = [
-            'name' => ['nullable', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
-            'address' => ['nullable', 'string'],
+            'address' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'period_year' => ['nullable', 'string'],
-            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
+            'files' => ['required', 'array', 'min:1', 'max:5'],
+            'files.*' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
         ];
 
         // Add category-specific validation rules
@@ -127,7 +128,11 @@ class SubmissionController extends Controller
         }
 
         try {
-            $validated = $request->validate($rules);
+            $messages = [
+                'files.required' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+                'files.min' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+            ];
+            $validated = $request->validate($rules, $messages);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
         }
@@ -136,7 +141,7 @@ class SubmissionController extends Controller
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             if (count($files) > 5) {
-                return back()->withErrors(['files' => 'Maximum 5 files allowed.'])->withInput();
+                return back()->withErrors(['files' => 'Maksimal 5 file diizinkan.'])->withInput();
             }
 
             foreach ($files as $file) {

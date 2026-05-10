@@ -86,154 +86,56 @@
                         method="POST" 
                         enctype="multipart/form-data" 
                         x-ref="mainForm" 
-                        @submit.prevent="openConfirm()">
-                        @csrf
-                        @method('PUT')
+                        @submit.prevent="openConfirm() {
+                    let emptyRequired = [];
+                    
+                    // 1. Sync & Check Name from DOM
+                    const nameEl = document.getElementById('name');
+                    if (nameEl) {
+                        this.submissionName = nameEl.value;
+                        if (!this.submissionName || this.submissionName.trim() === '') {
+                            emptyRequired.push('Identitas Umum (Nama Objek / Kebudayaan)');
+                        }
+                    }
+                    
+                    // 2. Check Description from DOM (only if it exists and is visible)
+                    const descEl = document.getElementById('description');
+                    if (descEl) {
+                        let isVisible = true;
+                        let parent = descEl.parentElement;
+                        while (parent && parent !== document.body) {
+                            const style = window.getComputedStyle(parent);
+                            if (style.display === 'none' || style.visibility === 'hidden') {
+                                isVisible = false;
+                                break;
+                            }
+                            parent = parent.parentElement;
+                        }
                         
-                        @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $categoryName, 'submission' => $submission, 'hideUnesco' => true])
+                        if (isVisible && (!descEl.value || descEl.value.trim() === '')) {
+                            emptyRequired.push('Deskripsi Kebudayaan');
+                        }
+                    }
+                    
+                    // 3. Check Files (ONLY if the file section is visible in DOM)
+                    const filesInput = document.getElementById('files');
+                    if (filesInput) {
+                        const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
+                        const hasExistingFiles = document.querySelectorAll('.group\\/file:not([x-show])').length > 0;
+                        
+                        if (!hasNewFiles && !hasExistingFiles) {
+                            emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
+                        }
+                    }
 
-                        <!-- Footer Actions -->
-                        <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
-                            <div class="flex items-center gap-4 bg-slate-50 px-6 py-4 rounded-[1.5rem] border border-slate-100">
-                                <div class="w-10 h-10 rounded-xl bg-blue-100/50 flex items-center justify-center text-[#0077B6] shrink-0">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Perubahan akan disimpan sebagai draft terbaru.</span>
-                            </div>
-                            
-                            <button type="submit" 
-                                    class="w-full sm:w-auto px-12 py-5 bg-gradient-to-br from-[#03045E] via-[#023E8A] to-[#0077B6] text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl shadow-2xl shadow-blue-900/40 hover:shadow-blue-900/60 hover:-translate-y-1 transition-all duration-300 active:scale-95 group/submit"
-                                    :disabled="loading">
-                                <div class="flex items-center justify-center gap-3">
-                                    <span>Simpan Perubahan</span>
-                                    <svg class="w-5 h-5 group-hover/submit:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                                </div>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar Info -->
-        <div class="lg:col-span-4 relative mt-8 lg:mt-0">
-            <div class="space-y-8 sticky top-8">
-                <!-- Status Card -->
-                <div class="bg-gradient-to-br from-[#03045E] to-[#023E8A] rounded-[2.5rem] p-8 text-white shadow-2xl shadow-blue-900/40 relative overflow-hidden group/status transition-all duration-700 hover:shadow-blue-900/60">
-                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover/status:scale-125 transition-transform duration-1000"></div>
-                    <div class="relative z-10 space-y-8">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center border border-white/20 shadow-inner">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            </div>
-                            <div>
-                                <h3 class="font-black tracking-tight text-2xl">Kelengkapan</h3>
-                                <p class="text-blue-100/50 text-[10px] font-black uppercase tracking-widest">Cagar Budaya</p>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between text-blue-100/70 text-[10px] font-black uppercase tracking-widest">
-                                <span>Data Terisi</span>
-                                <span class="bg-white/10 px-2 py-0.5 rounded-lg border border-white/10" x-text="progress + '%'">0%</span>
-                            </div>
-                            <div class="h-3 bg-white/10 rounded-full overflow-hidden border border-white/5 p-0.5">
-                                <div class="h-full bg-gradient-to-r from-[#00B4D8] to-[#90E0EF] rounded-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(144,224,239,0.5)]" :style="'width: ' + progress + '%'"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Guide Card -->
-                <div class="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-start gap-4 shadow-sm group-hover/status:shadow-md transition-all">
-                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#0077B6] shrink-0 shadow-sm border border-slate-100">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Pembaruan data cagar budaya akan melewati proses verifikasi ulang oleh tim ahli.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <x-modal name="confirm-submission" :show="false" focusable>
-        <div class="p-10 sm:p-16 text-center">
-            <div class="w-28 h-28 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2.5rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner relative group/icon overflow-hidden">
-                <div class="absolute inset-0 bg-[#00B4D8]/10 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-500 animate-pulse"></div>
-                <svg class="w-14 h-14 relative z-10 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-                </svg>
-            </div>
-            <h2 class="text-4xl font-black text-[#03045E] mb-4 tracking-tight leading-tight">Simpan Perubahan?</h2>
-            <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Perubahan pada laporan potensi cagar budaya Anda akan disimpan sebagai draf.</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
-                <button type="button" 
-                        @click="$dispatch('close')" 
-                        class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
-                    Kembali
-                </button>
-                <button type="button" 
-                        @click="doSubmit()" 
-                        class="px-8 py-5 rounded-2xl bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(3,4,94,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(3,4,94,0.5)] transition-all active:scale-[0.98]">
-                    Ya, Simpan
-                </button>
-            </div>
-        </div>
-    </x-modal>
-
-    <!-- Max File Warning Modal -->
-    <x-modal name="max-file-warning" :show="false" focusable>
-        <div class="p-10 sm:p-16 text-center">
-            <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/warn">
-                <svg class="w-14 h-14 transition-transform duration-500 group-hover/warn:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-            </div>
-            <h2 class="text-4xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Batas Maksimal</h2>
-            <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Mohon maaf, Anda hanya dapat mengunggah maksimal 5 berkas pendukung saja.</p>
-
-            <button type="button" 
-                    @click="$dispatch('close')" 
-                    class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
-                SAYA MENGERTI
-            </button>
-        </div>
-    </x-modal>
-
-    <!-- Delete Confirmation Modal -->
-    <x-modal name="confirm-delete-file" :show="false" focusable>
-        <div class="p-10 sm:p-14 text-center">
-            <div class="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner animate-pulse">
-                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-            </div>
-            <h2 class="text-3xl font-black text-[#03045E] mb-3 leading-tight tracking-tight">Hapus Lampiran?</h2>
-            <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-10">Berkas akan dihapus secara permanen dari sistem. Tindakan ini tidak dapat dibatalkan.</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
-                <button type="button" 
-                        @click="$dispatch('close')" 
-                        class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
-                    Batal
-                </button>
-                <form id="deleteFileForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" 
-                            class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
-                        Ya, Hapus
-                    </button>
-                </form>
-            </div>
-        </div>
-    </x-modal>
-
-    </div>
-
-    <style>
-        @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+                    if (emptyRequired.length > 0) {
+                        this.emptyFieldsList = emptyRequired;
+                        this.$dispatch('open-modal', 'validation-warning-modal');
+                        return;
+                    }
+                    
+                    this.$dispatch('open-modal', 'confirm-submission');
+                }
         .animate-bounce-slow {
             animation: bounce-slow 3s ease-in-out infinite;
         }
@@ -306,12 +208,50 @@
     </script>
 
 
+    
+        <!-- Validation Warning Modal -->
+        <x-modal name="validation-warning-modal" :show="false" focusable>
+            <div class="p-10 sm:p-16 text-center">
+                <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/warn">
+                    <svg class="w-14 h-14 transition-transform duration-500 group-hover/warn:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Data Belum Lengkap!</h2>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-6">Anda tidak dapat menyimpan karena terdapat data wajib yang belum diisi:</p>
+                
+                <div class="bg-rose-50/50 rounded-2xl p-6 text-left max-w-sm mx-auto mb-12 border border-rose-100">
+                    <ul class="space-y-3">
+                        <template x-for="field in emptyFieldsList" :key="field">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span class="text-rose-700 font-bold text-sm" x-text="field"></span>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+                <button type="button" 
+                        @click="$dispatch('close')" 
+                        class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
+                    KEMBALI KE FORMULIR
+                </button>
+            </div>
+        </x-modal>
+
     <script>
         function submissionForm() {
             return {
                 loading: false,
                 files: [],
                 dragover: false,
+                emptyFieldsList: [],
+                submissionName: @js(old('name', $submission->name ?? '')),
+                
+                
+                
+                
+                
                 progress: 0,
                 showPreviewModal: false,
                 previewFile: null,
@@ -442,15 +382,69 @@
                     return true;
                 },
 
-                openConfirm() {
+                openConfirm()  {
+                    let emptyRequired = [];
+                    
+                    const nameEl = document.getElementById('name');
+                    if (nameEl) {
+                        this.submissionName = nameEl.value;
+                        if (!this.submissionName || this.submissionName.trim() === '') {
+                            emptyRequired.push('Identitas Umum (Nama Objek / Kebudayaan)');
+                        }
+                    }
+                    
+                    const descEl = document.getElementById('description');
+                    if (descEl) {
+                        let isVisible = true;
+                        let parent = descEl.parentElement;
+                        while (parent && parent !== document.body) {
+                            const style = window.getComputedStyle(parent);
+                            if (style.display === 'none' || style.visibility === 'hidden') {
+                                isVisible = false;
+                                break;
+                            }
+                            parent = parent.parentElement;
+                        }
+                        if (isVisible && (!descEl.value || descEl.value.trim() === '')) {
+                            emptyRequired.push('Deskripsi Kebudayaan');
+                        }
+                    }
+                    
+                    const filesInput = document.getElementById('files');
+                    if (filesInput) {
+                        const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
+                        const hasExistingFiles = document.querySelectorAll('.group\\/file:not([x-show])').length > 0;
+                        if (!hasNewFiles && !hasExistingFiles) {
+                            emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
+                        }
+                    }
+
+                    if (emptyRequired.length > 0) {
+                        this.emptyFieldsList = emptyRequired;
+                        this.$dispatch('open-modal', 'validation-warning-modal');
+                        return;
+                    }
                     this.$dispatch('open-modal', 'confirm-submission');
                 },
 
+                
+
                 doSubmit() {
                     this.loading = true;
-                    this.$refs.mainForm.submit();
+                    this.$dispatch('close');
+                    this.$nextTick(() => {
+                        const form = (this.$refs.mainForm || this.$refs.editForm);
+                        if (form) form.submit();
+                    });
                 }
             }
-        }
-    </script>
+        }</script>
 </x-layouts.pengusul>
+
+
+
+
+
+
+
+

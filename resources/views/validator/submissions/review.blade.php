@@ -371,10 +371,18 @@
 
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
-                            <div class="grid grid-cols-1 gap-6 mb-10">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
                                 <div class="group">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Tanggal Kunjungan</label>
                                     <input type="date" name="visit_date" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" required>
+                                </div>
+                                <div class="group">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Lintang (Lat)</label>
+                                    <input type="text" name="verified_latitude" placeholder="-6.xxx" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
+                                </div>
+                                <div class="group">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Bujur (Lng)</label>
+                                    <input type="text" name="verified_longitude" placeholder="106.xxx" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
                                 </div>
                             </div>
 

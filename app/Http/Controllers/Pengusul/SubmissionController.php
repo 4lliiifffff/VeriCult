@@ -116,7 +116,8 @@ class SubmissionController extends Controller
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'period_year' => ['nullable', 'string'],
-            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
+            'files' => ['required', 'array', 'min:1', 'max:5'],
+            'files.*' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
         ];
 
         // Add category-specific validation rules
@@ -127,7 +128,11 @@ class SubmissionController extends Controller
         }
 
         try {
-            $validated = $request->validate($rules);
+            $messages = [
+                'files.required' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+                'files.min' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+            ];
+            $validated = $request->validate($rules, $messages);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
         }

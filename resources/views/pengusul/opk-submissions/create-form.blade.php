@@ -80,6 +80,7 @@
                         @submit.prevent="openConfirm()">
                         @csrf
                         <input type="hidden" name="category" value="{{ $categoryName }}">
+                        <input type="hidden" name="address" value="-">
                         
                         @php $submission = new \stdClass; $submission->name = ''; $submission->address = ''; $submission->description = ''; $submission->category_data = old('category_data', []); $submission->category = $categoryName; @endphp
                         @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $categoryName, 'submission' => $submission])
@@ -133,51 +134,6 @@
                             </div>
                             <p class="text-blue-100/40 text-[10px] font-black uppercase tracking-widest text-center" x-text="progress >= 100 ? '✓ Semua field telah terisi' : 'Lengkapi seluruh kolom formulir'"></p>
                         </div>
-                        
-                        <div class="pt-6 border-t border-white/10">
-                            <p class="text-blue-100/60 text-xs leading-relaxed font-medium italic">
-                                Draft laporan OPK Anda akan tersimpan otomatis. Pastikan deskripsi dan data dukung terisi lengkap untuk memudahkan verifikasi.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tips Card -->
-                <div class="bg-white rounded-[2.5rem] p-10 border border-slate-50 shadow-xl shadow-slate-200/40 space-y-10 group/tips">
-                    <div class="flex items-center gap-4">
-                        <div class="w-1.5 h-8 bg-gradient-to-b from-[#03045E] to-[#0077B6] rounded-full"></div>
-                        <h3 class="text-[#03045E] font-black text-xl tracking-tight">Panduan Laporan</h3>
-                    </div>
-                    
-                    <div class="space-y-8">
-                        <div class="flex gap-6 group/item">
-                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">01</div>
-                            <div class="space-y-1">
-                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Identitas OPK</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Isi detail lengkap objek pemajuan kebudayaan sesuai kategori yang dipilih.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6 group/item">
-                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">02</div>
-                            <div class="space-y-1">
-                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Sejarah & Karakter</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Ceritakan latar belakang dan nilai penting OPK tersebut bagi masyarakat.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6 group/item">
-                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center shrink-0 group-hover/item:bg-[#0077B6] group-hover/item:text-white transition-all duration-500 font-black text-xs shadow-inner">03</div>
-                            <div class="space-y-1">
-                                <h4 class="text-[11px] font-black text-[#03045E] uppercase tracking-widest">Dokumentasi</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Unggah minimal 1 foto berkualitas tinggi sebagai representasi visual objek.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4 group/alert">
-                        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#0077B6] shrink-0 shadow-sm transition-transform group-hover/alert:scale-110">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Data yang lengkap membantu percepatan verifikasi data.</p>
                     </div>
                 </div>
             </div>
@@ -197,17 +153,32 @@
             <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Data Anda akan disimpan dengan aman. Anda bisa melanjutkan pengisian kapan saja.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
-                <button type="button" 
-                        @click="$dispatch('close')" 
-                        class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
-                    Kembali
-                </button>
-                <button type="button" 
-                        @click="doSubmit()" 
-                        class="px-8 py-5 rounded-2xl bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(3,4,94,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(3,4,94,0.5)] transition-all active:scale-[0.98]">
-                    Ya, Simpan
-                </button>
+                <button type="button" @click="$dispatch('close')" class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-500 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">Kembali</button>
+                <button type="button" @click="doSubmit()" class="px-8 py-5 rounded-2xl bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(3,4,94,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(3,4,94,0.5)] transition-all active:scale-[0.98]">Ya, Simpan</button>
             </div>
+        </div>
+    </x-modal>
+
+    <!-- Validation Warning Modal -->
+    <x-modal name="validation-warning-modal" :show="false" focusable>
+        <div class="p-10 sm:p-16 text-center">
+            <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/warn">
+                <svg class="w-14 h-14 transition-transform duration-500 group-hover/warn:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Data Belum Lengkap!</h2>
+            <div class="bg-rose-50/50 rounded-2xl p-6 text-left max-w-sm mx-auto mb-12 border border-rose-100">
+                <ul class="space-y-3">
+                    <template x-for="field in emptyFieldsList" :key="field">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-rose-700 font-bold text-sm" x-text="field"></span>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+            <button type="button" @click="$dispatch('close')" class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">KEMBALI KE FORMULIR</button>
         </div>
     </x-modal>
 
@@ -220,27 +191,10 @@
                 </svg>
             </div>
             <h2 class="text-4xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Batas Maksimal</h2>
-            <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Mohon maaf, Anda hanya dapat mengunggah maksimal 5 berkas pendukung saja.</p>
-
-            <button type="button" 
-                    @click="$dispatch('close')" 
-                    class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
-                SAYA MENGERTI
-            </button>
+            <p class="text-slate-500 max-w-xs mx-auto font-bold text-sm leading-relaxed mb-12">Maksimal 5 berkas pendukung saja.</p>
+            <button type="button" @click="$dispatch('close')" class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">SAYA MENGERTI</button>
         </div>
     </x-modal>
-
-    </div>
-
-    <style>
-        @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-bounce-slow {
-            animation: bounce-slow 3s ease-in-out infinite;
-        }
-    </style>
 
     <script>
         function submissionForm() {
@@ -248,48 +202,39 @@
                 loading: false,
                 files: [],
                 dragover: false,
+                emptyFieldsList: [],
+                submissionName: @js(old('name', $submission->name ?? '')),
                 progress: 0,
                 
                 init() {
-                    this.$nextTick(() => {
-                        this.recalcProgress();
-                    });
-
-                    const form = this.$refs.mainForm;
+                    this.$nextTick(() => { this.recalcProgress(); });
+                    const form = (this.$refs.mainForm || this.$refs.editForm);
                     if (form) {
                         form.addEventListener('input', () => this.recalcProgress());
                         form.addEventListener('change', () => this.recalcProgress());
                     }
-
-                    this.$watch('files', () => this.recalcProgress());
+                    this.$watch('files', () => this.$nextTick(() => this.recalcProgress()));
                 },
 
-                handleDrop(event) {
-                    const dt = event.dataTransfer;
-                    if (dt.files.length + this.files.length > 5) {
+                handleFileSelect(e) { this.addFiles(Array.from(e.target.files)); },
+                handleDrop(e) { this.addFiles(Array.from(e.dataTransfer.files)); },
+
+                addFiles(newFiles) {
+                    const dt = new DataTransfer();
+                    this.files.forEach(f => dt.items.add(f));
+                    newFiles.forEach(f => {
+                        if (!this.files.some(existing => existing.name === f.name && existing.size === f.size)) dt.items.add(f);
+                    });
+                    const existingFilesCount = {{ isset($submission->files) ? $submission->files->count() : 0 }};
+                    if (dt.items.length + existingFilesCount > 5) {
                         this.$dispatch('open-modal', 'max-file-warning');
+                        const available = 5 - existingFilesCount;
                         const limitedDt = new DataTransfer();
-                        for (let i = 0; i < Math.min(dt.items.length, 5); i++) {
-                            limitedDt.items.add(dt.files[i]);
-                        }
+                        for (let i = 0; i < Math.min(dt.items.length, available); i++) limitedDt.items.add(dt.files[i]);
                         this.updateFiles(limitedDt);
                     } else {
                         this.updateFiles(dt);
                     }
-                },
-
-                handleFileSelect(event) {
-                    const dt = new DataTransfer();
-                    const newFiles = Array.from(event.target.files);
-                    const existingFiles = this.files;
-                    const combined = [...existingFiles, ...newFiles];
-
-                    if (combined.length > 5) {
-                        this.$dispatch('open-modal', 'max-file-warning');
-                    }
-
-                    combined.slice(0, 5).forEach(f => dt.items.add(f));
-                    this.updateFiles(dt);
                 },
 
                 removeFile(index) {
@@ -304,72 +249,32 @@
                     if (input) input.files = dt.files;
                 },
 
-                formatSize(bytes) {
-                    if (bytes === 0) return '0 Bytes';
-                    const k = 1024;
-                    const i = Math.floor(Math.log(bytes) / Math.log(k));
-                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + ['Bytes', 'KB', 'MB', 'GB'][i];
-                },
-
-                recalcProgress() {
-                    this.progress = this.calculateProgress();
-                },
+                recalcProgress() { this.progress = this.calculateProgress(); },
 
                 calculateProgress() {
-                    let totalQuestions = 0;
-                    let filledQuestions = 0;
-
+                    let total = 0, filled = 0;
                     const desc = document.getElementById('description');
-                    if (desc) {
-                        totalQuestions++;
-                        if (desc.value && desc.value.trim().length >= 10) filledQuestions++;
-                    }
-
-                    const form = this.$refs.mainForm;
+                    if (desc) { total++; if (desc.value && desc.value.trim().length >= 10) filled++; }
+                    const form = (this.$refs.mainForm || this.$refs.editForm);
                     if (!form) return 0;
-
-                    const visibleInputs = form.querySelectorAll('input[type="text"][data-category-field], textarea[data-category-field]:not(#description)');
-                    visibleInputs.forEach(el => {
+                    form.querySelectorAll('[data-category-field]').forEach(el => {
                         if (!this.isVisible(el)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
+                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address')) return;
+                        if (el.type === 'radio' || el.type === 'checkbox') {
+                            if (el.dataset.counted) return;
+                            total++;
+                            const checked = form.querySelector(`input[name="${el.name}"]:checked`);
+                            if (checked) filled++;
+                            el.dataset.counted = "true";
+                        } else {
+                            total++;
+                            if (el.value && el.value.trim() !== '') filled++;
+                        }
                     });
-
-                    const hiddenInputs = form.querySelectorAll('input[type="hidden"][data-category-field]');
-                    hiddenInputs.forEach(el => {
-                        if (el.name === 'category' || el.name === 'address') return;
-                        if (!this.isVisible(el.parentElement)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
-                    });
-
-                    const radioNames = new Set();
-                    form.querySelectorAll('input[type="radio"][data-category-field]').forEach(el => {
-                        if (!this.isVisible(el)) return;
-                        radioNames.add(el.name);
-                    });
-                    radioNames.forEach(name => {
-                        totalQuestions++;
-                        const checked = form.querySelector(`input[type="radio"][name="${name}"]:checked`);
-                        if (checked) filledQuestions++;
-                    });
-
-                    const cbNames = new Set();
-                    form.querySelectorAll('input[type="checkbox"][data-category-field]').forEach(el => {
-                        if (!this.isVisible(el)) return;
-                        cbNames.add(el.name.replace('[]', ''));
-                    });
-                    cbNames.forEach(name => {
-                        totalQuestions++;
-                        const checked = form.querySelector(`input[type="checkbox"][name^="${name}"]:checked`);
-                        if (checked) filledQuestions++;
-                    });
-
-                    totalQuestions++;
-                    if (this.files.length > 0) filledQuestions++;
-
-                    if (totalQuestions === 0) return 0;
-                    return Math.min(100, Math.round((filledQuestions / totalQuestions) * 100));
+                    form.querySelectorAll('[data-counted]').forEach(el => delete el.dataset.counted);
+                    total++;
+                    if ({{ isset($submission->files) ? $submission->files->count() : 0 }} > 0 || this.files.length > 0) filled++;
+                    return total === 0 ? 0 : Math.min(100, Math.round((filled / total) * 100));
                 },
 
                 isVisible(el) {
@@ -377,24 +282,51 @@
                     let current = el;
                     while (current && current !== document.body) {
                         const style = window.getComputedStyle(current);
-                        if (style.display === 'none') return false;
+                        if (style.display === 'none' || current.hasAttribute('x-cloak')) return false;
                         current = current.parentElement;
                     }
                     return true;
                 },
 
                 openConfirm() {
-                    this.$dispatch('open-modal', 'confirm-save-submission');
+                    let emptyRequired = [];
+                    const nameEl = document.getElementById('name');
+                    if (nameEl) {
+                        this.submissionName = nameEl.value;
+                        if (!this.submissionName || this.submissionName.trim() === '') emptyRequired.push('Identitas Umum (Nama Objek / Kebudayaan)');
+                    }
+                    const descEl = document.getElementById('description');
+                    if (descEl) {
+                        let isVisible = true, p = descEl.parentElement;
+                        while(p && p !== document.body) { if(window.getComputedStyle(p).display === 'none') { isVisible = false; break; } p = p.parentElement; }
+                        if (isVisible && (!descEl.value || descEl.value.trim() === '')) emptyRequired.push('Deskripsi Kebudayaan');
+                    }
+                    const filesInput = document.getElementById('files');
+                    if (filesInput) {
+                        const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
+                        const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
+                        if (!hasNewFiles && !hasExistingFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
+                    }
+                    if (emptyRequired.length > 0) {
+                        this.emptyFieldsList = emptyRequired;
+                        this.$dispatch('open-modal', 'validation-warning-modal');
+                        return;
+                    }
+                    const modal = document.querySelector('[name="confirm-update-submission"]') ? 'confirm-update-submission' : 'confirm-save-submission';
+                    this.$dispatch('open-modal', modal);
                 },
 
                 doSubmit() {
                     this.loading = true;
                     this.$dispatch('close');
-                    this.$nextTick(() => {
-                        this.$refs.mainForm.submit();
-                    });
+                    this.$nextTick(() => { (this.$refs.mainForm || this.$refs.editForm).submit(); });
                 }
             }
         }
     </script>
+    <style>
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+    </style>
+</div>
 </x-layouts.pengusul>

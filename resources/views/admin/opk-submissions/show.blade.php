@@ -87,7 +87,7 @@
 
                 <div class="mt-8 pt-8 border-t border-slate-50">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Deskripsi / Ringkasan</p>
-                    <div class="text-slate-600 text-sm leading-relaxed prose prose-slate max-w-none">
+                    <div class="text-slate-600 text-sm leading-relaxed prose prose-slate max-w-none break-words">
                         {!! nl2br(e($submission->description ?? 'Tidak ada deskripsi.')) !!}
                     </div>
                 </div>
