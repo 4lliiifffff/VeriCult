@@ -109,29 +109,48 @@ class SubmissionController extends Controller
     {
         // Base validation rules
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
-            'address' => ['required', 'string'],
+            'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'period_year' => ['nullable', 'string'],
-            'files' => ['required', 'array', 'min:1', 'max:5'],
-            'files.*' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
+            'files' => ['nullable', 'array', 'max:5'],
+            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
         ];
 
         // Add category-specific validation rules
         $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
-            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
+            $isRequired = !empty($field['required']);
+            
+            $fieldRules = [$isRequired ? 'required' : 'nullable'];
+            if ($is_array) {
+                $fieldRules[] = 'array';
+            } else {
+                $fieldRules[] = 'string';
+            }
+            $fieldRules[] = 'max:5000';
+
+            $rules["category_data.{$key}"] = $fieldRules;
         }
 
         try {
             $messages = [
-                'files.required' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
-                'files.min' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+                'files.max' => 'Maksimal 5 file diizinkan.',
+                'category.required' => 'Kategori wajib dipilih.',
+                'category.in' => 'Kategori tidak valid.',
             ];
+
+            // Add friendly labels for category_data fields
+            foreach ($categoryFields as $key => $field) {
+                $messages["category_data.{$key}.required"] = "Kolom {$field['label']} wajib diisi.";
+                $messages["category_data.{$key}.array"] = "Format kolom {$field['label']} tidak valid.";
+                $messages["category_data.{$key}.string"] = "Format kolom {$field['label']} harus berupa teks.";
+            }
+
             $validated = $request->validate($rules, $messages);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
@@ -168,9 +187,16 @@ class SubmissionController extends Controller
         });
 
         // Auto-populate name from b1_nama_objek if not provided
+        // Auto-populate name from relevant fields if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'));
+            // Check for specific fields based on category
+            $nameFallback = $categoryData['nama_dan_jenis_kebudayaan'] 
+                ?? ($categoryData['nama_objek'] 
+                ?? ($categoryData['b1_nama_objek'] 
+                ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'))));
+            
+            $submissionName = $nameFallback;
         }
 
         // Address and Description: handled as nullable in DB
@@ -395,6 +421,7 @@ class SubmissionController extends Controller
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'period_year' => ['nullable', 'string'],
+            'files' => ['nullable', 'array', 'max:5'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
@@ -402,11 +429,31 @@ class SubmissionController extends Controller
         $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
-            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
+            $isRequired = !empty($field['required']);
+            
+            $fieldRules = [$isRequired ? 'required' : 'nullable'];
+            if ($is_array) {
+                $fieldRules[] = 'array';
+            } else {
+                $fieldRules[] = 'string';
+            }
+            $fieldRules[] = 'max:5000';
+
+            $rules["category_data.{$key}"] = $fieldRules;
         }
 
         try {
-            $validated = $request->validate($rules);
+            $messages = [
+                'files.max' => 'Maksimal 5 file diizinkan.',
+                'category.required' => 'Kategori wajib dipilih.',
+            ];
+
+            // Add friendly labels for category_data fields
+            foreach ($categoryFields as $key => $field) {
+                $messages["category_data.{$key}.required"] = "Kolom {$field['label']} wajib diisi.";
+            }
+
+            $validated = $request->validate($rules, $messages);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
         }
@@ -444,10 +491,15 @@ class SubmissionController extends Controller
             return !is_null($v) && $v !== '';
         });
 
-        // Auto-populate name from b1_nama_objek if not provided
+        // Auto-populate name from relevant fields if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $submissionName = $categoryData['b1_nama_objek'] ?? $submission->name;
+            $nameFallback = $categoryData['nama_dan_jenis_kebudayaan'] 
+                ?? ($categoryData['nama_objek'] 
+                ?? ($categoryData['b1_nama_objek'] 
+                ?? $submission->name));
+                
+            $submissionName = $nameFallback;
         }
 
         $category = $validated['category'];
