@@ -75,7 +75,7 @@
                             <input type="hidden" name="category" value="{{ $submission->category ?? $categoryName ?? '' }}">
                         <input type="hidden" name="address" value="{{ $submission->address }}">
                         
-                        @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'hideFiles' => true])
+                        @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'hideFiles' => true, 'forceRequired' => true])
 
                         <div class="mt-12 pt-8 border-t border-slate-50 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                             <a href="{{ route('validator.submissions.review-form', $submission) }}" class="flex items-center justify-center gap-2 px-6 py-4 bg-slate-50 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95 border border-slate-100">
@@ -209,8 +209,10 @@
 
                         // Check all named inputs in this wrapper
                         let hasValue = false;
-                        wrapper.querySelectorAll('input[name^="category_data"], textarea[name^="category_data"]')
+                        wrapper.querySelectorAll('input, textarea, select')
                             .forEach(input => {
+                                if (input.disabled) return;
+                                
                                 if (input.type === 'radio' || input.type === 'checkbox') {
                                     if (input.checked) hasValue = true;
                                 } else if (input.value && input.value.trim() !== '') {

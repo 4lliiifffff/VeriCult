@@ -81,7 +81,9 @@
 
             {{-- Sub-category selector --}}
             @if($hasSub)
-                <div class="space-y-4 group relative transition-all duration-300" :class="openField === 'sub_category' ? 'z-[100]' : 'z-10'">
+                <div class="space-y-4 group relative transition-all duration-300" 
+                     :class="openField === 'sub_category' ? 'z-[100]' : 'z-10'"
+                     @if($forceRequired ?? false) data-required="true" @endif>
                     <label class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">{{ $categoryConfig['sub_label'] ?? 'Pilih Sub-Kategori' }} <span class="text-red-500">*</span></label>
                     <div x-data="{ 
                             open: false, 
@@ -146,7 +148,8 @@
                                 'field' => $field,
                                 'categoryDataValues' => $categoryDataValues,
                                 'categoryFields' => $subFields,
-                                'subKey' => $subKey
+                                'subKey' => $subKey,
+                                'forceRequired' => $forceRequired ?? false
                             ])
                         @endforeach
                     </div>
@@ -160,7 +163,8 @@
                                 'fieldKey' => $fieldKey,
                                 'field' => $field,
                                 'categoryDataValues' => $categoryDataValues,
-                                'categoryFields' => $categoryConfig
+                                'categoryFields' => $categoryConfig,
+                                'forceRequired' => $forceRequired ?? false
                             ])
                         @endif
                     @endforeach
@@ -185,7 +189,9 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative" x-data="{ descCount: {{ strlen(old('description', $submission->description ?? '')) }} }">
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative" 
+             x-data="{ descCount: {{ strlen(old('description', $submission->description ?? '')) }} }"
+             @if($forceRequired ?? false) data-required="true" @endif>
             <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] mb-4">Deskripsi Kebudayaan <span class="text-red-500">*</span></label>
             <div class="relative group">
                 <textarea name="description" id="description" rows="10" 

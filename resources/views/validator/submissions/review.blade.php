@@ -128,7 +128,39 @@
                         // Compute missing and filled fields
                         $missingFields = [];
                         $filledFields = [];
+
+                        // 1. Check Description (top-level)
+                        if (empty($submission->description)) {
+                            $missingFields['description'] = 'Deskripsi Kebudayaan';
+                        } else {
+                            $filledFields['description'] = 'Deskripsi Kebudayaan';
+                        }
+
+                        // 2. Check Category Data
+                        $activeFieldsCount = 0;
                         foreach ($flatFields as $key => $fieldDef) {
+                            // Check if field has a condition and if it's met
+                            if (!empty($fieldDef['condition'])) {
+                                $cField = $fieldDef['condition']['field'] ?? null;
+                                $cValue = $fieldDef['condition']['value'] ?? null;
+                                
+                                if ($cField) {
+                                    $currentVal = $submission->category_data[$cField] ?? null;
+                                    
+                                    // Check if condition is met
+                                    $isMet = false;
+                                    if (is_array($cValue)) {
+                                        $isMet = in_array($currentVal, $cValue);
+                                    } else {
+                                        $isMet = ($currentVal == $cValue);
+                                    }
+                                    
+                                    // If condition not met, skip this field (not required)
+                                    if (!$isMet) continue;
+                                }
+                            }
+
+                            $activeFieldsCount++;
                             $val = $submission->category_data[$key] ?? null;
                             $isEmpty = is_null($val) || $val === '' || (is_array($val) && empty($val));
                             if ($isEmpty) {
@@ -137,7 +169,7 @@
                                 $filledFields[$key] = $fieldDef['label'] ?? ucfirst(str_replace('_', ' ', $key));
                             }
                         }
-                        $totalFields = count($flatFields);
+                        $totalFields = $activeFieldsCount + 1; // +1 for description
                         $filledCount = count($filledFields);
                         $missingCount = count($missingFields);
                         $completionPct = $totalFields > 0 ? round(($filledCount / $totalFields) * 100) : 100;
