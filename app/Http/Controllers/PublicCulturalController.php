@@ -61,7 +61,7 @@ class PublicCulturalController extends Controller
             ->with(['files', 'user'])
             ->firstOrFail();
 
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
         return view('profil-kebudayaan.show', compact('submission', 'categoryFields'));
     }

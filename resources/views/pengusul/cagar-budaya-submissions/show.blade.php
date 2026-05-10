@@ -236,9 +236,9 @@
                                                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">{{ $field['label'] ?? ucfirst(str_replace('_', ' ', $fieldKey)) }}</p>
                                                     <p class="text-[#03045E] font-black text-base sm:text-lg tracking-tight break-words leading-relaxed">
                                                         @if(is_array($submission->category_data[$fieldKey]))
-                                                            {{ implode(', ', $submission->category_data[$fieldKey]) }}
+                                                            {{ implode(', ', array_map(fn($item) => is_array($item) ? implode(', ', $item) : $item, $submission->category_data[$fieldKey])) }}
                                                         @else
-                                                            {{ $submission->category_data[$fieldKey] }}
+                                                            {{ is_array($submission->category_data[$fieldKey]) ? implode(', ', $submission->category_data[$fieldKey]) : $submission->category_data[$fieldKey] }}
                                                         @endif
                                                     </p>
                                                 </div>

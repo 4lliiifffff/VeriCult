@@ -189,7 +189,7 @@
         </div>
 
         <!-- Confirmation Modal -->
-        <x-modal name="confirm-update-submission" :show="false" focusable>
+        <x-modal name="confirm-submission" :show="false" focusable>
             <div class="p-10 sm:p-16 text-center">
                 <div class="w-28 h-28 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2.5rem] flex items-center justify-center text-[#0077B6] mx-auto mb-10 shadow-inner relative group/icon overflow-hidden">
                     <div class="absolute inset-0 bg-[#00B4D8]/10 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-500 animate-pulse"></div>
@@ -376,11 +376,6 @@
                 dragover: false,
                 emptyFieldsList: [],
                 submissionName: @js(old('name', $submission->name ?? '')),
-                
-                
-                
-                
-                
                 progress: 0,
                 showPreviewModal: false,
                 previewFile: null,
@@ -474,60 +469,31 @@
                 },
 
                 calculateProgress() {
-                    let totalQuestions = 0;
-                    let filledQuestions = 0;
-
-                    const desc = document.getElementById('description');
-                    if (desc) {
-                        totalQuestions++;
-                        if (desc.value && desc.value.trim().length >= 10) filledQuestions++;
-                    }
-
-                    const form = this.$refs.editForm;
-                    if (!form) return parseInt("{{ $submission->progress ?? 0 }}") || 0;
-
-                    const visibleInputs = form.querySelectorAll('input[type="text"][data-category-field], textarea[data-category-field]:not(#description)');
-                    visibleInputs.forEach(el => {
+                    let total = 0, filled = 0;
+                    const form = (this.$refs.mainForm || this.$refs.editForm);
+                    if (!form) return 0;
+                    
+                    form.querySelectorAll('[data-category-field]').forEach(el => {
                         if (!this.isVisible(el)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
+                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address')) return;
+                        
+                        if (el.type === 'radio' || el.type === 'checkbox') {
+                            if (el.dataset.counted) return;
+                            total++;
+                            const checked = form.querySelector(`input[name="${el.name}"]:checked`);
+                            if (checked) filled++;
+                            el.dataset.counted = "true";
+                        } else {
+                            total++;
+                            if (el.value && el.value.trim() !== '') filled++;
+                        }
                     });
-
-                    const hiddenInputs = form.querySelectorAll('input[type="hidden"][data-category-field]');
-                    hiddenInputs.forEach(el => {
-                        if (el.name === 'category' || el.name === 'address') return;
-                        if (!this.isVisible(el.parentElement)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
-                    });
-
-                    const radioNames = new Set();
-                    form.querySelectorAll('input[type="radio"][data-category-field]').forEach(el => {
-                        if (!this.isVisible(el)) return;
-                        radioNames.add(el.name);
-                    });
-                    radioNames.forEach(name => {
-                        totalQuestions++;
-                        const checked = form.querySelector(`input[type="radio"][name="${name}"]:checked`);
-                        if (checked) filledQuestions++;
-                    });
-
-                    const cbNames = new Set();
-                    form.querySelectorAll('input[type="checkbox"][data-category-field]').forEach(el => {
-                        if (!this.isVisible(el)) return;
-                        cbNames.add(el.name.replace('[]', ''));
-                    });
-                    cbNames.forEach(name => {
-                        totalQuestions++;
-                        const checked = form.querySelector(`input[type="checkbox"][name^="${name}"]:checked`);
-                        if (checked) filledQuestions++;
-                    });
-
-                    totalQuestions++;
-                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledQuestions++;
-
-                    if (totalQuestions === 0) return 0;
-                    return Math.min(100, Math.round((filledQuestions / totalQuestions) * 100));
+                    form.querySelectorAll('[data-counted]').forEach(el => delete el.dataset.counted);
+                    
+                    total++;
+                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filled++;
+                    
+                    return total === 0 ? 0 : Math.min(100, Math.round((filled / total) * 100));
                 },
 
                 isVisible(el) {
@@ -572,7 +538,7 @@
                     const filesInput = document.getElementById('files');
                     if (filesInput) {
                         const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
-                        const hasExistingFiles = document.querySelectorAll('.group\\/file:not([x-show])').length > 0;
+                        const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
                         if (!hasNewFiles && !hasExistingFiles) {
                             emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
                         }
@@ -583,7 +549,7 @@
                         this.$dispatch('open-modal', 'validation-warning-modal');
                         return;
                     }
-                    this.$dispatch('open-modal', 'confirm-update-submission');
+                    this.$dispatch('open-modal', 'confirm-submission');
                 },
 
                 

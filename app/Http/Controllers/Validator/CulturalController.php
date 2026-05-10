@@ -169,7 +169,7 @@ class CulturalController extends Controller
 
         $submission->load(['administrativeReviews', 'fieldVerifications']);
 
-        $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
+        $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
         // Build chronological timeline
         $timeline = collect();

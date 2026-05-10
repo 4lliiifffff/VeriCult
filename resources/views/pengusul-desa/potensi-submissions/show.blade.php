@@ -235,13 +235,36 @@
                                                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">{{ $field['label'] ?? ucfirst(str_replace('_', ' ', $fieldKey)) }}</p>
                                                     <div class="text-[#03045E] font-black text-base sm:text-lg tracking-tight break-words leading-relaxed">
                                                         @if(is_array($submission->category_data[$fieldKey]))
-                                                            <div class="flex flex-wrap gap-2 mt-2">
-                                                                @foreach($submission->category_data[$fieldKey] as $item)
-                                                                    <span class="px-3 py-1 bg-blue-50 text-[#0077B6] rounded-lg text-xs font-bold border border-blue-100/50">{{ $item }}</span>
-                                                                @endforeach
-                                                            </div>
+                                                            @if(isset($submission->category_data[$fieldKey][0]) && is_array($submission->category_data[$fieldKey][0]))
+                                                                {{-- Dynamic table data (Repeater) --}}
+                                                                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm mt-4 w-full">
+                                                                    <div class="grid gap-0 bg-slate-50 border-b border-slate-100" style="grid-template-columns: repeat({{ count(array_keys($submission->category_data[$fieldKey][0])) }}, 1fr);">
+                                                                        @foreach(array_keys($submission->category_data[$fieldKey][0]) as $colKey)
+                                                                            <div class="px-5 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                    @foreach($submission->category_data[$fieldKey] as $row)
+                                                                        <div class="grid gap-0 border-b border-slate-50 last:border-0" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
+                                                                            @foreach($row as $cellValue)
+                                                                                <div class="px-5 py-4 text-sm font-bold text-[#03045E] break-words">
+                                                                                    {{ is_array($cellValue) ? implode(', ', $cellValue) : $cellValue }}
+                                                                                </div>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            @else
+                                                                {{-- Checkbox array / Simple list --}}
+                                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                                    @foreach($submission->category_data[$fieldKey] as $item)
+                                                                        <span class="px-3 py-1 bg-blue-50 text-[#0077B6] rounded-lg text-xs font-bold border border-blue-100/50">
+                                                                            {{ is_array($item) ? implode(', ', $item) : $item }}
+                                                                        </span>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
                                                         @else
-                                                            {{ $submission->category_data[$fieldKey] }}
+                                                             {{ is_array($submission->category_data[$fieldKey]) ? implode(', ', $submission->category_data[$fieldKey]) : $submission->category_data[$fieldKey] }}
                                                         @endif
                                                     </div>
                                                 </div>

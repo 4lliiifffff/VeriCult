@@ -218,40 +218,40 @@
                                         @endphp
                                         <div class="space-y-2 {{ $isWide ? 'sm:col-span-2' : '' }}">
                                             <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $displayLabel }}</p>
-                                            @if(is_array($dataValue))
-                                                @if(isset($dataValue[0]) && is_array($dataValue[0]))
-                                                    {{-- Dynamic table data --}}
-                                                    <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
-                                                        <div class="overflow-x-auto">
-                                                            <table class="w-full text-left border-collapse min-w-max">
-                                                                <thead class="bg-slate-50/50 border-b border-slate-100">
-                                                                    <tr>
-                                                                        @foreach(array_keys($dataValue[0]) as $colKey)
-                                                                            <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</th>
-                                                                        @endforeach
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody class="divide-y divide-slate-50">
-                                                                    @foreach($dataValue as $row)
-                                                                        <tr class="hover:bg-slate-50/50 transition-colors">
-                                                                            @foreach($row as $cellValue)
-                                                                                <td class="px-5 py-4 text-sm font-bold text-[#03045E]">{{ $cellValue ?: '-' }}</td>
+                                                @if(is_array($dataValue))
+                                                    @if(isset($dataValue[0]) && is_array($dataValue[0]))
+                                                        {{-- Dynamic table data --}}
+                                                        <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+                                                            <div class="overflow-x-auto">
+                                                                <table class="w-full text-left border-collapse min-w-max">
+                                                                    <thead class="bg-slate-50/50 border-b border-slate-100">
+                                                                        <tr>
+                                                                            @foreach(array_keys($dataValue[0]) as $colKey)
+                                                                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</th>
                                                                             @endforeach
                                                                         </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
+                                                                    </thead>
+                                                                    <tbody class="divide-y divide-slate-50">
+                                                                        @foreach($dataValue as $row)
+                                                                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                                                                @foreach($row as $cellValue)
+                                                                                    <td class="px-5 py-4 text-sm font-bold text-[#03045E]">{{ is_array($cellValue) ? implode(', ', $cellValue) : ($cellValue ?: '-') }}</td>
+                                                                                @endforeach
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @else
+                                                        {{-- Checkbox array --}}
+                                                        <div class="flex flex-wrap gap-2">
+                                                            @foreach($dataValue as $item)
+                                                                <span class="px-4 py-2 bg-[#0077B6]/10 text-[#0077B6] rounded-xl text-xs font-black border border-[#0077B6]/10 shadow-sm">{{ is_array($item) ? implode(', ', $item) : $item }}</span>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                 @else
-                                                    {{-- Checkbox array --}}
-                                                    <div class="flex flex-wrap gap-2">
-                                                        @foreach($dataValue as $item)
-                                                            <span class="px-4 py-2 bg-[#0077B6]/10 text-[#0077B6] rounded-xl text-xs font-black border border-[#0077B6]/10 shadow-sm">{{ $item }}</span>
-                                                        @endforeach
-                                                    </div>
-                                                @endif
-                                            @else
                                                 <div class="{{ ($fieldDef['type'] ?? '') === 'textarea' ? 'p-5 bg-white/50 rounded-2xl border border-slate-100 text-slate-600 font-medium leading-relaxed italic text-base' : 'text-lg font-black text-[#03045E] tracking-tight' }}">
                                                     {{ $displayValue ?: '-' }}
                                                 </div>
