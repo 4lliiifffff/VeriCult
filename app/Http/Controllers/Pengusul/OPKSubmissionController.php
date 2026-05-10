@@ -99,21 +99,31 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'period_year' => ['nullable', 'string'],
-            'files' => ['required', 'array', 'min:1', 'max:5'],
-            'files.*' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
+            'files' => ['nullable', 'array', 'max:5'],
+            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
         // Add category-specific validation rules
         $categoryFields = CulturalSubmission::getFlatCategoryFields($request->input('category', ''));
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
-            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
+            $isRequired = !empty($field['required']);
+            
+            $fieldRules = [$isRequired ? 'required' : 'nullable'];
+            if ($is_array) {
+                $fieldRules[] = 'array';
+            } else {
+                $fieldRules[] = 'string';
+            }
+            $fieldRules[] = 'max:5000';
+
+            $rules["category_data.{$key}"] = $fieldRules;
         }
 
         try {
             $messages = [
-                'files.required' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
-                'files.min' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+                'files.max' => 'Maximum 5 files allowed.',
+                'category_data.*.required' => 'Kolom :attribute wajib diisi.',
             ];
             $validated = $request->validate($rules, $messages);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
@@ -348,6 +358,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             'description' => ['nullable', 'string'],
             'address' => ['nullable', 'string'],
             'period_year' => ['nullable', 'string'],
+            'files' => ['nullable', 'array', 'max:5'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
@@ -355,7 +366,17 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category);
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
-            $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
+            $isRequired = !empty($field['required']);
+            
+            $fieldRules = [$isRequired ? 'required' : 'nullable'];
+            if ($is_array) {
+                $fieldRules[] = 'array';
+            } else {
+                $fieldRules[] = 'string';
+            }
+            $fieldRules[] = 'max:5000';
+
+            $rules["category_data.{$key}"] = $fieldRules;
         }
 
         try {

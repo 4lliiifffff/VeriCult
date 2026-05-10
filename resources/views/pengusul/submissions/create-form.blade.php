@@ -71,18 +71,41 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-20">
         
         <!-- Form Section -->
-        <div class="lg:col-span-8 space-y-12">
+        <div class="lg:col-span-8 space-y-8">
+            @if($errors->any())
+            <div class="bg-rose-50 border-2 border-rose-100 rounded-[2rem] p-8 shadow-xl shadow-rose-200/20 animate-shake">
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-black text-rose-900 tracking-tight">Mohon Perbaiki Kesalahan Berikut:</h3>
+                        <ul class="space-y-1">
+                            @foreach($errors->all() as $error)
+                                <li class="text-sm font-bold text-rose-600/80 flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                                    {{ $error }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <div class="bg-white rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl shadow-slate-200/50 border border-white overflow-hidden group/form transition-all duration-700">
                 <div class="p-8 sm:p-14">
                     <form action="{{ route('pengusul.submissions.store') }}" 
                         method="POST" 
                         enctype="multipart/form-data" 
                         x-ref="mainForm" 
-                        @submit.prevent="openConfirm()">
+                        @submit.prevent="openConfirm()"
+                        novalidate>
                         @csrf
+                        <input type="hidden" name="category" value="{{ $submission->category ?? $categoryName ?? '' }}">
                         <input type="hidden" name="address" value="-">
                         
-                        @php $submission = new \stdClass; $submission->name = ''; $submission->address = ''; $submission->description = ''; $submission->category_data = old('category_data', []); $submission->category = $categoryName; @endphp
+                        @php $submission = new \stdClass; $submission->name = old('name', ''); $submission->address = old('address', '-'); $submission->description = old('description', ''); $submission->category_data = old('category_data', []); $submission->category = $categoryName; @endphp
                         @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $categoryName, 'submission' => $submission])
 
                         <!-- Footer Actions -->
@@ -456,11 +479,13 @@
                 
 
                 doSubmit() {
+                    const form = this.$refs.mainForm;
+                    if (!form) return;
+
                     this.loading = true;
                     this.$dispatch('close');
                     this.$nextTick(() => {
-                        const form = (this.$refs.mainForm || this.$refs.editForm);
-                        if (form) form.submit();
+                        form.submit();
                     });
                 }
             }
