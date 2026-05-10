@@ -231,8 +231,6 @@
         </div>
     </x-modal>
 
-    </div>
-
     <style>
         @keyframes bounce-slow {
             0%, 100% { transform: translateY(0); }
@@ -394,9 +392,10 @@
                     return true;
                 },
 
-                openConfirm()  {
+                openConfirm() {
                     let emptyRequired = [];
                     
+                    // 1. Basic Identity (Name)
                     const nameEl = document.getElementById('name');
                     if (nameEl) {
                         this.submissionName = nameEl.value;
@@ -405,23 +404,38 @@
                         }
                     }
                     
-                    const descEl = document.getElementById('description');
-                    if (descEl) {
-                        let isVisible = true;
-                        let parent = descEl.parentElement;
-                        while (parent && parent !== document.body) {
-                            const style = window.getComputedStyle(parent);
-                            if (style.display === 'none' || style.visibility === 'hidden') {
-                                isVisible = false;
-                                break;
+                    // 2. Category Specific Fields (including required from config)
+                    document.querySelectorAll('[data-category-field]').forEach(field => {
+                        // Skip if not visible
+                        if (!this.isVisible(field)) return;
+                        
+                        const container = field.closest('[data-required="true"]');
+                        if ((container || field.hasAttribute('required')) && !field.value) {
+                            // Find label
+                            let labelText = '';
+                            const label = field.id ? document.querySelector(`label[for="${field.id}"]`) : null;
+                            if (label) {
+                                labelText = label.innerText.replace('*', '').trim();
+                            } else if (container) {
+                                const containerLabel = container.querySelector('label');
+                                if (containerLabel) labelText = containerLabel.innerText.replace('*', '').trim();
                             }
-                            parent = parent.parentElement;
+                            
+                            if (labelText && !emptyRequired.includes(labelText)) {
+                                emptyRequired.push(labelText);
+                            }
                         }
-                        if (isVisible && (!descEl.value || descEl.value.trim() === '')) {
+                    });
+
+                    // 3. Description (if applicable and visible)
+                    const descEl = document.getElementById('description');
+                    if (descEl && this.isVisible(descEl)) {
+                        if (!descEl.value || descEl.value.trim() === '') {
                             emptyRequired.push('Deskripsi Kebudayaan');
                         }
                     }
                     
+                    // 4. Files (Data Dukung)
                     const filesInput = document.getElementById('files');
                     if (filesInput) {
                         const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
@@ -450,7 +464,9 @@
                     });
                 }
             }
-        }</script>
+        }
+    </script>
+</div>
 </x-layouts.pengusul>
 
 
