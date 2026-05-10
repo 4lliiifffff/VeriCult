@@ -61,9 +61,9 @@
                           method="POST" 
                           x-ref="editForm" 
                           @submit.prevent="openConfirm()">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="category" value="{{ $submission->category }}">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="category" value="{{ $submission->category ?? $categoryName ?? '' }}">
                         <input type="hidden" name="address" value="{{ $submission->address }}">
                         
                         @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission, 'hideFiles' => true])
@@ -117,21 +117,109 @@
         }
     </style>
 
+    
+        <!-- Validation Warning Modal -->
+        <x-modal name="validation-warning-modal" :show="false" focusable>
+            <div class="p-10 sm:p-16 text-center">
+                <div class="w-28 h-28 bg-rose-50 rounded-[2.5rem] flex items-center justify-center text-rose-600 mx-auto mb-10 shadow-inner group/warn">
+                    <svg class="w-14 h-14 transition-transform duration-500 group-hover/warn:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-black text-rose-900 mb-4 tracking-tight leading-tight">Data Belum Lengkap!</h2>
+                <p class="text-slate-500 max-w-sm mx-auto font-bold text-sm leading-relaxed mb-6">Anda tidak dapat menyimpan karena terdapat data wajib yang belum diisi:</p>
+                
+                <div class="bg-rose-50/50 rounded-2xl p-6 text-left max-w-sm mx-auto mb-12 border border-rose-100">
+                    <ul class="space-y-3">
+                        <template x-for="field in emptyFieldsList" :key="field">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span class="text-rose-700 font-bold text-sm" x-text="field"></span>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+                <button type="button" 
+                        @click="$dispatch('close')" 
+                        class="w-full px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-[0_20px_40px_-10px_rgba(225,29,72,0.3)] hover:bg-rose-700 transition-all active:scale-[0.98]">
+                    KEMBALI KE FORMULIR
+                </button>
+            </div>
+        </x-modal>
+
     <script>
         function submissionForm() {
             return {
                 loading: false,
-                openConfirm() {
+                files: [],
+                dragover: false,
+                emptyFieldsList: [],
+                submissionName: @js(old('name', $submission->name ?? '')),
+                
+                openConfirm()  {
+                    let emptyRequired = [];
+                    
+                    const nameEl = document.getElementById('name');
+                    if (nameEl) {
+                        this.submissionName = nameEl.value;
+                        if (!this.submissionName || this.submissionName.trim() === '') {
+                            emptyRequired.push('Identitas Umum (Nama Objek / Kebudayaan)');
+                        }
+                    }
+                    
+                    const descEl = document.getElementById('description');
+                    if (descEl) {
+                        let isVisible = true;
+                        let parent = descEl.parentElement;
+                        while (parent && parent !== document.body) {
+                            const style = window.getComputedStyle(parent);
+                            if (style.display === 'none' || style.visibility === 'hidden') {
+                                isVisible = false;
+                                break;
+                            }
+                            parent = parent.parentElement;
+                        }
+                        if (isVisible && (!descEl.value || descEl.value.trim() === '')) {
+                            emptyRequired.push('Deskripsi Kebudayaan');
+                        }
+                    }
+                    
+                    const filesInput = document.getElementById('files');
+                    if (filesInput) {
+                        const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
+                        const hasExistingFiles = document.querySelectorAll('.group\\/file:not([x-show])').length > 0;
+                        if (!hasNewFiles && !hasExistingFiles) {
+                            emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
+                        }
+                    }
+
+                    if (emptyRequired.length > 0) {
+                        this.emptyFieldsList = emptyRequired;
+                        this.$dispatch('open-modal', 'validation-warning-modal');
+                        return;
+                    }
                     this.$dispatch('open-modal', 'confirm-update-submission');
                 },
+
+                
+
                 doSubmit() {
                     this.loading = true;
                     this.$dispatch('close');
                     this.$nextTick(() => {
-                        this.$refs.editForm.submit();
+                        const form = (this.$refs.mainForm || this.$refs.editForm);
+                        if (form) form.submit();
                     });
                 }
             }
-        }
-    </script>
+        }</script>
 </x-layouts.validator>
+
+
+
+
+
+
+
+

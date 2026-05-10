@@ -27,9 +27,9 @@ class OPKSubmissionController extends Controller implements HasMiddleware
                     abort(403, 'Hanya pengusul umum yang dapat membuat laporan OPK.');
                 }
     
-                if (!Auth::user()->is_approved_by_admin) {
-                    abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan OPK.');
-                }
+                // if (!Auth::user()->is_approved_by_admin) {
+                //     abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan OPK.');
+                // }
     
                 return $next($request);
             }
@@ -99,7 +99,8 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'period_year' => ['nullable', 'string'],
-            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
+            'files' => ['required', 'array', 'min:1', 'max:5'],
+            'files.*' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
         // Add category-specific validation rules
@@ -110,7 +111,11 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         }
 
         try {
-            $validated = $request->validate($rules);
+            $messages = [
+                'files.required' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+                'files.min' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+            ];
+            $validated = $request->validate($rules, $messages);
         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
             return back()->with('error', 'Gagal memvalidasi file. Mohon aktifkan ekstensi "fileinfo" pada PHP di Laragon Anda (Menu -> PHP -> Extensions -> fileinfo).')->withInput();
         }

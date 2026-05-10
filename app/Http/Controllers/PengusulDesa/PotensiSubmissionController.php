@@ -73,7 +73,8 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'period_year' => ['nullable', 'string'],
-            'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
+            'files' => ['required', 'array', 'min:1', 'max:5'],
+            'files.*' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov'],
         ];
 
         $categoryName = CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN;
@@ -90,7 +91,11 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             $rules["category_data.{$key}"] = ['nullable', $is_array ? 'array' : 'string', 'max:5000'];
         }
 
-        $validated = $request->validate($rules);
+        $messages = [
+            'files.required' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+            'files.min' => 'Anda wajib mengunggah setidaknya 1 file dokumentasi.',
+        ];
+        $validated = $request->validate($rules, $messages);
 
         if ($request->hasFile('files')) {
             $files = $request->file('files');
