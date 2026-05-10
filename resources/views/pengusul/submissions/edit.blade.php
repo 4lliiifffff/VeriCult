@@ -87,6 +87,8 @@
                               enctype="multipart/form-data" 
                               x-ref="editForm" 
                               @submit.prevent="openConfirm()">
+                            @csrf
+                            @method('PUT')
                             <input type="hidden" name="address" value="{{ $submission->address }}">
                             
                             @include('pengusul.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => $submission->category, 'submission' => $submission])
