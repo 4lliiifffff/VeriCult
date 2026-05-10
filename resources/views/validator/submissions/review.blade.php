@@ -568,7 +568,7 @@
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between gap-2 mb-1">
                                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
-                                    Adm Review •
+                                    Review Validator •
                                     <span @class([
                                         'text-emerald-500' => $review->action === 'forwarded',
                                         'text-amber-500' => $review->action === 'revision',
@@ -588,10 +588,13 @@
                         <div @class([
                             'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110',
                             'bg-emerald-50 border border-emerald-100 text-emerald-500' => $fv->recommendation === 'verified',
+                            'bg-amber-50 border border-amber-100 text-amber-500' => $fv->recommendation === 'revision',
                             'bg-rose-50 border border-rose-100 text-rose-500' => $fv->recommendation === 'rejected',
                         ])>
                             @if($fv->recommendation === 'verified')
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            @elseif($fv->recommendation === 'revision')
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             @else
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                             @endif
@@ -602,8 +605,13 @@
                                     Lapangan •
                                     <span @class([
                                         'text-emerald-500' => $fv->recommendation === 'verified',
+                                        'text-amber-500' => $fv->recommendation === 'revision',
                                         'text-rose-500' => $fv->recommendation === 'rejected',
-                                    ])>{{ $fv->recommendation === 'verified' ? 'Terverifikasi' : 'Ditolak' }}</span>
+                                    ])>
+                                        @if($fv->recommendation === 'verified') Terverifikasi
+                                        @elseif($fv->recommendation === 'revision') Perlu Revisi
+                                        @else Ditolak @endif
+                                    </span>
                                 </p>
                                 <span class="text-[9px] font-bold text-slate-300">{{ $fv->visit_date->format('d/m/Y') }}</span>
                             </div>
@@ -615,6 +623,55 @@
                 </div>
             </div>
             @endif
+        </div>
+    </div>
+
+    {{-- Missing Data Warning Modal --}}
+    <div x-show="showWarningModal" x-cloak style="display: none;"
+         class="fixed inset-0 flex items-center justify-center z-[60] p-4"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div class="absolute inset-0 bg-slate-900/75" @click="showWarningModal = false"></div>
+        <div class="relative bg-white rounded-[2.5rem] w-full max-w-md mx-auto shadow-2xl shadow-slate-900/20 overflow-hidden"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-90 translate-y-8">
+            <div class="p-8 sm:p-10 text-center">
+                <div class="w-20 h-20 bg-amber-50 rounded-[2rem] flex items-center justify-center text-amber-500 mx-auto mb-6 shadow-inner">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-black text-[#03045E] mb-2 tracking-tight leading-tight">Data Belum Lengkap!</h2>
+                <p class="text-slate-500 font-bold text-sm leading-relaxed mb-6">Terdapat <strong class="text-amber-600" x-text="missingFieldsList.length"></strong> field yang belum diisi. Apakah Anda yakin ingin melanjutkan verifikasi?</p>
+                <div class="bg-amber-50/70 rounded-2xl p-5 text-left mb-6 border border-amber-100 max-h-48 overflow-y-auto">
+                    <ul class="space-y-2">
+                        <template x-for="field in missingFieldsList" :key="field">
+                            <li class="flex items-start gap-2.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5"></span>
+                                <span class="text-[11px] font-bold text-amber-800 leading-tight" x-text="field"></span>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" @click="showWarningModal = false"
+                            class="w-full py-4 rounded-2xl border-2 border-slate-100 bg-white text-slate-600 font-black text-[11px] uppercase tracking-widest hover:bg-slate-50 hover:border-slate-200 transition-all active:scale-95">
+                        Kembali &amp; Lengkapi
+                    </button>
+                    <button type="button" @click="showWarningModal = false; showModal = true"
+                            class="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-[11px] uppercase tracking-widest shadow-lg shadow-amber-500/25 transition-all active:scale-95">
+                        Tetap Verifikasi
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -710,7 +767,9 @@
                 selectedAction: '',
                 notes: '',
                 showModal: false,
+                showWarningModal: false,
                 submitting: false,
+                missingFieldsList: @js(array_values($missingFields ?? [])),
 
                 selectAction(action) {
                     this.selectedAction = action;
@@ -719,6 +778,7 @@
                 get actionLabel() {
                     const labels = {
                         'forwarded': 'Tinjau ke Lapangan',
+                        'verified': 'Validasi & Verifikasi',
                         'revision': 'Minta Revisi',
                         'rejected': 'Tolak Pengajuan',
                     };
@@ -727,6 +787,13 @@
 
                 confirmSubmit() {
                     if (!this.selectedAction || this.notes.length < 10) return;
+
+                    // If verifying (final) and data is incomplete, show warning first
+                    if (this.selectedAction === 'verified' && this.missingFieldsList.length > 0) {
+                        this.showWarningModal = true;
+                        return;
+                    }
+
                     this.showModal = true;
                 },
 
