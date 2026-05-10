@@ -80,10 +80,10 @@
     @endif
 
     <div x-data="reviewWorkspace()">
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 pb-16 items-start">
+        <div class="flex flex-col gap-6 lg:gap-8 pb-16">
 
-        <!-- Left: Submission Details & Files -->
-        <div class="xl:col-span-7 space-y-6 lg:space-y-8">
+        <!-- Top: Submission Details & Files -->
+        <div class="space-y-6 lg:space-y-8">
             <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
                 <div class="px-6 py-5 lg:px-10 lg:py-6 border-b border-slate-50 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-slate-50/80 to-white">
                     <div>
@@ -388,8 +388,8 @@
             </div>
         </div>
 
-        <!-- Right: Review Actions -->
-        <div class="xl:col-span-5 space-y-6 lg:space-y-8 xl:sticky xl:top-8">
+        <!-- Bottom: Review Actions -->
+        <div class="space-y-6 lg:space-y-8">
             <div class="bg-white rounded-[2rem] shadow-2xl shadow-blue-900/10 border-2 border-[#0077B6]/20 overflow-hidden">
                 <div class="bg-gradient-to-r from-[#03045E] to-[#0077B6] p-5 lg:p-8 text-white relative overflow-hidden">
                     <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
