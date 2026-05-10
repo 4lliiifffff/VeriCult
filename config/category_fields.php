@@ -1271,30 +1271,35 @@ return [
                     'Olahraga Tradisional',
                     'Cagar Budaya'
                 ],
-                'placeholder' => 'Pilih kategori kebudayaan yang dilaksanakan'
+                'placeholder' => 'Pilih kategori kebudayaan yang dilaksanakan',
+                'required' => true
             ],
 
             'nama_dan_jenis_kebudayaan' => [
                 'label' => 'Nama dan Jenis Kebudayaan',
                 'type' => 'text',
-                'placeholder' => 'Contoh: Tari Pendet (Tarian Tradisional)'
+                'placeholder' => 'Contoh: Tari Pendet (Tarian Tradisional)',
+                'required' => true
             ],
 
             'desa_lokasi' => [
                 'label' => 'Nama Desa / Kelurahan',
                 'type' => 'datalist',
-                'placeholder' => 'Pilih atau cari desa'
+                'placeholder' => 'Pilih atau cari desa',
+                'required' => true
             ],
             'detail_lokasi' => [
                 'label' => 'Detail Lokasi Pelaksanaan',
                 'type' => 'text',
-                'placeholder' => 'Contoh: Balai desa, lapangan utama, alamat lengkap'
+                'placeholder' => 'Contoh: Balai desa, lapangan utama, alamat lengkap',
+                'required' => true
             ],
 
             'tanggal_pelaksanaan' => [
                 'label' => 'Tanggal Pelaksanaan',
                 'type' => 'date',
-                'placeholder' => 'Pilih tanggal pelaksanaan'
+                'placeholder' => 'Pilih tanggal pelaksanaan',
+                'required' => true
             ],
         ],
     ],
