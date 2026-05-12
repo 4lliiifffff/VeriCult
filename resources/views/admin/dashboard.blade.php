@@ -1,7 +1,5 @@
 <x-layouts.admin>
-    <x-slot name="head">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    </x-slot>
+
 
     <x-slot name="header">
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
@@ -202,7 +200,8 @@
         </div>
     </div>
 
-    <x-slot name="scripts">
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Base Chart Options
@@ -269,5 +268,5 @@
                 }
             });
         </script>
-    </x-slot>
+    @endpush
 </x-layouts.admin>
