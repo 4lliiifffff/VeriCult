@@ -55,7 +55,6 @@ Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController
 Route::get('/profil-kebudayaan/{slug}', [\App\Http\Controllers\PublicCulturalController::class, 'show'])->name('profil-kebudayaan.show');
 
 // Public Reports
-Route::get('/laporan-publik', [\App\Http\Controllers\PublicReportController::class, 'index'])->name('public.reports.index');
 Route::get('/laporan-publik/print', [\App\Http\Controllers\PublicReportController::class, 'print'])->name('public.reports.print');
 
 // Reports (Super Admin & Validator)

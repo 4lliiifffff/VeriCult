@@ -33,8 +33,7 @@
                     :class="scrolled ? '{{ request()->routeIs('edukasi') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('edukasi') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Edukasi</a>
                 <a href="{{ route('profil-kebudayaan.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('profil-kebudayaan.*') ? 'after:w-full' : '' }}"
                     :class="scrolled ? '{{ request()->routeIs('profil-kebudayaan.*') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('profil-kebudayaan.*') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Profil Budaya</a>
-                <a href="{{ route('public.reports.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('public.reports.*') ? 'after:w-full' : '' }}"
-                    :class="scrolled ? '{{ request()->routeIs('public.reports.*') ? 'text-[#0077B6]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('public.reports.*') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Laporan Publik</a>
+
             </div>
             
             <!-- Right Actions Section -->
@@ -123,7 +122,7 @@
             <a href="{{ route('fitur') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Fitur</a>
             <a href="{{ route('edukasi') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Edukasi</a>
             <a href="{{ route('profil-kebudayaan.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Profil Budaya</a>
-            <a href="{{ route('public.reports.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Laporan Publik</a>
+
             
             <div class="pt-4 mt-2 border-t border-slate-100 flex flex-col space-y-3">
                 @auth

@@ -68,18 +68,25 @@
             
             <!-- Filters & Search -->
             <div class="mb-16 space-y-8">
-                <!-- Category Filter -->
-                <div class="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-hide">
-                    <a href="{{ route('profil-kebudayaan.index') }}" 
-                       class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ !$activeCategory ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
-                        Semua
-                    </a>
-                    @foreach($categories as $category)
-                        <a href="{{ route('profil-kebudayaan.index', ['category' => $category]) }}" 
-                           class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
-                            {{ ucfirst(str_replace('_', ' ', $category)) }}
+                <!-- Category Filter & Print Button -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4">
+                    <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide w-full sm:w-auto">
+                        <a href="{{ route('profil-kebudayaan.index') }}" 
+                           class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ !$activeCategory ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
+                            Semua
                         </a>
-                    @endforeach
+                        @foreach($categories as $category)
+                            <a href="{{ route('profil-kebudayaan.index', ['category' => $category]) }}" 
+                               class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
+                                {{ ucfirst(str_replace('_', ' ', $category)) }}
+                            </a>
+                        @endforeach
+                    </div>
+                    
+                    <a href="{{ route('public.reports.print', ['year' => $activeYear]) }}" target="_blank" class="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#0077B6] hover:bg-[#03045E] text-white rounded-full font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 w-full sm:w-auto">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        Unduh Rekap Laporan
+                    </a>
                 </div>
 
                 <!-- Search & Year -->
