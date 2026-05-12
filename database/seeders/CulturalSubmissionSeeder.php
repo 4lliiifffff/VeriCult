@@ -40,7 +40,7 @@ class CulturalSubmissionSeeder extends Seeder
             CulturalSubmission::STATUS_PUBLISHED,
         ];
 
-        $categories = [
+        $opkCategories = [
             CulturalSubmission::CATEGORY_TRADISI_LISAN,
             CulturalSubmission::CATEGORY_MANUSKRIP,
             CulturalSubmission::CATEGORY_ADAT_ISTIADAT,
@@ -51,34 +51,50 @@ class CulturalSubmissionSeeder extends Seeder
             CulturalSubmission::CATEGORY_BAHASA,
             CulturalSubmission::CATEGORY_PERMAINAN_RAKYAT,
             CulturalSubmission::CATEGORY_OLAHRAGA_TRADISIONAL,
+        ];
+
+        $cagarBudayaCategories = [
             CulturalSubmission::CATEGORY_CAGAR_BUDAYA,
+            CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA,
+        ];
+
+        $potensiCategories = [
+            CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN,
+        ];
+
+        // Define groups
+        $typeGroups = [
+            'opk' => $opkCategories,
+            'cagar-budaya' => $cagarBudayaCategories,
+            'potensi-kebudayaan' => $potensiCategories,
         ];
 
         foreach ($years as $year) {
-            foreach ($categories as $category) {
-                // Create multiple submissions per category per year for variety
-                for ($i = 0; $i < 2; $i++) {
-                    $type = 'opk'; // OPK
-                    $status = $statuses[array_rand($statuses)];
-                    $village = $allVillages->random();
-                    $name = $category . ' - ' . $village->name . ' - ' . $year . ' (' . ($i + 1) . ')';
-                    
-                    $submission = CulturalSubmission::create([
-                        'user_id' => $pengusul->id,
-                        'village_id' => $village->id,
-                        'name' => $name,
-                        'slug' => Str::slug($name) . '-' . uniqid(),
-                        'category' => $category,
-                        'description' => "Deskripsi untuk data $name. Data ini dihasilkan oleh seeder untuk perbandingan tahun $year.",
-                        'category_data' => $this->generateCategoryData($category),
-                        'address' => 'Jl. Kebudayaan No. ' . rand(1, 100),
-                        'status' => $status,
-                        'period_year' => $year,
-                        'submission_type' => $type,
-                        'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? Carbon::now()->subMonths(rand(1, 12)) : null,
-                    ]);
+            foreach ($typeGroups as $type => $categories) {
+                foreach ($categories as $category) {
+                    // Create multiple submissions per category per year for variety
+                    for ($i = 0; $i < 2; $i++) {
+                        $status = $statuses[array_rand($statuses)];
+                        $village = $allVillages->random();
+                        $name = $category . ' - ' . $village->name . ' - ' . $year . ' (' . ($i + 1) . ')';
+                        
+                        $submission = CulturalSubmission::create([
+                            'user_id' => $pengusul->id,
+                            'village_id' => $village->id,
+                            'name' => $name,
+                            'slug' => Str::slug($name) . '-' . uniqid(),
+                            'category' => $category,
+                            'description' => "Deskripsi untuk data $name. Data ini dihasilkan oleh seeder untuk perbandingan tahun $year.",
+                            'category_data' => $this->generateCategoryData($category),
+                            'address' => 'Jl. Kebudayaan No. ' . rand(1, 100),
+                            'status' => $status,
+                            'period_year' => $year,
+                            'submission_type' => $type,
+                            'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? Carbon::now()->subMonths(rand(1, 12)) : null,
+                        ]);
 
-                    $this->seedRelations($submission, $validator);
+                        $this->seedRelations($submission, $validator);
+                    }
                 }
             }
 
@@ -96,7 +112,7 @@ class CulturalSubmissionSeeder extends Seeder
                     'category' => CulturalSubmission::CATEGORY_LAPORAN_AKTIF,
                     'description' => "Laporan kegiatan kebudayaan aktif di $village->name pada tahun $year.",
                     'category_data' => [
-                        'kategori_opk' => $categories[array_rand($categories)],
+                        'kategori_opk' => $opkCategories[array_rand($opkCategories)],
                         'nama_dan_jenis_kebudayaan' => 'Kegiatan ' . $name,
                         'desa_lokasi' => $village->name,
                         'detail_lokasi' => 'Area ' . $village->name,
@@ -209,6 +225,16 @@ class CulturalSubmissionSeeder extends Seeder
                 'periode_sejarah' => 'Masa Klasik',
                 'kondisi' => 'Baik',
                 'bahan_material' => 'Batu Andesit',
+            ],
+            CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => [
+                'nama_objek' => 'Potensi CB ' . Str::random(5),
+                'perkiraan_zaman' => 'Zaman Kolonial',
+                'kondisi_saat_ini' => 'Kurang Terawat',
+            ],
+            CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => [
+                'kategori_potensi' => 'Tenaga Kebudayaan',
+                'nama_tenaga' => 'Seniman ' . Str::random(5),
+                'bidang_keahlian' => 'Seni Musik',
             ],
             default => [
                 'nama_objek' => $category . ' Sample',
