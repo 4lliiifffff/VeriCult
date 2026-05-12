@@ -17,14 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
+            KecamatanSeeder::class,
+            VillageSeeder::class,
+            UserSeeder::class,
+            SiteContentSeeder::class,
             CulturalSubmissionSeeder::class,
-        ]);
-
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
         ]);
     }
 }

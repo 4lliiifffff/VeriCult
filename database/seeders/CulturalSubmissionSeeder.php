@@ -19,19 +19,7 @@ class CulturalSubmissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Ensure we have villages
-        $villages = [
-            'Desa Cidahu',
-            'Desa Sukamaju',
-            'Desa Karanganyar',
-            'Desa Mekarsari',
-            'Desa Bojongloa',
-        ];
-
-        foreach ($villages as $name) {
-            Village::firstOrCreate(['name' => $name]);
-        }
-
+        // 1. Get villages and users
         $allVillages = Village::all();
         $pengusul = User::role('pengusul')->first(['*']);
         $pengusulDesa = User::role('pengusul-desa')->first(['*']);
