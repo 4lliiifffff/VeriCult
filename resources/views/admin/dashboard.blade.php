@@ -1,4 +1,8 @@
 <x-layouts.admin>
+    <x-slot name="head">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </x-slot>
+
     <x-slot name="header">
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <!-- Subtle Background Pattern -->
@@ -32,7 +36,7 @@
 
     <div class="space-y-6 sm:space-y-10 pb-12">
         <!-- Quick Stats -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <!-- Persetujuan Akun -->
             <div class="group bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-blue-50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
@@ -45,6 +49,33 @@
                 </div>
             </div>
 
+            <!-- Total Pengguna -->
+            <div class="group bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white hover:shadow-2xl hover:shadow-indigo-900/10 hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-indigo-50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="relative z-10">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-[#4361EE] group-hover:bg-[#4361EE] group-hover:text-white transition-all duration-500 shadow-inner mb-4 sm:mb-6">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Pengguna</p>
+                    <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($totalUsers) }}</h3>
+                </div>
+            </div>
+
+            <!-- Total Wilayah -->
+            <div class="group bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white hover:shadow-2xl hover:shadow-slate-900/10 hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-slate-50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div class="relative z-10">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-600 group-hover:bg-slate-600 group-hover:text-white transition-all duration-500 shadow-inner mb-4 sm:mb-6">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Desa/Kel.</p>
+                    <div class="flex items-end gap-2">
+                        <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($totalDesa) }}</h3>
+                        <span class="text-sm font-bold text-slate-400 mb-1">/ {{ $totalKecamatan }} Kec</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Siap Publikasi -->
             <div class="group bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white hover:shadow-2xl hover:shadow-cyan-900/10 hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-cyan-50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
@@ -52,23 +83,34 @@
                     <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-[#00B4D8] group-hover:bg-[#00B4D8] group-hover:text-white transition-all duration-500 shadow-inner mb-4 sm:mb-6">
                         <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Siap Publikasi</p>
-                    <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($pendingPublicationCount) }}</h3>
-                </div>
-            </div>
-
-            <!-- Total OPK -->
-            <div class="group bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white hover:shadow-2xl hover:shadow-slate-900/10 hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-slate-50 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
-                <div class="relative z-10">
-                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-600 group-hover:bg-slate-600 group-hover:text-white transition-all duration-500 shadow-inner mb-4 sm:mb-6">
-                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">OPK Siap Publikasi</p>
+                    <div class="flex items-end gap-2">
+                        <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($pendingPublicationCount) }}</h3>
+                        <span class="text-sm font-bold text-slate-400 mb-1">/ {{ $totalOPK }} OPK</span>
                     </div>
-                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total OPK Wilayah</p>
-                    <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format(array_sum($categoryStats)) }}</h3>
                 </div>
             </div>
         </div>
+
+        <!-- Visual Analytics Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            <!-- Kecamatan Distribution -->
+            <div class="lg:col-span-2 bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white">
+                <div class="flex items-center justify-between mb-8 sm:mb-10">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-black text-[#03045E]">Distribusi OPK Kecamatan</h3>
+                        <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Total OPK per Wilayah</p>
+                    </div>
+                    <a href="{{ route('admin.kecamatans.index') }}" class="px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[9px] sm:text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all whitespace-nowrap">
+                        Kelola Wilayah
+                    </a>
+                </div>
+                <div class="h-64 sm:h-80 relative">
+                    <canvas id="kecamatanChart"></canvas>
+                </div>
+            </div>
+        </div>
+
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             <!-- Recent Pending Users -->
@@ -159,4 +201,73 @@
             </div>
         </div>
     </div>
+
+    <x-slot name="scripts">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Base Chart Options
+                Chart.defaults.font.family = "'Outfit', sans-serif";
+                Chart.defaults.color = '#94a3b8';
+                
+                const chartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: { family: "'Outfit', sans-serif", weight: '600' },
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(3, 4, 94, 0.9)',
+                            titleFont: { family: "'Outfit', sans-serif", size: 13, weight: '800' },
+                            bodyFont: { family: "'Outfit', sans-serif", size: 12 },
+                            padding: 12,
+                            cornerRadius: 12,
+                            displayColors: true,
+                        }
+                    }
+                };
+
+                // Kecamatan OPK Distribution
+                const kecamatanCtx = document.getElementById('kecamatanChart');
+                if (kecamatanCtx) {
+                    const ctx = kecamatanCtx.getContext('2d');
+                    const kecamatanData = {!! json_encode($kecamatanOPKDistribution) !!};
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: kecamatanData.map(v => v.name.replace('Kecamatan ', '')),
+                            datasets: [
+                                {
+                                    label: 'Total OPK',
+                                    data: kecamatanData.map(v => v.count),
+                                    backgroundColor: '#00B4D8',
+                                    borderRadius: 5,
+                                }
+                            ]
+                        },
+                        options: {
+                            ...chartOptions,
+                            indexAxis: 'y',
+                            plugins: {
+                                ...chartOptions.plugins,
+                                legend: {
+                                    ...chartOptions.plugins.legend,
+                                    position: 'top',
+                                    align: 'end'
+                                }
+                            },
+                            scales: {
+                                x: { beginAtZero: true, grid: { color: '#F8FAFC', drawBorder: false }, ticks: { precision: 0 } },
+                                y: { grid: { display: false }, ticks: { font: { weight: '800', size: 10 }, color: '#334155' } }
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </x-slot>
 </x-layouts.admin>
