@@ -54,10 +54,15 @@ Route::get('/edukasi', function () {
 Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
 Route::get('/profil-kebudayaan/{slug}', [\App\Http\Controllers\PublicCulturalController::class, 'show'])->name('profil-kebudayaan.show');
 
+// Public Reports
+Route::get('/laporan-publik', [\App\Http\Controllers\PublicReportController::class, 'index'])->name('public.reports.index');
+Route::get('/laporan-publik/print', [\App\Http\Controllers\PublicReportController::class, 'print'])->name('public.reports.print');
+
 // Reports (Super Admin & Validator)
 Route::middleware(['auth', 'role:super-admin|validator'])->group(function () {
     Route::get('/laporan-kebudayaan', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
     Route::get('/laporan-kebudayaan/print', [\App\Http\Controllers\ReportController::class, 'print'])->name('reports.print');
+    Route::get('/laporan-kebudayaan/print-komprehensif', [\App\Http\Controllers\ReportController::class, 'printComprehensive'])->name('reports.print-comprehensive');
 });
 
 Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
