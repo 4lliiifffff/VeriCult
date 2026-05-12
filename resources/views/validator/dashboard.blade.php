@@ -142,7 +142,7 @@
 
 <x-layouts.validator>
     <x-slot name="header">
-        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 z-40 group">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
             
             <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
@@ -163,18 +163,17 @@
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 bg-slate-50 p-5 sm:p-6 rounded-[2rem] border border-slate-100 shadow-inner relative z-20">
-                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex-1 sm:flex-none">
-                        <select name="year" onchange="this.form.submit()" class="w-full sm:w-48 bg-white border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-[#03045E] focus:ring-4 focus:ring-blue-900/5 focus:border-[#0077B6] transition-all py-3 px-5 shadow-sm">
-                            <option value="" {{ is_null($activeYear) ? 'selected' : '' }}>Semua Periode</option>
-                            @foreach($availableYears as $year)
-                                <option value="{{ $year }}" {{ $activeYear == $year ? 'selected' : '' }}>Tahun {{ $year }}</option>
-                            @endforeach
-                        </select>
+                    <form action="{{ route('validator.dashboard') }}" method="GET" class="flex-1 sm:flex-none auto-submit min-w-[200px]">
+                        <x-dropdown-select 
+                            name="year" 
+                            id="year" 
+                            placeholder="Semua Periode"
+                            all-label="Semua Periode"
+                            variant="light"
+                            :selected="$activeYear" 
+                            :options="collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Tahun ' . $y])->toArray()" 
+                        />
                     </form>
-                    <!-- <a href="{{ route('validator.cultural.create') }}" class="w-full sm:w-auto justify-center inline-flex bg-[#03045E] text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 gap-2 items-center active:scale-95 group/btn">
-                        <svg class="w-4 h-4 group-hover/btn:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                        Buat Pengajuan
-                    </a> -->
                 </div>
             </div>
         </div>
@@ -182,20 +181,7 @@
 
     <div class="space-y-6 sm:space-y-10 pb-12">
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6">
-            <!-- Pengajuan Saya -->
-            <div class="group bg-[#03045E] text-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-blue-900/30 border border-white/10 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden lg:col-span-1">
-                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white/5 rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
-                <div class="relative z-10 flex flex-col h-full">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#4CC9F0] group-hover:bg-white group-hover:text-[#03045E] transition-all duration-500 shadow-inner mb-4 sm:mb-6">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    </div>
-                    <div>
-                        <p class="text-[8px] sm:text-[9px] font-black text-white/50 uppercase tracking-[0.2em] mb-1">Pengajuan Saya</p>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white tabular-nums tracking-tight">{{ number_format($stats['my_submissions']) }}</h3>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
 
             <!-- Other Stats -->
             @php

@@ -15,8 +15,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Ambil semua tahun dari YEAR(created_at) agar data lama (period_year NULL) ikut muncul
-        $availableYears = CulturalSubmission::selectRaw('YEAR(created_at) as yr')
+        // Ambil semua tahun dari period_year
+        $availableYears = CulturalSubmission::select('period_year as yr')
+            ->whereNotNull('period_year')
             ->groupBy('yr')
             ->orderBy('yr', 'desc')
             ->pluck('yr')
@@ -34,7 +35,7 @@ class DashboardController extends Controller
         // Base query: filter per tahun jika dipilih, atau semua data jika tidak dipilih
         $yearQuery = CulturalSubmission::when(
             $activeYear,
-            fn($q) => $q->whereRaw('YEAR(created_at) = ?', [$activeYear])
+            fn($q) => $q->where('period_year', $activeYear)
         );
 
         $stats = [
@@ -47,7 +48,6 @@ class DashboardController extends Controller
             'needs_revision' => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REVISION)->count(),
             'forwarded'      => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_FIELD_VERIFICATION)->count(),
             'rejected'       => (clone $yearQuery)->where('status', CulturalSubmission::STATUS_REJECTED)->count(),
-            'my_submissions' => CulturalSubmission::ownedBy(Auth::id())->count(),
         ];
 
         // Antrean verifikasi: ikut filter tahun jika dipilih, batas 10
@@ -79,11 +79,11 @@ class DashboardController extends Controller
             ->toArray();
 
         // 3. Tren Pertumbuhan — 5 tahun ke belakang dari tahun terbaru
-        $latestYear = CulturalSubmission::max(DB::raw('YEAR(created_at)')) ?? (int)date('Y');
+        $latestYear = CulturalSubmission::max('period_year') ?? (int)date('Y');
         $startYear  = $latestYear - 4;
 
-        $yearlyRaw = CulturalSubmission::selectRaw('YEAR(created_at) as yr, count(*) as count')
-            ->whereRaw('YEAR(created_at) BETWEEN ? AND ?', [$startYear, $latestYear])
+        $yearlyRaw = CulturalSubmission::selectRaw('period_year as yr, count(*) as count')
+            ->whereBetween('period_year', [$startYear, $latestYear])
             ->groupBy('yr')
             ->orderBy('yr', 'asc')
             ->pluck('count', 'yr');

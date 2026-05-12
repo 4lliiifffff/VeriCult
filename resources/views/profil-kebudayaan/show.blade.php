@@ -119,28 +119,28 @@
                     </span>
                 </div>
                 
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-[#03045E] mb-8 tracking-tight leading-[1.1] drop-shadow-sm break-words">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-[#03045E] mb-8 tracking-tight leading-[1.1] drop-shadow-sm break-words">
                     {{ $submission->name }}
                 </h1>
 
-                <div class="flex flex-wrap items-center gap-4 sm:gap-8 bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-slate-200/50 p-6 rounded-[2rem] w-full sm:w-auto sm:inline-flex">
-                    <div class="flex items-center gap-4 flex-1 min-w-0 w-full sm:w-auto">
-                        <div class="w-12 h-12 rounded-2xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-slate-200/50 p-4 sm:p-6 rounded-3xl sm:rounded-[2rem] w-full sm:w-auto sm:inline-flex">
+                    <div class="flex items-center gap-4 flex-1 min-w-0">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] shrink-0">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Lokasi</p>
-                            <p class="text-sm font-bold text-slate-700 truncate" title="{{ $submission->address }}">{{ $submission->address }}</p>
+                            <p class="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Lokasi</p>
+                            <p class="text-xs sm:text-sm font-bold text-slate-700 truncate" title="{{ $submission->address }}">{{ $submission->address }}</p>
                         </div>
                     </div>
                     <div class="hidden sm:block w-px h-10 bg-slate-200"></div>
                     <div class="flex items-center gap-4 shrink-0">
-                        <div class="w-12 h-12 rounded-2xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] shrink-0">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Tanggal Publikasi</p>
-                            <p class="text-sm font-bold text-slate-700">{{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d F Y') }}</p>
+                            <p class="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Tanggal Publikasi</p>
+                            <p class="text-xs sm:text-sm font-bold text-slate-700">{{ ($submission->published_at ?? $submission->created_at)->translatedFormat('d F Y') }}</p>
                         </div>
                     </div>
                 </div>
@@ -156,16 +156,16 @@
                 <!-- Main Content -->
                 <div class="lg:col-span-8 space-y-10 min-w-0">
                     
-                    <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-8 sm:p-14 reveal reveal-up">
+                    <div class="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-6 sm:p-14 reveal reveal-up">
                         <!-- Description -->
                         <div class="space-y-6">
                             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-4">
                                 <span class="shrink-0">Narasi Kebudayaan</span>
                                 <div class="flex-1 h-px bg-slate-100"></div>
                             </h3>
-                            <div class="p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
+                            <div class="p-5 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] bg-indigo-50/10 border border-indigo-100/30 overflow-hidden">
                                 <div class="prose prose-slate max-w-none w-full break-words">
-                                    <p class="text-slate-700 leading-[1.8] sm:leading-[2] font-medium text-base sm:text-lg italic">
+                                    <p class="text-slate-700 leading-relaxed sm:leading-[2] font-medium text-sm sm:text-lg italic">
                                         "{{ $submission->description }}"
                                     </p>
                                 </div>
@@ -178,7 +178,7 @@
                                 <span class="shrink-0">Detail {{ $submission->category }}</span>
                                 <div class="flex-1 h-px bg-slate-100"></div>
                             </h3>
-                            <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 border border-slate-100">
+                            <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100">
                                 @php
                                     $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
                                     $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
@@ -230,18 +230,18 @@
                                                         <div class="bg-white rounded-[1.5rem] border border-slate-100 overflow-hidden shadow-sm mt-3">
                                                             <div class="overflow-x-auto">
                                                                 <table class="w-full text-left text-sm min-w-max">
-                                                                    <thead class="bg-slate-50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                                                                    <thead class="bg-slate-50 border-b border-slate-100 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                                                                         <tr>
                                                                             @foreach(array_keys($displayValue[0]) as $colKey)
-                                                                                <th class="px-6 py-4">{{ str_replace('_', ' ', $colKey) }}</th>
+                                                                                <th class="px-4 sm:px-6 py-3 sm:py-4">{{ str_replace('_', ' ', $colKey) }}</th>
                                                                             @endforeach
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody class="divide-y divide-slate-50 text-slate-600 font-medium text-sm">
+                                                                    <tbody class="divide-y divide-slate-50 text-slate-600 font-medium text-xs sm:text-sm">
                                                                         @foreach($displayValue as $row)
                                                                             <tr class="hover:bg-slate-50/50 transition-colors">
                                                                                 @foreach($row as $cell)
-                                                                                    <td class="px-6 py-4">{{ is_array($cell) ? implode(', ', $cell) : $cell }}</td>
+                                                                                    <td class="px-4 sm:px-6 py-3 sm:py-4">{{ is_array($cell) ? implode(', ', $cell) : $cell }}</td>
                                                                                 @endforeach
                                                                             </tr>
                                                                         @endforeach
@@ -305,7 +305,7 @@
                 <!-- Sidebar -->
                 <div class="lg:col-span-4 space-y-8 min-w-0">
                     <!-- Verification Badge -->
-                    <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20 group reveal reveal-up">
+                    <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20 group reveal reveal-up">
                         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPjwvc3ZnPg==')] opacity-50"></div>
                         <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#00B4D8]/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                         

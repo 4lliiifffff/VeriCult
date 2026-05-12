@@ -21,13 +21,21 @@ class PublicCulturalController extends Controller
             ->pluck('period_year')
             ->toArray();
 
-        // Default to the latest year available, or current year if none
         $defaultYear = !empty($availableYears) ? $availableYears[0] : date('Y');
-        $activeYear = $request->input('year', $defaultYear);
+        $activeYear = $request->input('year');
+        
+        // If year is not explicitly set, use default. If it is set to empty (Semua Periode), activeYear will be empty string.
+        if ($activeYear === null) {
+            $activeYear = $defaultYear;
+        }
 
         $query = CulturalSubmission::published()
-            ->where('period_year', $activeYear)
             ->with('files');
+
+        // Only filter by year if it's not empty (i.e., not 'Semua Periode')
+        if (!empty($activeYear)) {
+            $query->where('period_year', $activeYear);
+        }
 
         // Filter by category
         if ($request->filled('category')) {

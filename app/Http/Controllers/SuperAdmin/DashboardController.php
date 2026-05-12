@@ -65,11 +65,17 @@ class DashboardController extends Controller
             $availableYears = [(int)date('Y')];
         }
 
-        $defaultYear = $availableYears[0];
-        $activeYear = request('year', $defaultYear);
+        $defaultYear = !empty($availableYears) ? $availableYears[0] : date('Y');
+        $activeYear = request('year');
+        if ($activeYear === null) {
+            $activeYear = $defaultYear;
+        }
 
         // Base query filtered by year
-        $yearQuery = CulturalSubmission::where('period_year', $activeYear);
+        $yearQuery = CulturalSubmission::query();
+        if (!empty($activeYear)) {
+            $yearQuery->where('period_year', $activeYear);
+        }
 
         // Basic Stats for active year
         $totalSubmissionsThisYear = (clone $yearQuery)->count();
@@ -126,9 +132,9 @@ class DashboardController extends Controller
 
         // 5. Village Comparison (Total vs Aktif)
         $villageComparison = Village::withCount([
-            'submissions' => fn($q) => $q->where('period_year', $activeYear),
-            'submissions as aktif_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'aktif'),
-            'submissions as opk_count' => fn($q) => $q->where('period_year', $activeYear)->where('submission_type', 'opk'),
+            'submissions' => fn($q) => empty($activeYear) ? $q : $q->where('period_year', $activeYear),
+            'submissions as aktif_count' => fn($q) => empty($activeYear) ? $q->where('submission_type', 'aktif') : $q->where('period_year', $activeYear)->where('submission_type', 'aktif'),
+            'submissions as opk_count' => fn($q) => empty($activeYear) ? $q->where('submission_type', 'opk') : $q->where('period_year', $activeYear)->where('submission_type', 'opk'),
         ])->get();
 
         // 6. Active Culture Category Distribution
@@ -156,8 +162,10 @@ class DashboardController extends Controller
         $kecamatanDistribution = DB::table('kecamatans')
             ->leftJoin('villages', 'kecamatans.id', '=', 'villages.kecamatan_id')
             ->leftJoin('cultural_submissions', function($join) use ($activeYear) {
-                $join->on('villages.id', '=', 'cultural_submissions.village_id')
-                     ->where('cultural_submissions.period_year', '=', $activeYear);
+                $join->on('villages.id', '=', 'cultural_submissions.village_id');
+                if (!empty($activeYear)) {
+                    $join->where('cultural_submissions.period_year', '=', $activeYear);
+                }
             })
             ->select('kecamatans.name', DB::raw('count(cultural_submissions.id) as count'))
             ->groupBy('kecamatans.id', 'kecamatans.name')

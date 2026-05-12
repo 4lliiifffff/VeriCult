@@ -16,7 +16,6 @@
                     </div>
                     <span class="text-xl font-bold tracking-tight transition-colors duration-300"
                         :class="scrolled || mobileMenu ? 'text-[#03045E]' : 'text-[#03045E]'">
-                        Veri<span class="text-[#0077B6]">Cult</span>
                     </span>
                 </a>
             </div>
@@ -126,7 +125,7 @@
             
             <div class="pt-4 mt-2 border-t border-slate-100 flex flex-col space-y-3">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="bg-[#0077B6] text-white py-3 rounded-lg font-bold text-sm text-center shadow-md">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}" class="bg-[#03045E] text-white py-3 rounded-lg font-bold text-sm text-center shadow-md">Dashboard</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="w-full text-rose-500 font-semibold py-2 text-sm">Keluar Sistem</button>

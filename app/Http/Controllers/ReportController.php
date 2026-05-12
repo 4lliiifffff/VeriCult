@@ -60,12 +60,18 @@ class ReportController extends Controller
      */
     public function printComprehensive(Request $request)
     {
-        $activeYear = $request->input('year', date('Y'));
+        $activeYear = $request->input('year');
+        if ($activeYear === null) {
+            $activeYear = date('Y');
+        }
 
         // Query only validated/published data
         $query = CulturalSubmission::with(['user', 'village.kecamatan'])
-            ->whereIn('status', [CulturalSubmission::STATUS_PUBLISHED, CulturalSubmission::STATUS_VERIFIED])
-            ->where('period_year', $activeYear);
+            ->whereIn('status', [CulturalSubmission::STATUS_PUBLISHED, CulturalSubmission::STATUS_VERIFIED]);
+
+        if (!empty($activeYear)) {
+            $query->where('period_year', $activeYear);
+        }
 
         $submissions = $query->get();
 

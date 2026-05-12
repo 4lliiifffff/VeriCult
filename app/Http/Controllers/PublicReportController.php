@@ -12,12 +12,19 @@ class PublicReportController extends Controller
      */
     public function print(Request $request)
     {
-        $activeYear = $request->input('year', date('Y'));
+        $activeYear = $request->input('year');
+        if ($activeYear === null) {
+            $activeYear = date('Y');
+        }
 
         $query = CulturalSubmission::whereIn('status', [
             CulturalSubmission::STATUS_PUBLISHED,
             CulturalSubmission::STATUS_VERIFIED
-        ])->where('period_year', $activeYear);
+        ]);
+
+        if (!empty($activeYear)) {
+            $query->where('period_year', $activeYear);
+        }
 
         $submissions = $query->latest('published_at')->get();
         $categoryStats = $submissions->groupBy('category')->map->count();

@@ -85,22 +85,6 @@
                 <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Validasi Objek</div>
             </a>
 
-            <!-- Pengajuan Saya -->
-            <a href="{{ route('validator.cultural.index') }}" 
-               :class="sidebarMinimized ? 'justify-center !px-0' : ''"
-               @class([
-                   'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
-                   'bg-[#03045E]/5 text-[#03045E]' => request()->routeIs('validator.cultural.*'),
-                   'text-slate-500 hover:bg-slate-50 hover:text-[#03045E]' => !request()->routeIs('validator.cultural.*')
-               ])>
-                <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
-                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 {{ request()->routeIs('validator.cultural.*') ? 'text-[#03045E]' : 'text-slate-400 group-hover:text-[#03045E]' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </div>
-                <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Pengajuan Saya</span>
-                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Pengajuan Saya</div>
-            </a>
 
             <!-- Laporan Kebudayaan -->
             <a href="{{ route('reports.index') }}" 
