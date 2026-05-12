@@ -12,9 +12,7 @@
              :class="sidebarMinimized ? 'scale-110' : 'scale-100'">
             <!-- Icon -->
             <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] p-2 rounded-xl shadow-lg shadow-blue-900/20 flex-shrink-0 transition-all duration-300 group-hover:scale-105">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+                <img class="w-6 h-6" src="{{ asset('Logo/Putih/Logo-Sistem-W.png') }}" alt="Logo VeriCult">
             </div>
             
             <!-- Text -->
