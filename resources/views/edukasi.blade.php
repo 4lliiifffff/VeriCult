@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edukasi Kebudayaan - VeriCult</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <meta name="description" content="Pelajari lebih dalam mengenai Objek Pemajuan Kebudayaan, Cagar Budaya, dan pentingnya pelestarian budaya Indonesia melalui VeriCult.">
     
     <!-- Fonts -->

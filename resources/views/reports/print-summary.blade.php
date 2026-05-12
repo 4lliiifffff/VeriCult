@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rekapitulasi Data Kebudayaan {{ $activeCategory ? '- ' . $activeCategory : '(Semua Kategori)' }}</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <style>
         body { font-family: 'Arial', sans-serif; color: #333; line-height: 1.4; padding: 20px; font-size: 12px; }
         .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
