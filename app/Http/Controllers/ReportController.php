@@ -54,4 +54,56 @@ class ReportController extends Controller
 
         return view('reports.print-summary', compact('groupedSubmissions', 'activeCategory'));
     }
+
+    /**
+     * Print a comprehensive report (Overall, Kecamatan, Desa).
+     */
+    public function printComprehensive(Request $request)
+    {
+        $activeYear = $request->input('year', date('Y'));
+
+        // Query only validated/published data
+        $query = CulturalSubmission::with(['user', 'village.kecamatan'])
+            ->whereIn('status', [CulturalSubmission::STATUS_PUBLISHED, CulturalSubmission::STATUS_VERIFIED])
+            ->where('period_year', $activeYear);
+
+        $submissions = $query->get();
+
+        // 1. Overall Stats
+        $totalSubmissions = $submissions->count();
+        $categoryStats = $submissions->groupBy('category')->map->count();
+
+        // 2. Kecamatan Stats
+        $kecamatanStats = $submissions->groupBy(function($sub) {
+            return $sub->village->kecamatan->name ?? 'Tanpa Wilayah';
+        })->map->count()->sortDesc();
+
+        $topKecamatan = $kecamatanStats->keys()->first();
+        $topKecamatanCount = $kecamatanStats->first();
+
+        // 3. Desa Stats
+        $desaStats = $submissions->groupBy(function($sub) {
+            return $sub->village->name ?? 'Tanpa Desa';
+        })->map->count()->sortDesc();
+
+        $topDesa = $desaStats->keys()->first();
+        $topDesaCount = $desaStats->first();
+
+        // Auto-generated Analysis Text
+        $analysisText = [
+            'overall' => "Pada tahun {$activeYear}, terdapat total {$totalSubmissions} data kebudayaan tervalidasi.",
+            'kecamatan' => $totalSubmissions > 0 && $topKecamatan ? "Kecamatan dengan kontribusi pengajuan data terbanyak adalah Kecamatan {$topKecamatan} dengan total {$topKecamatanCount} data." : "Belum ada persebaran data per kecamatan yang valid.",
+            'desa' => $totalSubmissions > 0 && $topDesa ? "Sedangkan pada tingkat desa/kelurahan, Desa {$topDesa} menjadi penyumbang data terbanyak dengan {$topDesaCount} usulan." : "Belum ada persebaran data per desa yang valid."
+        ];
+
+        return view('reports.print-comprehensive', compact(
+            'activeYear',
+            'submissions',
+            'totalSubmissions',
+            'categoryStats',
+            'kecamatanStats',
+            'desaStats',
+            'analysisText'
+        ));
+    }
 }
