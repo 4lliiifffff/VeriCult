@@ -125,6 +125,14 @@
             const data = typeTrendData[m] || [];
             return (data.find(d => d.submission_type === 'opk') || {count: 0}).count;
         });
+        const potensiData = monthsEng.map(m => {
+            const data = typeTrendData[m] || [];
+            return (data.find(d => d.submission_type === 'potensi-kebudayaan') || {count: 0}).count;
+        });
+        const cagarBudayaData = monthsEng.map(m => {
+            const data = typeTrendData[m] || [];
+            return (data.find(d => d.submission_type === 'cagar-budaya') || {count: 0}).count;
+        });
         const aktifData = monthsEng.map(m => {
             const data = typeTrendData[m] || [];
             return (data.find(d => d.submission_type === 'aktif') || {count: 0}).count;
@@ -149,10 +157,36 @@
                         pointBorderWidth: 2
                     },
                     {
-                        label: 'Aktif',
-                        data: aktifData,
+                        label: 'Potensi',
+                        data: potensiData,
+                        borderColor: '#F59E0B',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#F59E0B',
+                        pointBorderWidth: 2
+                    },
+                    {
+                        label: 'Cagar Budaya',
+                        data: cagarBudayaData,
                         borderColor: '#F72585',
                         backgroundColor: 'rgba(247, 37, 133, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#F72585',
+                        pointBorderWidth: 2
+                    },
+                    {
+                        label: 'Aktif',
+                        data: aktifData,
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         fill: true,
                         tension: 0.4,
                         borderWidth: 4,
@@ -188,24 +222,18 @@
             }
         });
 
-        // 4. Village Comparison
-        const villageCtx = document.getElementById('villageChart').getContext('2d');
-        const villageData = {!! json_encode($villageComparison) !!};
-        new Chart(villageCtx, {
+        // 4. Kecamatan Distribution
+        const kecamatanCtx = document.getElementById('kecamatanChart').getContext('2d');
+        const kecamatanData = {!! json_encode($kecamatanDistribution) !!};
+        new Chart(kecamatanCtx, {
             type: 'bar',
             data: {
-                labels: villageData.map(v => v.name.replace('Desa ', '').replace('Kelurahan ', '')),
+                labels: kecamatanData.map(v => v.name.replace('Kecamatan ', '')),
                 datasets: [
                     {
-                        label: 'OPK',
-                        data: villageData.map(v => v.opk_count),
+                        label: 'Total Pengajuan',
+                        data: kecamatanData.map(v => v.count),
                         backgroundColor: '#4361EE',
-                        borderRadius: 5,
-                    },
-                    {
-                        label: 'Aktif',
-                        data: villageData.map(v => v.aktif_count),
-                        backgroundColor: '#4CC9F0',
                         borderRadius: 5,
                     }
                 ]
@@ -222,11 +250,12 @@
                     }
                 },
                 scales: {
-                    x: { beginAtZero: true, grid: { color: '#F8FAFC', drawBorder: false } },
+                    x: { beginAtZero: true, grid: { color: '#F8FAFC', drawBorder: false }, ticks: { precision: 0 } },
                     y: { grid: { display: false }, ticks: { font: { weight: '800', size: 10 }, color: '#334155' } }
                 }
             }
         });
+
 
         // 5. Active Category (Aktif)
         const activeCatCtx = document.getElementById('activeCatChart').getContext('2d');
@@ -380,39 +409,102 @@
                 </div>
             </div>
 
-            <!-- Submissions Insight -->
-            <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                <!-- Total Submissions -->
-                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
-                    <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Total Pengajuan ({{ $activeYear }})</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums">{{ $totalSubmissionsThisYear }}</h3>
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-[#03045E] flex items-center justify-center group-hover:bg-[#03045E] group-hover:text-white transition-all">
-                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <!-- Submissions Workflow & Insight -->
+            <div class="lg:col-span-3 space-y-6">
+                <!-- Status Breakdown -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Draft -->
+                    <div class="bg-white rounded-[2rem] p-5 sm:p-6 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
+                        <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Draf ({{ $activeYear }})</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-2xl sm:text-3xl font-black text-slate-600 tabular-nums">{{ $draftCount }}</h3>
+                        </div>
+                    </div>
+                    <!-- In Review -->
+                    <div class="bg-white rounded-[2rem] p-5 sm:p-6 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
+                        <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Direview ({{ $activeYear }})</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-2xl sm:text-3xl font-black text-[#4361EE] tabular-nums">{{ $reviewCount }}</h3>
+                        </div>
+                    </div>
+                    <!-- Verified -->
+                    <div class="bg-white rounded-[2rem] p-5 sm:p-6 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
+                        <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Diverifikasi ({{ $activeYear }})</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-2xl sm:text-3xl font-black text-[#10B981] tabular-nums">{{ $verifiedThisYear }}</h3>
+                        </div>
+                    </div>
+                    <!-- Published -->
+                    <div class="bg-white rounded-[2rem] p-5 sm:p-6 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
+                        <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Dipublikasi ({{ $activeYear }})</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-2xl sm:text-3xl font-black text-[#03045E] tabular-nums">{{ $publishedThisYear }}</h3>
                         </div>
                     </div>
                 </div>
 
-                <!-- Verified -->
-                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
-                    <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Diverifikasi ({{ $activeYear }})</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-3xl sm:text-4xl font-black text-[#4361EE] tabular-nums">{{ $verifiedThisYear }}</h3>
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-indigo-50 text-[#4361EE] flex items-center justify-center group-hover:bg-[#4361EE] group-hover:text-white transition-all">
-                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <!-- Types Breakdown -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- OPK -->
+                    <div class="bg-gradient-to-br from-[#4361EE] to-[#3A0CA3] rounded-[2rem] p-5 sm:p-6 shadow-2xl shadow-indigo-900/20 text-white relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div class="absolute right-0 top-0 -mt-8 -mr-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-[8px] sm:text-[10px] font-black text-indigo-200 uppercase tracking-[0.2em] mb-2">OPK</p>
+                                <h3 class="text-3xl sm:text-4xl font-black tabular-nums">{{ $opkCount }}</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 ml-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Potensi Kebudayaan -->
+                    <div class="bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-[2rem] p-5 sm:p-6 shadow-2xl shadow-amber-900/20 text-white relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div class="absolute right-0 top-0 -mt-8 -mr-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-[8px] sm:text-[10px] font-black text-amber-200 uppercase tracking-[0.2em] mb-2">Potensi Budaya</p>
+                                <h3 class="text-3xl sm:text-4xl font-black tabular-nums">{{ $potensiCount }}</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 ml-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cagar Budaya -->
+                    <div class="bg-gradient-to-br from-[#F72585] to-[#7209B7] rounded-[2rem] p-5 sm:p-6 shadow-2xl shadow-rose-900/20 text-white relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div class="absolute right-0 top-0 -mt-8 -mr-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-[8px] sm:text-[10px] font-black text-rose-200 uppercase tracking-[0.2em] mb-2">Cagar Budaya</p>
+                                <h3 class="text-3xl sm:text-4xl font-black tabular-nums">{{ $cagarBudayaCount }}</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 ml-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Laporan Aktif -->
+                    <div class="bg-gradient-to-br from-[#10B981] to-[#059669] rounded-[2rem] p-5 sm:p-6 shadow-2xl shadow-emerald-900/20 text-white relative overflow-hidden group hover:-translate-y-1 transition-transform">
+                        <div class="absolute right-0 top-0 -mt-8 -mr-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-[8px] sm:text-[10px] font-black text-emerald-200 uppercase tracking-[0.2em] mb-2">Laporan Aktif</p>
+                                <h3 class="text-3xl sm:text-4xl font-black tabular-nums">{{ $aktifCount }}</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 ml-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Published -->
-                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white group hover:-translate-y-1 transition-all duration-300">
-                    <p class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Dipublikasi ({{ $activeYear }})</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-3xl sm:text-4xl font-black text-[#10B981] tabular-nums">{{ $publishedThisYear }}</h3>
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 text-[#10B981] flex items-center justify-center group-hover:bg-[#10B981] group-hover:text-white transition-all">
-                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553 2.276A1 1 0 0120 13.17V19a2 2 0 01-2 2H6a2 2 0 01-2-2V13.17a1 1 0 01.447-.894L9 10m0 0l3-3m0 0l3 3m-3-3v12"></path></svg>
-                        </div>
-                    </div>
+                <!-- Action Shortcut -->
+                <div class="flex items-center justify-end">
+                    <a href="{{ route('super-admin.cultural-submissions.index') }}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#03045E] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] hover:text-white transition-all shadow-xl shadow-blue-900/10 active:scale-95 gap-2 border border-slate-100 group">
+                        <span>Lihat Detail Pengajuan</span>
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -445,16 +537,19 @@
                 </div>
             </div>
 
-            <!-- Village Comparison -->
+            <!-- Kecamatan Distribution -->
             <div class="lg:col-span-2 bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white">
                 <div class="flex items-center justify-between mb-8 sm:mb-10">
                     <div>
-                        <h3 class="text-base sm:text-lg font-black text-[#03045E]">Performa Wilayah</h3>
-                        <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Produktivitas Desa & Kelurahan</p>
+                        <h3 class="text-base sm:text-lg font-black text-[#03045E]">Distribusi Laporan Kecamatan</h3>
+                        <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Produktivitas per Kecamatan ({{ $activeYear }})</p>
                     </div>
+                    <a href="{{ route('super-admin.kecamatans.index') }}" class="px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[9px] sm:text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all whitespace-nowrap">
+                        Kelola Wilayah
+                    </a>
                 </div>
                 <div class="h-64 sm:h-80 relative">
-                    <canvas id="villageChart"></canvas>
+                    <canvas id="kecamatanChart"></canvas>
                 </div>
             </div>
 

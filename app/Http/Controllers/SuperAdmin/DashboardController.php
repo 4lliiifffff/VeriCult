@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\AuditLog;
 use App\Models\CulturalSubmission;
 use App\Models\Village;
+use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -74,6 +75,20 @@ class DashboardController extends Controller
         $totalSubmissionsThisYear = (clone $yearQuery)->count();
         $verifiedThisYear = (clone $yearQuery)->where('status', CulturalSubmission::STATUS_VERIFIED)->count();
         $publishedThisYear = (clone $yearQuery)->where('status', CulturalSubmission::STATUS_PUBLISHED)->count();
+        $draftCount = (clone $yearQuery)->where('status', CulturalSubmission::STATUS_DRAFT)->count();
+        $reviewCount = (clone $yearQuery)->whereIn('status', [
+            CulturalSubmission::STATUS_SUBMITTED,
+            CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
+            CulturalSubmission::STATUS_FIELD_VERIFICATION
+        ])->count();
+
+        // Submission Types Stats
+        $opkCount = (clone $yearQuery)->where('submission_type', 'opk')->count();
+        $potensiCount = (clone $yearQuery)->where('submission_type', 'potensi-kebudayaan')->count();
+        $cagarBudayaCount = (clone $yearQuery)->where('submission_type', 'cagar-budaya')->count();
+        $aktifCount = (clone $yearQuery)->where('submission_type', 'aktif')->count();
+
+
 
         // 1. Status Distribution Chart
         $statusStats = (clone $yearQuery)->select('status', DB::raw('count(*) as count'))
@@ -137,6 +152,20 @@ class DashboardController extends Controller
         ->get()
         ->groupBy('month_name');
 
+        // 8. Kecamatan Distribution
+        $kecamatanDistribution = DB::table('kecamatans')
+            ->leftJoin('villages', 'kecamatans.id', '=', 'villages.kecamatan_id')
+            ->leftJoin('cultural_submissions', function($join) use ($activeYear) {
+                $join->on('villages.id', '=', 'cultural_submissions.village_id')
+                     ->where('cultural_submissions.period_year', '=', $activeYear);
+            })
+            ->select('kecamatans.name', DB::raw('count(cultural_submissions.id) as count'))
+            ->groupBy('kecamatans.id', 'kecamatans.name')
+            ->orderBy('count', 'desc')
+            ->take(10)
+            ->get();
+
+
         // Return existing view with charts data
         return view('super-admin.dashboard', compact(
             'totalUsers', 
@@ -154,13 +183,20 @@ class DashboardController extends Controller
             'totalSubmissionsThisYear',
             'verifiedThisYear',
             'publishedThisYear',
+            'draftCount',
+            'reviewCount',
+            'opkCount',
+            'potensiCount',
+            'cagarBudayaCount',
+            'aktifCount',
             'statusStats',
             'categoryStats',
             'monthlyTrend',
             'yearlyComparison',
             'villageComparison',
             'aktifCategoryStats',
-            'typeTrend'
+            'typeTrend',
+            'kecamatanDistribution'
         ));
     }
 
