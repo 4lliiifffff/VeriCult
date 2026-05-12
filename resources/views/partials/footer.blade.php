@@ -1,8 +1,8 @@
-    <footer class="bg-white border-t border-slate-100 pt-20 pb-12 relative overflow-hidden">
+    <footer class="bg-white border-t border-slate-100 pt-12 sm:pt-20 pb-8 sm:pb-12 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 pb-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-12 pb-12 sm:pb-16">
                 <!-- Brand -->
-                <div class="col-span-2">
+                <div class="sm:col-span-2">
                     <a href="{{ route('beranda') }}" class="flex items-center space-x-3 mb-6">
                         <div class="w-8 h-8 bg-[#03045E] rounded-lg flex items-center justify-center shadow-md">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -11,7 +11,7 @@
                         </div>
                         <span class="text-xl font-bold tracking-tight text-[#03045E]">Veri<span class="text-[#0077B6]">Cult</span></span>
                     </a>
-                    <p class="text-slate-500 text-sm leading-relaxed max-w-sm mb-8">
+                    <p class="text-slate-500 text-sm leading-relaxed max-w-sm mb-6 sm:mb-8">
                         {{ $site_global['footer_description'] ?? 'Platform verifikasi digital terpercaya untuk melestarikan dan mengabsahkan kekayaan budaya Nusantara.' }}
                     </p>
                     <!-- Social Links -->
@@ -91,9 +91,9 @@
             </div>
 
             <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center text-slate-400 text-xs">
+            <div class="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center text-slate-400 text-[10px] sm:text-xs text-center md:text-left space-y-4 md:space-y-0">
                 <p>&copy; {{ date('Y') }} {{ $site_global['site_name'] ?? 'VeriCult' }}. Indonesia Digital Heritage.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
+                <div class="flex space-x-6">
                     <a href="#" class="hover:text-[#0077B6] transition-colors">Privasi</a>
                     <a href="#" class="hover:text-[#0077B6] transition-colors">Ketentuan</a>
                 </div>
