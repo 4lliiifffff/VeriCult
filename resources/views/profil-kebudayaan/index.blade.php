@@ -72,12 +72,12 @@
                 <!-- Category Filter & Print Button -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4">
                     <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide w-full sm:w-auto">
-                        <a href="{{ route('profil-kebudayaan.index') }}" 
+                        <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('category', 'page'), [])) }}" 
                            class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ !$activeCategory ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
                             Semua
                         </a>
                         @foreach($categories as $category)
-                            <a href="{{ route('profil-kebudayaan.index', ['category' => $category]) }}" 
+                            <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('page'), ['category' => $category])) }}" 
                                class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
                                 {{ ucfirst(str_replace('_', ' ', $category)) }}
                             </a>
@@ -95,7 +95,7 @@
                     <div class="absolute -right-24 -top-24 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
                     <div class="absolute -left-24 -bottom-24 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
                     
-                    <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="grid md:grid-cols-12 gap-6 relative z-10">
+                    <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="grid md:grid-cols-12 gap-6 relative z-10 auto-submit">
                         @if(request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
                         @endif
@@ -104,11 +104,10 @@
                             <x-dropdown-select 
                                 name="year" 
                                 id="year" 
-                                placeholder="Pilih Periode"
-                                all-label="Semua Periode"
+                                placeholder="Semua Periode"
                                 variant="light"
                                 :selected="$activeYear" 
-                                :options="!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')]" 
+                                :options="['all' => 'Semua Periode'] + (!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')])" 
                             />
                         </div>
 

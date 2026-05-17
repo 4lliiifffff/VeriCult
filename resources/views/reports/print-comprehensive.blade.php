@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laporan Komprehensif Kebudayaan - Tahun {{ $activeYear }}</title>
+    <title>Laporan Komprehensif Kebudayaan - {{ ($activeYear && $activeYear !== 'all') ? 'Tahun ' . $activeYear : 'Semua Periode' }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -120,8 +120,8 @@
             body { padding: 0; }
             @page { margin: 1.5cm; }
             .no-print, button { display: none !important; }
-            .page-break-inside-avoid { page-break-inside: avoid; }
             .page-break-before { page-break-before: always; }
+            tr { page-break-inside: avoid; }
         }
         
         .btn-print { 
@@ -154,11 +154,11 @@
     <div class="header">
         <h1>LAPORAN KOMPREHENSIF DATA KEBUDAYAAN</h1>
         <p>Sistem Informasi Verifikasi Kebudayaan (VeriCult)</p>
-        <p><strong>Periode Analisis: Tahun {{ $activeYear }}</strong></p>
+        <p><strong>Periode Analisis: {{ ($activeYear && $activeYear !== 'all') ? 'Tahun ' . $activeYear : 'Semua Periode' }}</strong></p>
     </div>
 
     <!-- Bagian 1: Keseluruhan -->
-    <div class="page-break-inside-avoid">
+    <div>
         <div class="section-title">1. Tinjauan Keseluruhan</div>
         
         <div class="analysis-box">

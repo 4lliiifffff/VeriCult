@@ -61,15 +61,15 @@ class ReportController extends Controller
     public function printComprehensive(Request $request)
     {
         $activeYear = $request->input('year');
-        if ($activeYear === null) {
-            $activeYear = date('Y');
+        if ($activeYear === null || $activeYear === '') {
+            $activeYear = 'all';
         }
 
         // Query only validated/published data
         $query = CulturalSubmission::with(['user', 'village.kecamatan'])
             ->whereIn('status', [CulturalSubmission::STATUS_PUBLISHED, CulturalSubmission::STATUS_VERIFIED]);
 
-        if (!empty($activeYear)) {
+        if (!empty($activeYear) && $activeYear !== 'all') {
             $query->where('period_year', $activeYear);
         }
 
@@ -97,7 +97,7 @@ class ReportController extends Controller
 
         // Auto-generated Analysis Text
         $analysisText = [
-            'overall' => "Pada tahun {$activeYear}, terdapat total {$totalSubmissions} data kebudayaan tervalidasi.",
+            'overall' => "Pada " . ($activeYear && $activeYear !== 'all' ? "tahun {$activeYear}" : "Semua Periode") . ", terdapat total {$totalSubmissions} data kebudayaan tervalidasi.",
             'kecamatan' => $totalSubmissions > 0 && $topKecamatan ? "Kecamatan dengan kontribusi pengajuan data terbanyak adalah Kecamatan {$topKecamatan} dengan total {$topKecamatanCount} data." : "Belum ada persebaran data per kecamatan yang valid.",
             'desa' => $totalSubmissions > 0 && $topDesa ? "Sedangkan pada tingkat desa/kelurahan, Desa {$topDesa} menjadi penyumbang data terbanyak dengan {$topDesaCount} usulan." : "Belum ada persebaran data per desa yang valid."
         ];

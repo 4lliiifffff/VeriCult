@@ -74,10 +74,14 @@ class CulturalSubmissionSeeder extends Seeder
                 foreach ($categories as $category) {
                     // Create multiple submissions per category per year for variety
                     for ($i = 0; $i < 2; $i++) {
-                        $status = $statuses[array_rand($statuses)];
+                        // Force the first item to be PUBLISHED for guaranteed published data across all categories and years!
+                        $status = $i === 0 ? CulturalSubmission::STATUS_PUBLISHED : $statuses[array_rand($statuses)];
                         $village = $allVillages->random();
                         $name = $category . ' - ' . $village->name . ' - ' . $year . ' (' . ($i + 1) . ')';
-                        
+                        $submittedAt = Carbon::create($year, rand(1, 6), rand(1, 28), rand(9, 17));
+                        $verifiedAt = in_array($status, [CulturalSubmission::STATUS_VERIFIED, CulturalSubmission::STATUS_PUBLISHED]) ? (clone $submittedAt)->addDays(rand(5, 15)) : null;
+                        $publishedAt = $status === CulturalSubmission::STATUS_PUBLISHED ? (clone $verifiedAt)->addDays(rand(2, 7)) : null;
+
                         $submission = CulturalSubmission::create([
                             'user_id' => $pengusul->id,
                             'village_id' => $village->id,
@@ -90,9 +94,9 @@ class CulturalSubmissionSeeder extends Seeder
                             'status' => $status,
                             'period_year' => $year,
                             'submission_type' => $type,
-                            'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? Carbon::now()->subMonths(rand(1, 12)) : null,
-                            'verified_at' => in_array($status, [CulturalSubmission::STATUS_VERIFIED, CulturalSubmission::STATUS_PUBLISHED]) ? Carbon::now()->subMonths(rand(1, 6)) : null,
-                            'published_at' => $status === CulturalSubmission::STATUS_PUBLISHED ? Carbon::now()->subMonths(rand(1, 3)) : null,
+                            'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? $submittedAt : null,
+                            'verified_at' => $verifiedAt,
+                            'published_at' => $publishedAt,
                         ]);
 
                         $this->seedRelations($submission, $validator);
@@ -102,10 +106,15 @@ class CulturalSubmissionSeeder extends Seeder
 
             // Also seed 'aktif' reports for each year
             for ($i = 0; $i < 5; $i++) {
-                $status = $statuses[array_rand($statuses)];
+                // Ensure at least two are published for comparison
+                $status = $i < 2 ? CulturalSubmission::STATUS_PUBLISHED : $statuses[array_rand($statuses)];
                 $village = $allVillages->random();
                 $name = "Laporan Aktif - " . $village->name . " - " . $year . " - " . ($i + 1);
                 
+                $submittedAt = Carbon::create($year, rand(1, 6), rand(1, 28), rand(9, 17));
+                $verifiedAt = in_array($status, [CulturalSubmission::STATUS_VERIFIED, CulturalSubmission::STATUS_PUBLISHED]) ? (clone $submittedAt)->addDays(rand(5, 15)) : null;
+                $publishedAt = $status === CulturalSubmission::STATUS_PUBLISHED ? (clone $verifiedAt)->addDays(rand(2, 7)) : null;
+
                 $submission = CulturalSubmission::create([
                     'user_id' => $pengusulDesa ? $pengusulDesa->id : $pengusul->id,
                     'village_id' => $village->id,
@@ -124,9 +133,9 @@ class CulturalSubmissionSeeder extends Seeder
                     'status' => $status,
                     'period_year' => $year,
                     'submission_type' => 'aktif',
-                    'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? Carbon::now()->subMonths(rand(1, 12)) : null,
-                    'verified_at' => in_array($status, [CulturalSubmission::STATUS_VERIFIED, CulturalSubmission::STATUS_PUBLISHED]) ? Carbon::now()->subMonths(rand(1, 6)) : null,
-                    'published_at' => $status === CulturalSubmission::STATUS_PUBLISHED ? Carbon::now()->subMonths(rand(1, 3)) : null,
+                    'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? $submittedAt : null,
+                    'verified_at' => $verifiedAt,
+                    'published_at' => $publishedAt,
                 ]);
 
                 $this->seedRelations($submission, $validator);

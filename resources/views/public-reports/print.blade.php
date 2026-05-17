@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laporan Publik Kebudayaan - Tahun {{ $activeYear }}</title>
+    <title>Laporan Publik Kebudayaan - {{ ($activeYear && $activeYear !== 'all') ? 'Tahun ' . $activeYear : 'Semua Periode' }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -85,13 +85,14 @@
             text-align: right; 
             font-size: 13px; 
             color: var(--text-muted);
+            page-break-inside: avoid;
         }
         
         @media print {
             body { padding: 0; }
             @page { margin: 1.5cm; }
             .no-print, button { display: none !important; }
-            .page-break-inside-avoid { page-break-inside: avoid; }
+            tr { page-break-inside: avoid; }
         }
         
         .btn-print { 
@@ -124,17 +125,17 @@
     <div class="header">
         <h1>LAPORAN PUBLIK DATA KEBUDAYAAN TERVALIDASI</h1>
         <p>Sistem Informasi Verifikasi Kebudayaan (VeriCult)</p>
-        <p><strong>Periode Tahun:</strong> {{ $activeYear }}</p>
+        <p><strong>Periode Tahun:</strong> {{ ($activeYear && $activeYear !== 'all') ? $activeYear : 'Semua Periode' }}</p>
     </div>
 
     @if(!$categoryStats->isEmpty())
-    <div class="chart-container page-break-inside-avoid">
+    <div class="chart-container" style="page-break-inside: avoid;">
         <h3 style="margin-bottom: 10px; color: #03045E; font-size: 14px;">Distribusi Berdasarkan Kategori</h3>
         <canvas id="categoryChart"></canvas>
     </div>
     @endif
 
-    <div class="page-break-inside-avoid">
+    <div>
         <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Rincian Data Kebudayaan ({{ $submissions->count() }} Data)</h3>
         <table>
             <thead>

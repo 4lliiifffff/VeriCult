@@ -22,18 +22,18 @@ class PublicCulturalController extends Controller
             ->toArray();
 
         $defaultYear = !empty($availableYears) ? $availableYears[0] : date('Y');
-        $activeYear = $request->input('year');
         
-        // If year is not explicitly set, use default. If it is set to empty (Semua Periode), activeYear will be empty string.
-        if ($activeYear === null) {
+        if (!$request->has('year')) {
             $activeYear = $defaultYear;
+        } else {
+            $activeYear = $request->input('year');
         }
 
         $query = CulturalSubmission::published()
             ->with('files');
 
-        // Only filter by year if it's not empty (i.e., not 'Semua Periode')
-        if (!empty($activeYear)) {
+        // Only filter by year if it's not empty and not 'all' (Semua Periode)
+        if (!empty($activeYear) && $activeYear !== 'all') {
             $query->where('period_year', $activeYear);
         }
 

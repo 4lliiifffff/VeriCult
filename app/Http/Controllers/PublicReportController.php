@@ -12,17 +12,15 @@ class PublicReportController extends Controller
      */
     public function print(Request $request)
     {
-        $activeYear = $request->input('year');
-        if ($activeYear === null) {
-            $activeYear = date('Y');
+        if (!$request->has('year') || $request->input('year') === null || $request->input('year') === '') {
+            $activeYear = 'all';
+        } else {
+            $activeYear = $request->input('year');
         }
 
-        $query = CulturalSubmission::whereIn('status', [
-            CulturalSubmission::STATUS_PUBLISHED,
-            CulturalSubmission::STATUS_VERIFIED
-        ]);
+        $query = CulturalSubmission::published();
 
-        if (!empty($activeYear)) {
+        if (!empty($activeYear) && $activeYear !== 'all') {
             $query->where('period_year', $activeYear);
         }
 

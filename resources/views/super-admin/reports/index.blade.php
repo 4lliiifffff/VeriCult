@@ -42,10 +42,14 @@
                         />
                     </form>
                     <div class="hidden sm:block h-12 w-px bg-slate-200 mx-2"></div>
-                    <div>
-                        <a href="{{ route('reports.print', ['category' => $activeCategory]) }}" target="_blank" class="w-full sm:w-auto bg-[#03045E] text-white px-8 py-4 sm:py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 group group/print">
-                            <svg class="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                            Cetak Laporan
+                    <div class="w-full sm:w-auto mt-2 sm:mt-0 flex flex-col sm:flex-row gap-2.5">
+                        <a href="{{ route('reports.print', ['category' => $activeCategory]) }}" target="_blank" class="w-full sm:w-auto bg-slate-100 text-[#03045E] border-2 border-slate-200/80 px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-200 transition-all active:scale-95 group group/print1">
+                            <svg class="w-4 h-4 group-hover/print1:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            Cetak Ringkasan
+                        </a>
+                        <a href="{{ route('reports.print-comprehensive', ['year' => 'all']) }}" target="_blank" class="w-full sm:w-auto bg-[#03045E] text-white px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 group group/print2">
+                            <svg class="w-4 h-4 group-hover/print2:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            Cetak Laporan Lengkap
                         </a>
                     </div>
                 </div>

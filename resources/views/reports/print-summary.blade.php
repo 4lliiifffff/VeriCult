@@ -85,6 +85,7 @@
             text-align: right; 
             font-size: 13px; 
             color: var(--text-muted);
+            page-break-inside: avoid;
         }
         .footer .sign-area { 
             margin-top: 80px; 
@@ -96,7 +97,7 @@
             body { padding: 0; }
             @page { margin: 1.5cm; }
             .no-print, button { display: none !important; }
-            .page-break-inside-avoid { page-break-inside: avoid; }
+            tr { page-break-inside: avoid; }
         }
         
         .btn-print { 
@@ -134,7 +135,7 @@
 
     @forelse($groupedSubmissions as $category => $submissions)
         <div class="cat-title">{{ $category }} ({{ $submissions->count() }} Data)</div>
-        <table class="page-break-inside-avoid">
+        <table>
             <thead>
                 <tr>
                     <th style="width: 5%">No</th>
