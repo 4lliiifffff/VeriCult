@@ -6,29 +6,116 @@
     <title>Laporan Publik Kebudayaan - Tahun {{ $activeYear }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800&display=swap" rel="stylesheet" />
     <style>
-        body { font-family: 'Arial', sans-serif; color: #333; line-height: 1.4; padding: 20px; font-size: 12px; }
-        .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
-        .header h1 { margin: 0; font-size: 22px; text-transform: uppercase; color: #03045E; }
-        .header p { margin: 5px 0 0; color: #555; font-size: 13px; }
+        :root {
+            --primary: #03045E;
+            --secondary: #0077B6;
+            --accent: #00B4D8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --bg-light: #f8fafc;
+        }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            color: var(--text-dark); 
+            line-height: 1.5; 
+            padding: 40px; 
+            font-size: 13px; 
+            background: #fff;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .header { 
+            text-align: center; 
+            border-bottom: 3px solid var(--primary); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px; 
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 24px; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            color: var(--primary); 
+            letter-spacing: 0.05em;
+        }
+        .header p { 
+            margin: 8px 0 0; 
+            color: var(--text-muted); 
+            font-size: 14px; 
+            font-weight: 500;
+        }
         
-        .chart-container { width: 500px; height: 300px; margin: 0 auto 30px; text-align: center; }
+        .chart-container { 
+            width: 100%; 
+            max-width: 600px;
+            height: 350px; 
+            margin: 0 auto 40px; 
+            text-align: center; 
+        }
         
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        table th, table td { padding: 8px 10px; border: 1px solid #ccc; text-align: left; vertical-align: top; }
-        table th { background-color: #f4f4f4; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 30px; 
+        }
+        table th, table td { 
+            padding: 12px 15px; 
+            border: 1px solid var(--border-light); 
+            text-align: left; 
+            vertical-align: middle; 
+        }
+        table th { 
+            background-color: var(--bg-light); 
+            font-weight: 700; 
+            font-size: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+            color: var(--primary);
+        }
+        table tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
         
-        .footer { margin-top: 50px; text-align: right; font-size: 12px; }
+        .footer { 
+            margin-top: 60px; 
+            text-align: right; 
+            font-size: 13px; 
+            color: var(--text-muted);
+        }
         
         @media print {
             body { padding: 0; }
             @page { margin: 1.5cm; }
-            button { display: none; }
+            .no-print, button { display: none !important; }
             .page-break-inside-avoid { page-break-inside: avoid; }
         }
         
-        .btn-print { display: block; margin: 0 auto 20px; padding: 10px 20px; font-size: 16px; background: #0077B6; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-align: center; width: 200px; }
-        .btn-print:hover { background: #023E8A; }
+        .btn-print { 
+            display: block; 
+            margin: 0 auto 30px; 
+            padding: 12px 24px; 
+            font-size: 14px; 
+            font-weight: 700;
+            background: var(--secondary); 
+            color: #fff; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            text-align: center; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-print:hover { 
+            background: var(--primary); 
+            box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>

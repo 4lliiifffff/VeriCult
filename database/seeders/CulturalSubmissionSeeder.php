@@ -91,6 +91,8 @@ class CulturalSubmissionSeeder extends Seeder
                             'period_year' => $year,
                             'submission_type' => $type,
                             'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? Carbon::now()->subMonths(rand(1, 12)) : null,
+                            'verified_at' => in_array($status, [CulturalSubmission::STATUS_VERIFIED, CulturalSubmission::STATUS_PUBLISHED]) ? Carbon::now()->subMonths(rand(1, 6)) : null,
+                            'published_at' => $status === CulturalSubmission::STATUS_PUBLISHED ? Carbon::now()->subMonths(rand(1, 3)) : null,
                         ]);
 
                         $this->seedRelations($submission, $validator);
@@ -123,6 +125,8 @@ class CulturalSubmissionSeeder extends Seeder
                     'period_year' => $year,
                     'submission_type' => 'aktif',
                     'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? Carbon::now()->subMonths(rand(1, 12)) : null,
+                    'verified_at' => in_array($status, [CulturalSubmission::STATUS_VERIFIED, CulturalSubmission::STATUS_PUBLISHED]) ? Carbon::now()->subMonths(rand(1, 6)) : null,
+                    'published_at' => $status === CulturalSubmission::STATUS_PUBLISHED ? Carbon::now()->subMonths(rand(1, 3)) : null,
                 ]);
 
                 $this->seedRelations($submission, $validator);
