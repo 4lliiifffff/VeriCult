@@ -425,7 +425,10 @@
                                 <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline w-full">
                                     @csrf
                                     <button type="submit" @click="submitting = true" class="w-full justify-center bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-5 rounded-[1.25rem] font-black text-xs uppercase tracking-widest hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:-translate-y-1 flex items-center gap-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"></path></svg>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                        </svg>
                                         Publish ke Publik
                                     </button>
                                 </form>
@@ -478,6 +481,28 @@
                                     <p class="text-[10px] font-bold text-slate-400 mt-1">{{ $submission->submitted_at?->format('d M Y, H:i') ?? $submission->created_at->format('d M Y, H:i') }}</p>
                                 </div>
                             </div>
+
+                            @if($submission->review_started_at && $submission->reviewedBy)
+                                <div class="relative flex gap-6 group/item">
+                                    <div class="absolute left-[15px] top-8 bottom-0 w-0.5 bg-slate-100 group-last/item:hidden"></div>
+                                    <div class="relative z-10 w-8 h-8 rounded-full bg-[#0077B6] border-2 border-white flex items-center justify-center text-white shadow-sm">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0 pb-8">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <p class="text-[10px] font-black text-[#03045E] uppercase tracking-wider truncate">Diklaim & Mulai Diproses</p>
+                                            <span class="text-[9px] font-bold text-slate-400 shrink-0">{{ $submission->review_started_at->diffForHumans() }}</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 font-medium mt-1">{{ $submission->review_started_at->format('d M Y, H:i') }}</p>
+                                        <div class="flex items-center gap-2 mt-2">
+                                            <div class="w-5 h-5 rounded-md bg-[#0077B6]/10 flex items-center justify-center text-[9px] font-black text-[#0077B6]">
+                                                {{ strtoupper(substr($submission->reviewedBy->name, 0, 1)) }}
+                                            </div>
+                                            <p class="text-[9px] font-black text-slate-400 border-b border-dotted border-slate-200 pb-0.5 uppercase tracking-tighter">{{ $submission->reviewedBy->name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
                             @foreach($submission->administrativeReviews as $review)
                                 <div class="relative flex gap-6 group/item">
@@ -562,6 +587,42 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            {{-- Terminal states: Verified & Published --}}
+                            @if($submission->verified_at)
+                                <div class="relative flex gap-6 group/item">
+                                    <div class="absolute left-[15px] top-8 bottom-0 w-0.5 bg-slate-100 group-last/item:hidden"></div>
+                                    <div class="relative z-10 w-8 h-8 rounded-full bg-indigo-500 border-2 border-white flex items-center justify-center text-white shadow-sm shadow-indigo-200">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0 pb-8">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <p class="text-[10px] font-black text-indigo-600 uppercase tracking-wider">Diverifikasi</p>
+                                            <span class="text-[9px] font-bold text-slate-400 shrink-0">{{ $submission->verified_at->diffForHumans() }}</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 font-medium mt-1">{{ $submission->verified_at->format('d M Y, H:i') }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($submission->published_at)
+                                <div class="relative flex gap-6 group/item">
+                                    <div class="relative z-10 w-8 h-8 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-sm shadow-emerald-200">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 3l14 9-14 9V3z"></path></svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <p class="text-[10px] font-black text-emerald-600 uppercase tracking-wider">Dipublikasikan</p>
+                                            <span class="text-[9px] font-bold text-slate-400 shrink-0">{{ $submission->published_at->diffForHumans() }}</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 font-medium mt-1">{{ $submission->published_at->format('d M Y, H:i') }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>

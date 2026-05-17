@@ -147,7 +147,8 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
 
         $submission->load([
             'administrativeReviews.validator', 
-            'fieldVerifications.validator'
+            'fieldVerifications.validator',
+            'reviewedBy'
         ]);
         $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
@@ -169,6 +170,20 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
                 'date' => $submission->submitted_at,
                 'icon' => 'submitted',
                 'color' => 'blue'
+            ]);
+        }
+
+        // Claimed & Mulai Diproses
+        if ($submission->review_started_at && $submission->reviewedBy) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
+                'title' => 'Diklaim & Mulai Diproses oleh Validator',
+                'display_status' => 'Proses Review',
+                'date' => $submission->review_started_at,
+                'description' => 'Validator: ' . $submission->reviewedBy->name,
+                'icon' => 'diajukan',
+                'color' => 'indigo'
             ]);
         }
 

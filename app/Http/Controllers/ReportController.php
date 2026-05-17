@@ -12,10 +12,13 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = CulturalSubmission::CATEGORIES;
+        // Exclude 'Laporan Kebudayaan Aktif' — ditampilkan di feed tersendiri
+        $categories = array_filter(CulturalSubmission::CATEGORIES, fn($c) => $c !== CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
         $activeCategory = $request->input('category');
 
-        $query = CulturalSubmission::published()->with(['user']);
+        $query = CulturalSubmission::published()
+            ->with(['user'])
+            ->where('category', '!=', CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
 
         if ($activeCategory) {
             $query->where('category', $activeCategory);
@@ -41,7 +44,9 @@ class ReportController extends Controller
     {
         $activeCategory = $request->input('category');
 
-        $query = CulturalSubmission::published()->with(['user']);
+        $query = CulturalSubmission::published()
+            ->with(['user'])
+            ->where('category', '!=', CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
 
         if ($activeCategory) {
             $query->where('category', $activeCategory);
@@ -65,9 +70,10 @@ class ReportController extends Controller
             $activeYear = 'all';
         }
 
-        // Query only validated/published data
+        // Query only validated/published data — exclude Laporan Kebudayaan Aktif
         $query = CulturalSubmission::with(['user', 'village.kecamatan'])
-            ->whereIn('status', [CulturalSubmission::STATUS_PUBLISHED, CulturalSubmission::STATUS_VERIFIED]);
+            ->whereIn('status', [CulturalSubmission::STATUS_PUBLISHED, CulturalSubmission::STATUS_VERIFIED])
+            ->where('category', '!=', CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
 
         if (!empty($activeYear) && $activeYear !== 'all') {
             $query->where('period_year', $activeYear);

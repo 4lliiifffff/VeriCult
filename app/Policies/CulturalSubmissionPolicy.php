@@ -105,6 +105,14 @@ class CulturalSubmissionPolicy
     }
 
     /**
+     * Determine whether the user can unpublish the submission.
+     */
+    public function unpublish(User $user, CulturalSubmission $submission): bool
+    {
+        return $user->hasRole('validator') && $submission->status === CulturalSubmission::STATUS_PUBLISHED;
+    }
+
+    /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, CulturalSubmission $submission): bool

@@ -12,8 +12,9 @@ class PublicCulturalController extends Controller
      */
     public function index(Request $request)
     {
-        // Get available years with published data
+        // Get available years with published data (exclude Laporan Kebudayaan Aktif)
         $availableYears = CulturalSubmission::published()
+            ->where('category', '!=', CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
             ->select('period_year')
             ->whereNotNull('period_year')
             ->distinct()
@@ -30,7 +31,8 @@ class PublicCulturalController extends Controller
         }
 
         $query = CulturalSubmission::published()
-            ->with('files');
+            ->with('files')
+            ->where('category', '!=', CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
 
         // Only filter by year if it's not empty and not 'all' (Semua Periode)
         if (!empty($activeYear) && $activeYear !== 'all') {
@@ -50,7 +52,8 @@ class PublicCulturalController extends Controller
         // Append query strings so pagination links keep the filters
         $submissions = $query->latest('published_at')->paginate(12)->withQueryString();
 
-        $categories = CulturalSubmission::CATEGORIES;
+        // Exclude 'Laporan Kebudayaan Aktif' — ditampilkan di feed tersendiri
+        $categories = array_filter(CulturalSubmission::CATEGORIES, fn($c) => $c !== CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
         $activeCategory = $request->category;
 
         return view('profil-kebudayaan.index', compact(

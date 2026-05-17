@@ -30,6 +30,8 @@
                     :class="scrolled ? '{{ request()->routeIs('edukasi') ? 'text-[#03045E]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('edukasi') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Edukasi</a>
                 <a href="{{ route('profil-kebudayaan.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('profil-kebudayaan.*') ? 'after:w-full' : '' }}"
                     :class="scrolled ? '{{ request()->routeIs('profil-kebudayaan.*') ? 'text-[#03045E]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('profil-kebudayaan.*') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Profil Budaya</a>
+                <a href="{{ route('kebudayaan-aktif.index') }}" class="text-xs font-semibold tracking-wide transition-all duration-300 hover:opacity-100 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-current after:transition-all hover:after:w-full {{ request()->routeIs('kebudayaan-aktif.*') ? 'after:w-full' : '' }} flex items-center gap-1.5"
+                    :class="scrolled ? '{{ request()->routeIs('kebudayaan-aktif.*') ? 'text-[#03045E]' : 'text-slate-600 hover:text-[#03045E]' }}' : '{{ request()->routeIs('kebudayaan-aktif.*') ? 'text-[#03045E]' : 'text-[#03045E]/80 hover:text-[#03045E]' }}'">Budaya Aktif</a>
 
             </div>
             
@@ -119,6 +121,7 @@
             <a href="{{ route('fitur') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Fitur</a>
             <a href="{{ route('edukasi') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Edukasi</a>
             <a href="{{ route('profil-kebudayaan.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Profil Budaya</a>
+            <a href="{{ route('kebudayaan-aktif.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] flex items-center gap-2" @click="mobileMenu = false">Budaya Aktif<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span></a>
 
             
             <div class="pt-4 mt-2 border-t border-slate-100 flex flex-col space-y-3">

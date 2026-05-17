@@ -18,7 +18,8 @@ class PublicReportController extends Controller
             $activeYear = $request->input('year');
         }
 
-        $query = CulturalSubmission::published();
+        $query = CulturalSubmission::published()
+            ->where('category', '!=', CulturalSubmission::CATEGORY_LAPORAN_AKTIF);
 
         if (!empty($activeYear) && $activeYear !== 'all') {
             $query->where('period_year', $activeYear);

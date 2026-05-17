@@ -205,7 +205,8 @@ class OPKSubmissionController extends Controller implements HasMiddleware
 
         $submission->load([
             'administrativeReviews.validator', 
-            'fieldVerifications.validator'
+            'fieldVerifications.validator',
+            'reviewedBy'
         ]);
 
         $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
@@ -235,6 +236,20 @@ class OPKSubmissionController extends Controller implements HasMiddleware
                 'description' => null,
                 'icon' => 'submitted',
                 'color' => 'blue'
+            ]);
+        }
+
+        // 2b. Claimed & Mulai Diproses
+        if ($submission->review_started_at && $submission->reviewedBy) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
+                'title' => 'Diklaim & Mulai Diproses oleh Validator',
+                'display_status' => 'Proses Review',
+                'date' => $submission->review_started_at,
+                'description' => 'Validator: ' . $submission->reviewedBy->name,
+                'icon' => 'diajukan',
+                'color' => 'indigo'
             ]);
         }
 

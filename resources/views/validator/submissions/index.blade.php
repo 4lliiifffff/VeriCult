@@ -129,6 +129,8 @@
                                     'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]),
                                     'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION,
                                     'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REJECTED,
+                                    'bg-emerald-50 text-emerald-600 border-emerald-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED,
+                                    'bg-teal-50 text-teal-600 border-teal-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED,
                                 ])>
                                     {{ $submission->status_label }}
                                 </span>
@@ -169,6 +171,26 @@
                                             <svg class="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                         </a>
                                     @endif
+                                    @can('publish', $submission)
+                                        <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group/btn shadow-md">
+                                                Publish
+                                                <svg class="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            </button>
+                                        </form>
+                                    @endcan
+
+                                    @can('unpublish', $submission)
+                                        <form action="{{ route('validator.submissions.unpublish', $submission) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group/btn shadow-md">
+                                                Unpublish
+                                                <svg class="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                            </button>
+                                        </form>
+                                    @endcan
+
                                     <a href="{{ route('validator.submissions.show', $submission) }}" class="inline-flex items-center px-4 py-2.5 bg-slate-50 border border-slate-100 text-[#03045E] hover:bg-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group/btn shadow-sm">
                                         Details
                                         <svg class="w-3 h-3 ml-2 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>

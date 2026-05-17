@@ -62,7 +62,7 @@ class SubmissionController extends Controller
     {
         Gate::authorize('view', $submission);
 
-        $submission->load(['user', 'files', 'reviewedBy', 'administrativeReviews.validator']);
+        $submission->load(['user', 'files', 'reviewedBy', 'administrativeReviews.validator', 'fieldVerifications.validator']);
 
         $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
@@ -278,6 +278,18 @@ class SubmissionController extends Controller
                 'verified_at' => $status === CulturalSubmission::STATUS_VERIFIED ? now() : null,
             ];
 
+            if ($submission->category === CulturalSubmission::CATEGORY_LAPORAN_AKTIF) {
+                if (!empty($mergedCategoryData['desa_lokasi'])) {
+                    $village = \App\Models\Village::where('name', 'like', trim($mergedCategoryData['desa_lokasi']))->first();
+                    if ($village) {
+                        $updateData['village_id'] = $village->id;
+                    }
+                }
+                if (!empty($mergedCategoryData['detail_lokasi'])) {
+                    $updateData['address'] = $mergedCategoryData['detail_lokasi'];
+                }
+            }
+
             // Transition from Potensi Cagar Budaya to Cagar Budaya if verified
             if ($status === CulturalSubmission::STATUS_VERIFIED && $submission->category === CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA) {
                 $updateData['category'] = CulturalSubmission::CATEGORY_CAGAR_BUDAYA;
@@ -352,8 +364,42 @@ class SubmissionController extends Controller
         $url = route($routeName, $submission);
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'success', $submission->id));
 
-        return redirect()->route('validator.submissions.show', $submission)
+        return redirect()->back()
             ->with('success', 'Objek kebudayaan berhasil dipublikasikan ke profil publik!');
+    }
+
+    /**
+     * Unpublish a published submission.
+     */
+    public function unpublish(CulturalSubmission $submission)
+    {
+        Gate::authorize('unpublish', $submission);
+
+        if ($submission->status !== CulturalSubmission::STATUS_PUBLISHED) {
+            return redirect()->back()->with('error', 'Hanya pengajuan berstatus "Dipublikasikan" yang dapat ditarik dari publikasi.');
+        }
+
+        $submission->update([
+            'status' => CulturalSubmission::STATUS_VERIFIED,
+            'published_at' => null,
+        ]);
+
+        // Notify the Pengusul
+        $title = 'Publikasi Pengajuan Ditarik';
+        $message = 'Validator telah menarik objek budaya "' . $submission->name . '" dari halaman publik.';
+        
+        // Determine the correct redirect URL based on category
+        $routeName = match($submission->category) {
+            CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'pengusul-desa.cagar-budaya-submissions.show',
+            CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => 'pengusul-desa.potensi-submissions.show',
+            default => 'pengusul-desa.submissions.show',
+        };
+            
+        $url = route($routeName, $submission);
+        $submission->user->notify(new SubmissionNotification($title, $message, $url, 'warning', $submission->id));
+
+        return redirect()->back()
+            ->with('success', 'Objek kebudayaan berhasil ditarik dari halaman publik!');
     }
 
     /**
@@ -374,7 +420,9 @@ class SubmissionController extends Controller
         $categoryFields = CulturalSubmission::getCategoryFields($submission->category);
         $categoryDescription = CulturalSubmission::CATEGORY_DESCRIPTIONS[$submission->category] ?? '';
 
-        return view('validator.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription'));
+        $villages = \App\Models\Village::orderBy('name')->get();
+
+        return view('validator.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription', 'villages'));
     }
 
     /**
@@ -431,11 +479,25 @@ class SubmissionController extends Controller
         $existingCategoryData = $submission->category_data ?? [];
         $mergedCategoryData = array_merge($existingCategoryData, $categoryData);
 
-        $submission->update([
+        $updateData = [
             'name' => $submissionName,
             'description' => $validated['description'] ?? $submission->description,
             'category_data' => !empty($mergedCategoryData) ? $mergedCategoryData : null,
-        ]);
+        ];
+
+        if ($submission->category === CulturalSubmission::CATEGORY_LAPORAN_AKTIF) {
+            if (!empty($mergedCategoryData['desa_lokasi'])) {
+                $village = \App\Models\Village::where('name', 'like', trim($mergedCategoryData['desa_lokasi']))->first();
+                if ($village) {
+                    $updateData['village_id'] = $village->id;
+                }
+            }
+            if (!empty($mergedCategoryData['detail_lokasi'])) {
+                $updateData['address'] = $mergedCategoryData['detail_lokasi'];
+            }
+        }
+
+        $submission->update($updateData);
 
         return redirect()->route('validator.submissions.review-form', $submission)
             ->with('success', 'Data pengajuan berhasil diperbarui.');

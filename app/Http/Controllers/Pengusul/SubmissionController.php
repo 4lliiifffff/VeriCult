@@ -208,9 +208,22 @@ class SubmissionController extends Controller
             $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
         }
 
+        $villageId = null;
+        if ($category === CulturalSubmission::CATEGORY_LAPORAN_AKTIF) {
+            if (!empty($categoryData['desa_lokasi'])) {
+                $village = \App\Models\Village::where('name', 'like', trim($categoryData['desa_lokasi']))->first();
+                if ($village) {
+                    $villageId = $village->id;
+                }
+            }
+            if (!empty($categoryData['detail_lokasi'])) {
+                $submissionAddress = $categoryData['detail_lokasi'];
+            }
+        }
+
         $submission = CulturalSubmission::create([
             'user_id' => Auth::id(),
-            'village_id' => null,
+            'village_id' => $villageId,
             'name' => $submissionName,
             'category' => $category,
             'address' => $submissionAddress,
@@ -250,7 +263,8 @@ class SubmissionController extends Controller
 
         $submission->load([
             'administrativeReviews.validator', 
-            'fieldVerifications.validator'
+            'fieldVerifications.validator',
+            'reviewedBy'
         ]);
 
         $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
@@ -281,6 +295,20 @@ class SubmissionController extends Controller
                 'description' => null,
                 'icon' => 'diajukan',
                 'color' => 'blue'
+            ]);
+        }
+
+        // 2b. Claimed & Mulai Diproses
+        if ($submission->review_started_at && $submission->reviewedBy) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
+                'title' => 'Diklaim & Mulai Diproses oleh Validator',
+                'display_status' => 'Proses Review',
+                'date' => $submission->review_started_at,
+                'description' => 'Validator: ' . $submission->reviewedBy->name,
+                'icon' => 'diajukan',
+                'color' => 'indigo'
             ]);
         }
 
@@ -507,11 +535,25 @@ class SubmissionController extends Controller
             $category = CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA;
         }
 
+        $villageId = null;
+        $submissionAddress = $validated['address'] ?? $submission->address;
+        if ($category === CulturalSubmission::CATEGORY_LAPORAN_AKTIF) {
+            if (!empty($categoryData['desa_lokasi'])) {
+                $village = \App\Models\Village::where('name', 'like', trim($categoryData['desa_lokasi']))->first();
+                if ($village) {
+                    $villageId = $village->id;
+                }
+            }
+            if (!empty($categoryData['detail_lokasi'])) {
+                $submissionAddress = $categoryData['detail_lokasi'];
+            }
+        }
+
         $submission->update([
             'name' => $submissionName,
             'category' => $category,
-            'village_id' => null,
-            'address' => $validated['address'] ?? $submission->address,
+            'village_id' => $villageId,
+            'address' => $submissionAddress,
             'description' => $validated['description'] ?? $submission->description,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'latitude' => $validated['latitude'] ?? null,

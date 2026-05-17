@@ -1,4 +1,4 @@
-<header class="bg-white border-b border-slate-100 sticky top-0 z-40 transition-all duration-300 shadow-sm">
+<header class="bg-white border-b border-slate-100 sticky top-0 z-50 transition-all duration-300 shadow-sm">
     <div class="flex items-center justify-between px-4 sm:px-10 h-20">
         <!-- Sidebar Toggle (Mobile) -->
         <div class="flex items-center gap-4 lg:hidden">
@@ -42,7 +42,7 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                    class="fixed sm:absolute top-20 sm:top-auto inset-x-4 sm:inset-x-auto sm:right-0 z-50 mt-4 sm:w-80 rounded-3xl shadow-2xl border border-slate-50 bg-white overflow-hidden ring-1 ring-slate-900/5">
+                    class="fixed sm:absolute top-20 sm:top-auto inset-x-4 sm:inset-x-auto sm:right-0 z-[60] mt-4 sm:w-80 rounded-3xl shadow-2xl border border-slate-50 bg-white overflow-hidden ring-1 ring-slate-900/5">
                     
                     <div class="p-6 border-b border-slate-50 flex items-center justify-between">
                         <h3 class="text-[10px] font-black text-[#03045E] uppercase tracking-[0.2em]">Notifikasi</h3>

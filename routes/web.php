@@ -54,6 +54,10 @@ Route::get('/edukasi', function () {
 Route::get('/profil-kebudayaan', [\App\Http\Controllers\PublicCulturalController::class, 'index'])->name('profil-kebudayaan.index');
 Route::get('/profil-kebudayaan/{slug}', [\App\Http\Controllers\PublicCulturalController::class, 'show'])->name('profil-kebudayaan.show');
 
+// Public Active Culture Feed
+Route::get('/kebudayaan-aktif', [\App\Http\Controllers\PublicActiveCultureController::class, 'index'])->name('kebudayaan-aktif.index');
+Route::get('/kebudayaan-aktif/{slug}', [\App\Http\Controllers\PublicActiveCultureController::class, 'show'])->name('kebudayaan-aktif.show');
+
 // Public Reports
 Route::get('/laporan-publik/print', [\App\Http\Controllers\PublicReportController::class, 'print'])->name('public.reports.print');
 
@@ -138,6 +142,7 @@ Route::middleware(['auth', 'verified', 'role:validator'])
         Route::post('/submissions/{submission}/review', [App\Http\Controllers\Validator\SubmissionController::class, 'review'])->name('submissions.review');
         Route::post('/submissions/{submission}/field-verification', [App\Http\Controllers\Validator\SubmissionController::class, 'storeFieldVerification'])->name('submissions.field-verification');
         Route::post('/submissions/{submission}/publish', [App\Http\Controllers\Validator\SubmissionController::class, 'publish'])->name('submissions.publish');
+        Route::post('/submissions/{submission}/unpublish', [App\Http\Controllers\Validator\SubmissionController::class, 'unpublish'])->name('submissions.unpublish');
 
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
