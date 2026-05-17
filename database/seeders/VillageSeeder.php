@@ -17,11 +17,11 @@ class VillageSeeder extends Seeder
         $kecamatanSubang = Kecamatan::where('name', 'Subang')->first() ?? Kecamatan::first();
 
         $villages = [
-            'Desa Cidahu',
-            'Desa Sukamaju',
-            'Desa Karanganyar',
-            'Desa Mekarsari',
-            'Desa Bojongloa',
+            'Cidahu',
+            'Sukamaju',
+            'Karanganyar',
+            'Mekarsari',
+            'Bojongloa',
         ];
 
         foreach ($villages as $name) {

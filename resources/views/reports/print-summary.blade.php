@@ -94,10 +94,43 @@
         }
         
         @media print {
-            body { padding: 0; }
-            @page { margin: 1.5cm; }
-            .no-print, button { display: none !important; }
-            tr { page-break-inside: avoid; }
+            @page { 
+                size: A4 portrait;
+                margin: 15mm 15mm 15mm 15mm; 
+            }
+            body { 
+                padding: 0 !important; 
+                margin: 0 !important;
+                font-size: 11px !important;
+                background: #fff !important;
+                color: #000 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .no-print, button { 
+                display: none !important; 
+            }
+            .header {
+                margin-bottom: 20px !important;
+                padding-bottom: 12px !important;
+                border-bottom-width: 2px !important;
+            }
+            table {
+                width: 100% !important;
+                max-width: 100% !important;
+                font-size: 10px !important;
+                page-break-inside: auto !important;
+            }
+            thead {
+                display: table-header-group !important;
+            }
+            tr { 
+                page-break-inside: avoid !important; 
+                page-break-after: auto !important;
+            }
+            td, th {
+                padding: 8px 10px !important;
+            }
         }
         
         .btn-print { 

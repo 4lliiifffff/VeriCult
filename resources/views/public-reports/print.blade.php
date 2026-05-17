@@ -50,11 +50,17 @@
         }
         
         .chart-container { 
+            position: relative;
             width: 100%; 
             max-width: 600px;
             height: 350px; 
             margin: 0 auto 40px; 
             text-align: center; 
+        }
+        .chart-container canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
         }
         
         table { 
@@ -89,10 +95,62 @@
         }
         
         @media print {
-            body { padding: 0; }
-            @page { margin: 1.5cm; }
-            .no-print, button { display: none !important; }
-            tr { page-break-inside: avoid; }
+            @page { 
+                size: A4 portrait;
+                margin: 15mm 15mm 15mm 15mm; 
+            }
+            body { 
+                padding: 0 !important; 
+                margin: 0 !important;
+                font-size: 11px !important;
+                background: #fff !important;
+                color: #000 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .no-print, button { 
+                display: none !important; 
+            }
+            .header {
+                margin-bottom: 20px !important;
+                padding-bottom: 12px !important;
+                border-bottom-width: 2px !important;
+            }
+            .header h1 {
+                font-size: 18px !important;
+            }
+            .chart-container {
+                width: 100% !important;
+                max-width: 440px !important;
+                height: 240px !important;
+                margin: 10px auto 20px !important;
+            }
+            table {
+                width: 100% !important;
+                max-width: 100% !important;
+                font-size: 10px !important;
+                page-break-inside: auto !important;
+            }
+            thead {
+                display: table-header-group !important;
+            }
+            tr { 
+                page-break-inside: avoid !important; 
+                page-break-after: auto !important;
+            }
+            td, th {
+                padding: 8px 10px !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 15px;
+            }
+            .chart-container {
+                height: 280px;
+                margin-bottom: 25px;
+            }
         }
         
         .btn-print { 
@@ -181,6 +239,8 @@
             // To ensure chart renders fully before printing if user uses auto-print
             Chart.defaults.animation = false;
             
+            const isMobile = window.innerWidth < 640 || window.matchMedia('(max-width: 640px)').matches;
+            
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -188,16 +248,30 @@
                     datasets: [{
                         data: {!! json_encode($categoryStats->values()) !!},
                         backgroundColor: [
-                            '#03045E', '#0077B6', '#00B4D8', '#90E0EF', 
-                            '#4361EE', '#3A0CA3', '#7209B7', '#F72585'
+                            '#03045E', '#0077B6', '#00B4D8', '#06D6A0',
+                            '#10B981', '#20BF55', '#FFD166', '#FF9F1C',
+                            '#FF5400', '#EF4444', '#F72585', '#7209B7',
+                            '#3A0CA3', '#4361EE'
                         ],
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    devicePixelRatio: 2, // Double canvas resolution for crystal-clear vector prints
                     plugins: {
-                        legend: { position: 'right' }
+                        legend: { 
+                            position: isMobile ? 'bottom' : 'right',
+                            labels: {
+                                font: {
+                                    family: "'Outfit', sans-serif",
+                                    size: 10,
+                                    weight: 'bold'
+                                },
+                                boxWidth: 12,
+                                padding: 10
+                            }
+                        }
                     }
                 }
             });

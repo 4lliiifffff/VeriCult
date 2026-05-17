@@ -4,16 +4,20 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Shared Colors
         const palette = [
-            '#03045E', // Deep Blue
-            '#4361EE', // Indigo
-            '#3A0CA3', // Purple
-            '#7209B7', // Violet
-            '#F72585', // Rose
-            '#4CC9F0', // Sky
-            '#10B981', // Emerald
-            '#F59E0B', // Amber
-            '#EF4444', // Red
-            '#06D6A0', // Mint
+            '#03045E', // Tradisi Lisan
+            '#0077B6', // Manuskrip
+            '#00B4D8', // Adat Istiadat
+            '#06D6A0', // Ritus
+            '#10B981', // Pengetahuan Tradisional
+            '#20BF55', // Teknologi Tradisional
+            '#FFD166', // Seni
+            '#FF9F1C', // Bahasa
+            '#FF5400', // Permainan Rakyat
+            '#EF4444', // Olahraga Tradisional
+            '#F72585', // Cagar Budaya
+            '#7209B7', // Potensi Cagar Budaya
+            '#3A0CA3', // Potensi Kebudayaan
+            '#4361EE', // Laporan Kebudayaan Aktif
         ];
 
         const chartOptions = {

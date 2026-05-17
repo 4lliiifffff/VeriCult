@@ -3,7 +3,22 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Shared Palette
-        const palette = ['#03045E', '#4361EE', '#3A0CA3', '#7209B7', '#F72585', '#4CC9F0', '#10B981', '#F59E0B'];
+        const palette = [
+            '#03045E', // Tradisi Lisan
+            '#0077B6', // Manuskrip
+            '#00B4D8', // Adat Istiadat
+            '#06D6A0', // Ritus
+            '#10B981', // Pengetahuan Tradisional
+            '#20BF55', // Teknologi Tradisional
+            '#FFD166', // Seni
+            '#FF9F1C', // Bahasa
+            '#FF5400', // Permainan Rakyat
+            '#EF4444', // Olahraga Tradisional
+            '#F72585', // Cagar Budaya
+            '#7209B7', // Potensi Cagar Budaya
+            '#3A0CA3', // Potensi Kebudayaan
+            '#4361EE', // Laporan Kebudayaan Aktif
+        ];
 
         const chartOptions = {
             responsive: true,
