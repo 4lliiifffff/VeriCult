@@ -99,13 +99,11 @@
         </button>
 
         <!-- Decorative Header -->
-        <!-- <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-t-3xl"></div>
-        <div class="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full blur-xl z-0"></div>
-        
-        <div class="relative z-10"> -->
+        <!-- <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-t-3xl z-0"></div>
+        <div class="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full blur-xl z-0"></div> -->
         
         <!-- Icon -->
-        <div class="w-20 h-20 bg-white rounded-2xl mx-auto flex items-center justify-center shadow-lg border border-slate-50 mb-6 mt-4">
+        <div class="relative z-10 w-20 h-20 bg-white rounded-2xl mx-auto flex items-center justify-center shadow-lg border border-slate-50 mb-6 mt-4">
             <svg class="w-10 h-10 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
         </div>
 
@@ -159,7 +157,6 @@
             <button @click="step = 1; otpToken = ''; successMessage = ''; errorMessage = '';" class="text-[10px] font-bold text-slate-400 hover:text-[#0077B6] uppercase tracking-widest transition-colors">
                 Ubah Nomor Telepon
             </button>
-        </div>
         </div>
     </div>
 </div>

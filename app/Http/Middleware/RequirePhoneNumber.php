@@ -23,7 +23,6 @@ class RequirePhoneNumber
             $dashboardRoute = $user->hasRole('pengusul') ? 'pengusul.dashboard' : 'pengusul-desa.dashboard';
             
             return redirect()->route($dashboardRoute)
-                ->with('error', 'Peringatan: Anda diwajibkan untuk memverifikasi Nomor Handphone sebelum dapat mengakses form pengajuan kebudayaan.')
                 ->with('force_phone_verification', true);
         }
 

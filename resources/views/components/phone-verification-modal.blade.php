@@ -10,9 +10,7 @@
         successMessage: '',
         
         closeModal() {
-            if (!this.isForced) {
-                this.isOpen = false;
-            }
+            this.isOpen = false;
         },
         
         sendOtp() {
@@ -86,23 +84,21 @@
     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
     
-    <div @click.away="!isForced ? closeModal() : null" class="bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl relative overflow-hidden text-center"
+    <div @click.away="closeModal()" class="bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl relative overflow-hidden text-center"
          x-show="isOpen" 
          x-transition:enter="transition ease-out duration-300 delay-75" x-transition:enter-start="opacity-0 translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
          x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-8">
         
-        <!-- Close Button (Only if not forced) -->
-        <button x-show="!isForced" @click="closeModal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all z-20">
+        <!-- Close Button -->
+        <button @click="closeModal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all z-20">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <!-- Decorative Header -->
-        <!-- <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-t-3xl"></div>
-        <div class="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full blur-xl z-0"></div>
-        
-        <div class="relative z-10"> -->
+        <!-- <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-[#03045E] to-[#0077B6] rounded-t-3xl z-0"></div>
+        <div class="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full blur-xl z-0"></div> -->
         
         <!-- Icon -->
-        <div class="w-20 h-20 bg-white rounded-2xl mx-auto flex items-center justify-center shadow-lg border border-slate-50 mb-6 mt-4">
+        <div class="relative z-10 w-20 h-20 bg-white rounded-2xl mx-auto flex items-center justify-center shadow-lg border border-slate-50 mb-6 mt-4">
             <svg class="w-10 h-10 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
         </div>
 
@@ -157,7 +153,6 @@
             <button @click="step = 1; otpToken = ''; successMessage = ''; errorMessage = '';" class="text-[10px] font-bold text-slate-400 hover:text-[#0077B6] uppercase tracking-widest transition-colors">
                 Ubah Nomor Telepon
             </button>
-        </div>
         </div>
     </div>
 </div>
