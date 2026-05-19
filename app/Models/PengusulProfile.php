@@ -8,6 +8,7 @@ class PengusulProfile extends Model
 {
     protected $fillable = [
         'user_id',
+        'proposer_type',
         'instansi',
         'no_hp',
     ];

@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
             'role' => ['required', 'string', 'in:pengusul,pengusul-desa'],
+            'proposer_type' => ['nullable', 'string', 'in:individu,kelompok'],
         ]);
 
         $role = $request->role;
@@ -51,10 +52,17 @@ class RegisteredUserController extends Controller
 
         // Create appropriate profile
         $profileRelation = ($role === 'pengusul-desa') ? 'pengusulDesaProfile' : 'pengusulProfile';
-        $user->{$profileRelation}()->create([
+        
+        $profileData = [
             'is_approved_by_admin' => $isApprovedByAdmin,
             'approved_by_admin_at' => $isApprovedByAdmin ? now() : null,
-        ]);
+        ];
+
+        if ($role === 'pengusul') {
+            $profileData['proposer_type'] = $request->proposer_type ?? 'individu';
+        }
+
+        $user->{$profileRelation}()->create($profileData);
 
         event(new Registered($user));
 

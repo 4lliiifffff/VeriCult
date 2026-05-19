@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             ]
         );
         $superAdmin->assignRole('super-admin');
+        \App\Models\SuperAdminProfile::firstOrCreate(['user_id' => $superAdmin->id]);
 
         // 2. Admin Wilayah
         $admin = User::firstOrCreate(
@@ -32,6 +33,7 @@ class UserSeeder extends Seeder
             ]
         );
         $admin->assignRole('admin');
+        \App\Models\AdminProfile::firstOrCreate(['user_id' => $admin->id]);
 
         // 3. Validator
         $validator = User::firstOrCreate(
@@ -43,6 +45,7 @@ class UserSeeder extends Seeder
             ]
         );
         $validator->assignRole('validator');
+        \App\Models\ValidatorProfile::firstOrCreate(['user_id' => $validator->id]);
 
         // 4. Pengusul Umum
         $pengusul = User::firstOrCreate(
@@ -54,6 +57,10 @@ class UserSeeder extends Seeder
             ]
         );
         $pengusul->assignRole('pengusul');
+        \App\Models\PengusulProfile::firstOrCreate(
+            ['user_id' => $pengusul->id],
+            ['proposer_type' => 'individu']
+        );
 
         // 5. Pengusul Desa
         $village = Village::first(); // Ensure there is at least one village, or wait until after villages are seeded
@@ -71,11 +78,12 @@ class UserSeeder extends Seeder
             // Set user profile
             \App\Models\PengusulDesaProfile::updateOrCreate(
                 ['user_id' => $pengusulDesa->id],
-                ['village_id' => $village->id]
+                [
+                    'village_id' => $village->id,
+                    'is_approved_by_admin' => true,
+                    'approved_by_admin_at' => now(),
+                ]
             );
-            
-            // Note: If user status is managed via a field on the user model, we might need to add it differently,
-            // but the `status` column doesn't seem to exist on the base User model according to the error.
         }
     }
 }

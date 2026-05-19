@@ -91,6 +91,20 @@
             </div>
         </div>
 
+        <!-- Jenis Pengusul -->
+        <div class="relative z-50">
+            <x-dropdown-select 
+                name="proposer_type" 
+                id="proposer_type" 
+                label="Jenis Pengusul"
+                placeholder="Pilih jenis pengusul"
+                variant="light"
+                :selected="old('proposer_type', 'individu')" 
+                :options="['individu' => 'Individu', 'kelompok' => 'Kelompok']" 
+            />
+            <x-input-error :messages="$errors->get('proposer_type')" class="mt-2" />
+        </div>
+
         <!-- Hidden Role -->
         <input type="hidden" name="role" value="pengusul">
 
