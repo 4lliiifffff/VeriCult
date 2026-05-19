@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'suspended' => \App\Http\Middleware\CheckSuspendedUser::class,
+            'require.phone' => \App\Http\Middleware\RequirePhoneNumber::class,
         ]);
         
         $middleware->web(append: [
