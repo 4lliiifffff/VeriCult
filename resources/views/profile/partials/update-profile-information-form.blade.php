@@ -91,8 +91,12 @@
             @if ($user->hasRole(['validator', 'pengusul', 'pengusul-desa']))
                 <div class="space-y-3 group">
                     <x-input-label for="no_hp" :value="__('Nomor Handphone')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />
-                    <x-text-input id="no_hp" name="no_hp" type="text" class="block w-full" :value="old('no_hp', $user->profile?->no_hp)" placeholder="0812xxxxxx" />
-                    <x-input-error class="mt-2" :messages="$errors->get('no_hp')" />
+                    <div class="flex items-center gap-4">
+                        <x-text-input id="no_hp" name="no_hp" type="text" class="block w-full bg-slate-100 text-slate-500 cursor-not-allowed opacity-80" :value="$user->profile?->no_hp" readonly placeholder="Belum ada nomor" />
+                        <button type="button" @click="$dispatch('open-change-phone-modal')" class="shrink-0 px-6 py-3.5 bg-sky-50 text-sky-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-sky-100 transition-colors border border-sky-100 shadow-sm">
+                            Ubah Nomor
+                        </button>
+                    </div>
                 </div>
             @endif
         </div>

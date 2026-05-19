@@ -86,6 +86,7 @@
                 </main>
             </div>
         </div>
+        <x-change-phone-modal />
         @stack('scripts')
     </body>
 </html>

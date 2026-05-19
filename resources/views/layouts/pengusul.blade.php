@@ -89,6 +89,7 @@
 
         <!-- Phone Verification Enforcement -->
         <x-phone-verification-modal />
+        <x-change-phone-modal />
 
         @stack('scripts')
     </body>

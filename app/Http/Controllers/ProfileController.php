@@ -37,17 +37,17 @@ class ProfileController extends Controller
 
         // Update specialized profile data
         $role = $user->roles->first()?->name;
-        $profileData = $request->only(['instansi', 'no_hp', 'jabatan_desa', 'nip']);
+        $profileData = $request->only(['instansi', 'jabatan_desa', 'nip']);
 
         switch ($role) {
             case 'validator':
-                $user->validatorProfile()->update($request->only(['instansi', 'no_hp']));
+                $user->validatorProfile()->update($request->only(['instansi']));
                 break;
             case 'pengusul':
-                $user->pengusulProfile()->update($request->only(['instansi', 'no_hp']));
+                $user->pengusulProfile()->update($request->only(['instansi']));
                 break;
             case 'pengusul-desa':
-                $user->pengusulDesaProfile()->update($request->only(['jabatan_desa', 'nip', 'no_hp']));
+                $user->pengusulDesaProfile()->update($request->only(['jabatan_desa', 'nip']));
                 break;
         }
 

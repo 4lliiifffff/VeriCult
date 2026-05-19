@@ -34,15 +34,18 @@ class PhoneVerificationController extends Controller
             'expires_at' => now()->addMinutes(5),
         ]);
 
-        // Send WA message
-        \App\Services\WhatsAppService::sendOTP($request->phone_number, $token);
+        // Send WA message (Temporarily Disabled as requested)
+        // \App\Services\WhatsAppService::sendOTP($request->phone_number, $token);
+        
+        // Fallback to Log simulation
+        Log::info("MENGIRIM OTP WA KE: {$request->phone_number} | KODE: {$token}");
 
         // Send Email
         if ($user->email) {
             Mail::to($user->email)->send(new PhoneVerificationMail($token));
         }
 
-        return response()->json(['message' => 'Kode verifikasi telah dikirim ke WhatsApp dan Email Anda.']);
+        return response()->json(['message' => 'Kode verifikasi telah dikirim ke Email Anda.']);
     }
 
     public function verify(Request $request)

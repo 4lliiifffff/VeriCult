@@ -26,7 +26,7 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
             'instansi'     => ['nullable', 'string', 'max:255'],
-            'no_hp'        => ['nullable', 'string', 'max:20'],
+
             'jabatan_desa' => ['nullable', 'string', 'max:255'],
             'nip'          => ['nullable', 'string', 'max:50'],
         ];
