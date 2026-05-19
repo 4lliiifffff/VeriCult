@@ -296,6 +296,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // OTP Verification Routes
+    Route::post('/phone-verification/send', [\App\Http\Controllers\PhoneVerificationController::class, 'send'])->name('phone.verification.send');
+    Route::post('/phone-verification/verify', [\App\Http\Controllers\PhoneVerificationController::class, 'verify'])->name('phone.verification.verify');
 });
 
 require __DIR__.'/auth.php';
