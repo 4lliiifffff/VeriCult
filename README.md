@@ -55,7 +55,7 @@
 
 ## 💻 Instalasi
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek di lingkungan lokal:
+Ikuti langkah-langkah berikut untuk menjalankan proyek di local server:
 
 1. **Clone repositori**:
    ```bash
