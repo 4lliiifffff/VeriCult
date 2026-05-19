@@ -22,6 +22,26 @@
                         <div class="ml-3 sm:ml-4 min-w-0">
                             <div class="font-bold text-xs sm:text-sm text-[#03045E] group-hover/u:text-[#0077B6] transition-colors truncate">{{ $user->name }}</div>
                             <div class="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">{{ $user->email }}</div>
+                            <div class="text-[9px] sm:text-[10px] text-slate-400 font-medium truncate mt-1 flex items-center gap-2">
+                                @if($user->profile?->no_hp)
+                                    <span class="flex items-center gap-1 text-slate-500" title="Nomor HP">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> 
+                                        {{ $user->profile->no_hp }}
+                                    </span>
+                                    <div class="w-1 h-1 rounded-full bg-slate-300"></div>
+                                @endif
+                                @if($user->hasRole('pengusul-desa') && $user->village)
+                                    <span class="flex items-center gap-1 text-[#0077B6]" title="Desa">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg> 
+                                        {{ $user->village->name }}
+                                    </span>
+                                @elseif($user->profile?->instansi)
+                                    <span class="flex items-center gap-1 text-indigo-500" title="Instansi">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg> 
+                                        {{ $user->profile->instansi }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </td>

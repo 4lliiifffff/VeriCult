@@ -154,6 +154,34 @@
                         </div>
                     </div>
                     @endif
+                    
+                    @if($user->profile?->no_hp)
+                    <div class="space-y-1.5">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Nomor Handphone</p>
+                        <p class="text-base font-bold text-[#03045E]">{{ $user->profile->no_hp }}</p>
+                    </div>
+                    @endif
+
+                    @if($user->hasRole('pengusul-desa') && $user->profile?->jabatan_desa)
+                    <div class="space-y-1.5">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Jabatan di Desa</p>
+                        <p class="text-base font-bold text-[#03045E]">{{ $user->profile->jabatan_desa }}</p>
+                    </div>
+                    @endif
+
+                    @if($user->hasRole('pengusul-desa') && $user->profile?->nip)
+                    <div class="space-y-1.5">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">NIP</p>
+                        <p class="text-base font-bold text-[#03045E]">{{ $user->profile->nip }}</p>
+                    </div>
+                    @endif
+
+                    @if(!$user->hasRole('pengusul-desa') && $user->profile?->instansi)
+                    <div class="space-y-1.5">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Instansi</p>
+                        <p class="text-base font-bold text-[#03045E]">{{ $user->profile->instansi }}</p>
+                    </div>
+                    @endif
                     <div class="space-y-1.5">
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Tanggal Daftar</p>
                         <p class="text-base font-bold text-slate-700">{{ $user->created_at->translatedFormat('d F Y, H:i') }}</p>

@@ -24,10 +24,13 @@ class UniquePhoneNumber implements ValidationRule
         ];
 
         foreach ($tables as $table) {
-            $exists = DB::table($table)->where('no_hp', $value)->exists();
-            if ($exists) {
-                $fail('Nomor telepon ini sudah digunakan oleh akun lain.');
-                return;
+            // Check if the table actually has a no_hp column before querying
+            if (\Illuminate\Support\Facades\Schema::hasColumn($table, 'no_hp')) {
+                $exists = DB::table($table)->where('no_hp', $value)->exists();
+                if ($exists) {
+                    $fail('Nomor telepon ini sudah digunakan oleh akun lain.');
+                    return;
+                }
             }
         }
     }

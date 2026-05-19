@@ -79,9 +79,6 @@
                     <!-- Flash Messages Modal -->
                     <x-flash-modal />
 
-                    <!-- Phone Verification Enforcement -->
-                    <x-phone-verification-modal />
-
                     <div class="max-w-[1600px] mx-auto">
                         {{ $slot ?? '' }}
                         @yield('content')
@@ -89,6 +86,10 @@
                 </main>
             </div>
         </div>
+
+        <!-- Phone Verification Enforcement -->
+        <x-phone-verification-modal />
+
         @stack('scripts')
     </body>
 </html>

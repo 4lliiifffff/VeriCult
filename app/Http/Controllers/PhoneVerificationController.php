@@ -34,8 +34,8 @@ class PhoneVerificationController extends Controller
             'expires_at' => now()->addMinutes(5),
         ]);
 
-        // Simulate sending WA message
-        Log::info("MENGIRIM OTP WA KE: {$request->phone_number} | KODE: {$token}");
+        // Send WA message
+        \App\Services\WhatsAppService::sendOTP($request->phone_number, $token);
 
         // Send Email
         if ($user->email) {
