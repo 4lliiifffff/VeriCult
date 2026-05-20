@@ -58,7 +58,7 @@
     <!-- Table -->
     <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-max">
+            <table class="w-full text-left border-collapse min-w-max responsive-table">
                 <thead>
                     <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                         <th class="px-8 py-5">Nama Objek</th>

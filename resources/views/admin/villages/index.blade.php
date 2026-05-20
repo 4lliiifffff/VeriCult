@@ -76,7 +76,7 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-max">
+            <table class="w-full text-left border-collapse min-w-max responsive-table">
                 <thead>
                     <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                         <th class="px-6 sm:px-10 py-4 sm:py-6">Nama Desa</th>

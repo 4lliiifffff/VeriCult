@@ -6,14 +6,14 @@
     <title>{{ $site_seo['title_beranda'] ?? 'VeriCult - Sistem Verifikasi Kebudayaan Digital' }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <meta name="description" content="{{ $site_seo['desc_beranda'] ?? 'Platform digital terintegrasi untuk pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia.' }}">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800&display=swap" rel="stylesheet" />
-    
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <style>
         .hero-gradient {
             background: radial-gradient(circle at 70% 30%, rgba(0, 119, 182, 0.15) 0%, transparent 50%),
@@ -46,7 +46,7 @@
     </style>
 </head>
 <body class="antialiased font-sans bg-white text-slate-900 selection:bg-[#00B4D8] selection:text-white">
-    
+
     <!-- Navbar -->
     <x-public-navbar />
 
@@ -55,7 +55,7 @@
         <!-- Abstract Shapes -->
         <div class="absolute top-1/4 -right-20 w-96 h-96 bg-[#90E0EF]/20 rounded-full blur-[100px]"></div>
         <div class="absolute bottom-1/4 -left-20 w-[500px] h-[500px] bg-[#0077B6]/5 rounded-full blur-[120px]"></div>
-        
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 md:py-20">
             <div class="grid lg:grid-cols-12 gap-12 items-center">
                 <div class="lg:col-span-7 text-left reveal reveal-up">
@@ -67,17 +67,17 @@
                         </span>
                         {{ $content['hero_badge'] ?? 'Sistem Verifikasi Kebudayaan Terpercaya' }}
                     </div> -->
-                    
+
                     <!-- Main Heading -->
                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-[#03045E] mb-6 leading-[1.1] tracking-tight">
                         {!! $content['hero_title'] ?? 'Lestarikan Budaya<br><span class="text-[#0077B6]">Melalui Verifikasi Digital</span>' !!}
                     </h1>
-                    
+
                     <!-- Subtitle -->
                     <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl leading-relaxed font-normal">
                         {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
                     </p>
-                    
+
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="{{ route('login') }}" class="bg-[#03045E] text-white px-10 py-4 rounded-lg font-bold text-sm hover:bg-[#023E8A] transition-all duration-300 shadow-lg shadow-blue-900/20 transform hover:scale-[1.02] flex items-center justify-center group">
@@ -120,13 +120,13 @@
                                 <div class="h-2 w-full bg-slate-50 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-[#0077B6] to-[#00B4D8] w-[85%] rounded-full"></div>
                                 </div>
-                                <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                {{-- <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
                                     <span>Skor Keabsahan Data</span>
                                     <span class="text-[#0077B6]">85% Sangat Akurat</span>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
-                        
+
                         <!-- Decorative floating elements -->
                         <div class="absolute -top-10 -left-10 w-24 h-24 bg-white rounded-2xl shadow-xl flex items-center justify-center p-6 border border-slate-50 z-30 animate-bounce" style="animation-duration: 4s;">
                             <svg class="w-full h-full text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2z"/></svg>
@@ -156,7 +156,7 @@
                 </div>
                 <div class="mt-8 md:mt-0">
                     <a href="{{ route('profil-kebudayaan.index') }}" class="inline-flex items-center text-sm font-bold text-[#0077B6] hover:text-[#03045E] transition-colors group">
-                        Lihat Semua 
+                        Lihat Semua
                         <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
@@ -169,10 +169,10 @@
                 @foreach($recentDiscoveries as $item)
                 <a href="{{ route('profil-kebudayaan.show', $item->slug) }}" class="bg-white rounded-2xl border border-slate-100 card-shadow overflow-hidden flex flex-col reveal reveal-up">
                     <div class="aspect-[4/3] bg-slate-100 relative overflow-hidden">
-                        @php 
+                        @php
                             $mainImage = $item->files->first(function($file) {
                                 return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
-                            }); 
+                            });
                         @endphp
                         @if($mainImage)
                             <img src="{{ $mainImage->url }}" alt="{{ $item->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">

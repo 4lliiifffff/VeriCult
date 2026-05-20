@@ -70,7 +70,7 @@
             </div>
             
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-max">
+                <table class="w-full text-left border-collapse min-w-max responsive-table no-actions">
                     <thead>
                         <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                             <th class="px-6 sm:px-8 py-4 sm:py-5">Nama Objek</th>
@@ -83,20 +83,30 @@
                     <tbody class="divide-y divide-slate-50">
                         @forelse($submissions as $sub)
                         <tr class="hover:bg-slate-50/50 transition-all duration-200">
-                            <td class="px-6 sm:px-8 py-4 sm:py-5">
-                                <span class="font-bold text-sm text-[#03045E]">{{ $sub->name }}</span>
+                            <td class="px-6 sm:px-8 py-4 sm:py-5" data-label="Nama Objek">
+                                <div class="flex flex-col text-left">
+                                    <span class="font-bold text-sm text-[#03045E]">{{ $sub->name }}</span>
+                                </div>
                             </td>
-                            <td class="px-6 sm:px-8 py-4 sm:py-5">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-[#0077B6] bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">{{ $sub->category }}</span>
+                            <td class="px-6 sm:px-8 py-4 sm:py-5" data-label="Kategori">
+                                <div class="cell-wrapper-row">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-[#0077B6] bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">{{ $sub->category }}</span>
+                                </div>
                             </td>
-                            <td class="px-6 sm:px-8 py-4 sm:py-5">
-                                <span class="text-xs text-slate-600 truncate max-w-[200px] block" title="{{ $sub->address }}">{{ $sub->address }}</span>
+                            <td class="px-6 sm:px-8 py-4 sm:py-5" data-label="Lokasi">
+                                <div class="cell-wrapper">
+                                    <span class="text-xs text-slate-600 truncate max-w-[200px] block" title="{{ $sub->address }}">{{ $sub->address }}</span>
+                                </div>
                             </td>
-                            <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
-                                <span class="text-xs font-bold text-slate-700">{{ $sub->user->name ?? 'N/A' }}</span>
+                            <td class="px-6 sm:px-8 py-4 sm:py-5 lg:text-center text-right" data-label="Pengusul">
+                                <div class="cell-wrapper">
+                                    <span class="text-xs font-bold text-slate-700">{{ $sub->user->name ?? 'N/A' }}</span>
+                                </div>
                             </td>
-                            <td class="px-6 sm:px-8 py-4 sm:py-5 text-center">
-                                <span class="text-xs font-bold text-slate-500">{{ $sub->published_at ? $sub->published_at->translatedFormat('d F Y') : '-' }}</span>
+                            <td class="px-6 sm:px-8 py-4 sm:py-5 lg:text-center text-right" data-label="Tanggal Validasi">
+                                <div class="cell-wrapper">
+                                    <span class="text-xs font-bold text-slate-500">{{ $sub->published_at ? $sub->published_at->translatedFormat('d F Y') : '-' }}</span>
+                                </div>
                             </td>
                         </tr>
                         @empty

@@ -101,60 +101,68 @@
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-max">
+                <table class="w-full text-left border-collapse responsive-table lg:table-fixed">
                     <thead>
                         <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
-                            <th class="px-10 py-6">Kebudayaan</th>
-                            <th class="px-10 py-6">Pengusul</th>
-                            <th class="px-10 py-6">Status</th>
-                            <th class="px-10 py-6">Reviewer</th>
-                            <th class="px-10 py-6 text-right">Aksi</th>
+                            <th class="px-10 py-6 lg:w-[35%]">Kebudayaan</th>
+                            <th class="px-10 py-6 lg:w-[20%]">Pengusul</th>
+                            <th class="px-10 py-6 lg:w-[15%]">Status</th>
+                            <th class="px-10 py-6 lg:w-[15%]">Reviewer</th>
+                            <th class="px-10 py-6 lg:w-[15%] text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50 text-sm">
                         @forelse($submissions as $submission)
                         <tr class="group hover:bg-slate-50/30 transition-all duration-200">
-                            <td class="px-10 py-8">
-                                <div class="font-black text-[#03045E] text-base group-hover:text-[#0077B6] transition-colors">{{ $submission->name }}</div>
-                                <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] mt-1">{{ $submission->category }}</div>
+                            <td class="px-10 py-8" data-label="Kebudayaan">
+                                <div class="flex flex-col text-left">
+                                    <div class="font-black text-[#03045E] text-base group-hover:text-[#0077B6] transition-colors break-words whitespace-normal">{{ $submission->name }}</div>
+                                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] mt-1 break-words whitespace-normal">{{ $submission->category }}</div>
+                                </div>
                             </td>
-                            <td class="px-10 py-8">
-                                <div class="text-xs font-bold text-slate-600">{{ $submission->user->name }}</div>
-                                <div class="text-[10px] font-medium text-slate-400 mt-1">{{ $submission->created_at->format('d M Y') }}</div>
+                            <td class="px-10 py-8" data-label="Pengusul">
+                                <div class="cell-wrapper">
+                                    <div class="text-xs font-bold text-slate-600 break-words whitespace-normal">{{ $submission->user->name }}</div>
+                                    <div class="text-[10px] font-medium text-slate-400 mt-1">{{ $submission->created_at->format('d M Y') }}</div>
+                                </div>
                             </td>
-                            <td class="px-10 py-8">
-                                <span @class([
-                                    'inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border',
-                                    'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED,
-                                    'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]),
-                                    'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION,
-                                    'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REJECTED,
-                                    'bg-emerald-50 text-emerald-600 border-emerald-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED,
-                                    'bg-teal-50 text-teal-600 border-teal-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED,
-                                ])>
-                                    {{ $submission->status_label }}
-                                </span>
+                            <td class="px-10 py-8" data-label="Status">
+                                <div class="cell-wrapper-row">
+                                    <span @class([
+                                        'inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border',
+                                        'bg-blue-50 text-blue-600 border-blue-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED,
+                                        'bg-indigo-50 text-indigo-600 border-indigo-100' => in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION]),
+                                        'bg-amber-50 text-amber-600 border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION,
+                                        'bg-rose-50 text-rose-600 border-rose-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_REJECTED,
+                                        'bg-emerald-50 text-emerald-600 border-emerald-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED,
+                                        'bg-teal-50 text-teal-600 border-teal-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED,
+                                    ])>
+                                        {{ $submission->status_label }}
+                                    </span>
+                                </div>
                             </td>
-                            <td class="px-10 py-8">
-                                @if($submission->reviewed_by)
-                                    <div class="flex items-center">
-                                        <div @class([
-                                            'w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-black mr-2',
-                                            'bg-[#03045E] text-white shadow-lg shadow-blue-900/10' => $submission->reviewed_by === Auth::id(),
-                                            'bg-slate-100 text-slate-500' => $submission->reviewed_by !== Auth::id(),
-                                        ])>
-                                            {{ substr($submission->reviewedBy->name, 0, 1) }}
+                            <td class="px-10 py-8" data-label="Reviewer">
+                                <div class="cell-wrapper-row">
+                                    @if($submission->reviewed_by)
+                                        <div class="flex items-center">
+                                            <div @class([
+                                                'w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-black mr-2',
+                                                'bg-[#03045E] text-white shadow-lg shadow-blue-900/10' => $submission->reviewed_by === Auth::id(),
+                                                'bg-slate-100 text-slate-500' => $submission->reviewed_by !== Auth::id(),
+                                            ])>
+                                                {{ substr($submission->reviewedBy->name, 0, 1) }}
+                                            </div>
+                                            <div class="text-xs font-bold {{ $submission->reviewed_by === Auth::id() ? 'text-[#03045E]' : 'text-slate-400' }}">
+                                                {{ $submission->reviewed_by === Auth::id() ? 'Saya' : $submission->reviewedBy->name }}
+                                            </div>
                                         </div>
-                                        <div class="text-xs font-bold {{ $submission->reviewed_by === Auth::id() ? 'text-[#03045E]' : 'text-slate-400' }}">
-                                            {{ $submission->reviewed_by === Auth::id() ? 'Saya' : $submission->reviewedBy->name }}
-                                        </div>
-                                    </div>
-                                @else
-                                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Belum Diklaim</span>
-                                @endif
+                                    @else
+                                        <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Belum Diklaim</span>
+                                    @endif
+                                </div>
                             </td>
-                            <td class="px-10 py-8 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-2">
+                            <td class="px-10 py-8 text-right" data-label="Aksi">
+                                <div class="flex flex-wrap items-center justify-end gap-2">
                                     @if(!$submission->reviewed_by && $submission->status === \App\Models\CulturalSubmission::STATUS_SUBMITTED)
                                         <form action="{{ route('validator.submissions.claim', $submission) }}" method="POST" class="inline">
                                             @csrf

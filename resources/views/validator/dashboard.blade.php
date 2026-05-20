@@ -282,7 +282,7 @@
             </div>
             
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-[640px]">
+                <table class="w-full text-left border-collapse min-w-[640px] responsive-table">
                     <thead>
                         <tr class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
                             <th class="px-6 sm:px-10 py-4 sm:py-5">Objek Kebudayaan</th>
@@ -294,28 +294,38 @@
                     <tbody class="divide-y divide-slate-50">
                         @forelse($recentSubmissions as $submission)
                         <tr class="hover:bg-slate-50/50 transition-colors group/row">
-                            <td class="px-6 sm:px-10 py-4 sm:py-6">
-                                <div class="font-bold text-xs sm:text-sm text-[#03045E] mb-1 group-hover/row:text-[#0077B6] transition-colors line-clamp-1 max-w-[200px] sm:max-w-md">{{ $submission->name }}</div>
-                                <div class="inline-flex px-2 py-0.5 bg-blue-50 text-[#0077B6] text-[8px] font-black uppercase tracking-widest rounded-md border border-blue-100">{{ $submission->category }}</div>
-                            </td>
-                            <td class="px-6 sm:px-10 py-4 sm:py-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-slate-100 text-[#03045E] flex items-center justify-center font-black text-[10px] sm:text-xs">
-                                        {{ substr($submission->user->name, 0, 2) }}
+                            <td class="px-6 sm:px-10 py-4 sm:py-6" data-label="Objek Kebudayaan">
+                                <div class="flex flex-col text-left">
+                                    <div class="font-bold text-xs sm:text-sm text-[#03045E] mb-1 group-hover/row:text-[#0077B6] transition-colors line-clamp-1 max-w-[200px] sm:max-w-md">{{ $submission->name }}</div>
+                                    <div>
+                                        <div class="inline-flex px-2 py-0.5 bg-blue-50 text-[#0077B6] text-[8px] font-black uppercase tracking-widest rounded-md border border-blue-100">{{ $submission->category }}</div>
                                     </div>
-                                    <div class="text-[10px] sm:text-xs font-bold text-slate-600 line-clamp-1">{{ $submission->user->name }}</div>
                                 </div>
                             </td>
-                            <td class="px-6 sm:px-10 py-4 sm:py-6 text-center">
-                                <div class="text-[10px] sm:text-xs font-bold text-[#03045E]">{{ $submission->created_at->translatedFormat('d M Y') }}</div>
-                                <div class="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-tighter">{{ $submission->created_at->diffForHumans() }}</div>
+                            <td class="px-6 sm:px-10 py-4 sm:py-6" data-label="Pengusul">
+                                <div class="cell-wrapper-row">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-slate-100 text-[#03045E] flex items-center justify-center font-black text-[10px] sm:text-xs">
+                                            {{ substr($submission->user->name, 0, 2) }}
+                                        </div>
+                                        <div class="text-[10px] sm:text-xs font-bold text-slate-600 line-clamp-1">{{ $submission->user->name }}</div>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="px-6 sm:px-10 py-4 sm:py-6 text-right">
-                                <a href="{{ route('validator.submissions.show', $submission) }}" class="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#03045E] text-white text-[8px] sm:text-[9px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#0077B6] hover:shadow-lg hover:shadow-blue-900/20 active:scale-95 transition-all">
-                                    <span class="hidden sm:inline">Mulai Review</span>
-                                    <span class="sm:hidden">Review</span>
-                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                                </a>
+                            <td class="px-6 sm:px-10 py-4 sm:py-6 lg:text-center text-right" data-label="Waktu Masuk">
+                                <div class="cell-wrapper">
+                                    <div class="text-[10px] sm:text-xs font-bold text-[#03045E]">{{ $submission->created_at->translatedFormat('d M Y') }}</div>
+                                    <div class="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-tighter">{{ $submission->created_at->diffForHumans() }}</div>
+                                </div>
+                            </td>
+                            <td class="px-6 sm:px-10 py-4 sm:py-6 text-right" data-label="Opsi">
+                                <div class="flex items-center justify-end w-full">
+                                    <a href="{{ route('validator.submissions.show', $submission) }}" class="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#03045E] text-white text-[8px] sm:text-[9px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#0077B6] hover:shadow-lg hover:shadow-blue-900/20 active:scale-95 transition-all">
+                                        <span class="hidden sm:inline">Mulai Review</span>
+                                        <span class="sm:hidden">Review</span>
+                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @empty

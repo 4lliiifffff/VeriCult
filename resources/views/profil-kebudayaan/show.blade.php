@@ -230,7 +230,7 @@
                                                     @if(isset($displayValue[0]) && is_array($displayValue[0]))
                                                         <div class="bg-white rounded-[1.5rem] border border-slate-100 overflow-hidden shadow-sm mt-3">
                                                             <div class="overflow-x-auto">
-                                                                <table class="w-full text-left text-sm min-w-max">
+                                                                <table class="w-full text-left text-sm min-w-max responsive-table">
                                                                     <thead class="bg-slate-50 border-b border-slate-100 text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                                                                         <tr>
                                                                             @foreach(array_keys($displayValue[0]) as $colKey)

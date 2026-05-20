@@ -223,7 +223,7 @@
                                                         {{-- Dynamic table data --}}
                                                         <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
                                                             <div class="overflow-x-auto">
-                                                                <table class="w-full text-left border-collapse min-w-max">
+                                                                <table class="w-full text-left border-collapse min-w-max responsive-table">
                                                                     <thead class="bg-slate-50/50 border-b border-slate-100">
                                                                         <tr>
                                                                             @foreach(array_keys($dataValue[0]) as $colKey)

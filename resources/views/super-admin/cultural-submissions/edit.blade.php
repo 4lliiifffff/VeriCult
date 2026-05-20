@@ -179,7 +179,7 @@
                                             @if(isset($dataValue[0]) && is_array($dataValue[0]))
                                                 <div class="overflow-hidden rounded-2xl border border-slate-100 shadow-sm bg-white">
                                                     <div class="overflow-x-auto">
-                                                        <table class="w-full text-left border-collapse min-w-max">
+                                                        <table class="w-full text-left border-collapse min-w-max responsive-table">
                                                             <thead class="bg-slate-50/50 border-b border-slate-100">
                                                                 <tr>
                                                                     @foreach(array_keys($dataValue[0]) as $col)

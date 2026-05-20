@@ -132,7 +132,7 @@
                 </div>
                 <div class="flex-1 overflow-x-auto min-h-[250px] sm:min-h-[300px]">
                     @if($auditLog->old_data)
-                        <table class="w-full text-left min-w-[400px]">
+                        <table class="w-full text-left min-w-[400px] responsive-table">
                             <thead>
                                 <tr class="text-[10px] font-black text-slate-400 uppercase bg-slate-50/30 border-b border-rose-50">
                                     <th class="px-6 sm:px-8 py-4 w-1/3">Key Field</th>
@@ -176,7 +176,7 @@
                 </div>
                 <div class="flex-1 overflow-x-auto min-h-[250px] sm:min-h-[300px]">
                     @if($auditLog->new_data)
-                        <table class="w-full text-left min-w-[400px]">
+                        <table class="w-full text-left min-w-[400px] responsive-table">
                             <thead>
                                 <tr class="text-[10px] font-black text-slate-400 uppercase bg-slate-50/30 border-b border-emerald-50">
                                     <th class="px-6 sm:px-8 py-4 w-1/3">Key Field</th>

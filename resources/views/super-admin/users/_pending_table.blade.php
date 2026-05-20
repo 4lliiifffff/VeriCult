@@ -1,5 +1,5 @@
 <div class="overflow-x-auto overflow-y-hidden">
-    <table class="w-full text-left border-collapse min-w-max">
+    <table class="w-full text-left border-collapse min-w-max responsive-table">
         <thead>
             <tr class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] bg-slate-50/50 border-b border-slate-100">
                 <th class="px-8 py-6">Profil Pengusul</th>
