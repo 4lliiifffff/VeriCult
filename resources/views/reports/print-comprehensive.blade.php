@@ -206,6 +206,24 @@
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
             transform: translateY(-2px);
         }
+        
+        .chart-print-image {
+            display: none;
+        }
+        @media print {
+            .chart-container canvas {
+                display: none !important;
+            }
+            .chart-print-image {
+                display: block !important;
+                margin: 0 auto !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            .chartjs-size-monitor {
+                position: fixed !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -229,6 +247,7 @@
         @if(!$categoryStats->isEmpty())
         <div class="chart-container">
             <canvas id="overallChart"></canvas>
+            <img id="overallChartImage" class="chart-print-image" alt="Chart Tinjauan Keseluruhan">
         </div>
         
         <table>
@@ -271,6 +290,7 @@
         @if(!$kecamatanStats->isEmpty())
         <div class="chart-container" style="max-width: 800px; height: 350px;">
             <canvas id="kecamatanChart"></canvas>
+            <img id="kecamatanChartImage" class="chart-print-image" alt="Chart Distribusi Tingkat Kecamatan">
         </div>
         
         <table>
@@ -307,6 +327,7 @@
         @if(!$desaStats->isEmpty())
         <div class="chart-container" style="max-width: 800px; height: 350px;">
             <canvas id="desaChart"></canvas>
+            <img id="desaChartImage" class="chart-print-image" alt="Chart Distribusi Tingkat Desa">
         </div>
         
         <table>
@@ -353,7 +374,7 @@
             
             // 1. Overall Category Chart
             @if(!$categoryStats->isEmpty())
-            new Chart(document.getElementById('overallChart').getContext('2d'), {
+            const overallChartInstance = new Chart(document.getElementById('overallChart').getContext('2d'), {
                 type: 'pie',
                 data: {
                     labels: {!! json_encode($categoryStats->keys()) !!},
@@ -391,7 +412,7 @@
 
             // 2. Kecamatan Chart
             @if(!$kecamatanStats->isEmpty())
-            new Chart(document.getElementById('kecamatanChart').getContext('2d'), {
+            const kecamatanChartInstance = new Chart(document.getElementById('kecamatanChart').getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: {!! json_encode($kecamatanStats->keys()->map(fn($k) => str_replace('Kecamatan ', '', $k))) !!},
@@ -436,7 +457,7 @@
             // 3. Desa Chart (Top 10 max for chart visibility)
             @if(!$desaStats->isEmpty())
             @php $topDesaStats = $desaStats->take(10); @endphp
-            new Chart(document.getElementById('desaChart').getContext('2d'), {
+            const desaChartInstance = new Chart(document.getElementById('desaChart').getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: {!! json_encode($topDesaStats->keys()) !!},
@@ -469,8 +490,22 @@
             });
             @endif
 
-            // Auto print prompt
-            setTimeout(() => { window.print(); }, 800);
+            // Convert charts to static images for print reliability and then trigger print
+            setTimeout(() => {
+                const overallImg = document.getElementById('overallChartImage');
+                if (overallImg && typeof overallChartInstance !== 'undefined') {
+                    overallImg.src = overallChartInstance.toBase64Image();
+                }
+                const kecamatanImg = document.getElementById('kecamatanChartImage');
+                if (kecamatanImg && typeof kecamatanChartInstance !== 'undefined') {
+                    kecamatanImg.src = kecamatanChartInstance.toBase64Image();
+                }
+                const desaImg = document.getElementById('desaChartImage');
+                if (desaImg && typeof desaChartInstance !== 'undefined') {
+                    desaImg.src = desaChartInstance.toBase64Image();
+                }
+                window.print();
+            }, 1000);
         });
     </script>
 </body>

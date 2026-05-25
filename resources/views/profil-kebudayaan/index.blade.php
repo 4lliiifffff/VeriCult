@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profil Kebudayaan - VeriCult</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800&display=swap" rel="stylesheet" />
-    
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <style>
         .hero-gradient {
             background: radial-gradient(circle at 70% 30%, rgba(0, 119, 182, 0.1) 0%, transparent 50%),
@@ -42,7 +42,7 @@
     </style>
 </head>
 <body class="antialiased font-sans bg-white text-slate-900">
-    
+
     <!-- Navbar -->
     <x-public-navbar />
 
@@ -66,24 +66,24 @@
     <!-- Main Content -->
     <section class="py-12 bg-white min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
+
             <!-- Filters & Search -->
             <div class="mb-16 space-y-8">
                 <!-- Category Filter & Print Button -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4">
                     <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide w-full sm:w-auto">
-                        <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('category', 'page'), [])) }}" 
+                        <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('category', 'page'), [])) }}"
                            class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ !$activeCategory ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
                             Semua
                         </a>
                         @foreach($categories as $category)
-                            <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('page'), ['category' => $category])) }}" 
+                            <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('page'), ['category' => $category])) }}"
                                class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
                                 {{ ucfirst(str_replace('_', ' ', $category)) }}
                             </a>
                         @endforeach
                     </div>
-                    
+
                     <a href="{{ route('public.reports.print', ['year' => $activeYear]) }}" target="_blank" class="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#0077B6] hover:bg-[#03045E] text-white rounded-full font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 w-full sm:w-auto">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                         Unduh Rekap Laporan
@@ -91,23 +91,23 @@
                 </div>
 
                 <!-- Search & Year -->
-                <div class="bg-white rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/50 relative group overflow-hidden z-10">
+                <div class="bg-white rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/50 relative group z-10">
                     <div class="absolute -right-24 -top-24 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
                     <div class="absolute -left-24 -bottom-24 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
-                    
+
                     <form action="{{ route('profil-kebudayaan.index') }}" method="GET" class="grid md:grid-cols-12 gap-6 relative z-10 auto-submit">
                         @if(request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
                         @endif
-                        
+
                         <div class="md:col-span-3">
-                            <x-dropdown-select 
-                                name="year" 
-                                id="year" 
+                            <x-dropdown-select
+                                name="year"
+                                id="year"
                                 placeholder="Semua Periode"
                                 variant="light"
-                                :selected="$activeYear" 
-                                :options="['all' => 'Semua Periode'] + (!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')])" 
+                                :selected="$activeYear"
+                                :options="['all' => 'Semua Periode'] + (!empty($availableYears) ? collect($availableYears)->mapWithKeys(fn($y) => [$y => 'Periode ' . $y])->toArray() : [date('Y') => 'Periode ' . date('Y')])"
                             />
                         </div>
 
@@ -115,7 +115,7 @@
                             <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-slate-400 group-focus-within/search:text-[#0077B6] transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
-                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..." 
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari objek kebudayaan..."
                                    class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl pl-14 pr-6 py-4 text-slate-700 font-medium text-sm focus:bg-white focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none shadow-inner">
                         </div>
 
@@ -133,10 +133,10 @@
                 @forelse($submissions as $submission)
                 <a href="{{ route('profil-kebudayaan.show', $submission->slug) }}" class="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 flex flex-col h-full reveal reveal-up">
                     <div class="aspect-[4/3] relative overflow-hidden bg-slate-50">
-                        @php 
+                        @php
                             $mainImage = $submission->files->first(function($file) {
                                 return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
-                            }); 
+                            });
                         @endphp
                         @if($mainImage)
                             <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
@@ -158,7 +158,7 @@
                         <p class="text-slate-500 text-sm line-clamp-3 mb-8 font-medium leading-relaxed">
                             {{ $submission->description }}
                         </p>
-                        
+
                         <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
                             <div class="flex items-center gap-2 text-slate-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>

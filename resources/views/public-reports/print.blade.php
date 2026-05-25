@@ -175,6 +175,24 @@
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
             transform: translateY(-2px);
         }
+        
+        .chart-print-image {
+            display: none;
+        }
+        @media print {
+            .chart-container canvas {
+                display: none !important;
+            }
+            .chart-print-image {
+                display: block !important;
+                margin: 0 auto !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            .chartjs-size-monitor {
+                position: fixed !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -190,6 +208,7 @@
     <div class="chart-container" style="page-break-inside: avoid;">
         <h3 style="margin-bottom: 10px; color: #03045E; font-size: 14px;">Distribusi Berdasarkan Kategori</h3>
         <canvas id="categoryChart"></canvas>
+        <img id="categoryChartImage" class="chart-print-image" alt="Chart Distribusi Kategori">
     </div>
     @endif
 
@@ -241,7 +260,7 @@
             
             const isMobile = window.innerWidth < 640 || window.matchMedia('(max-width: 640px)').matches;
             
-            new Chart(ctx, {
+            const chartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: {!! json_encode($categoryStats->keys()) !!},
@@ -276,10 +295,14 @@
                 }
             });
 
-            // Automatically trigger print after a small delay to ensure chart is rendered
+            // Convert chart to static image for print reliability and then trigger print
             setTimeout(() => {
+                const img = document.getElementById('categoryChartImage');
+                if (img) {
+                    img.src = chartInstance.toBase64Image();
+                }
                 window.print();
-            }, 500);
+            }, 600);
         });
     </script>
     @else
