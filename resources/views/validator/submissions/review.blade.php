@@ -109,16 +109,28 @@
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Kategori</label>
                             <p class="text-sm font-bold text-[#03045E] leading-relaxed">{{ $submission->category }}</p>
                         </div>
+                        <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300 md:col-span-2">
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-[#0077B6] transition-colors">Deskripsi</label>
+                                @if($submission->category === \App\Models\CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100 uppercase tracking-widest">
+                                        <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+                                        Tampil di halaman publik
+                                    </span>
+                                @endif
+                            </div>
+                            @if(!empty($submission->description))
+                                <p class="text-sm font-medium text-slate-600 leading-relaxed whitespace-pre-wrap break-words">{{ $submission->description }}</p>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-100">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                                    Belum diisi
+                                </span>
+                            @endif
+                        </div>
+
                     </div>
 
-                    @if($submission->category !== \App\Models\CulturalSubmission::CATEGORY_LAPORAN_AKTIF)
-                    <div class="group p-5 rounded-2xl hover:bg-slate-50/80 transition-colors duration-300">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block group-hover:text-[#0077B6] transition-colors">Deskripsi</label>
-                        <div class="prose prose-slate prose-sm font-medium text-slate-600 leading-relaxed max-w-none w-full break-words break-all overflow-hidden">
-                            {{ $submission->description }}
-                        </div>
-                    </div>
-                    @endif
 
                     <!-- Category-Specific Data -->
                     @php
@@ -276,19 +288,21 @@
                                         @if(is_array($dataValue))
                                             @if(isset($dataValue[0]) && is_array($dataValue[0]))
                                                 {{-- Dynamic table data --}}
-                                                <div class="bg-white rounded-xl border border-indigo-100/50 overflow-hidden mt-1">
-                                                    <div class="grid gap-0 bg-indigo-50/30 border-b border-indigo-100/50" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
-                                                        @foreach(array_keys($dataValue[0]) as $colKey)
-                                                            <div class="px-3 py-2 text-[10px] font-black text-indigo-900/40 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</div>
-                                                        @endforeach
-                                                    </div>
-                                                    @foreach($dataValue as $row)
-                                                        <div class="grid gap-0 border-b border-indigo-50/50 last:border-0" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
-                                                            @foreach($row as $cellValue)
-                                                                <div class="px-3 py-2 text-xs font-bold text-[#03045E] truncate" title="{{ $cellValue }}">{{ $cellValue }}</div>
+                                                <div class="bg-white rounded-xl border border-indigo-100/50 mt-1 overflow-x-auto">
+                                                    <div class="min-w-max">
+                                                        <div class="grid gap-0 bg-indigo-50/30 border-b border-indigo-100/50" style="grid-template-columns: repeat({{ count(array_keys($dataValue[0])) }}, 1fr);">
+                                                            @foreach(array_keys($dataValue[0]) as $colKey)
+                                                                <div class="px-3 py-2 text-[10px] font-black text-indigo-900/40 uppercase tracking-widest">{{ str_replace('_', ' ', $colKey) }}</div>
                                                             @endforeach
                                                         </div>
-                                                    @endforeach
+                                                        @foreach($dataValue as $row)
+                                                            <div class="grid gap-0 border-b border-indigo-50/50 last:border-0" style="grid-template-columns: repeat({{ count(array_keys($row)) }}, 1fr);">
+                                                                @foreach($row as $cellValue)
+                                                                    <div class="px-3 py-2 text-xs font-bold text-[#03045E] truncate" title="{{ $cellValue }}">{{ $cellValue }}</div>
+                                                                @endforeach
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             @else
                                                 {{-- Checkbox array --}}
@@ -417,7 +431,7 @@
                                     <label class="relative cursor-pointer group/opt" @click="selectAction('forwarded')">
                                          <input type="radio" name="action" value="forwarded" class="peer sr-only" x-model="selectedAction">
                                          <div class="p-4 rounded-xl border-2 border-slate-100 bg-slate-50/30 transition-all duration-300 peer-checked:border-indigo-500 peer-checked:bg-white peer-checked:shadow-xl peer-checked:shadow-indigo-100/30 peer-checked:ring-4 peer-checked:ring-indigo-500/10 peer-checked:scale-[1.02] hover:bg-white hover:border-slate-200 group-hover/opt:scale-[1.01] flex items-center gap-4 group-active:scale-[0.98]">
-                                             <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-indigo-500 peer-checked:bg-indigo-50 peer-checked:border-indigo-200 peer-checked:scale-110 transition-all duration-300">
+                                             <div class="w-10 h-10 shrink-0 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 peer-checked:text-indigo-500 peer-checked:bg-indigo-50 peer-checked:border-indigo-200 peer-checked:scale-110 transition-all duration-300">
                                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                                              </div>
                                              <div class="flex-1">
@@ -482,10 +496,10 @@
                     @elseif($submission->status === \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION)
                         <div class="mb-10 p-8 bg-blue-50/50 border-2 border-blue-100 rounded-[2rem] relative overflow-hidden group/header-field">
                             <div class="absolute -right-12 -top-12 w-40 h-40 bg-blue-200/20 rounded-full blur-3xl group-hover/header-field:scale-110 transition-transform duration-700"></div>
-                            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                                <div class="space-y-2">
+                            <div class="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="space-y-2 min-w-0">
                                     <h4 class="text-xs font-black text-[#03045E] uppercase tracking-[0.2em] flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-xl bg-[#0077B6] text-white flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                        <div class="w-8 h-8 shrink-0 rounded-xl bg-[#0077B6] text-white flex items-center justify-center shadow-lg shadow-blue-500/20">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                         </div>
                                         Lengkapi Data Kebudayaan
@@ -494,7 +508,7 @@
                                         Anda dapat melengkapi pertanyaan yang sifatnya mendalam atau memperbaiki data sebelum verifikasi lapangan.
                                     </p>
                                 </div>
-                                <a href="{{ route('validator.submissions.edit', $submission) }}" class="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 hover:border-[#0077B6] hover:text-[#0077B6] text-[#03045E] text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm active:scale-95 group/btn shrink-0">
+                                <a href="{{ route('validator.submissions.edit', $submission) }}" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-white border-2 border-slate-200 hover:border-[#0077B6] hover:text-[#0077B6] text-[#03045E] text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-sm active:scale-95 group/btn shrink-0">
                                     <span>Buka Form Edit Data</span>
                                     <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                                 </a>
@@ -504,19 +518,19 @@
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
                             @if($categorySlug === 'laporan-kebudayaan-aktif')
-                                <div class="p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer" 
+                                <div class="p-4 sm:p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer" 
                                      @click="toggleDirectValidation()">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-emerald-500 shadow-sm transition-transform group-hover/direct:scale-110">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            <div class="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-white flex items-center justify-center text-emerald-500 shadow-sm transition-transform group-hover/direct:scale-110">
+                                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                             </div>
-                                            <div>
-                                                <h4 class="text-sm font-black text-emerald-900 uppercase tracking-wider">Validasi Langsung</h4>
-                                                <p class="text-[10px] text-emerald-600 font-bold">Verifikasi tanpa kunjungan lapangan (khusus Laporan Aktif)</p>
+                                            <div class="min-w-0">
+                                                <h4 class="text-xs sm:text-sm font-black text-emerald-900 uppercase tracking-wider leading-tight">Validasi Langsung</h4>
+                                                <p class="text-[10px] text-emerald-600 font-bold mt-0.5 leading-tight">Verifikasi tanpa kunjungan lapangan (khusus Laporan Aktif)</p>
                                             </div>
                                         </div>
-                                        <div class="w-12 h-6 rounded-full transition-colors relative" :class="isDirectValidation ? 'bg-emerald-500' : 'bg-slate-200'">
+                                        <div class="w-12 h-6 shrink-0 rounded-full transition-colors relative" :class="isDirectValidation ? 'bg-emerald-500' : 'bg-slate-200'">
                                             <div class="absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm" :class="isDirectValidation ? 'left-7' : 'left-1'"></div>
                                         </div>
                                     </div>
