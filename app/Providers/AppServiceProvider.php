@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         \App\Models\User::observe(\App\Observers\UserObserver::class);
+        \App\Models\CulturalSubmission::observe(\App\Observers\CulturalSubmissionObserver::class);
 
         // CMS: Provide global settings to all views
         view()->composer('*', function ($view) {

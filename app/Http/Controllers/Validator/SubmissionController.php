@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Validator;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeReview;
+use App\Models\AuditLog;
 use App\Models\CulturalSubmission;
 use App\Notifications\SubmissionNotification;
 use Illuminate\Http\Request;
@@ -82,6 +83,21 @@ class SubmissionController extends Controller
             'status' => CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW,
         ]);
 
+        // Log the claim action
+        AuditLog::create([
+            'user_id'    => Auth::id(),
+            'action'     => 'validator_claimed_submission',
+            'model_type' => CulturalSubmission::class,
+            'model_id'   => $submission->id,
+            'new_data'   => [
+                'submission_name' => $submission->name,
+                'category'        => $submission->category,
+                'pengusul'        => $submission->user->name ?? null,
+            ],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         // Notify the Pengusul
         $title = 'Pengajuan Diproses';
         $message = 'Pengajuan "' . $submission->name . '" Anda sedang ditinjau oleh Validator.';
@@ -110,6 +126,20 @@ class SubmissionController extends Controller
             'reviewed_by' => null,
             'review_started_at' => null,
             'status' => CulturalSubmission::STATUS_SUBMITTED,
+        ]);
+
+        // Log the unclaim action
+        AuditLog::create([
+            'user_id'    => Auth::id(),
+            'action'     => 'validator_unclaimed_submission',
+            'model_type' => CulturalSubmission::class,
+            'model_id'   => $submission->id,
+            'new_data'   => [
+                'submission_name' => $submission->name,
+                'category'        => $submission->category,
+            ],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
         ]);
 
         return redirect()->back()->with('success', 'Klaim review dibatalkan. Status dikembalikan ke Diajukan.');
@@ -161,6 +191,23 @@ class SubmissionController extends Controller
             $submission->update([
                 'status' => $status,
                 // We keep reviewed_by for history
+            ]);
+
+            // Log the administrative review decision
+            AuditLog::create([
+                'user_id'    => Auth::id(),
+                'action'     => 'validator_administrative_review_' . $request->action,
+                'model_type' => CulturalSubmission::class,
+                'model_id'   => $submission->id,
+                'new_data'   => [
+                    'submission_name' => $submission->name,
+                    'decision'        => $request->action,
+                    'notes'           => $request->notes,
+                    'new_status'      => $status,
+                    'pengusul'        => $submission->user->name ?? null,
+                ],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
             ]);
 
             // Notify the Pengusul
@@ -302,6 +349,24 @@ class SubmissionController extends Controller
 
             $submission->update($updateData);
 
+            // Log the field verification decision
+            AuditLog::create([
+                'user_id'    => Auth::id(),
+                'action'     => 'validator_field_verification_' . $request->recommendation,
+                'model_type' => CulturalSubmission::class,
+                'model_id'   => $submission->id,
+                'new_data'   => [
+                    'submission_name' => $submission->name,
+                    'recommendation'  => $request->recommendation,
+                    'visit_date'      => $request->visit_date,
+                    'notes'           => $request->notes,
+                    'new_status'      => $status,
+                    'pengusul'        => $submission->user->name ?? null,
+                ],
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
+
             // Notify the Pengusul
             $actionTitles = [
                 'verified' => 'Verifikasi Lapangan Disetujui',
@@ -350,6 +415,22 @@ class SubmissionController extends Controller
             'published_at' => now(),
         ]);
 
+        // Log the publish action
+        AuditLog::create([
+            'user_id'    => Auth::id(),
+            'action'     => 'validator_published_submission',
+            'model_type' => CulturalSubmission::class,
+            'model_id'   => $submission->id,
+            'new_data'   => [
+                'submission_name' => $submission->name,
+                'category'        => $submission->category,
+                'published_at'    => now()->toDateTimeString(),
+                'pengusul'        => $submission->user->name ?? null,
+            ],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
         // Notify the Pengusul
         $title = 'Pengajuan Dipublikasikan!';
         $message = 'Selamat! Objek budaya "' . $submission->name . '" telah resmi dipublikasikan.';
@@ -382,6 +463,22 @@ class SubmissionController extends Controller
         $submission->update([
             'status' => CulturalSubmission::STATUS_VERIFIED,
             'published_at' => null,
+        ]);
+
+        // Log the unpublish action
+        AuditLog::create([
+            'user_id'    => Auth::id(),
+            'action'     => 'validator_unpublished_submission',
+            'model_type' => CulturalSubmission::class,
+            'model_id'   => $submission->id,
+            'new_data'   => [
+                'submission_name' => $submission->name,
+                'category'        => $submission->category,
+                'unpublished_at'  => now()->toDateTimeString(),
+                'pengusul'        => $submission->user->name ?? null,
+            ],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
         ]);
 
         // Notify the Pengusul
