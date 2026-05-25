@@ -20,9 +20,9 @@
 
         <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative">
             <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl"></div>
-            
+
             <p class="relative z-10 text-sm font-bold text-slate-500 mb-8 leading-relaxed">Berikan tanda centang pada salah satu pilihan domain dan kategori yang sesuai dengan objek yang akan diisi.</p>
-            
+
             <div class="relative z-10 grid grid-cols-1 gap-4">
                 @php
                     $unescoCategories = [
@@ -81,12 +81,12 @@
 
             {{-- Sub-category selector --}}
             @if($hasSub)
-                <div class="space-y-4 group relative transition-all duration-300" 
+                <div class="space-y-4 group relative transition-all duration-300"
                      :class="openField === 'sub_category' ? 'z-[100]' : 'z-10'"
                      @if($forceRequired ?? false) data-required="true" @endif>
                     <label class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">{{ $categoryConfig['sub_label'] ?? 'Pilih Sub-Kategori' }} <span class="text-red-500">*</span></label>
-                    <div x-data="{ 
-                            open: false, 
+                    <div x-data="{
+                            open: false,
                             selectedKey: '{{ $categoryDataValues[$categoryConfig['sub_field']] ?? '' }}',
                             options: @js($categoryConfig['sub_options'] ?? []),
                             selectOption(key) {
@@ -99,10 +99,10 @@
                          x-init="$watch('open', val => { if(val) openField = 'sub_category'; else if(openField === 'sub_category') openField = null; })"
                          @click.away="open = false"
                          class="relative">
-                        
+
                         <input type="hidden" name="category_data[{{ $categoryConfig['sub_field'] }}]" :value="selectedKey" data-category-field>
-                        
-                        <button type="button" 
+
+                        <button type="button"
                             @click="open = !open"
                             class="w-full flex items-center justify-between px-6 py-5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 outline-none shadow-sm"
                             :class="open ? 'border-[#0077B6] ring-[6px] ring-[#0077B6]/5 shadow-lg' : ''">
@@ -112,14 +112,14 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" 
+                        <div x-show="open"
                              x-transition:enter="transition ease-out duration-200"
                              x-transition:enter-start="opacity-0 scale-95 translate-y-2"
                              x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                              class="absolute z-50 w-full mt-3 bg-white border border-slate-100 rounded-3xl shadow-2xl overflow-hidden py-3"
                              style="display: none;">
                             <template x-for="(label, key) in options" :key="key">
-                                <button type="button" 
+                                <button type="button"
                                     @click="selectOption(key)"
                                     class="w-full text-left px-6 py-3.5 text-sm font-black transition-all duration-200 flex items-center justify-between group/opt"
                                     :class="selectedKey === key ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
@@ -137,7 +137,7 @@
 
                 {{-- Render fields for each sub-category --}}
                 @foreach($categoryConfig['fields'] as $subKey => $subFields)
-                    <div x-show="activeSubCategory === '{{ $subKey }}'" 
+                    <div x-show="activeSubCategory === '{{ $subKey }}'"
                          x-transition:enter="transition ease-out duration-500 delay-100"
                          x-transition:enter-start="opacity-0 translate-y-4"
                          x-transition:enter-end="opacity-100 translate-y-0"
@@ -179,7 +179,6 @@
     {{-- ================================================================== --}}
     {{-- SECTION C: Deskripsi --}}
     {{-- ================================================================== --}}
-    @if($categorySlug !== 'laporan-kebudayaan-aktif')
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
@@ -189,18 +188,44 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative" 
-             x-data="{ descCount: {{ strlen(old('description', $submission->description ?? '')) }} }"
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative"
              @if($forceRequired ?? false) data-required="true" @endif>
-            <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] mb-4">Deskripsi Kebudayaan <span class="text-red-500">*</span></label>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mb-6">
+                <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">
+                    @if($categorySlug === 'laporan-kebudayaan-aktif')
+                        Deskripsi Kebudayaan Aktif <span class="text-slate-400">(Diisi otomatis)</span>
+                    @else
+                        Deskripsi Kebudayaan <span class="text-red-500">*</span>
+                    @endif
+                </label>
+                @if($categorySlug === 'laporan-kebudayaan-aktif')
+                    <button type="button"
+                        @click="autoPopulateDescription(categoryData)"
+                        class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[10px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-2xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 active:scale-95 flex items-center justify-center sm:justify-start gap-2 whitespace-nowrap">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>Isi Otomatis</span>
+                    </button>
+                @endif
+            </div>
             <div class="relative group">
-                <textarea name="description" id="description" rows="10" 
-                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover:shadow-md"
-                    placeholder="Ceritakan sejarah, filosofi, dan karakteristik kebudayaan ini secara mendalam (Minimal 50 karakter)..."
-                    required
-                    @input="descCount = $el.value.length"
-                    data-category-field>{{ old('description', $submission->description ?? '') }}</textarea>
-                
+                <textarea name="description" id="description" rows="10"
+                    x-model="autoDescription"
+                    @input="descCount = $el.value.length; $el.dispatchEvent(new Event('input', { bubbles: true }))"
+                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover:shadow-md @if($categorySlug === 'laporan-kebudayaan-aktif')cursor-not-allowed bg-slate-50 @endif"
+                    placeholder="@if($categorySlug === 'laporan-kebudayaan-aktif')Deskripsi akan otomatis diisi berdasarkan data laporan kebudayaan aktif Anda...@else Ceritakan sejarah, filosofi, dan karakteristik kebudayaan ini secara mendalam (Minimal 50 karakter)...@endif"
+                    @if($categorySlug !== 'laporan-kebudayaan-aktif')required @endif
+                    @if($categorySlug === 'laporan-kebudayaan-aktif')readonly @endif
+                    data-category-field></textarea>
+
+                {{-- @if($categorySlug === 'laporan-kebudayaan-aktif')
+                    <div class="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-lg text-[9px] font-black text-blue-600 uppercase tracking-widest border border-blue-100/50">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        Otomatis
+                    </div>
+                @endif --}}
+
                 <div class="absolute bottom-6 right-8 flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest border border-slate-100">
                     <span x-text="descCount"></span>/50 Karakter
                 </div>
@@ -213,7 +238,6 @@
             @enderror
         </div>
     </div>
-    @endif
 
     {{-- ================================================================== --}}
     {{-- SECTION D: Data Dukung --}}
@@ -328,7 +352,7 @@
                                     </div>
                                 </template>
                             </div>
-                            
+
                             <!-- File Info -->
                             <div class="flex items-center justify-between min-w-0 px-1">
                                 <div class="min-w-0 pr-2">
@@ -344,7 +368,7 @@
                 </div>
 
                 {{-- Dropzone --}}
-                <div 
+                <div
                     x-show="files.length < 5"
                     @click="$refs.fileInput.click()"
                     :class="dragover ? 'border-[#0077B6] bg-[#0077B6]/5 scale-[1.01] shadow-2xl shadow-[#0077B6]/10' : 'border-slate-100 hover:border-[#0077B6] hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50'"
@@ -352,7 +376,7 @@
                 >
                     <div class="absolute -right-20 -top-20 w-56 h-56 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100/30 transition-colors"></div>
                     <input type="file" name="files[]" id="files" multiple class="hidden" x-ref="fileInput" @change="handleFileSelect" accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mov,.webm">
-                    
+
                     <div class="relative z-10 space-y-4">
                         <div class="mx-auto w-14 h-14 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-white shadow-xl flex items-center justify-center text-[#0077B6] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-slate-50">
                             <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -388,7 +412,7 @@
                         Tautan Video
                     </h4>
                     <div class="relative">
-                        <input type="text" name="category_data[video_url]" id="video_url" 
+                        <input type="text" name="category_data[video_url]" id="video_url"
                             value="{{ $categoryDataValues['video_url'] ?? '' }}"
                             data-category-field data-optional
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
@@ -406,7 +430,7 @@
                         Kajian Objek
                     </h4>
                     <div class="relative">
-                        <input type="text" name="category_data[dokumen_kajian_url]" id="dokumen_kajian_url" 
+                        <input type="text" name="category_data[dokumen_kajian_url]" id="dokumen_kajian_url"
                             value="{{ $categoryDataValues['dokumen_kajian_url'] ?? '' }}"
                             data-category-field data-optional
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
@@ -424,7 +448,7 @@
                         Dokumen Pendukung Lainnya
                     </h4>
                     <div class="relative">
-                        <input type="text" name="category_data[dokumen_lainnya_url]" id="dokumen_lainnya_url" 
+                        <input type="text" name="category_data[dokumen_lainnya_url]" id="dokumen_lainnya_url"
                             value="{{ $categoryDataValues['dokumen_lainnya_url'] ?? '' }}"
                             data-category-field data-optional
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
@@ -474,7 +498,7 @@
                     <template x-if="previewFile?.isVideo">
                         <video :src="previewFile?.previewUrl" controls autoplay class="max-w-full max-h-[70vh]"></video>
                     </template>
-                    
+
                     <!-- Floating Download Link -->
                     <template x-if="previewFile">
                         <a :href="previewFile?.previewUrl" download x-bind:download="previewFile?.name" class="absolute bottom-8 right-8 px-6 py-3 bg-white text-[#03045E] rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
@@ -506,6 +530,8 @@ function categoryForm() {
         activeSubCategory: @json($categoryDataValues[$categoryConfig['sub_field'] ?? ''] ?? ''),
         categoryData: @json($categoryDataValues),
         submissionName: @js(old('name', $submission->name ?? '')),
+        autoDescription: '{{ old('description', $submission->description ?? '') }}',
+        descCount: 0,
         dragover: false,
         files: [],
         showPreviewModal: false,
@@ -526,22 +552,59 @@ function categoryForm() {
                 this.previewFile = null;
             }, 300);
         },
-        
+
         initData() {
-            // Listen to any changes in specific fields that should populate name
-            this.$watch('categoryData', (value) => {
-                const isLaporanAktif = '{{ $categorySlug }}' === 'laporan-kebudayaan-aktif';
-                const nameField = isLaporanAktif ? 'nama_dan_jenis_kebudayaan' : 'nama_objek';
-                if (value[nameField]) {
-                    this.submissionName = value[nameField];
+            // Initialize character count
+            this.descCount = this.autoDescription.length;
+
+            // Watch for description changes to update character count
+            this.$watch('autoDescription', (newVal) => {
+                this.descCount = newVal.length;
+            });
+        },
+
+        autoPopulateDescription(categoryData) {
+            // Build description from available data
+            let description = '';
+
+            const nama = categoryData['nama_dan_jenis_kebudayaan'] || '';
+            const desa = categoryData['desa_lokasi'] || '';
+            const detail = categoryData['detail_lokasi'] || '';
+            const tanggal = categoryData['tanggal_pelaksanaan'] || '';
+            const estimasi = categoryData['estimasi_penonton'] || '';
+
+            // Format the date if available
+            let formattedDate = '';
+            if (tanggal) {
+                try {
+                    const dateObj = new Date(tanggal);
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    formattedDate = dateObj.toLocaleDateString('id-ID', options);
+                } catch(e) {
+                    formattedDate = tanggal;
                 }
-            }, { deep: true });
+            }
+
+            // Build description in Indonesian
+            const parts = [];
+            if (nama) parts.push(`${nama}`);
+            if (formattedDate) parts.push(`dilaksanakan pada ${formattedDate}`);
+            if (desa) parts.push(`di Desa ${desa}`);
+            if (detail) parts.push(`tepatnya di ${detail}`);
+            if (estimasi) parts.push(`dengan estimasi peserta/penonton ${estimasi}`);
+
+            if (parts.length > 0) {
+                description = parts.join(', ') + '.';
+            }
+
+            // Update the reactive description property
+            this.autoDescription = description;
         },
 
         getFieldValue(key) {
             return this.categoryData[key] || '';
         },
-        
+
         setFieldValue(key, value) {
             this.categoryData[key] = value;
             // Update submissionName if it's the name field
@@ -554,7 +617,7 @@ function categoryForm() {
 
         // Dynamic table management
         dynamicTables: {},
-        
+
         initDynamicTable(key, columns) {
             let existing = this.categoryData[key];
             if (existing && Array.isArray(existing) && existing.length > 0) {
@@ -566,14 +629,14 @@ function categoryForm() {
                 this.categoryData[key] = this.dynamicTables[key];
             }
         },
-        
+
         addTableRow(key, columns) {
             if (!this.dynamicTables[key]) this.dynamicTables[key] = [];
             let row = {};
             columns.forEach(c => row[c] = '');
             this.dynamicTables[key].push(row);
         },
-        
+
         removeTableRow(key, index) {
             if (this.dynamicTables[key] && this.dynamicTables[key].length > 1) {
                 this.dynamicTables[key].splice(index, 1);
