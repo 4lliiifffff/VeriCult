@@ -523,18 +523,10 @@
                                 </div>
                             @endif
 
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10" x-show="!isDirectValidation" x-collapse>
+                            <div class="mb-10" x-show="!isDirectValidation" x-collapse>
                                 <div class="group">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Tanggal Kunjungan</label>
                                     <input type="date" name="visit_date" id="visit_date_input" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200" :required="!isDirectValidation">
-                                </div>
-                                <div class="group">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Lintang (Lat)</label>
-                                    <input type="text" name="verified_latitude" placeholder="-6.xxx" value="{{ $submission->latitude }}" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
-                                </div>
-                                <div class="group">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block group-hover:text-[#0077B6] transition-colors">Bujur (Lng)</label>
-                                    <input type="text" name="verified_longitude" placeholder="106.xxx" value="{{ $submission->longitude }}" class="w-full px-6 py-4.5 rounded-2xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 font-bold text-[#03045E] transition-all duration-300 hover:border-slate-200">
                                 </div>
                             </div>
 
@@ -542,8 +534,6 @@
                             <template x-if="isDirectValidation">
                                 <div>
                                     <input type="hidden" name="visit_date" value="{{ date('Y-m-d') }}">
-                                    <input type="hidden" name="verified_latitude" value="{{ $submission->latitude }}">
-                                    <input type="hidden" name="verified_longitude" value="{{ $submission->longitude }}">
                                 </div>
                             </template>
 

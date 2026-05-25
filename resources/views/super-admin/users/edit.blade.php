@@ -221,7 +221,7 @@
                                         <div class="space-y-8">
                                             <div class="space-y-2">
                                                 <x-input-label for="instansi" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Instansi asal')" />
-                                                <x-text-input id="instansi" name="instansi" type="text" class="block w-full h-14 px-6 rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] font-bold text-[#03045E] shadow-inner" :value="old('instansi', $user->profile?->instansi)" placeholder="Contoh: Dinas Kebudayaan" />
+                                                <x-text-input id="instansi" name="instansi" type="text" class="block w-full h-14 px-6 rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] font-bold text-[#03045E] shadow-inner" :value="old('instansi', $user->pengusulProfile?->instansi ?? $user->validatorProfile?->instansi)" placeholder="Contoh: Dinas Kebudayaan" />
                                             </div>
                                         </div>
                                     </template>
@@ -229,7 +229,7 @@
                                     <!-- Common Fields -->
                                     <div class="space-y-2">
                                         <x-input-label for="no_hp" class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1" :value="__('Nomor Handphone')" />
-                                        <x-text-input id="no_hp" name="no_hp" type="text" class="block w-full h-14 px-6 rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] font-bold text-[#03045E] shadow-inner" :value="old('no_hp', $user->profile?->no_hp)" placeholder="0812xxxxxx" />
+                                        <x-text-input id="no_hp" name="no_hp" type="text" class="block w-full h-14 px-6 rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] font-bold text-[#03045E] shadow-inner" :value="old('no_hp', $user->pengusulDesaProfile?->no_hp ?? $user->pengusulProfile?->no_hp ?? $user->validatorProfile?->no_hp)" placeholder="0812xxxxxx" />
                                     </div>
                                 </div>
                             </div>

@@ -272,24 +272,24 @@ class UserController extends Controller
             } elseif ($newRole === 'validator') {
                 $profile = $user->validatorProfile()->firstOrCreate([]);
                 $profile->update([
-                    'instansi' => $request->instansi ?? $profile->instansi,
-                    'no_hp' => $request->no_hp ?? $profile->no_hp,
+                    'instansi' => $request->has('instansi') ? $request->instansi : $profile->instansi,
+                    'no_hp' => $request->has('no_hp') ? $request->no_hp : $profile->no_hp,
                 ]);
             } elseif ($newRole === 'pengusul') {
                 $profile = $user->pengusulProfile()->firstOrCreate([]);
                 $profile->update([
-                    'instansi' => $request->instansi ?? $profile->instansi,
-                    'no_hp' => $request->no_hp ?? $profile->no_hp,
+                    'instansi' => $request->has('instansi') ? $request->instansi : $profile->instansi,
+                    'no_hp' => $request->has('no_hp') ? $request->no_hp : $profile->no_hp,
                 ]);
             } elseif ($newRole === 'pengusul-desa') {
                 $profile = $user->pengusulDesaProfile()->firstOrCreate([], [
                     'is_approved_by_admin' => false // default for new pengusul-desa via edit
                 ]);
                 $profile->update([
-                    'village_id' => $request->village_id ?: $profile->village_id,
-                    'jabatan_desa' => $request->jabatan_desa ?? $profile->jabatan_desa,
-                    'nip' => $request->nip ?? $profile->nip,
-                    'no_hp' => $request->no_hp ?? $profile->no_hp,
+                    'village_id' => $request->has('village_id') ? $request->village_id : $profile->village_id,
+                    'jabatan_desa' => $request->has('jabatan_desa') ? $request->jabatan_desa : $profile->jabatan_desa,
+                    'nip' => $request->has('nip') ? $request->nip : $profile->nip,
+                    'no_hp' => $request->has('no_hp') ? $request->no_hp : $profile->no_hp,
                 ]);
             }
 

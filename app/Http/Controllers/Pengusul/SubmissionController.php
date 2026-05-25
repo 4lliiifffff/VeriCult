@@ -113,8 +113,6 @@ class SubmissionController extends Controller
             'category' => ['required', 'string', 'in:' . implode(',', CulturalSubmission::CATEGORIES)],
             'address' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
-            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'period_year' => ['nullable', 'string'],
             'files' => ['nullable', 'array', 'max:5'],
             'files.*' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png,gif,webp,mp4,avi,mov,webm'],
@@ -556,8 +554,6 @@ class SubmissionController extends Controller
             'address' => $submissionAddress,
             'description' => $validated['description'] ?? $submission->description,
             'category_data' => !empty($categoryData) ? $categoryData : null,
-            'latitude' => $validated['latitude'] ?? null,
-            'longitude' => $validated['longitude'] ?? null,
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : ($submission->period_year ?? date('Y')),
         ]);
 

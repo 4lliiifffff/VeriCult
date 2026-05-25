@@ -415,7 +415,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -444,7 +443,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -459,12 +457,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -485,7 +477,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -516,7 +507,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -531,12 +521,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -557,7 +541,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -601,7 +584,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -616,12 +598,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -642,7 +618,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat Objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -692,7 +667,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -707,12 +681,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -733,7 +701,6 @@ return [
                 ],
                 'sifat_benda' => ['label' => 'Sifat benda', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_benda' => ['label' => 'Periode benda', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -790,7 +757,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_benda' => ['label' => 'Perolehan benda', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -805,12 +771,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -844,7 +804,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -873,7 +832,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -888,12 +846,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -914,7 +866,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -945,7 +896,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -960,12 +910,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -986,7 +930,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -1030,7 +973,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -1045,12 +987,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -1071,7 +1007,6 @@ return [
                 ],
                 'sifat_objek' => ['label' => 'Sifat Objek', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_objek' => ['label' => 'Periode objek', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -1121,7 +1056,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat lokasi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_bangunan' => ['label' => 'Perolehan bangunan', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -1136,12 +1070,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -1162,7 +1090,6 @@ return [
                 ],
                 'sifat_benda' => ['label' => 'Sifat benda', 'type' => 'select', 'options' => ['Sakral', 'Profan'], 'placeholder' => 'Pilih sifat', 'required' => true],
                 'lokasi_penemuan' => ['label' => 'Lokasi penemuan (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan lokasi penemuan', 'required' => true],
-                'koordinat_lokasi' => ['label' => 'Koordinat lokasi penemuan (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'elevasi' => ['label' => 'Elevasi (ketinggian)', 'type' => 'text', 'placeholder' => 'Contoh: 500 mdpl'],
                 'periode_benda' => ['label' => 'Periode benda', 'type' => 'select', 'options' => ['Prasejarah', 'Klasik', 'Kolonial', 'Pergerakan', 'Modern'], 'placeholder' => 'Pilih periode'],
                 
@@ -1219,7 +1146,6 @@ return [
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan', 'required' => true],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik', 'required' => true],
                 'alamat_pemilik' => ['label' => 'Alamat (Provinsi s.d Desa)', 'type' => 'textarea', 'placeholder' => 'Masukkan alamat pemilik', 'required' => true],
-                'koordinat_pemilik' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Masukkan koordinat pemilik'],
                 'perolehan_benda' => ['label' => 'Perolehan benda', 'type' => 'select', 'options' => ['Warisan', 'Pembelian', 'Hadiah', 'Hibah', 'Tukar menukar', 'Penemuan', 'Putusan pengadilan'], 'placeholder' => 'Pilih cara perolehan'],
                 
                 // Pengelolaan
@@ -1234,12 +1160,6 @@ return [
                     'label' => 'Alamat', 
                     'type' => 'textarea', 
                     'placeholder' => 'Masukkan alamat pengelola',
-                    'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
-                ],
-                'koordinat_pengelola' => [
-                    'label' => 'Koordinat', 
-                    'type' => 'text', 
-                    'placeholder' => 'Masukkan koordinat pengelola',
                     'condition' => ['field' => 'status_pengelolaan', 'value' => ['Dikelola pemerintah', 'Dikelola non-pemerintah']]
                 ],
                 
@@ -1301,6 +1221,19 @@ return [
                 'placeholder' => 'Pilih tanggal pelaksanaan',
                 'required' => true
             ],
+
+            'estimasi_penonton' => [
+                'label' => 'Estimasi Penonton / Peserta',
+                'type' => 'radio',
+                'options' => [
+                    'Kurang dari 50 orang',
+                    '50 – 100 orang',
+                    '100 – 500 orang',
+                    '500 – 1.000 orang',
+                    'Lebih dari 1.000 orang',
+                ],
+                'required' => true
+            ],
         ],
     ],
 
@@ -1330,7 +1263,6 @@ return [
                 'jenis_kelamin' => ['label' => 'Jenis kelamin', 'type' => 'select', 'options' => ['Pria', 'Wanita'], 'placeholder' => 'Pilih jenis kelamin', 'required' => true],
                 'agama' => ['label' => 'Agama', 'type' => 'text', 'placeholder' => 'Masukkan agama'],
                 'alamat_tempat_tinggal' => ['label' => 'Alamat tempat tinggal (Provinsi s.d Desa/Kelurahan)', 'type' => 'textarea', 'placeholder' => 'Harap diisi mulai dari provinsi hingga desa/kelurahan', 'required' => true],
-                'koordinat_tempat_tinggal' => ['label' => 'Koordinat tempat tinggal (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'nomor_hp' => ['label' => 'Nomor HP', 'type' => 'text', 'placeholder' => 'Masukkan nomor HP', 'required' => true],
                 'email' => ['label' => 'Email', 'type' => 'text', 'placeholder' => 'Masukkan alamat email'],
                 'alamat_website' => ['label' => 'Alamat website', 'type' => 'text', 'placeholder' => 'https://...'],
@@ -1404,7 +1336,6 @@ return [
                     'required' => true
                 ],
                 'alamat' => ['label' => 'Alamat (Provinsi s.d Desa/Kelurahan)', 'type' => 'textarea', 'placeholder' => 'Harap diisi mulai dari provinsi hingga desa/kelurahan', 'required' => true],
-                'koordinat' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'nomor_telepon' => ['label' => 'Nomor telepon', 'type' => 'text', 'placeholder' => 'Masukkan nomor telepon'],
                 'website' => ['label' => 'Website', 'type' => 'text', 'placeholder' => 'https://...'],
                 'akun_facebook' => ['label' => 'Akun facebook', 'type' => 'text', 'placeholder' => 'Username/Link FB'],
@@ -1441,7 +1372,6 @@ return [
                 // a. Identitas Umum
                 'nama_objek' => ['label' => 'Nama sarana prasarana', 'type' => 'text', 'placeholder' => 'Masukkan nama sarana prasarana', 'required' => true],
                 'alamat' => ['label' => 'Alamat (Provinsi s.d Desa/Kelurahan)', 'type' => 'textarea', 'placeholder' => 'Harap diisi mulai dari provinsi hingga desa/kelurahan', 'required' => true],
-                'koordinat' => ['label' => 'Koordinat (Lintang & Bujur)', 'type' => 'text', 'placeholder' => 'Contoh: -8.1234, 115.1234'],
                 'kontak_person' => ['label' => 'Kontak person (Nama dan Nomor HP)', 'type' => 'text', 'placeholder' => 'Contoh: Budi - 08123456789'],
                 'status_kepemilikan' => ['label' => 'Status kepemilikan', 'type' => 'select', 'options' => ['Pemerintah', 'Non-pemerintah'], 'placeholder' => 'Pilih status kepemilikan'],
                 'nama_pemilik' => ['label' => 'Nama orang/instansi pemilik', 'type' => 'text', 'placeholder' => 'Masukkan nama pemilik'],

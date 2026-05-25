@@ -250,8 +250,6 @@ class SubmissionController extends Controller
 
         $rules = [
             'visit_date' => 'required|date',
-            'verified_latitude' => 'nullable|numeric|between:-90,90',
-            'verified_longitude' => 'nullable|numeric|between:-180,180',
             'notes' => 'required|string|min:10',
             'recommendation' => 'required|in:verified,rejected,revision',
             'category_data' => 'nullable|array',
@@ -281,8 +279,6 @@ class SubmissionController extends Controller
                 'submission_id' => $submission->id,
                 'validator_id' => Auth::id(),
                 'visit_date' => $request->visit_date,
-                'verified_latitude' => $request->verified_latitude,
-                'verified_longitude' => $request->verified_longitude,
                 'notes' => $request->notes,
                 'recommendation' => $request->recommendation,
             ]);

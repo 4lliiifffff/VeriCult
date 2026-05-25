@@ -11,16 +11,12 @@ class FieldVerification extends Model
         'submission_id',
         'validator_id',
         'visit_date',
-        'verified_latitude',
-        'verified_longitude',
         'notes',
         'recommendation',
     ];
 
     protected $casts = [
         'visit_date' => 'date',
-        'verified_latitude' => 'decimal:8',
-        'verified_longitude' => 'decimal:8',
     ];
 
     public function submission(): BelongsTo
