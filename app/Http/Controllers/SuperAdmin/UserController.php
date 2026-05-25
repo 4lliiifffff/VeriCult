@@ -281,7 +281,7 @@ class UserController extends Controller
                     'no_hp' => $request->no_hp ?? $profile->no_hp,
                 ]);
             } elseif ($newRole === 'pengusul-desa') {
-                $profile = $user->pengusulDesaProfile()->firstOrCreate([
+                $profile = $user->pengusulDesaProfile()->firstOrCreate([], [
                     'is_approved_by_admin' => false // default for new pengusul-desa via edit
                 ]);
                 $profile->update([

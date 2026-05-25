@@ -390,7 +390,7 @@
                     <div class="relative">
                         <input type="text" name="category_data[video_url]" id="video_url" 
                             value="{{ $categoryDataValues['video_url'] ?? '' }}"
-                            data-category-field
+                            data-category-field data-optional
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
                             placeholder="Alamat tautan Video (YouTube/Lainnya)">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
@@ -408,7 +408,7 @@
                     <div class="relative">
                         <input type="text" name="category_data[dokumen_kajian_url]" id="dokumen_kajian_url" 
                             value="{{ $categoryDataValues['dokumen_kajian_url'] ?? '' }}"
-                            data-category-field
+                            data-category-field data-optional
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
                             placeholder="Alamat tautan Dokumen Kajian">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">
@@ -426,7 +426,7 @@
                     <div class="relative">
                         <input type="text" name="category_data[dokumen_lainnya_url]" id="dokumen_lainnya_url" 
                             value="{{ $categoryDataValues['dokumen_lainnya_url'] ?? '' }}"
-                            data-category-field
+                            data-category-field data-optional
                             class="w-full pl-6 pr-14 py-4.5 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none shadow-sm"
                             placeholder="Alamat tautan dokumen lainnya (Drive/DropBox/Lainnya)">
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors">

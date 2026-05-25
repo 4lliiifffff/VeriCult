@@ -426,8 +426,8 @@
 
                     const form = this.$refs.editForm;
                     if (form) {
-                        form.addEventListener('input', () => this.recalcProgress());
-                        form.addEventListener('change', () => this.recalcProgress());
+                        form.addEventListener('input', () => this.$nextTick(() => this.recalcProgress()));
+                        form.addEventListener('change', () => this.$nextTick(() => this.recalcProgress()));
                     }
 
                     this.$watch('files', () => this.$nextTick(() => this.recalcProgress()));
@@ -495,60 +495,37 @@
                 },
 
                 calculateProgress() {
-                    let totalQuestions = 0;
-                    let filledQuestions = 0;
-
-                    const desc = document.getElementById('description');
-                    if (desc) {
-                        totalQuestions++;
-                        if (desc.value && desc.value.trim().length >= 10) filledQuestions++;
-                    }
-
-                    const form = this.$refs.editForm;
-                    if (!form) return parseInt("{{ $submission->progress ?? 0 }}") || 0;
-
-                    const visibleInputs = form.querySelectorAll('input[type="text"][data-category-field], textarea[data-category-field]:not(#description)');
-                    visibleInputs.forEach(el => {
+                    let total = 0, filled = 0;
+                    const form = (this.$refs.mainForm || this.$refs.editForm);
+                    if (!form) return 0;
+                    
+                    form.querySelectorAll('[data-category-field]').forEach(el => {
+                        if (el.hasAttribute('data-optional')) return;
                         if (!this.isVisible(el)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
+                        if (el.disabled) return;
+                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address' || el.name === 'name')) return;
+                        
+                        if (el.type === 'radio' || el.type === 'checkbox') {
+                            if (!el.name || el.dataset.counted) return;
+                            total++;
+                            const checked = form.querySelector(`input[name="${el.name}"]:checked`);
+                            if (checked) filled++;
+                            form.querySelectorAll(`input[name="${el.name}"]`).forEach(r => r.dataset.counted = "true");
+                        } else {
+                            total++;
+                            if (el.value && el.value.trim() !== '') filled++;
+                        }
                     });
-
-                    const hiddenInputs = form.querySelectorAll('input[type="hidden"][data-category-field]');
-                    hiddenInputs.forEach(el => {
-                        if (el.name === 'category' || el.name === 'address') return;
-                        if (!this.isVisible(el.parentElement)) return;
-                        totalQuestions++;
-                        if (el.value && el.value.trim() !== '') filledQuestions++;
-                    });
-
-                    const radioNames = new Set();
-                    form.querySelectorAll('input[type="radio"][data-category-field]').forEach(el => {
-                        if (!this.isVisible(el)) return;
-                        radioNames.add(el.name);
-                    });
-                    radioNames.forEach(name => {
-                        totalQuestions++;
-                        const checked = form.querySelector(`input[type="radio"][name="${name}"]:checked`);
-                        if (checked) filledQuestions++;
-                    });
-
-                    const cbNames = new Set();
-                    form.querySelectorAll('input[type="checkbox"][data-category-field]').forEach(el => {
-                        if (!this.isVisible(el)) return;
-                        cbNames.add(el.name.replace('[]', ''));
-                    });
-                    cbNames.forEach(name => {
-                        totalQuestions++;
-                        const checked = form.querySelector(`input[type="checkbox"][name^="${name}"]:checked`);
-                        if (checked) filledQuestions++;
-                    });
-
-                    totalQuestions++;
-                    if ({{ $submission->files->count() }} > 0 || this.files.length > 0) filledQuestions++;
-
-                    if (totalQuestions === 0) return 0;
-                    return Math.min(100, Math.round((filledQuestions / totalQuestions) * 100));
+                    
+                    form.querySelectorAll('[data-counted]').forEach(el => delete el.dataset.counted);
+                    
+                    total++;
+                    const filesInput = document.getElementById('files');
+                    const hasNewFiles = filesInput && filesInput.files.length > 0 || (this.files && this.files.length > 0);
+                    const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
+                    if (hasNewFiles || hasExistingFiles) filled++;
+                    
+                    return total === 0 ? 0 : Math.min(100, Math.round((filled / total) * 100));
                 },
 
                 isVisible(el) {

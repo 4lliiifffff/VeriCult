@@ -210,8 +210,8 @@
                     this.$nextTick(() => { this.progress = this.calculateProgress(); });
                     const form = this.$refs.mainForm;
                     if (form) {
-                        form.addEventListener('input', () => this.progress = this.calculateProgress());
-                        form.addEventListener('change', () => this.progress = this.calculateProgress());
+                        form.addEventListener('input', () => this.$nextTick(() => this.progress = this.calculateProgress()));
+                        form.addEventListener('change', () => this.$nextTick(() => this.progress = this.calculateProgress()));
                     }
                     this.$watch('files', () => this.$nextTick(() => this.progress = this.calculateProgress()));
                 },
@@ -253,24 +253,30 @@
                     if (!form) return 0;
                     
                     form.querySelectorAll('[data-category-field]').forEach(el => {
+                        if (el.hasAttribute('data-optional')) return;
                         if (!this.isVisible(el)) return;
-                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address')) return;
+                        if (el.disabled) return;
+                        if (el.type === 'hidden' && (el.name === 'category' || el.name === 'address' || el.name === 'name')) return;
                         
                         if (el.type === 'radio' || el.type === 'checkbox') {
-                            if (el.dataset.counted) return;
+                            if (!el.name || el.dataset.counted) return;
                             total++;
                             const checked = form.querySelector(`input[name="${el.name}"]:checked`);
                             if (checked) filled++;
-                            el.dataset.counted = "true";
+                            form.querySelectorAll(`input[name="${el.name}"]`).forEach(r => r.dataset.counted = "true");
                         } else {
                             total++;
                             if (el.value && el.value.trim() !== '') filled++;
                         }
                     });
+                    
                     form.querySelectorAll('[data-counted]').forEach(el => delete el.dataset.counted);
                     
                     total++;
-                    if (this.files.length > 0) filled++;
+                    const filesInput = document.getElementById('files');
+                    const hasNewFiles = filesInput && filesInput.files.length > 0 || (this.files && this.files.length > 0);
+                    const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
+                    if (hasNewFiles || hasExistingFiles) filled++;
                     
                     return total === 0 ? 0 : Math.min(100, Math.round((filled / total) * 100));
                 },
