@@ -304,4 +304,47 @@ class AuditLogTest extends TestCase
         $this->assertNotNull($unpublishLog);
         $this->assertEquals($this->validator->id, $unpublishLog->user_id);
     }
+
+    /**
+     * Test that updating a user with profile details logs all details, including relationship fields like no_hp.
+     */
+    public function test_super_admin_updating_user_logs_all_details_including_profile_fields(): void
+    {
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super-admin');
+
+        $user = User::factory()->create();
+        $user->assignRole('pengusul-desa');
+        $user->pengusulDesaProfile()->create([
+            'no_hp' => '0811111111',
+            'jabatan_desa' => 'Sekretaris',
+        ]);
+
+        $response = $this->actingAs($superAdmin)
+            ->patch(route('super-admin.users.update', $user), [
+                'name' => 'New Name',
+                'email' => 'newemail@example.com',
+                'role' => 'pengusul-desa',
+                'no_hp' => '0899999999',
+                'jabatan_desa' => 'Kepala Desa',
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect(route('super-admin.users.index'));
+
+        // Assert that the 'updated_user' log was written and contains no_hp
+        $log = AuditLog::where('action', 'updated_user')->first();
+        $this->assertNotNull($log);
+        $this->assertEquals($superAdmin->id, $log->user_id);
+        $this->assertEquals(User::class, $log->model_type);
+        $this->assertEquals($user->id, $log->model_id);
+
+        // Assert no_hp is in old_data and new_data
+        $this->assertArrayHasKey('pengusul_desa_profile', $log->old_data);
+        $this->assertArrayHasKey('pengusul_desa_profile', $log->new_data);
+        $this->assertEquals('0811111111', $log->old_data['pengusul_desa_profile']['no_hp']);
+        $this->assertEquals('0899999999', $log->new_data['pengusul_desa_profile']['no_hp']);
+        $this->assertEquals('Sekretaris', $log->old_data['pengusul_desa_profile']['jabatan_desa']);
+        $this->assertEquals('Kepala Desa', $log->new_data['pengusul_desa_profile']['jabatan_desa']);
+    }
 }

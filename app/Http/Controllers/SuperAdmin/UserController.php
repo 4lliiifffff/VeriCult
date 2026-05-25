@@ -240,6 +240,7 @@ class UserController extends Controller
         ]);
 
         try {
+            $user->load(['roles', 'superAdminProfile', 'adminProfile', 'validatorProfile', 'pengusulProfile', 'pengusulDesaProfile']);
             $oldData = $user->toArray();
 
             $user->name = $request->name;
@@ -295,13 +296,17 @@ class UserController extends Controller
             // Explicitly forget cached permissions to ensure immediate effect
             app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
+            $user->refresh();
+            $user->load(['roles', 'superAdminProfile', 'adminProfile', 'validatorProfile', 'pengusulProfile', 'pengusulDesaProfile']);
+            $newData = $user->toArray();
+
             \App\Models\AuditLog::create([
                 'user_id' => auth()->id(),
                 'action' => 'updated_user',
                 'model_type' => get_class($user),
                 'model_id' => $user->id,
                 'old_data' => $oldData,
-                'new_data' => $user->fresh()->toArray(),
+                'new_data' => $newData,
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
             ]);
