@@ -18,89 +18,115 @@
             --border-light: #e2e8f0;
             --bg-light: #f8fafc;
         }
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            color: var(--text-dark); 
-            line-height: 1.5; 
-            padding: 40px; 
-            font-size: 13px; 
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding: 40px;
+            font-size: 13px;
             background: #fff;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
-        .header { 
-            text-align: center; 
-            border-bottom: 3px solid var(--primary); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }
-        .header h1 { 
-            margin: 0; 
-            font-size: 24px; 
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
             font-weight: 800;
-            text-transform: uppercase; 
-            color: var(--primary); 
+            text-transform: uppercase;
+            color: var(--primary);
             letter-spacing: 0.05em;
         }
-        .header p { 
-            margin: 8px 0 0; 
-            color: var(--text-muted); 
-            font-size: 14px; 
+        .header p {
+            margin: 8px 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
             font-weight: 500;
         }
-        
-        .chart-container { 
+
+        .chart-container {
             position: relative;
-            width: 100%; 
+            width: 100%;
             max-width: 600px;
-            height: 350px; 
-            margin: 0 auto 40px; 
-            text-align: center; 
+            height: 350px;
+            margin: 0 auto 50px;
+            text-align: center;
+            clear: both;
         }
         .chart-container canvas {
             display: block;
             width: 100% !important;
             height: 100% !important;
         }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-bottom: 30px; 
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
         }
-        table th, table td { 
-            padding: 12px 15px; 
-            border: 1px solid var(--border-light); 
-            text-align: left; 
-            vertical-align: middle; 
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            text-align: left;
+            vertical-align: middle;
         }
-        table th { 
-            background-color: var(--bg-light); 
-            font-weight: 700; 
-            font-size: 12px; 
-            text-transform: uppercase; 
+        table th {
+            background-color: var(--bg-light);
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--primary);
         }
         table tr:nth-child(even) {
             background-color: #fcfcfc;
         }
-        
-        .footer { 
-            margin-top: 60px; 
-            text-align: right; 
-            font-size: 13px; 
-            color: var(--text-muted);
-            page-break-inside: avoid;
+
+.summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
-        
+        .summary-card {
+            border: 1px solid var(--border-light);
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #fafbfc;
+        }
+        .summary-card h4 {
+            margin: 0 0 10px;
+            color: var(--primary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+        .summary-card p {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .summary-card span {
+            color: var(--text-muted);
+            font-size: 11px;
+            display: block;
+            margin-top: 5px;
+        }
+
         @media print {
-            @page { 
+            @page {
                 size: A4 portrait;
-                margin: 15mm 15mm 15mm 15mm; 
+                margin: 15mm 15mm 15mm 15mm;
             }
-            body { 
-                padding: 0 !important; 
+            body {
+                padding: 0 !important;
                 margin: 0 !important;
                 font-size: 11px !important;
                 background: #fff !important;
@@ -108,8 +134,8 @@
                 width: 100% !important;
                 max-width: 100% !important;
             }
-            .no-print, button { 
-                display: none !important; 
+            .no-print, button {
+                display: none !important;
             }
             .header {
                 margin-bottom: 20px !important;
@@ -123,7 +149,10 @@
                 width: 100% !important;
                 max-width: 440px !important;
                 height: 240px !important;
-                margin: 10px auto 20px !important;
+                margin: 10px auto 40px !important;
+                page-break-after: avoid !important;
+                padding-bottom: 20px !important;
+                border-bottom: 1px solid #ddd !important;
             }
             table {
                 width: 100% !important;
@@ -134,12 +163,21 @@
             thead {
                 display: table-header-group !important;
             }
-            tr { 
-                page-break-inside: avoid !important; 
+            tr {
+                page-break-inside: avoid !important;
                 page-break-after: auto !important;
             }
             td, th {
                 padding: 8px 10px !important;
+            }
+            .summary-grid {
+                grid-template-columns: 1fr !important;
+                margin-bottom: 20px !important;
+            }
+            .summary-card {
+                page-break-inside: avoid !important;
+                padding: 10px !important;
+                margin-bottom: 10px !important;
             }
         }
 
@@ -152,33 +190,38 @@
                 margin-bottom: 25px;
             }
         }
-        
-        .btn-print { 
-            display: block; 
-            margin: 0 auto 30px; 
-            padding: 12px 24px; 
-            font-size: 14px; 
+
+        .btn-print {
+            display: block;
+            margin: 0 auto 30px;
+            padding: 12px 24px;
+            font-size: 14px;
             font-weight: 700;
-            background: var(--secondary); 
-            color: #fff; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            text-align: center; 
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
             transition: all 0.3s ease;
         }
-        .btn-print:hover { 
-            background: var(--primary); 
+        .btn-print:hover {
+            background: var(--primary);
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
             transform: translateY(-2px);
         }
-        
+
         .chart-print-image {
             display: none;
         }
+
+        .chartjs-size-monitor {
+            display: none !important;
+        }
+
         @media print {
             .chart-container canvas {
                 display: none !important;
@@ -188,20 +231,39 @@
                 margin: 0 auto !important;
                 max-width: 100% !important;
                 height: auto !important;
-            }
-            .chartjs-size-monitor {
-                position: fixed !important;
+                page-break-inside: avoid !important;
             }
         }
     </style>
 </head>
 <body>
-    <button class="btn-print" onclick="window.print()">Cetak Laporan</button>
+    <button class="btn-print" id="printBtn" onclick="handlePrint()">Cetak Laporan</button>
 
     <div class="header">
         <h1>LAPORAN PUBLIK DATA KEBUDAYAAN TERVALIDASI</h1>
         <p>Sistem Informasi Verifikasi Kebudayaan (VeriCult)</p>
         <p><strong>Periode Tahun:</strong> {{ ($activeYear && $activeYear !== 'all') ? $activeYear : 'Semua Periode' }}</p>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div class="summary-grid" style="page-break-inside: avoid;">
+        <div class="summary-card">
+            <h4>Total Data Kebudayaan</h4>
+            <p>{{ $submissions->count() }}</p>
+            <span>Data tervalidasi dan dipublikasikan</span>
+        </div>
+        <div class="summary-card">
+            <h4>Jumlah Kategori</h4>
+            <p>{{ $categoryStats->count() }}</p>
+            <span>Jenis kebudayaan yang tercatat</span>
+        </div>
+        @if($submissions->isNotEmpty())
+        <div class="summary-card">
+            <h4>Periode Validasi</h4>
+            <p>{{ $submissions->min('published_at') ? $submissions->min('published_at')->translatedFormat('d M Y') : '-' }}</p>
+            <span>s/d {{ $submissions->max('published_at') ? $submissions->max('published_at')->translatedFormat('d M Y') : '-' }}</span>
+        </div>
+        @endif
     </div>
 
     @if(!$categoryStats->isEmpty())
@@ -212,7 +274,137 @@
     </div>
     @endif
 
-    <div>
+    <!-- Kategori Summary -->
+    @if(!$categoryStats->isEmpty())
+    <div style="clear: both; page-break-inside: avoid; margin-bottom: 30px;">
+        <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Ringkasan Data per Kategori</h3>
+        <table style="font-size: 12px;">
+            <thead>
+                <tr>
+                    <th style="width: 50%">Kategori Kebudayaan</th>
+                    <th style="width: 50%; text-align: center;">Jumlah Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($categoryStats->sortByDesc(fn($val) => $val)->take(15) as $category => $count)
+                <tr>
+                    <td><strong>{{ $category }}</strong></td>
+                    <td style="text-align: center;">{{ $count }} Data</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+
+    <!-- Geografis Summary -->
+    @if($submissions->isNotEmpty())
+    <div style="clear: both; page-break-inside: avoid; margin-bottom: 30px;">
+        <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Distribusi Data per Kecamatan</h3>
+        <table style="font-size: 12px;">
+            <thead>
+                <tr>
+                    <th style="width: 50%">Kecamatan</th>
+                    <th style="width: 25%; text-align: center;">Desa</th>
+                    <th style="width: 25%; text-align: center;">Jumlah Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($submissions->groupBy(fn($sub) => $sub->village?->kecamatan?->name ?? 'Tidak Terdata') as $kecamatan => $kecamatanData)
+                <tr style="background-color: #f0f0f0;">
+                    <td colspan="3"><strong>{{ $kecamatan }}</strong></td>
+                </tr>
+                @foreach($kecamatanData->groupBy(fn($sub) => $sub->village?->name ?? 'Tidak Terdata') as $desa => $desaData)
+                <tr>
+                    <td style="padding-left: 30px;">{{ $desa }}</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">{{ $desaData->count() }} Data</td>
+                </tr>
+                @endforeach
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+
+    <!-- Top Locations -->
+    @if($submissions->isNotEmpty())
+    <div style="clear: both; page-break-inside: avoid; margin-bottom: 30px;">
+        <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Top 10 Lokasi Desa dengan Data Terbanyak</h3>
+        <table style="font-size: 12px;">
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">No</th>
+                    <th style="width: 45%">Nama Desa</th>
+                    <th style="width: 25%">Kecamatan</th>
+                    <th style="width: 25%; text-align: center;">Jumlah Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($submissions->groupBy(fn($sub) => $sub->village?->id ?? 'unknown')->map(function($items) { return [
+                    'name' => $items->first()->village?->name ?? 'Tidak Terdata',
+                    'kecamatan' => $items->first()->village?->kecamatan?->name ?? '-',
+                    'count' => $items->count()
+                ]; })->sortByDesc('count')->take(10)->values() as $idx => $location)
+                <tr>
+                    <td style="text-align: center;">{{ $idx + 1 }}</td>
+                    <td><strong>{{ $location['name'] }}</strong></td>
+                    <td>{{ $location['kecamatan'] }}</td>
+                    <td style="text-align: center;">{{ $location['count'] }} Data</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+
+    <!-- Timeline Distribution -->
+    @if($submissions->isNotEmpty())
+    <div style="clear: both; page-break-inside: avoid; margin-bottom: 30px;">
+        <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Distribusi Data Validasi per Tahun</h3>
+        <table style="font-size: 12px;">
+            <thead>
+                <tr>
+                    <th style="width: 50%; text-align: center;">Tahun</th>
+                    <th style="width: 50%; text-align: center;">Jumlah Data Tervalidasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($submissions->groupBy('period_year')->sortByDesc(fn($val) => $val->first()->period_year ?? 0)->take(10) as $year => $yearData)
+                <tr>
+                    <td style="text-align: center;"><strong>{{ $year ?? 'Tidak Terdata' }}</strong></td>
+                    <td style="text-align: center;">{{ $yearData->count() }} Data</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+
+    <!-- Monthly Validation Timeline -->
+    @if($submissions->isNotEmpty() && $submissions->first()->published_at)
+    <div style="clear: both; page-break-inside: avoid; margin-bottom: 30px;">
+        <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Timeline Validasi 10 Bulan Terakhir</h3>
+        <table style="font-size: 12px;">
+            <thead>
+                <tr>
+                    <th style="width: 50%">Bulan-Tahun</th>
+                    <th style="width: 50%; text-align: center;">Jumlah Data Tervalidasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($submissions->groupBy(fn($sub) => $sub->published_at->format('m-Y'))->sortByDesc(fn($val) => $val->first()->published_at)->take(10) as $monthYear => $monthData)
+                <tr>
+                    <td>{{ \Carbon\Carbon::createFromFormat('m-Y', $monthYear)->translatedFormat('F Y') }}</td>
+                    <td style="text-align: center;">{{ $monthData->count() }} Data</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+
+    <div style="clear: both; page-break-before: auto;">
         <h3 style="color: #03045E; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Rincian Data Kebudayaan ({{ $submissions->count() }} Data)</h3>
         <table>
             <thead>
@@ -252,15 +444,24 @@
 
     @if(!$categoryStats->isEmpty())
     <script>
+        let chartInstance = null;
+
+        let autoPlayEnabled = true;
+
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('categoryChart').getContext('2d');
-            
+
+            // Disable auto-play if user clicks button
+            document.getElementById('printBtn')?.addEventListener('click', function() {
+                autoPlayEnabled = false;
+            });
+
             // To ensure chart renders fully before printing if user uses auto-print
             Chart.defaults.animation = false;
-            
+
             const isMobile = window.innerWidth < 640 || window.matchMedia('(max-width: 640px)').matches;
-            
-            const chartInstance = new Chart(ctx, {
+
+            chartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: {!! json_encode($categoryStats->keys()) !!},
@@ -279,7 +480,7 @@
                     maintainAspectRatio: false,
                     devicePixelRatio: 2, // Double canvas resolution for crystal-clear vector prints
                     plugins: {
-                        legend: { 
+                        legend: {
                             position: isMobile ? 'bottom' : 'right',
                             labels: {
                                 font: {
@@ -295,19 +496,39 @@
                 }
             });
 
-            // Convert chart to static image for print reliability and then trigger print
+            // Auto-print after chart is fully loaded
             setTimeout(() => {
+                if (autoPlayEnabled && chartInstance) {
+                    const img = document.getElementById('categoryChartImage');
+                    if (img) {
+                        img.src = chartInstance.toBase64Image();
+                    }
+                    setTimeout(() => {
+                        window.print();
+                    }, 300);
+                }
+            }, 1000);
+        });
+
+        function handlePrint() {
+            if (chartInstance) {
+                // Convert chart to static image for print reliability
                 const img = document.getElementById('categoryChartImage');
                 if (img) {
                     img.src = chartInstance.toBase64Image();
                 }
+            }
+            // Delay print slightly to ensure image is set
+            setTimeout(() => {
                 window.print();
-            }, 600);
-        });
+            }, 400);
+        }
     </script>
     @else
     <script>
-        setTimeout(() => { window.print(); }, 200);
+        function handlePrint() {
+            window.print();
+        }
     </script>
     @endif
 </body>
