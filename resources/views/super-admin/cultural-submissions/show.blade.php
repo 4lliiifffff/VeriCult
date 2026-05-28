@@ -11,7 +11,7 @@
 
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="flex items-center gap-4 sm:gap-8">
                     <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-[1.25rem] sm:rounded-[2rem] bg-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl uppercase">
@@ -40,7 +40,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             Hapus
                         </button>
-                        
+
                         <x-modal name="confirm-delete" focusable maxWidth="md">
                             <form action="{{ route('super-admin.cultural-submissions.destroy', $submission) }}" method="POST">
                                 @csrf
@@ -70,7 +70,7 @@
         </div>
     </x-slot>
 
-    <div x-data="{ 
+    <div x-data="{
         showPreviewModal: false,
         previewFile: null,
         openPreview(url, type, name) {
@@ -116,7 +116,7 @@
                         <template x-if="previewFile?.type === 'video'">
                             <video :src="previewFile?.url" controls autoplay class="max-w-full max-h-[70vh]"></video>
                         </template>
-                        
+
                         <!-- Floating Download Link -->
                         <a :href="previewFile?.url" target="_blank" class="absolute bottom-8 right-8 px-6 py-3 bg-white text-[#03045E] rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -144,7 +144,7 @@
                             <span class="shrink-0 text-[#03045E]">Informasi Dasar</span>
                             <div class="flex-1 h-px bg-slate-100"></div>
                         </h2>
-                        
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                             <div class="sm:col-span-2">
                                 <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Nama Objek Budaya</label>
@@ -163,7 +163,7 @@
                             </div>
                             <div class="sm:col-span-2">
                                 <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Deskripsi Singkat</label>
-                                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-slate-600 leading-relaxed font-medium whitespace-pre-wrap break-words">
+                                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-slate-600 leading-relaxed font-medium break-words">
                                     {{ $submission->description }}
                                 </div>
                             </div>
@@ -175,14 +175,14 @@
                             <span class="shrink-0 text-[#03045E]">Data Spesifik Kategori</span>
                             <div class="flex-1 h-px bg-slate-100"></div>
                         </h2>
-                        
+
                         <div class="bg-gradient-to-br from-slate-50/50 to-blue-50/30 rounded-[2rem] p-6 sm:p-10 border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-500">
                             @php
                                 $subCat = $submission->category_data[array_keys(array_filter($submission->category_data, fn($k) => str_starts_with($k, 'sub_kategori'), ARRAY_FILTER_USE_KEY))[0] ?? ''] ?? null;
                                 $flatFields = \App\Models\CulturalSubmission::getFlatCategoryFields($submission->category, $subCat);
                                 $processedKeys = [];
                             @endphp
-                            
+
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10">
                                 @foreach($submission->category_data as $dataKey => $dataValue)
                                     @if(!empty($dataValue) && $dataKey !== 'unesco_categories' && !str_starts_with($dataKey, 'sub_kategori') && !in_array($dataKey, $processedKeys))
@@ -260,7 +260,7 @@
                                     @endif
                                 @endforeach
                             </div>
-                            
+
                             {{-- UNESCO Categories --}}
                             @if(!empty($submission->category_data['unesco_categories']))
                                 <div class="mt-10 pt-10 border-t border-slate-200/50">
@@ -373,9 +373,9 @@
             {{-- Proposer Card --}}
             <div class="bg-[#03045E] p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-blue-900/40 text-white relative overflow-hidden group">
                 <div class="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-white/5 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
-                
+
                 <h3 class="text-[9px] font-black uppercase tracking-[0.3em] text-white/40 mb-8 relative z-10">Profil Pengusul</h3>
-                
+
                 <div class="flex items-center gap-5 relative z-10 mb-8">
                     <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center font-black text-2xl border border-white/20 shadow-xl">
                         {{ substr($submission->user->name, 0, 1) }}

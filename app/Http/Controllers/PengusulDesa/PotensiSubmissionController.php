@@ -23,7 +23,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
                 }
 
                 if (!Auth::user()->is_approved_by_admin) {
-                    abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin.');
+                    abort(403, 'Akun Anda sedang menunggu persetujuan dari admin.');
                 }
 
                 return $next($request);

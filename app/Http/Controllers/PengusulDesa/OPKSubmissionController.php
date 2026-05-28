@@ -28,7 +28,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
                 }
 
                 if (!Auth::user()->is_approved_by_admin) {
-                    abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan OPK.');
+                    abort(403, 'Akun Anda sedang menunggu persetujuan dari admin untuk membuat laporan OPK.');
                 }
 
                 return $next($request);
