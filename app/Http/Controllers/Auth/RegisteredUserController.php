@@ -131,9 +131,10 @@ class RegisteredUserController extends Controller
             'surat_pengajuan_path'   => $path,
         ]);
 
-        $superAdmins = User::role('super-admin')->get();
-        if ($superAdmins->isNotEmpty()) {
-            \Illuminate\Support\Facades\Notification::send($superAdmins, new \App\Notifications\NewPengusulDesaRegistrationNotification($user));
+        // Notify both super-admins and admins about the new registration
+        $recipients = User::role(['super-admin', 'admin'])->get();
+        if ($recipients->isNotEmpty()) {
+            \Illuminate\Support\Facades\Notification::send($recipients, new \App\Notifications\NewPengusulDesaRegistrationNotification($user));
         }
 
         return redirect()->route('register-desa.success');

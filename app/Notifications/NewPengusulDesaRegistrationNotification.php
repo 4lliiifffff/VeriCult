@@ -30,7 +30,9 @@ class NewPengusulDesaRegistrationNotification extends Notification implements Sh
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        // Always use database for in-app notifications.
+        // Only send mail if the notifiable has a mail address (always true for User).
+        return ['database', 'mail'];
     }
 
     /**
@@ -38,7 +40,12 @@ class NewPengusulDesaRegistrationNotification extends Notification implements Sh
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = route('super-admin.users.pengusul-desa');
+        // Route approval URL based on the notifiable's role
+        if ($notifiable->hasRole('admin')) {
+            $url = route('admin.user-approvals.index');
+        } else {
+            $url = route('super-admin.users.pengusul-desa');
+        }
 
         return (new MailMessage)
                     ->subject('Menunggu Persetujuan: Pendaftaran Pengusul Desa Baru')
@@ -52,14 +59,28 @@ class NewPengusulDesaRegistrationNotification extends Notification implements Sh
     }
 
     /**
-     * Get the array representation of the notification.
+     * Get the array representation of the notification (stored in database).
      *
      * @return array<string, mixed>
      */
     public function toArray(object $notifiable): array
     {
+        // Build a role-aware approval URL for the in-app redirect
+        if ($notifiable->hasRole('admin')) {
+            $url = route('admin.user-approvals.index');
+        } else {
+            $url = route('super-admin.users.pengusul-desa');
+        }
+
         return [
-            //
+            'title'           => 'Pendaftaran Pengusul Desa Baru',
+            'message'         => 'Pendaftar baru "' . $this->newUser->name . '" dari desa "' . ($this->newUser->village->name ?? '-') . '" menunggu persetujuan akun.',
+            'url'             => $url,
+            'type'            => 'info',
+            'new_user_id'     => $this->newUser->id,
+            'new_user_name'   => $this->newUser->name,
+            'new_user_email'  => $this->newUser->email,
+            'village_name'    => $this->newUser->village->name ?? '-',
         ];
     }
 }
