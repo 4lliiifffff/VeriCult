@@ -18,37 +18,66 @@
     <form method="POST" action="{{ route('register.desa') }}" class="space-y-6" enctype="multipart/form-data" x-data="{ showPass: false, showConfirm: false }">
         @csrf
 
-        <div class="grid sm:grid-cols-2 gap-6">
+        <div class="grid sm:grid-cols-2 gap-6" x-data="{
+            kecamatanSearch: '{{ addslashes(old('kecamatan_name', '')) }}',
+            villageSearch: '{{ addslashes(old('village_name', '')) }}',
+            kecamatanOpen: false,
+            villageOpen: false,
+            allKecamatans: @js($kecamatans->pluck('name')),
+            allVillages: @js($villages->map(fn($v) => ['name' => $v->name, 'kecamatan' => $v->kecamatan->name ?? ''])),
+            get filteredKecamatans() {
+                let list = this.allKecamatans;
+                let matchingVillage = this.allVillages.find(v => v.name.toLowerCase() === this.villageSearch.trim().toLowerCase());
+                if (matchingVillage && matchingVillage.kecamatan) {
+                    list = list.filter(k => k.toLowerCase() === matchingVillage.kecamatan.toLowerCase());
+                }
+                if (!this.kecamatanSearch) return list;
+                return list.filter(k => k.toLowerCase().includes(this.kecamatanSearch.toLowerCase()));
+            },
+            get filteredVillages() {
+                let list = this.allVillages;
+                let matchingKecamatan = this.allKecamatans.find(k => k.toLowerCase() === this.kecamatanSearch.trim().toLowerCase());
+                if (matchingKecamatan) {
+                    list = list.filter(v => v.kecamatan.toLowerCase() === matchingKecamatan.toLowerCase());
+                }
+                if (!this.villageSearch) return list.map(v => v.name);
+                return list.filter(v => v.name.toLowerCase().includes(this.villageSearch.toLowerCase())).map(v => v.name);
+            },
+            selectKecamatan(option) {
+                this.kecamatanSearch = option;
+                this.kecamatanOpen = false;
+                let currentVillage = this.allVillages.find(v => v.name.toLowerCase() === this.villageSearch.trim().toLowerCase());
+                if (currentVillage && currentVillage.kecamatan.toLowerCase() !== option.toLowerCase()) {
+                    this.villageSearch = '';
+                }
+            },
+            selectVillage(option) {
+                this.villageSearch = option;
+                this.villageOpen = false;
+                let currentVillage = this.allVillages.find(v => v.name.toLowerCase() === option.toLowerCase());
+                if (currentVillage && currentVillage.kecamatan) {
+                    this.kecamatanSearch = currentVillage.kecamatan;
+                }
+            }
+        }">
             <!-- Kecamatan Name -->
-            <div class="space-y-2" x-data="{ 
-                    open: false, 
-                    search: '{{ addslashes(old('kecamatan_name', '')) }}',
-                    allOptions: @js($kecamatans->pluck('name')),
-                    get filteredOptions() {
-                        if (!this.search) return this.allOptions;
-                        return this.allOptions.filter(i => i.toLowerCase().includes(this.search.toLowerCase()));
-                    },
-                    selectOption(option) {
-                        this.search = option;
-                        this.open = false;
-                    }
-                 }" @click.away="open = false">
+            <div class="space-y-2" @click.away="kecamatanOpen = false">
                 <x-input-label for="kecamatan_name" :value="__('Kecamatan')" class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1" />
                 <div class="relative group">
                     <input type="text"
                         name="kecamatan_name"
                         id="kecamatan_name"
-                        x-model="search"
-                        @focus="open = true"
-                        @input="open = true"
+                        x-model="kecamatanSearch"
+                        @focus="kecamatanOpen = true"
+                        @input="kecamatanOpen = true"
                         required
                         autocomplete="off"
                         placeholder="Cari kecamatan..."
                         class="block w-full px-4 py-4 bg-slate-50 border-slate-100 rounded-2xl text-sm font-medium focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all placeholder:text-slate-300" />
                     
-                    <div x-show="open && filteredOptions.length > 0" class="absolute z-[60] w-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 max-h-48 overflow-y-auto overflow-x-hidden">
-                        <template x-for="option in filteredOptions" :key="option">
-                            <button type="button" @click="selectOption(option)" class="w-full text-left px-5 py-3 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] transition-colors" x-text="option"></button>
+                    <div x-show="kecamatanOpen && filteredKecamatans.length > 0" class="absolute z-[60] w-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 max-h-48 overflow-y-auto overflow-x-hidden">
+                        <template x-for="option in filteredKecamatans" :key="option">
+                            <button type="button" @click="selectKecamatan(option)" class="w-full text-left px-5 py-3 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] transition-colors" x-text="option"></button>
                         </template>
                     </div>
                 </div>
@@ -56,40 +85,29 @@
             </div>
 
             <!-- Village Name -->
-            <div class="space-y-2" x-data="{ 
-                    open: false, 
-                    search: '{{ addslashes(old('village_name', '')) }}',
-                    allOptions: @js($villages->pluck('name')),
-                    get filteredOptions() {
-                        if (!this.search) return this.allOptions;
-                        return this.allOptions.filter(i => i.toLowerCase().includes(this.search.toLowerCase()));
-                    },
-                    selectOption(option) {
-                        this.search = option;
-                        this.open = false;
-                    }
-                 }" @click.away="open = false">
+            <div class="space-y-2" @click.away="villageOpen = false">
                 <x-input-label for="village_name" :value="__('Nama Desa')" class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1" />
                 <div class="relative group">
                     <input type="text"
                         name="village_name"
                         id="village_name"
-                        x-model="search"
-                        @focus="open = true"
-                        @input="open = true"
+                        x-model="villageSearch"
+                        @focus="villageOpen = true"
+                        @input="villageOpen = true"
                         required
                         autocomplete="off"
                         placeholder="Cari desa anda..."
                         class="block w-full px-4 py-4 bg-slate-50 border-slate-100 rounded-2xl text-sm font-medium focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all placeholder:text-slate-300" />
                     
-                    <div x-show="open && filteredOptions.length > 0" class="absolute z-[60] w-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 max-h-48 overflow-y-auto overflow-x-hidden">
-                        <template x-for="option in filteredOptions" :key="option">
-                            <button type="button" @click="selectOption(option)" class="w-full text-left px-5 py-3 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] transition-colors" x-text="option"></button>
+                    <div x-show="villageOpen && filteredVillages.length > 0" class="absolute z-[60] w-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 max-h-48 overflow-y-auto overflow-x-hidden">
+                        <template x-for="option in filteredVillages" :key="option">
+                            <button type="button" @click="selectVillage(option)" class="w-full text-left px-5 py-3 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] transition-colors" x-text="option"></button>
                         </template>
                     </div>
                 </div>
                 <x-input-error :messages="$errors->get('village_name')" class="mt-2" />
             </div>
+        </div>
 
             <!-- Name -->
             <div class="space-y-2">
