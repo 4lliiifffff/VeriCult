@@ -26,11 +26,11 @@ class OPKSubmissionController extends Controller implements HasMiddleware
                 if (!Auth::check() || !Auth::user()->hasRole('pengusul-desa')) {
                     abort(403, 'Hanya pengusul desa yang dapat membuat laporan OPK.');
                 }
-    
+
                 if (!Auth::user()->is_approved_by_admin) {
                     abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin untuk membuat laporan OPK.');
                 }
-    
+
                 return $next($request);
             }
         ];
@@ -108,7 +108,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
             $isRequired = !empty($field['required']);
-            
+
             $fieldRules = [$isRequired ? 'required' : 'nullable'];
             if ($is_array) {
                 $fieldRules[] = 'array';
@@ -204,7 +204,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         $this->authorize('view', $submission);
 
         $submission->load([
-            'administrativeReviews.validator', 
+            'administrativeReviews.validator',
             'fieldVerifications.validator',
             'reviewedBy'
         ]);
@@ -382,7 +382,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
             $isRequired = !empty($field['required']);
-            
+
             $fieldRules = [$isRequired ? 'required' : 'nullable'];
             if ($is_array) {
                 $fieldRules[] = 'array';

@@ -123,7 +123,7 @@ class SubmissionController extends Controller
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
             $isRequired = !empty($field['required']);
-            
+
             $fieldRules = [$isRequired ? 'required' : 'nullable'];
             if ($is_array) {
                 $fieldRules[] = 'array';
@@ -189,11 +189,11 @@ class SubmissionController extends Controller
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
             // Check for specific fields based on category
-            $nameFallback = $categoryData['nama_dan_jenis_kebudayaan'] 
-                ?? ($categoryData['nama_objek'] 
-                ?? ($categoryData['b1_nama_objek'] 
+            $nameFallback = $categoryData['nama_dan_jenis_kebudayaan']
+                ?? ($categoryData['nama_objek']
+                ?? ($categoryData['b1_nama_objek']
                 ?? ($validated['category'] . ' - ' . now()->format('d/m/Y'))));
-            
+
             $submissionName = $nameFallback;
         }
 
@@ -260,7 +260,7 @@ class SubmissionController extends Controller
         $this->authorize('view', $submission);
 
         $submission->load([
-            'administrativeReviews.validator', 
+            'administrativeReviews.validator',
             'fieldVerifications.validator',
             'reviewedBy'
         ]);
@@ -456,7 +456,7 @@ class SubmissionController extends Controller
         foreach ($categoryFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
             $isRequired = !empty($field['required']);
-            
+
             $fieldRules = [$isRequired ? 'required' : 'nullable'];
             if ($is_array) {
                 $fieldRules[] = 'array';
@@ -520,11 +520,11 @@ class SubmissionController extends Controller
         // Auto-populate name from relevant fields if not provided
         $submissionName = $validated['name'] ?? '';
         if (empty($submissionName) || $submissionName === '') {
-            $nameFallback = $categoryData['nama_dan_jenis_kebudayaan'] 
-                ?? ($categoryData['nama_objek'] 
-                ?? ($categoryData['b1_nama_objek'] 
+            $nameFallback = $categoryData['nama_dan_jenis_kebudayaan']
+                ?? ($categoryData['nama_objek']
+                ?? ($categoryData['b1_nama_objek']
                 ?? $submission->name));
-                
+
             $submissionName = $nameFallback;
         }
 

@@ -21,11 +21,11 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
                 if (!Auth::check() || !Auth::user()->hasRole('pengusul-desa')) {
                     abort(403, 'Hanya pengusul desa yang dapat membuat laporan Potensi Kebudayaan.');
                 }
-    
+
                 if (!Auth::user()->is_approved_by_admin) {
                     abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin.');
                 }
-    
+
                 return $next($request);
             }
         ];
@@ -79,7 +79,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
 
         $categoryName = CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN;
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
-        
+
         if (!empty($categoryFields['has_sub'])) {
             $subField = $categoryFields['sub_field'] ?? 'sub_category';
             $rules["category_data.{$subField}"] = ['required', 'string'];
@@ -145,7 +145,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
         $this->authorize('view', $submission);
 
         $submission->load([
-            'administrativeReviews.validator', 
+            'administrativeReviews.validator',
             'fieldVerifications.validator',
             'reviewedBy'
         ]);
@@ -259,7 +259,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
 
         $categoryName = $submission->category;
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
-        
+
         if (!empty($categoryFields['has_sub'])) {
             $subField = $categoryFields['sub_field'] ?? 'sub_category';
             $rules["category_data.{$subField}"] = ['required', 'string'];
@@ -269,7 +269,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
         foreach ($flatFields as $key => $field) {
             $is_array = isset($field['type']) && in_array($field['type'], ['checkbox_group', 'dynamic_table']);
             $isRequired = !empty($field['required']);
-            
+
             $fieldRules = [$isRequired ? 'required' : 'nullable'];
             if ($is_array) {
                 $fieldRules[] = 'array';

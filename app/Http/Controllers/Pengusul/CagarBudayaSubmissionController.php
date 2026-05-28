@@ -21,11 +21,11 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
                 if (!Auth::check() || !Auth::user()->hasRole('pengusul')) {
                     abort(403, 'Hanya pengusul umum yang dapat membuat laporan Cagar Budaya.');
                 }
-    
+
                 // if (!Auth::user()->is_approved_by_admin) {
                 //     abort(403, 'Akun Anda sedang menunggu persetujuan dari super admin.');
                 // }
-    
+
                 return $next($request);
             }
         ];
@@ -79,7 +79,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
 
         $categoryName = CulturalSubmission::CATEGORY_CAGAR_BUDAYA;
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
-        
+
         if (!empty($categoryFields['has_sub'])) {
             // Add rule for the sub-category selector itself
             $subField = $categoryFields['sub_field'] ?? 'sub_category';
@@ -146,7 +146,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
         $this->authorize('view', $submission);
 
         $submission->load([
-            'administrativeReviews.validator', 
+            'administrativeReviews.validator',
             'fieldVerifications.validator',
             'reviewedBy'
         ]);
@@ -259,7 +259,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
 
         $categoryName = $submission->category;
         $categoryFields = CulturalSubmission::getCategoryFields($categoryName);
-        
+
         if (!empty($categoryFields['has_sub'])) {
             $subField = $categoryFields['sub_field'] ?? 'sub_category';
             $rules["category_data.{$subField}"] = ['required', 'string'];
