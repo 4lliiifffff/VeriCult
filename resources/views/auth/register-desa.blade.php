@@ -166,14 +166,14 @@
         <div class="space-y-2 col-span-full" x-data="{ fileName: '' }">
             <x-input-label for="surat_pengajuan" :value="__('Surat Pengajuan Resmi')" class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1" />
             <div class="relative group">
-                <input type="file" name="surat_pengajuan" id="surat_pengajuan" @change="fileName = $event.target.files[0].name" class="hidden" required accept=".pdf,.jpg,.jpeg,.png">
+                <input type="file" name="surat_pengajuan" id="surat_pengajuan" @change="fileName = $event.target.files[0].name" class="hidden" required accept=".pdf">
                 <label for="surat_pengajuan" class="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-[2rem] p-8 text-center cursor-pointer hover:border-[#0077B6] hover:bg-[#90E0EF]/5 transition-all group/label">
                     <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover/label:text-[#0077B6] group-hover/label:scale-110 transition-all duration-300 mb-4">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                     </div>
                     <span x-show="!fileName" class="text-xs font-bold text-slate-500">Klik atau tarik file untuk unggah</span>
                     <span x-show="fileName" class="text-xs font-bold text-[#0077B6]" x-text="fileName"></span>
-                    <span class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">PDF, JPG, PNG (Max 2MB)</span>
+                    <span class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">PDF (Maks 10MB)</span>
                 </label>
             </div>
             <x-input-error :messages="$errors->get('surat_pengajuan')" class="mt-2" />

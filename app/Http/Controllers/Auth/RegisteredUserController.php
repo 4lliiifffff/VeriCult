@@ -94,7 +94,7 @@ class RegisteredUserController extends Controller
             'password'         => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
             'kecamatan_name'   => ['required', 'string', 'max:255'],
             'village_name'     => ['required', 'string', 'max:255'],
-            'surat_pengajuan'  => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
+            'surat_pengajuan'  => ['required', 'file', 'mimes:pdf', 'max:10240'],
         ]);
 
         // Find or create kecamatan, then find or create village linked to that kecamatan
