@@ -349,7 +349,8 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
         $admins = User::role(['super-admin', 'validator'])->get();
         $title = 'Potensi Kebudayaan Baru: ' . $submission->name;
         $message = 'Laporan Potensi Kebudayaan "' . $submission->name . '" telah dikirim dan menunggu review.';
-        $url = route('validator.submissions.show', $submission);
+        // Don't hardcode URL - let NotificationController route based on role and submission_type
+        $url = null;
 
         foreach ($admins as $admin) {
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));

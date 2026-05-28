@@ -80,26 +80,26 @@ class NotificationController extends Controller
         $notification->markAsRead();
 
         $data = $notification->data;
-        $url = $data['url'] ?? null;
         $submissionId = $data['submission_id'] ?? null;
+        $newUserId = $data['new_user_id'] ?? null;
 
+        // Handle submission notifications
         if ($submissionId) {
             $submission = \App\Models\CulturalSubmission::find($submissionId);
             
-            // Intelligent role-based redirection
+            // Role-based redirection using submission_type
             if ($user->hasRole('super-admin')) {
                 return redirect()->route('super-admin.cultural-submissions.show', $submissionId);
             } elseif ($user->hasRole('admin')) {
-                // If it's a opk submission, send to admin's view
-                if ($submission && $submission->submission_type === 'opk') {
-                    return redirect()->route('admin.opk-submissions.show', $submissionId);
+                // Route admin to appropriate submission view based on type
+                if ($submission) {
+                    if ($submission->submission_type === 'opk') {
+                        return redirect()->route('admin.opk-submissions.show', $submissionId);
+                    }
+                    // For other types, let them view in super-admin or use default
                 }
-                return redirect($url ?? route('admin.dashboard'));
+                return redirect()->route('admin.user-approvals.index');
             } elseif ($user->hasRole('validator')) {
-                // If validator owns the submission, send to their workspace, otherwise to review workspace
-                if ($submission && $submission->user_id === $user->id) {
-                    return redirect()->route('validator.cultural.show', $submissionId);
-                }
                 return redirect()->route('validator.submissions.show', $submissionId);
             } elseif ($user->hasRole('pengusul')) {
                 return redirect()->route('pengusul.submissions.show', $submissionId);
@@ -108,12 +108,17 @@ class NotificationController extends Controller
             }
         }
 
-        // Fallback logic
-        if ($user->hasRole('validator') && $url && str_contains($url, '/pengusul/')) {
-             return redirect()->route('validator.submissions.index');
+        // Handle user registration notifications (new pengusul-desa)
+        if ($newUserId) {
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.user-approvals.index');
+            } elseif ($user->hasRole('super-admin')) {
+                return redirect()->route('super-admin.users.pengusul-desa');
+            }
         }
 
-        return redirect($url ?? route('dashboard'));
+        // Fallback
+        return redirect()->route('dashboard');
     }
 
     /**

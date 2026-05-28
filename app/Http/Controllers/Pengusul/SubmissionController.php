@@ -604,7 +604,8 @@ class SubmissionController extends Controller
         $admins = User::role(['super-admin', 'validator'])->get();
         $title = 'Pengajuan Baru: ' . $submission->name;
         $message = 'Objek budaya baru "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' dan menunggu review.';
-        $url = route('validator.submissions.show', $submission); // Most likely destination for review
+        // Don't hardcode URL - let NotificationController route based on role and submission_type
+        $url = null;
 
         foreach ($admins as $admin) {
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));

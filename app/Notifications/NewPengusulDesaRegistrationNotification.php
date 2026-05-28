@@ -2,17 +2,13 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 use App\Models\User;
 
-class NewPengusulDesaRegistrationNotification extends Notification implements ShouldQueue
+class NewPengusulDesaRegistrationNotification extends Notification
 {
-    use Queueable;
-
     protected $newUser;
 
     /**
@@ -25,13 +21,12 @@ class NewPengusulDesaRegistrationNotification extends Notification implements Sh
 
     /**
      * Get the notification's delivery channels.
+     * Synchronous (no ShouldQueue) — fires immediately on registration.
      *
      * @return array<int, string>
      */
     public function via(object $notifiable): array
     {
-        // Always use database for in-app notifications.
-        // Only send mail if the notifiable has a mail address (always true for User).
         return ['database', 'mail'];
     }
 

@@ -498,7 +498,8 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         $admins = User::role(['super-admin', 'validator'])->get();
         $title = 'Laporan OPK Baru: ' . $submission->name;
         $message = 'Laporan OPK "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' (pengusul umum) dan menunggu review.';
-        $url = route('validator.submissions.show', $submission);
+        // Don't hardcode URL - let NotificationController route based on role and submission_type
+        $url = null;
 
         foreach ($admins as $admin) {
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));

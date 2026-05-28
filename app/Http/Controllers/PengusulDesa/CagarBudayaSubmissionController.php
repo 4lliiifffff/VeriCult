@@ -340,7 +340,8 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
         $admins = User::role(['super-admin', 'validator'])->get();
         $title = 'Potensi Cagar Budaya Baru: ' . $submission->name;
         $message = 'Laporan potensi Cagar Budaya "' . $submission->name . '" telah dikirim dan menunggu review.';
-        $url = route('validator.submissions.show', $submission);
+        // Don't hardcode URL - let NotificationController route based on role and submission_type
+        $url = null;
 
         foreach ($admins as $admin) {
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
