@@ -408,6 +408,9 @@
                         <div>
                             <p class="text-base font-black text-[#03045E]">{{ $submission->user->name }}</p>
                             <p class="text-xs font-bold text-slate-400 mt-1">{{ $submission->user->email }}</p>
+                            @if($submission->user->no_hp)
+                                <p class="text-xs font-bold text-slate-400 mt-0.5">+62{{ $submission->user->no_hp }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -422,16 +425,25 @@
 
                         <div class="grid grid-cols-1 gap-4">
                             @if($submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED)
-                                <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline w-full">
-                                    @csrf
-                                    <button type="submit" @click="submitting = true" class="w-full justify-center bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-5 rounded-[1.25rem] font-black text-xs uppercase tracking-widest hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:-translate-y-1 flex items-center gap-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                @if($submission->isPrivate())
+                                    <div class="w-full flex items-center justify-center gap-2 px-8 py-5 rounded-[1.25rem] bg-slate-100 border border-slate-200 text-slate-500 font-black text-xs uppercase tracking-widest cursor-not-allowed">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                                         </svg>
-                                        Publish ke Publik
-                                    </button>
-                                </form>
+                                        Data Privat — Tidak Dapat Dipublikasikan
+                                    </div>
+                                @else
+                                    <form action="{{ route('validator.submissions.publish', $submission) }}" method="POST" class="inline w-full">
+                                        @csrf
+                                        <button type="submit" @click="submitting = true" class="w-full justify-center bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-5 rounded-[1.25rem] font-black text-xs uppercase tracking-widest hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:-translate-y-1 flex items-center gap-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                            </svg>
+                                            Publish ke Publik
+                                        </button>
+                                    </form>
+                                @endif
                             @endif
                             
                             @if($submission->reviewed_by === Auth::id() && in_array($submission->status, [\App\Models\CulturalSubmission::STATUS_ADMINISTRATIVE_REVIEW, \App\Models\CulturalSubmission::STATUS_FIELD_VERIFICATION, \App\Models\CulturalSubmission::STATUS_SUBMITTED]))

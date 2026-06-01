@@ -383,6 +383,9 @@
                     <div class="min-w-0">
                         <p class="font-black text-xl leading-tight truncate">{{ $submission->user->name }}</p>
                         <p class="text-[11px] font-medium text-white/40 truncate">{{ $submission->user->email }}</p>
+                        @if($submission->user->no_hp)
+                            <p class="text-[11px] font-medium text-white/40 truncate mt-0.5">+62{{ $submission->user->no_hp }}</p>
+                        @endif
                     </div>
                 </div>
 

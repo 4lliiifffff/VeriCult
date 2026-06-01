@@ -397,6 +397,9 @@
                     <div class="min-w-0">
                         <p class="text-sm font-black text-[#03045E] truncate">{{ $submission->user->name }}</p>
                         <p class="text-xs font-bold text-slate-400 mt-0.5 truncate">{{ $submission->user->email }}</p>
+                        @if($submission->user->no_hp)
+                            <p class="text-xs font-bold text-slate-400 mt-0.5 truncate">{{ $submission->user->no_hp }}</p>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -39,6 +39,14 @@ class CulturalSubmission extends Model
     const CATEGORY_LAPORAN_AKTIF = 'Laporan Kebudayaan Aktif';
 
     /**
+     * Sub-categories of Potensi Kebudayaan that are private (cannot be published to public).
+     */
+    const PRIVATE_POTENSI_SUB_CATEGORIES = [
+        'tenaga_kebudayaan',
+        'lembaga_kebudayaan',
+    ];
+
+    /**
      * Category slug mapping
      */
     const CATEGORY_SLUGS = [
@@ -449,6 +457,20 @@ class CulturalSubmission extends Model
     public static function isReviewPhase(string $status): bool
     {
         return in_array($status, [self::STATUS_SUBMITTED, self::STATUS_ADMINISTRATIVE_REVIEW, self::STATUS_REVISION]);
+    }
+
+    /**
+     * Check if this submission is private (cannot be published to public).
+     * Potensi Tenaga Kebudayaan and Potensi Lembaga Kebudayaan are always private.
+     */
+    public function isPrivate(): bool
+    {
+        if ($this->category !== self::CATEGORY_POTENSI_KEBUDAYAAN) {
+            return false;
+        }
+
+        $subCategory = $this->getSubCategory();
+        return in_array($subCategory, self::PRIVATE_POTENSI_SUB_CATEGORIES);
     }
 
     /**

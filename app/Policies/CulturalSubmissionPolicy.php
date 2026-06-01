@@ -101,6 +101,10 @@ class CulturalSubmissionPolicy
      */
     public function publish(User $user, CulturalSubmission $submission): bool
     {
+        if ($submission->isPrivate()) {
+            return false;
+        }
+
         return $user->hasRole('validator') && $submission->status === CulturalSubmission::STATUS_VERIFIED;
     }
 
@@ -109,6 +113,10 @@ class CulturalSubmissionPolicy
      */
     public function unpublish(User $user, CulturalSubmission $submission): bool
     {
+        if ($submission->isPrivate()) {
+            return false;
+        }
+
         return $user->hasRole('validator') && $submission->status === CulturalSubmission::STATUS_PUBLISHED;
     }
 

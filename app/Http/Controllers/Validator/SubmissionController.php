@@ -405,6 +405,10 @@ class SubmissionController extends Controller
             return redirect()->back()->with('error', 'Hanya pengajuan berstatus "Diverifikasi" yang dapat dipublikasikan.');
         }
 
+        if ($submission->isPrivate()) {
+            return redirect()->back()->with('error', 'Jenis potensi ini bersifat privat dan tidak dapat dipublikasikan ke halaman publik.');
+        }
+
         $submission->update([
             'status' => CulturalSubmission::STATUS_PUBLISHED,
             'slug' => CulturalSubmission::generateUniqueSlug($submission->name),
