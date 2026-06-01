@@ -52,91 +52,29 @@
 
     <!-- Hero Section -->
     <section class="hero-gradient min-h-[90vh] flex items-center pt-24 md:pt-32 relative overflow-hidden">
-        <!-- Abstract Shapes -->
-        <div class="absolute top-1/4 -right-20 w-96 h-96 bg-[#90E0EF]/20 rounded-full blur-[100px]"></div>
-        <div class="absolute bottom-1/4 -left-20 w-[500px] h-[500px] bg-[#0077B6]/5 rounded-full blur-[120px]"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 md:py-20">
-            <div class="grid lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-7 text-left reveal reveal-up">
-                    <!-- Badge -->
-                    <!-- <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 rounded-full border border-slate-100 text-[#0077B6] text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
-                        <span class="flex h-2 w-2 relative mr-3">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00B4D8] opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#00B4D8]"></span>
-                        </span>
-                        {{ $content['hero_badge'] ?? 'Sistem Verifikasi Kebudayaan Terpercaya' }}
-                    </div> -->
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-16 md:py-28 text-center reveal reveal-up">
+            <!-- Main Heading -->
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-[#03045E] mb-6 leading-[1.1] tracking-tight">
+                {!! $content['hero_title'] ?? 'Lestarikan Budaya<br><span class="text-[#0077B6]">Melalui Verifikasi Digital</span>' !!}
+            </h1>
 
-                    <!-- Main Heading -->
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-[#03045E] mb-6 leading-[1.1] tracking-tight">
-                        {!! $content['hero_title'] ?? 'Lestarikan Budaya<br><span class="text-[#0077B6]">Melalui Verifikasi Digital</span>' !!}
-                    </h1>
+            <!-- Subtitle -->
+            <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed font-normal">
+                {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan dan validasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
+            </p>
 
-                    <!-- Subtitle -->
-                    <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl leading-relaxed font-normal">
-                        {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan dan validasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
-                    </p>
-
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ route('login') }}" class="bg-[#03045E] text-white px-10 py-4 rounded-lg font-bold text-sm hover:bg-[#023E8A] transition-all duration-300 shadow-lg shadow-blue-900/20 transform hover:scale-[1.02] flex items-center justify-center group">
-                            {{ $content['cta_primary'] ?? 'Ajukan Objek' }}
-                            <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </a>
-                        <a href="{{ route('profil-kebudayaan.index') }}" class="bg-white text-slate-600 border border-slate-200 px-10 py-4 rounded-lg font-bold text-sm hover:bg-slate-50 transition-all duration-300 flex items-center justify-center">
-                            {{ $content['cta_secondary'] ?? 'Jelajahi Profil' }}
-                        </a>
-                    </div>
-
-                    <!-- Trusted By Section -->
-                    <!-- <div class="mt-16 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-6 opacity-60">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Dipercaya Oleh</p>
-                        <div class="flex gap-8 items-center grayscale">
-                            <div class="font-black text-xl text-slate-400">KEMENDIKBUD</div>
-                            <div class="font-black text-xl text-slate-400">PEMPROV</div>
-                            <div class="font-black text-xl text-slate-400">PEMKAB</div>
-                        </div>
-                    </div> -->
-                </div>
-
-                <!-- Hero Graphic Area -->
-                <div class="lg:col-span-5 relative hidden lg:block reveal reveal-up" style="transition-delay: 200ms;">
-                    <div class="relative">
-                        <!-- Main Card -->
-                        <div class="bg-white rounded-3xl p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-slate-50 relative z-20">
-                            <div class="bg-slate-50 rounded-2xl p-8 mb-6 border border-slate-100 flex flex-col items-center text-center">
-                                <div class="w-16 h-16 bg-[#00B4D8]/10 rounded-2xl flex items-center justify-center mb-6">
-                                    <svg class="w-8 h-8 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="text-xl font-bold text-[#03045E] mb-2 tracking-tight">Validasi Terjamin</h3>
-                                <p class="text-slate-500 text-sm">Setiap data diverifikasi melalui proses audit digital berjenjang yang transparan.</p>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="h-2 w-full bg-slate-50 rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-[#0077B6] to-[#00B4D8] w-[85%] rounded-full"></div>
-                                </div>
-                                {{-- <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                                    <span>Skor Keabsahan Data</span>
-                                    <span class="text-[#0077B6]">85% Sangat Akurat</span>
-                                </div> --}}
-                            </div>
-                        </div>
-
-                        <!-- Decorative floating elements -->
-                        <div class="absolute -top-10 -left-10 w-24 h-24 bg-white rounded-2xl shadow-xl flex items-center justify-center p-6 border border-slate-50 z-30 animate-bounce" style="animation-duration: 4s;">
-                            <svg class="w-full h-full text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2z"/></svg>
-                        </div>
-                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-[#03045E] rounded-2xl shadow-2xl flex flex-col items-center justify-center p-6 text-white z-10">
-                            <div class="text-2xl font-bold">300+</div>
-                            <div class="text-[8px] font-bold uppercase tracking-widest opacity-60">Tervalidasi</div>
-                        </div>
-                    </div>
-                </div>
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ route('login') }}" class="bg-[#03045E] text-white px-10 py-4 rounded-lg font-bold text-sm hover:bg-[#023E8A] transition-all duration-300 shadow-lg shadow-blue-900/20 transform hover:scale-[1.02] flex items-center justify-center group">
+                    {{ $content['cta_primary'] ?? 'Ajukan Objek' }}
+                    <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+                <a href="{{ route('profil-kebudayaan.index') }}" class="bg-white text-slate-600 border border-slate-200 px-10 py-4 rounded-lg font-bold text-sm hover:bg-slate-50 transition-all duration-300 flex items-center justify-center">
+                    {{ $content['cta_secondary'] ?? 'Jelajahi Profil' }}
+                </a>
             </div>
         </div>
     </section>

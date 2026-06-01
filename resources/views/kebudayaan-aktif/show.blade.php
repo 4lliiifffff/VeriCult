@@ -41,58 +41,55 @@
     @endphp
 
     {{-- Hero / Cover --}}
-    <div class="pt-20 relative">
+    <section class="relative min-h-[50vh] flex items-end overflow-hidden bg-slate-50 pt-32 pb-16">
         @if($coverImage)
-        <div class="relative h-[55vh] md:h-[65vh] overflow-hidden bg-[#03045E]">
             <img src="{{ $coverImage->url }}" alt="{{ $post->name }}"
-                 class="w-full h-full object-cover opacity-80">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#03045E]/90 via-[#03045E]/30 to-transparent"></div>
-        </div>
-        @else
-        <div class="h-[30vh] bg-gradient-to-br from-[#03045E] to-[#0077B6] relative">
-            <div class="absolute inset-0 opacity-10">
-                <svg width="100%" height="100%"><defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0L0 0 0 40" fill="none" stroke="white" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>
-            </div>
-        </div>
+                 class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-multiply">
         @endif
 
-        {{-- Floating Breadcrumb --}}
-        <div class="absolute top-24 left-0 right-0 z-10">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav class="flex items-center gap-2 text-[10px] font-bold text-white/70 uppercase tracking-widest">
-                    <a href="{{ route('beranda') }}" class="hover:text-white transition-colors">Beranda</a>
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                    <a href="{{ route('kebudayaan-aktif.index') }}" class="hover:text-white transition-colors">Budaya Aktif</a>
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                    <span class="text-white truncate max-w-[200px]">{{ $post->name }}</span>
-                </nav>
-            </div>
-        </div>
-    </div>
+        {{-- Light gradient overlay --}}
+        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent"></div>
 
-    {{-- Main Content Card (overlapping hero) --}}
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10 pb-20">
+        {{-- Subtle dot pattern --}}
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMyw0LDk0LDAuMDMpIi8+PC9zdmc+')]"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+            {{-- Breadcrumb --}}
+            <nav class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">
+                <a href="{{ route('beranda') }}" class="hover:text-[#0077B6] transition-colors">Beranda</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                <a href="{{ route('kebudayaan-aktif.index') }}" class="hover:text-[#0077B6] transition-colors">Budaya Aktif</a>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                <span class="text-slate-500 truncate max-w-[200px]">{{ $post->name }}</span>
+            </nav>
+
+            {{-- Badges --}}
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl px-4 py-1.5 text-[10px] font-black uppercase tracking-widest">
+                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+                    Aktif Terverifikasi
+                </span>
+                <span class="bg-blue-50 text-[#0077B6] border border-blue-100 rounded-xl px-4 py-1.5 text-[10px] font-black uppercase tracking-widest">
+                    Kebudayaan Aktif
+                </span>
+            </div>
+
+            {{-- Title --}}
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-[#03045E] tracking-tight leading-tight">
+                {{ $post->name }}
+            </h1>
+        </div>
+    </section>
+
+    {{-- Main Content --}}
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 -mt-4 relative z-10">
 
         {{-- Main Post Card --}}
         <div class="bg-white rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl shadow-slate-200/80 border border-slate-100 overflow-hidden mb-8">
 
             {{-- Post Header --}}
             <div class="p-5 sm:p-8 md:p-10 border-b border-slate-100">
-                {{-- Badges --}}
-                <div class="flex flex-wrap items-center gap-2 mb-5">
-                    <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest">
-                        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                        Aktif Terverifikasi
-                    </span>
-                    <span class="bg-blue-50 text-[#0077B6] border border-blue-100 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest">
-                        Kebudayaan Aktif
-                    </span>
-                </div>
-
-                <h1 class="text-3xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight mb-6">
-                    {{ $post->name }}
-                </h1>
-
                 {{-- Author & Meta --}}
                 <div class="flex flex-wrap items-center gap-6 text-sm text-slate-500 font-medium">
                     <div class="flex items-center gap-2.5">
@@ -187,22 +184,19 @@
                 <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-6">
                     Video <span class="text-[#0077B6]">({{ $videos->count() }})</span>
                 </h2>
-                <div class="space-y-4">
+                <div class="grid grid-cols-2 {{ $videos->count() > 2 ? 'sm:grid-cols-3' : '' }} gap-4">
                     @foreach($videos as $vid)
-                    <div class="flex items-center gap-4 bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center shrink-0">
-                            <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    <button type="button"
+                        @click="openPreview('{{ $vid->url }}', 'video', '{{ addslashes($vid->original_name) }}', '{{ $vid->file_size_human }}')"
+                        class="group relative overflow-hidden rounded-2xl aspect-video bg-slate-900 block w-full focus:outline-none">
+                        <video src="{{ $vid->url }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex flex-col items-center justify-center gap-2">
+                            <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-5 h-5 text-white translate-x-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <p class="text-white text-[10px] font-black uppercase tracking-widest truncate max-w-[90%] px-2">{{ $vid->original_name }}</p>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-bold text-slate-700 truncate">{{ $vid->original_name }}</p>
-                            <p class="text-[10px] text-slate-400 font-medium">{{ $vid->file_size_human }}</p>
-                        </div>
-                        <button type="button" @click="openPreview('{{ $vid->url }}', 'video', '{{ addslashes($vid->original_name) }}', '{{ $vid->file_size_human }}')"
-                           class="shrink-0 text-[10px] font-black text-[#0077B6] uppercase tracking-widest hover:text-[#03045E] transition-colors flex items-center gap-1 bg-purple-50 hover:bg-purple-100/80 px-3.5 py-2 rounded-xl border border-purple-200/50">
-                            Tonton
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </button>
-                    </div>
+                    </button>
                     @endforeach
                 </div>
             </div>

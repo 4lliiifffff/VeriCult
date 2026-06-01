@@ -470,7 +470,7 @@
 
                 <!-- Timeline / Log Sidebar -->
                 <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden overflow-y-auto max-h-[600px] scrollbar-hide">
-                    <div class="p-8 pb-4 sticky top-0 bg-white/95 backdrop-blur-sm z-10 flex items-center justify-between border-b border-slate-50">
+                    <div class="p-8 pb-4 sticky top-0 bg-white/95 backdrop-blur-sm z-20 flex items-center justify-between border-b border-slate-50">
                         <h3 class="text-[#03045E] font-black text-lg tracking-tight flex items-center gap-3">
                             <span class="w-1.5 h-6 bg-[#00B4D8] rounded-full"></span>
                             Jejak Aktivitas

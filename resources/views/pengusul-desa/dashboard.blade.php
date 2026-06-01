@@ -49,6 +49,13 @@
                         </div>
                     @endif
                 </div> --}}
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 bg-slate-50 p-4 sm:p-6 rounded-[2rem] border border-slate-100 shadow-inner relative z-20 self-start md:self-auto shrink-0">
+                    <a href="{{ route('pengusul-desa.submissions.create', 'laporan-kebudayaan-aktif') }}" class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-[#03045E] text-white rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95 gap-2 group/btn">
+                        <svg class="w-4 h-4 group-hover/btn:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                        <span>Buat Laporan Baru</span>
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>

@@ -337,28 +337,54 @@
                             <span class="px-3 py-1 rounded-lg bg-[#03045E] text-white text-[10px] font-black tracking-widest">{{ $submission->files->count() }} BERKAS</span>
                         </div>
                         
-                        <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
+                        <div class="grid grid-cols-1 gap-4">
                             @forelse($submission->files as $file)
-                                @if(in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']))
-                                    <button @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')" 
-                                            class="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 card-shadow w-full focus:outline-none focus:ring-4 focus:ring-blue-500/20">
-                                        <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-50 group-hover:scale-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-                                        </div>
-                                    </button>
-                                @elseif(in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']))
-                                    <button @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')" 
-                                            class="group relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-slate-100 card-shadow w-full focus:outline-none focus:ring-4 focus:ring-blue-500/20">
-                                        <div class="absolute inset-0 flex items-center justify-center text-white bg-slate-800/50 group-hover:bg-slate-800/30 transition-colors">
-                                            <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                <svg class="w-6 h-6 translate-x-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                @php
+                                    $isImage = in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
+                                    $isVideo = in_array(strtolower($file->file_type), ['video', 'mp4', 'mov', 'webm']);
+                                @endphp
+                                <div class="group/file relative flex flex-col p-4 bg-white border border-slate-100 rounded-[2rem] shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 hover:border-[#0077B6]/30 transition-all duration-300 overflow-hidden">
+                                    <!-- Preview Area -->
+                                    <div class="relative w-full h-44 rounded-[1.5rem] overflow-hidden bg-slate-50 flex items-center justify-center shrink-0 mb-4 border border-slate-50/50 shadow-inner">
+                                        @if($isImage)
+                                            <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110">
+                                            <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
+                                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')"
+                                                    class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                </button>
                                             </div>
-                                        </div>
-                                    </button>
-                                @endif
+                                        @elseif($isVideo)
+                                            <video src="{{ $file->url }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata"></video>
+                                            <div class="absolute inset-0 bg-black/20 group-hover/file:bg-black/40 transition-colors flex items-center justify-center">
+                                                <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')"
+                                                    class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover/file:scale-110 transition-transform border border-white/30">
+                                                    <svg class="w-6 h-6 text-white translate-x-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                                </button>
+                                            </div>
+                                        @else
+                                            <div class="flex flex-col items-center gap-2 text-slate-300">
+                                                <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                                <span class="text-[10px] font-black uppercase tracking-widest">{{ strtoupper($file->file_type) }}</span>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <!-- File Info -->
+                                    <div class="flex flex-col mb-4">
+                                        <h4 class="text-sm font-black text-[#03045E] truncate mb-1">{{ $file->original_name }}</h4>
+                                        <span class="text-[10px] font-black text-[#00B4D8] uppercase tracking-widest">{{ strtoupper($file->file_type) }}</span>
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <a href="{{ $file->url }}" target="_blank"
+                                        class="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-50 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#03045E] hover:text-white transition-all border border-slate-100">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                        Unduh
+                                    </a>
+                                </div>
                             @empty
-                                <div class="col-span-full py-16 text-center bg-slate-50 rounded-[1.5rem] border-2 border-dashed border-slate-200 group">
+                                <div class="py-16 text-center bg-slate-50 rounded-[1.5rem] border-2 border-dashed border-slate-200 group">
                                     <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300 shadow-sm group-hover:scale-110 transition-transform">
                                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     </div>
