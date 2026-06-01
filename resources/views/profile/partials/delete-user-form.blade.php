@@ -47,7 +47,7 @@
             </p>
 
             <div class="max-w-xs mx-auto space-y-3 group text-left mb-12">
-                <x-input-label for="password" value="{{ __('Kata Sandi Konfirmasi') }}" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-rose-600" />
+                {{-- <x-input-label for="password" value="{{ __('Kata Sandi Konfirmasi') }}" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-rose-600" /> --}}
                 <x-text-input
                     id="password"
                     name="password"
@@ -59,12 +59,12 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10 border-t border-slate-50">
-                <button type="button" 
-                        @click="$dispatch('close')" 
+                <button type="button"
+                        @click="$dispatch('close')"
                         class="px-8 py-5 rounded-2xl border-2 border-slate-100 text-slate-400 font-black text-[11px] tracking-[0.2em] uppercase hover:bg-slate-50 transition-all active:scale-[0.98]">
                     Batal
                 </button>
-                <button type="submit" 
+                <button type="submit"
                         class="px-8 py-5 rounded-2xl bg-rose-600 text-white font-black text-[11px] tracking-[0.2em] uppercase shadow-2xl shadow-rose-900/20 hover:bg-rose-700 transition-all active:scale-[0.98]">
                     Ya, Hapus Akun
                 </button>

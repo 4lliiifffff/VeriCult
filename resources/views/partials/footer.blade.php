@@ -90,7 +90,7 @@
 
             <!-- Bottom Bar -->
             <div class="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center text-slate-400 text-[10px] sm:text-xs text-center md:text-left space-y-4 md:space-y-0">
-                <p>&copy; {{ date('Y') }} {{ $site_global['site_name'] ?? 'VeriCult' }}. Indonesia Digital Heritage.</p>
+                <p>&copy; {{ date('Y') }} {{ $site_global['site_name'] ?? 'VeriCult' }}.</p>
                 <div class="flex space-x-6">
                     <a href="#" class="hover:text-[#0077B6] transition-colors">Privasi</a>
                     <a href="#" class="hover:text-[#0077B6] transition-colors">Ketentuan</a>

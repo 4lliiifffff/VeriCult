@@ -33,8 +33,17 @@ class NotificationController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
 
+        // Status Filter
+        if ($request->filled('filter')) {
+            if ($request->filter === 'unread') {
+                $query->whereNull('read_at');
+            } elseif ($request->filter === 'read') {
+                $query->whereNotNull('read_at');
+            }
+        }
+
         $notifications = $query->latest()->paginate(20)->withQueryString();
-        
+
         $view = 'dashboard';
         if ($user->hasRole('super-admin')) {
             $view = 'super-admin.notifications.index';
@@ -76,7 +85,7 @@ class NotificationController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $notification = $user->notifications()->findOrFail($id);
-        
+
         $notification->markAsRead();
 
         $data = $notification->data;
@@ -86,7 +95,7 @@ class NotificationController extends Controller
         // Handle submission notifications
         if ($submissionId) {
             $submission = \App\Models\CulturalSubmission::find($submissionId);
-            
+
             // Role-based redirection using submission_type
             if ($user->hasRole('super-admin')) {
                 return redirect()->route('super-admin.cultural-submissions.show', $submissionId);
@@ -129,5 +138,15 @@ class NotificationController extends Controller
         Auth::user()->unreadNotifications->markAsRead();
 
         return back()->with('success', 'Semua notifikasi telah ditandai sebagai terbaca.');
+    }
+
+    /**
+     * Delete all notifications.
+     */
+    public function deleteAll()
+    {
+        Auth::user()->notifications()->delete();
+
+        return back()->with('success', 'Semua notifikasi telah dihapus.');
     }
 }

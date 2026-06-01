@@ -68,8 +68,8 @@
                 datasets: [{
                     data: {!! json_encode(array_values($statusStats)) !!},
                     backgroundColor: palette,
-                    borderWidth: 0,
-                    hoverOffset: 15,
+                    borderWidth: 2,
+                    hoverOffset: 2,
                     borderRadius: 1
                 }]
             },
@@ -123,7 +123,7 @@
         const trendCtx = document.getElementById('trendChart').getContext('2d');
         const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         const monthsEng = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        
+
         const typeTrendData = {!! json_encode($typeTrend) !!};
         const opkData = monthsEng.map(m => {
             const data = typeTrendData[m] || [];
@@ -204,21 +204,21 @@
             options: {
                 ...chartOptions,
                 interaction: { intersect: false, mode: 'index' },
-                plugins: { 
-                    legend: { 
+                plugins: {
+                    legend: {
                         display: true,
                         position: 'top',
                         align: 'end',
                         labels: { boxWidth: 10, usePointStyle: true, font: { weight: '800' } }
-                    } 
+                    }
                 },
                 scales: {
-                    y: { 
-                        beginAtZero: true, 
+                    y: {
+                        beginAtZero: true,
                         grid: { color: '#F8FAFC', drawBorder: false },
                         ticks: { font: { weight: '600', size: 10 }, color: '#94A3B8' }
                     },
-                    x: { 
+                    x: {
                         grid: { display: false },
                         ticks: { font: { weight: '700', size: 10 }, color: '#64748B' }
                     }
@@ -301,7 +301,7 @@
     <x-slot name="header">
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -582,9 +582,9 @@
                 init() {
                     setInterval(() => this.fetchOnlineUsers(), 5000);
                 }
-            }" 
+            }"
             class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white overflow-hidden group">
-            
+
             <div class="p-6 sm:p-10 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
                 <div>
                     <h3 class="text-lg sm:text-2xl font-black text-[#03045E] flex items-center gap-3">
@@ -594,7 +594,7 @@
                     <p class="text-slate-400 font-medium text-[10px] sm:text-sm mt-1">Aktivitas user yang sedang mengakses platform.</p>
                 </div>
             </div>
-            
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-max responsive-table">
                     <thead>
@@ -702,7 +702,7 @@
                         <p class="text-slate-400 font-medium text-[10px] sm:text-sm mt-1">Integritas sistem.</p>
                     </div>
                 </div>
-                
+
                 <div class="p-6 sm:p-8 space-y-6 sm:space-y-8 relative flex-1 overflow-y-auto max-h-[600px] custom-scrollbar">
                     <div class="absolute left-[39px] sm:left-[47px] top-10 bottom-10 w-px bg-slate-100"></div>
                     @foreach($auditLogs as $log)

@@ -24,7 +24,7 @@
             <!-- Notifications -->
             <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
                 <button @click="open = ! open" class="relative w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-slate-400 hover:text-[#0077B6] transition-all duration-300 border border-slate-100 group shadow-sm hover:shadow-md active:scale-95">
-                    <svg class="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                     </svg>
                     @if(Auth::user()->unreadNotifications->count() > 0)
@@ -43,16 +43,21 @@
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
                     class="fixed sm:absolute top-20 sm:top-auto inset-x-4 sm:inset-x-auto sm:right-0 z-50 mt-4 sm:w-80 rounded-3xl shadow-2xl border border-slate-50 bg-white overflow-hidden ring-1 ring-slate-900/5">
-                    
+
                     <div class="p-6 border-b border-slate-50 flex items-center justify-between">
                         <h3 class="text-[10px] font-black text-[#03045E] uppercase tracking-[0.2em]">Notifikasi</h3>
                         <a href="{{ route('pengusul.notifications.index') }}" class="text-[9px] font-black text-[#0077B6] uppercase tracking-[0.2em] hover:underline">Lihat Semua</a>
                     </div>
-                    
+
                     <div class="max-h-80 overflow-y-auto custom-scrollbar">
-                        @forelse(Auth::user()->unreadNotifications->take(5) as $notification)
-                            <a href="{{ route('pengusul.notifications.read-and-redirect', $notification->id) }}" class="block p-5 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0 group/notif">
-                                <p class="text-[11px] font-black text-[#03045E] mb-1 group-hover/notif:text-[#0077B6] transition-colors">{{ $notification->data['title'] }}</p>
+                        @php
+                            $allNotifications = Auth::user()->notifications;
+                            $previewNotifications = Auth::user()->notifications()->latest()->take(5)->get();
+                        @endphp
+
+                        @forelse($previewNotifications as $notification)
+                            <a href="{{ route('pengusul.notifications.read-and-redirect', $notification->id) }}" class="block p-5 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0 group/notif {{ !$notification->read_at ? 'bg-indigo-50/30' : '' }}">
+                                <p class="text-[11px] font-black {{ $notification->read_at ? 'text-[#03045E]' : 'text-[#0077B6]' }} mb-1 group-hover/notif:text-[#03045E] transition-colors">{{ $notification->data['title'] }}</p>
                                 <p class="text-[10px] text-slate-400 line-clamp-2 leading-relaxed font-medium">{{ $notification->data['message'] }}</p>
                                 <p class="text-[8px] text-slate-300 mt-2.5 font-bold uppercase tracking-widest">{{ $notification->created_at->diffForHumans() }}</p>
                             </a>
@@ -66,7 +71,17 @@
                         @endforelse
                     </div>
 
-                    @if(Auth::user()->unreadNotifications->count() > 0)
+                    @if($allNotifications->isNotEmpty())
+                        <div class="p-4 bg-slate-50 border-t border-slate-50">
+                            <form action="{{ route('pengusul.notifications.mark-all-read') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full py-2.5 text-[8px] font-black text-white bg-[#03045E] hover:bg-[#0077B6] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-lg shadow-blue-900/10 flex items-center justify-center gap-2">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                    Baca Semua
+                                </button>
+                            </form>
+                        </div>
+                    @elseif(Auth::user()->unreadNotifications->count() > 0)
                         <div class="p-4 bg-slate-50 border-t border-slate-50">
                             <form action="{{ route('pengusul.notifications.mark-all-read') }}" method="POST">
                                 @csrf
@@ -102,7 +117,7 @@
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-2 scale-95"
                     class="absolute right-0 z-[60] mt-4 w-60 rounded-3xl shadow-2xl border border-slate-50 bg-white overflow-hidden p-2 ring-1 ring-slate-900/5">
-                    
+
                     <div class="px-4 py-3 mb-1 border-b border-slate-50">
                         <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Sesi Masuk</p>
                         <p class="text-[10px] font-bold text-[#03045E] truncate">{{ Auth::user()->email }}</p>
