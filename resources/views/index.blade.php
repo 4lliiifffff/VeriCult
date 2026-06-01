@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $site_seo['title_beranda'] ?? 'VeriCult - Sistem Verifikasi Kebudayaan Digital' }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    <meta name="description" content="{{ $site_seo['desc_beranda'] ?? 'Platform digital terintegrasi untuk pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia.' }}">
+    <meta name="description" content="{{ $site_seo['desc_beranda'] ?? 'Platform digital terintegrasi untuk pengajuan dan validasi objek kebudayaan Indonesia.' }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -75,7 +75,7 @@
 
                     <!-- Subtitle -->
                     <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl leading-relaxed font-normal">
-                        {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
+                        {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan dan validasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
                     </p>
 
                     <!-- CTA Buttons -->
@@ -133,7 +133,7 @@
                         </div>
                         <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-[#03045E] rounded-2xl shadow-2xl flex flex-col items-center justify-center p-6 text-white z-10">
                             <div class="text-2xl font-bold">300+</div>
-                            <div class="text-[8px] font-bold uppercase tracking-widest opacity-60">Sertifikat</div>
+                            <div class="text-[8px] font-bold uppercase tracking-widest opacity-60">Tervalidasi</div>
                         </div>
                     </div>
                 </div>

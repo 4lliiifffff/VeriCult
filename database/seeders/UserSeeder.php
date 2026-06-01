@@ -13,10 +13,10 @@ class UserSeeder extends Seeder
     {
         // 1. Super Admin
         $superAdmin = User::firstOrCreate(
-            ['email' => 'admin@vericult.co.id'],
+            ['email' => 'superadmin@vericult.co.id'],
             [
                 'name' => 'Super Administrator',
-                'password' => Hash::make('Admin123'),
+                'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]
         );
@@ -25,10 +25,10 @@ class UserSeeder extends Seeder
 
         // 2. Admin Wilayah
         $admin = User::firstOrCreate(
-            ['email' => 'admin_wilayah@vericult.co.id'],
+            ['email' => 'admin@vericult.co.id'],
             [
                 'name' => 'Admin Wilayah',
-                'password' => Hash::make('Admin123'),
+                'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]
         );

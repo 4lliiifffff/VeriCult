@@ -46,7 +46,7 @@
                 
             </h1>
             <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed reveal reveal-up" style="transition-delay: 200ms;">
-                {{ $content['hero_subtitle'] ?? 'VeriCult adalah sistem digital inovatif yang dirancang untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia.' }}
+                {{ $content['hero_subtitle'] ?? 'VeriCult adalah sistem digital inovatif yang dirancang untuk memfasilitasi proses pengajuan dan validasi objek kebudayaan Indonesia.' }}
             </p>
         </div>
     </section>
@@ -77,15 +77,7 @@
                                 <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Akurasi Terjamin</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-6 relative z-10">
-                            <div class="w-16 h-16 bg-blue-50/50 rounded-2xl flex items-center justify-center text-[#0077B6] shadow-sm border border-white group-hover:bg-gradient-to-br group-hover:from-[#03045E] group-hover:to-[#0077B6] group-hover:text-white transition-all duration-500">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806"></path></svg>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-black text-[#03045E] mb-1">Sertifikasi Resmi</h4>
-                                <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Legalitas Digital</p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -94,14 +86,14 @@
                         {!! str_replace('text-[#0077B6]', 'text-[#0077B6] relative inline-block', $content['about_title'] ?? 'Mengapa<br><span class="text-[#0077B6] relative inline-block">VeriCult?</span>') !!}
                     </h2>
                     <p class="text-lg text-slate-500 mb-10 leading-relaxed font-medium">
-                        {{ $content['about_description'] ?? 'VeriCult adalah platform digital terintegrasi yang dirancang khusus untuk memfasilitasi proses pengajuan, validasi, dan sertifikasi objek kebudayaan Indonesia. Kami berkomitmen menjaga otentisitas data melalui teknologi mutakhir dan sistem verifikasi berjenjang.' }}
+                        {{ $content['about_description'] ?? 'VeriCult adalah platform digital terintegrasi yang dirancang khusus untuk memfasilitasi proses pengajuan dan validasi objek kebudayaan Indonesia. Kami berkomitmen menjaga otentisitas data melalui teknologi mutakhir dan sistem verifikasi berjenjang.' }}
                     </p>
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
                             <div class="mt-1 w-6 h-6 text-[#0077B6] flex-shrink-0 bg-blue-50 rounded-full flex items-center justify-center">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <p class="text-slate-600 font-bold text-sm">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang tersertifikasi.</p>
+                            <p class="text-slate-600 font-bold text-sm">Setiap objek budaya melalui proses validasi berjenjang oleh tim ahli yang berpengalaman.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <div class="mt-1 w-6 h-6 text-[#0077B6] flex-shrink-0 bg-blue-50 rounded-full flex items-center justify-center">
