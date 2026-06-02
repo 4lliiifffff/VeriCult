@@ -17,8 +17,8 @@
         .gallery-img:hover { transform: scale(1.02); }
     </style>
 </head>
-<body class="antialiased bg-slate-50 text-slate-900" x-data="{ 
-    showPreviewModal: false, 
+<body class="antialiased bg-slate-50 text-slate-900" x-data="{
+    showPreviewModal: false,
     previewFile: null,
     openPreview(url, type, name, size) {
         this.previewFile = { url, type, name, size };
@@ -118,7 +118,7 @@
                     @endif
 
                     {{-- Share button --}}
-                    <button onclick="copyLink()"
+                        <button type="button" onclick="copyLink()"
                             class="sm:ml-auto flex items-center gap-1.5 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-[#0077B6] transition-colors group">
                         <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                         <span id="share-label">Bagikan</span>
@@ -259,7 +259,7 @@
             <h2 class="text-lg sm:text-xl font-black text-[#03045E] tracking-tight mb-4 sm:mb-6">Kebudayaan Aktif Lainnya</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                 @foreach($related as $rel)
-                @php 
+                @php
                     $relImage = $rel->files->first(fn($f) => $f->file_type === 'image');
                     $relVideo = $rel->files->first(fn($f) => $f->file_type === 'video');
                 @endphp
@@ -335,7 +335,7 @@
                     <template x-if="previewFile?.type === 'pdf'">
                         <iframe :src="previewFile?.url" class="w-full h-[70vh] border-0 bg-white"></iframe>
                     </template>
-                    
+
                     <!-- Floating Download Link -->
                     <a :href="previewFile?.url" target="_blank" class="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 px-4 py-2.5 sm:px-6 sm:py-3 bg-white text-[#03045E] rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
                         <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -350,11 +350,55 @@
 
     <script>
         function copyLink() {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const label = document.getElementById('share-label');
-                label.textContent = 'Tersalin!';
-                setTimeout(() => label.textContent = 'Bagikan', 2000);
-            });
+            const shareUrl = window.location.href;
+            const label = document.getElementById('share-label');
+            const resetLabel = () => setTimeout(() => label.textContent = 'Bagikan', 2000);
+
+            if (navigator.share) {
+                return navigator.share({ title: document.title, url: shareUrl })
+                    .then(() => {
+                        label.textContent = 'Tersalin!';
+                        resetLabel();
+                    })
+                    .catch(() => fallbackCopy(shareUrl, label, resetLabel));
+            }
+
+            fallbackCopy(shareUrl, label, resetLabel);
+        }
+
+        function fallbackCopy(text, label, resetLabel) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(() => {
+                        label.textContent = 'Tersalin!';
+                        resetLabel();
+                    })
+                    .catch(() => fallbackTextAreaCopy(text, label, resetLabel));
+                return;
+            }
+
+            fallbackTextAreaCopy(text, label, resetLabel);
+        }
+
+        function fallbackTextAreaCopy(text, label, resetLabel) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                if (document.execCommand('copy')) {
+                    label.textContent = 'Tersalin!';
+                } else {
+                    label.textContent = 'Gagal!';
+                }
+            } catch (err) {
+                label.textContent = 'Gagal!';
+            }
+            document.body.removeChild(textarea);
+            resetLabel();
         }
     </script>
 </body>
