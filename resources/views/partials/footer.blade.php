@@ -4,11 +4,18 @@
                 <!-- Brand -->
                 <div class="sm:col-span-2">
                     <a href="{{ route('beranda') }}" class="flex items-center space-x-3 mb-6">
-                        <div class="w-8 h-8 bg-[#03045E] rounded-lg flex items-center justify-center shadow-md">
+                        <div class="flex items-center justify-center">
+                            <img class="w-8 h-9" src="{{ asset('Logo/Dinas/Logo-Dinas.png') }}" alt="Logo VeriCult">
+                        </div>
+                        <span class="text-xl font-bold tracking-tight text-brand-dark">Veri<span class="text-brand-primary">Cult</span></span>
+                    </a>
+
+                    <!-- <a href="{{ route('beranda') }}" class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 bg-brand-dark rounded-lg flex items-center justify-center shadow-md">
                             <img class="w-5 h-5" src="{{ asset('Logo/Putih/Logo-Sistem-W.png') }}" alt="Logo VeriCult">
                             </div>
-                        <span class="text-xl font-bold tracking-tight text-[#03045E]">Veri<span class="text-[#0077B6]">Cult</span></span>
-                    </a>
+                        <span class="text-xl font-bold tracking-tight text-brand-dark">Veri<span class="text-brand-primary">Cult</span></span>
+                    </a> -->
                     <p class="text-slate-500 text-sm leading-relaxed max-w-sm mb-6 sm:mb-8">
                         {{ $site_global['footer_description'] ?? 'Platform verifikasi digital terpercaya untuk melestarikan dan mengabsahkan kekayaan budaya Nusantara.' }}
                     </p>
