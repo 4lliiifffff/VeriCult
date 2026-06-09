@@ -154,13 +154,13 @@
             @else
                 {{-- Categories without sub-categories --}}
                 <div class="space-y-8 relative z-10">
-                    @foreach($categoryConfig as $fieldKey => $field)
+                    @foreach($categoryConfig['fields'] ?? $categoryConfig as $fieldKey => $field)
                         @if(is_array($field) && isset($field['type']))
                             @include('pengusul.submissions.partials.field-renderer', [
                                 'fieldKey' => $fieldKey,
                                 'field' => $field,
                                 'categoryDataValues' => $categoryDataValues,
-                                'categoryFields' => $categoryConfig
+                                'categoryFields' => $categoryConfig['fields'] ?? $categoryConfig
                             ])
                         @endif
                     @endforeach

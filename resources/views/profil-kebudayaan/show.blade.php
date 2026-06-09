@@ -355,7 +355,7 @@
                                                 </button>
                                             </div>
                                         @elseif($isVideo)
-                                            <video src="{{ $file->url }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata"></video>
+                                            <video src="{{ $file->url }}" @loadedmetadata="$el.currentTime = 0.1;" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata" muted playsinline></video>
                                             <div class="absolute inset-0 bg-black/20 group-hover/file:bg-black/40 transition-colors flex items-center justify-center">
                                                 <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')"
                                                     class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover/file:scale-110 transition-transform border border-white/30">

@@ -214,7 +214,6 @@
                 <div x-data="{
                         open: false,
                         selected: {{ json_encode($fieldValue) }},
-                        options: @json($field['options'] ?? []),
                         selectOption(option) {
                             this.selected = option;
                             this.open = false;
@@ -243,19 +242,22 @@
                          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                          class="absolute z-[60] w-full mt-3 bg-white border border-slate-100 rounded-3xl shadow-2xl overflow-hidden py-3 max-h-64 overflow-y-auto"
                          style="display: none;">
-                        <template x-for="option in options">
+                        @foreach($field['options'] ?? [] as $option)
+                            @php
+                                $escapedOption = str_replace("'", "\'", $option);
+                            @endphp
                             <button type="button"
-                                @click="selectOption(option)"
+                                @click="selectOption('{{ $escapedOption }}')"
                                 class="w-full text-left px-6 py-3.5 text-sm font-black transition-all duration-200 flex items-center justify-between group/opt"
-                                :class="selected === option ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
-                                <span x-text="option"></span>
-                                <template x-if="selected === option">
+                                :class="selected === '{{ $escapedOption }}' ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
+                                <span>{{ $option }}</span>
+                                <template x-if="selected === '{{ $escapedOption }}'">
                                     <div class="w-6 h-6 rounded-full bg-[#0077B6] flex items-center justify-center shadow-lg shadow-blue-500/20">
                                         <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                     </div>
                                 </template>
                             </button>
-                        </template>
+                        @endforeach
                     </div>
                 </div>
                 @break

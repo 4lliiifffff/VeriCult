@@ -79,7 +79,7 @@
                         @foreach($categories as $category)
                             <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('page'), ['category' => $category])) }}"
                                class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
-                                {{ ucfirst(str_replace('_', ' ', $category)) }}
+                                {{ ucfirst(str_replace('scm-history-item:c%3A%5Claragon%5Cwww%5CVeriCult?%7B%22repositoryId%22%3A%22scm0%22%2C%22historyItemId%22%3A%2215d293af6b431fb6cc50d39846553e6c32b2eaba%22%2C%22historyItemParentId%22%3A%223b07889a4f96a6ebab0d7cb0cdc8489d84673726%22%2C%22historyItemDisplayId%22%3A%2215d293a%22%7D_', ' ', $category)) }}
                             </a>
                         @endforeach
                     </div>
