@@ -52,6 +52,7 @@ class AuditLogTest extends TestCase
                     'desa_lokasi' => 'Gayo Lues',
                     'detail_lokasi' => 'Balai Desa Gayo',
                     'tanggal_pelaksanaan' => '2026-05-25',
+                    'estimasi_penonton' => '50 – 100 orang',
                 ],
             ]);
 

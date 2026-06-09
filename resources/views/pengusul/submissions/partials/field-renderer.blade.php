@@ -2,7 +2,15 @@
 {{-- Renders a single form field based on its type definition --}}
 
 @php
-    $fieldValue = $categoryDataValues[$fieldKey] ?? '';
+    $fieldValueRaw = $categoryDataValues[$fieldKey] ?? '';
+    $fieldValue = is_array($fieldValueRaw)
+        ? implode(', ', array_filter(array_map(function ($value) {
+            if (is_scalar($value)) return (string) $value;
+            if (is_array($value)) return json_encode($value);
+            return null;
+        }, $fieldValueRaw)))
+        : (string) $fieldValueRaw;
+
     $hasCondition = !empty($field['condition']);
     $conditionField = $field['condition']['field'] ?? '';
     $conditionValue = $field['condition']['value'] ?? '';
@@ -14,6 +22,15 @@
 
     // Intelligent Radio Hiding Logic:
     // If this is a radio field with a dependent field that is already filled, hide it.
+    $hasOtherOption = is_array($field['options'] ?? null) && in_array('Lainnya', $field['options'], true);
+    $shouldShowOtherField = $hasOtherOption && (
+        (is_array($fieldValueRaw) && in_array('Lainnya', $fieldValueRaw, true)) ||
+        (is_string($fieldValueRaw) && str_contains($fieldValueRaw, 'Lainnya')) ||
+        (is_string($fieldValue) && str_contains($fieldValue, 'Lainnya'))
+    );
+    $otherFieldKey = $fieldKey . '_lainnya';
+    $otherFieldValue = $categoryDataValues[$otherFieldKey] ?? '';
+
     $isRadioWithDependent = false;
     $dependentIsFilled = false;
     if ($field['type'] === 'radio') {
@@ -94,7 +111,7 @@
                 @endphp
                 <div x-data="{ 
                         open: false, 
-                        search: '{{ addslashes($fieldValue) }}',
+                        search: {{ json_encode($fieldValue) }},
                         allOptions: @js($datalistOptions),
                         get filteredOptions() {
                             if (!this.search) return this.allOptions;
@@ -196,8 +213,8 @@
             @case('select')
                 <div x-data="{ 
                         open: false, 
-                        selected: '{{ $fieldValue }}',
-                        options: @js($field['options'] ?? []),
+                        selected: {{ json_encode($fieldValue) }},
+                        options: @json($field['options'] ?? []),
                         selectOption(option) {
                             this.selected = option;
                             this.open = false;
@@ -251,9 +268,9 @@
                             <input type="radio" name="category_data[{{ $fieldKey }}]" value="{{ $option }}"
                                 class="peer sr-only"
                                 data-category-field
-                                x-on:change="setFieldValue('{{ $fieldKey }}', '{{ $option }}')"
+                                x-on:change="setFieldValue('{{ $fieldKey }}', {{ json_encode($option) }})"
                                 @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
-                                @if($fieldValue === $option) checked @endif>
+                                @if((is_array($fieldValueRaw) ? in_array($option, $fieldValueRaw, true) : $fieldValue === $option)) checked @endif>
                             <div class="px-6 py-3 rounded-2xl border-2 border-slate-100 bg-white text-sm font-black text-slate-500 
                                 peer-checked:border-[#0077B6] peer-checked:bg-[#0077B6]/5 peer-checked:text-[#0077B6] peer-checked:shadow-lg peer-checked:shadow-blue-500/5
                                 hover:border-slate-200 transition-all duration-300 active:scale-95">
@@ -267,7 +284,7 @@
             {{-- CHECKBOX GROUP --}}
             @case('checkbox_group')
                 @php
-                    $checkedValues = is_array($fieldValue) ? $fieldValue : (is_string($fieldValue) && $fieldValue ? explode(',', $fieldValue) : []);
+                    $checkedValues = is_array($fieldValueRaw) ? $fieldValueRaw : (is_string($fieldValueRaw) && $fieldValueRaw ? explode(',', $fieldValueRaw) : []);
                 @endphp
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @foreach($field['options'] as $option)
@@ -288,7 +305,7 @@
                 @php
                     $columns = $field['columns'] ?? [];
                     $columnKeys = $field['column_keys'] ?? [];
-                    $tableData = is_array($fieldValue) ? $fieldValue : [];
+                    $tableData = is_array($fieldValueRaw) ? $fieldValueRaw : [];
                 @endphp
                 <div class="space-y-4" x-init="initDynamicTable('{{ $fieldKey }}', @js($columnKeys))">
                     <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm group-hover/field:shadow-md transition-shadow">
@@ -341,6 +358,19 @@
                 @break
         @endswitch
     </div>
+
+    @if($shouldShowOtherField)
+        <div class="mt-4 rounded-2xl border border-amber-100 bg-amber-50/70 p-4 shadow-sm">
+            <label for="category_data_{{ $otherFieldKey }}" class="block text-[10px] font-black uppercase tracking-[0.18em] text-amber-700 mb-2">Sebutkan {{ strtolower($field['label']) }} lainnya</label>
+            <input type="text"
+                name="category_data[{{ $otherFieldKey }}]"
+                id="category_data_{{ $otherFieldKey }}"
+                value="{{ $otherFieldValue }}"
+                data-category-field
+                class="w-full px-4 py-3 rounded-2xl border border-amber-200 bg-white text-sm font-bold text-slate-700 placeholder:text-slate-300 focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 outline-none"
+                placeholder="Masukkan detail {{ strtolower($field['label']) }} lainnya">
+        </div>
+    @endif
 
     @error('category_data.' . $fieldKey)
         <p class="flex items-center gap-2 mt-2 px-2 text-[10px] text-red-600 font-black uppercase tracking-wider animate-shake">
