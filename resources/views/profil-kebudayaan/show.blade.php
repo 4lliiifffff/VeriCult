@@ -92,10 +92,15 @@
             $mainImage = $submission->files->first(function($file) {
                 return in_array(strtolower($file->file_type), ['image', 'jpg', 'jpeg', 'png', 'webp']);
             }); 
+            $mainVideo = !$mainImage ? $submission->files->first(function($file) {
+                return strtolower($file->file_type) === 'video';
+            }) : null;
         @endphp
         
         @if($mainImage)
             <img src="{{ $mainImage->url }}" alt="{{ $submission->name }}" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply">
+        @elseif($mainVideo)
+            <video src="{{ $mainVideo->url }}" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply"></video>
         @endif
         
         <!-- Light Gradient Overlay -->
