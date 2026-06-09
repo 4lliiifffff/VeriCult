@@ -34,7 +34,7 @@
         }
     </style>
 </head>
-<body class="antialiased font-sans bg-white text-slate-900 overflow-x-hidden" 
+<body class="antialiased font-sans bg-white text-slate-900 overflow-x-hidden w-full" 
       x-data="{ 
         showPreviewModal: false,
         previewFile: null,

@@ -146,16 +146,42 @@ class CulturalSubmissionSeeder extends Seeder
     private function seedRelations($submission, $validator)
     {
         // 1. Files
-        $fileCount = rand(1, 3);
-        for ($j = 0; $j < $fileCount; $j++) {
+        $files = [
+            [
+                'name' => 'sample_dance.jpg',
+                'mime' => 'image/jpeg',
+                'type' => 'image'
+            ],
+            [
+                'name' => 'sample_temple.jpg',
+                'mime' => 'image/jpeg',
+                'type' => 'image'
+            ],
+            [
+                'name' => 'sample_batik.jpg',
+                'mime' => 'image/jpeg',
+                'type' => 'image'
+            ],
+            [
+                'name' => 'sample_video.mp4',
+                'mime' => 'video/mp4',
+                'type' => 'video'
+            ]
+        ];
+
+        $fileCount = rand(1, 2);
+        $selectedFiles = (array) array_rand($files, $fileCount);
+
+        foreach ($selectedFiles as $index) {
+            $fileData = $files[$index];
             SubmissionFile::create([
                 'cultural_submission_id' => $submission->id,
-                'original_name' => "file_$j.jpg",
-                'stored_name' => Str::random(40) . ".jpg",
-                'file_type' => 'image',
-                'mime_type' => 'image/jpeg',
-                'file_size' => rand(100000, 2000000),
-                'path' => "submissions/sample_$j.jpg",
+                'original_name' => $fileData['name'],
+                'stored_name' => Str::random(40) . "." . pathinfo($fileData['name'], PATHINFO_EXTENSION),
+                'file_type' => $fileData['type'],
+                'mime_type' => $fileData['mime'],
+                'file_size' => rand(500000, 5000000),
+                'path' => "submissions/" . $fileData['name'],
             ]);
         }
 
@@ -191,68 +217,103 @@ class CulturalSubmissionSeeder extends Seeder
 
     private function generateCategoryData(string $category): array
     {
+        $faker = \Faker\Factory::create('id_ID');
+        $periodes = ['Prasejarah', 'Masa Klasik (Hindu-Buddha)', 'Masa Islam', 'Masa Kolonial', 'Kemerdekaan', 'Kontemporer'];
+        $kondisi = ['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat', 'Kurang Terawat', 'Terawat'];
+        $etnis = ['Jawa', 'Sunda', 'Madura', 'Bugis', 'Minangkabau', 'Batak', 'Bali', 'Dayak', 'Sasak', 'Melayu'];
+
         return match($category) {
             CulturalSubmission::CATEGORY_TRADISI_LISAN => [
-                'sub_kategori_tradisi_lisan' => 'cerita_rakyat',
-                'nama_objek' => 'Legenda ' . Str::random(5),
-                'kategori_cerita' => 'Legenda Lokal',
-                'etnis_penutur' => 'Sunda',
-                'medium_penyajian' => 'Lisan',
-                'komponen_tokoh' => 'Tokoh Masyarakat',
+                'sub_kategori_tradisi_lisan' => $faker->randomElement(['cerita_rakyat', 'mitos', 'legenda', 'dongeng', 'pepatah', 'pantun']),
+                'nama_objek' => 'Tradisi Lisan ' . $faker->words(2, true),
+                'kategori_cerita' => 'Kisah Leluhur',
+                'etnis_penutur' => $faker->randomElement($etnis),
+                'medium_penyajian' => $faker->randomElement(['Lisan', 'Tembang', 'Mantra']),
+                'komponen_tokoh' => $faker->name(),
             ],
             CulturalSubmission::CATEGORY_BAHASA => [
-                'nama_objek' => 'Dialek ' . Str::random(5),
-                'jenis_aksara' => 'Latin',
-                'etnis' => 'Jawa',
-                'memiliki_dialek' => 'Ya',
+                'nama_objek' => 'Bahasa/Dialek ' . $faker->words(2, true),
+                'jenis_aksara' => $faker->randomElement(['Latin', 'Pegon', 'Jawa', 'Lontara', 'Batak', 'Kaganga']),
+                'etnis' => $faker->randomElement($etnis),
+                'memiliki_dialek' => $faker->randomElement(['Ya', 'Tidak']),
                 'dialek_table' => [
-                    ['nama_dialek' => 'Dialek Utara', 'jumlah_penutur' => '1000'],
-                    ['nama_dialek' => 'Dialek Selatan', 'jumlah_penutur' => '500'],
+                    ['nama_dialek' => 'Dialek ' . $faker->word(), 'jumlah_penutur' => (string)$faker->numberBetween(100, 10000)],
+                    ['nama_dialek' => 'Dialek ' . $faker->word(), 'jumlah_penutur' => (string)$faker->numberBetween(100, 5000)],
                 ]
             ],
             CulturalSubmission::CATEGORY_MANUSKRIP => [
-                'nama_objek' => 'Naskah ' . Str::random(5),
-                'judul' => 'Kitab ' . Str::random(10),
-                'bahan' => 'Lontar',
-                'bahasa' => 'Jawa Kuno',
-                'jumlah' => '1',
-                'satuan' => 'Buku',
+                'nama_objek' => 'Naskah Kuno ' . $faker->words(2, true),
+                'judul' => 'Kitab ' . $faker->words(3, true),
+                'bahan' => $faker->randomElement(['Lontar', 'Kertas Daluang', 'Bambu', 'Kulit Binatang']),
+                'bahasa' => $faker->randomElement(['Jawa Kuno', 'Melayu Kuno', 'Sunda Kuno', 'Arab']),
+                'jumlah' => (string)$faker->numberBetween(1, 10),
+                'satuan' => $faker->randomElement(['Buku', 'Gulungan', 'Lembar']),
             ],
             CulturalSubmission::CATEGORY_RITUS => [
-                'nama_objek' => 'Upacara ' . Str::random(5),
-                'jenis' => 'Panen',
-                'etnis' => 'Sunda',
-                'lokasi' => 'Sawah Desa',
-                'masih_dilaksanakan' => 'Ya, secara terbuka',
+                'nama_objek' => 'Upacara ' . $faker->words(2, true),
+                'jenis' => $faker->randomElement(['Kelahiran', 'Pernikahan', 'Kematian', 'Panen', 'Tolak Bala']),
+                'etnis' => $faker->randomElement($etnis),
+                'lokasi' => 'Desa ' . $faker->city(),
+                'masih_dilaksanakan' => $faker->randomElement(['Ya, secara terbuka', 'Ya, tertutup', 'Jarang', 'Sudah Punah']),
             ],
             CulturalSubmission::CATEGORY_SENI => [
-                'sub_kategori_seni' => 'seni_tari',
-                'nama_objek' => 'Tari ' . Str::random(5),
-                'jenis' => 'Tari Tradisional',
-                'etnis' => 'Sunda',
-                'properti' => 'Selendang',
-                'fungsi' => 'Hiburan Rakyat',
+                'sub_kategori_seni' => $faker->randomElement(['seni_tari', 'seni_suara', 'seni_musik', 'seni_teater', 'seni_rupa']),
+                'nama_objek' => 'Seni ' . $faker->words(2, true),
+                'jenis' => 'Kesenian Tradisional',
+                'etnis' => $faker->randomElement($etnis),
+                'properti' => $faker->word(),
+                'fungsi' => $faker->randomElement(['Hiburan Rakyat', 'Ritual', 'Pendidikan', 'Penyambutan Tamu']),
+            ],
+            CulturalSubmission::CATEGORY_ADAT_ISTIADAT => [
+                'nama_objek' => 'Adat ' . $faker->words(2, true),
+                'jenis' => $faker->randomElement(['Hukum Adat', 'Sistem Kekerabatan', 'Sistem Ekonomi Tradisional']),
+                'etnis' => $faker->randomElement($etnis),
+                'lokasi' => 'Wilayah ' . $faker->city(),
+            ],
+            CulturalSubmission::CATEGORY_PENGETAHUAN_TRADISIONAL => [
+                'nama_objek' => 'Pengetahuan ' . $faker->words(2, true),
+                'jenis' => $faker->randomElement(['Pengobatan', 'Pertanian', 'Astronomi', 'Arsitektur']),
+                'etnis' => $faker->randomElement($etnis),
+                'pemanfaatan' => $faker->sentence(),
+            ],
+            CulturalSubmission::CATEGORY_TEKNOLOGI_TRADISIONAL => [
+                'nama_objek' => 'Teknologi ' . $faker->words(2, true),
+                'jenis' => $faker->randomElement(['Alat Transportasi', 'Senjata', 'Alat Pertanian', 'Penenunan']),
+                'bahan_dasar' => $faker->randomElement(['Kayu', 'Bambu', 'Besi', 'Batu']),
+                'etnis' => $faker->randomElement($etnis),
+            ],
+            CulturalSubmission::CATEGORY_PERMAINAN_RAKYAT => [
+                'nama_objek' => 'Permainan ' . $faker->words(2, true),
+                'jenis' => $faker->randomElement(['Ketangkasan', 'Strategi', 'Hiburan']),
+                'peralatan' => $faker->randomElement(['Bambu', 'Kayu', 'Tanpa Alat']),
+                'jumlah_pemain' => (string)$faker->numberBetween(2, 20),
+            ],
+            CulturalSubmission::CATEGORY_OLAHRAGA_TRADISIONAL => [
+                'nama_objek' => 'Olahraga ' . $faker->words(2, true),
+                'jenis' => $faker->randomElement(['Bela Diri', 'Adu Ketangkasan', 'Lomba Fisik']),
+                'peralatan' => $faker->word(),
+                'jumlah_pemain' => (string)$faker->numberBetween(2, 50),
             ],
             CulturalSubmission::CATEGORY_CAGAR_BUDAYA => [
-                'jenis_objek' => 'Situs Arkeologi',
-                'periode_sejarah' => 'Masa Klasik',
-                'kondisi' => 'Baik',
-                'bahan_material' => 'Batu Andesit',
+                'jenis_objek' => $faker->randomElement(['Situs Arkeologi', 'Bangunan Bersejarah', 'Benda Purbakala', 'Struktur Cagar Budaya']),
+                'periode_sejarah' => $faker->randomElement($periodes),
+                'kondisi' => $faker->randomElement($kondisi),
+                'bahan_material' => $faker->randomElement(['Batu Andesit', 'Bata Merah', 'Kayu Jati', 'Tanah Liat', 'Logam']),
             ],
             CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => [
-                'nama_objek' => 'Potensi CB ' . Str::random(5),
-                'perkiraan_zaman' => 'Zaman Kolonial',
-                'kondisi_saat_ini' => 'Kurang Terawat',
+                'nama_objek' => 'Potensi CB ' . $faker->words(2, true),
+                'perkiraan_zaman' => $faker->randomElement($periodes),
+                'kondisi_saat_ini' => $faker->randomElement($kondisi),
             ],
             CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => [
-                'kategori_potensi' => 'Tenaga Kebudayaan',
-                'nama_tenaga' => 'Seniman ' . Str::random(5),
-                'bidang_keahlian' => 'Seni Musik',
+                'kategori_potensi' => $faker->randomElement(['Tenaga Kebudayaan', 'Lembaga Kebudayaan', 'Sarana Prasarana']),
+                'nama_tenaga' => $faker->name(),
+                'bidang_keahlian' => $faker->randomElement(['Seni Musik', 'Seni Tari', 'Seni Rupa', 'Peneliti Sejarah', 'Pelestari Adat']),
             ],
             default => [
                 'nama_objek' => $category . ' Sample',
-                'etnis' => 'Lokal',
-                'lokasi' => 'Kabupaten',
+                'etnis' => $faker->randomElement($etnis),
+                'lokasi' => $faker->city(),
             ]
         };
     }
