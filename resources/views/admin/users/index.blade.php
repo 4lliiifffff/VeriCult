@@ -9,7 +9,7 @@
 
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -24,7 +24,7 @@
                     </h2>
                     <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Pantau status akses dan validasi pengguna dalam ekosistem VeriCult.</p>
                 </div>
-                    
+
                 <div class="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-4 sm:p-5 rounded-[2rem] border border-slate-100 shadow-inner w-full md:w-auto self-start md:self-auto">
                     <a href="{{ route('admin.user-approvals.index') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/5 transition-transform active:scale-95 group border border-slate-100">
                         <svg class="w-4 h-4 text-[#0077B6] group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,18 +33,18 @@
                         Antrian Persetujuan
                     </a>
                 </div>
-                
+
             </div>
         </div>
     </x-slot>
 
-    <div x-data="{ 
+    <div x-data="{
             suspendModalOpen: false,
             unsuspendModalOpen: false,
             verifyModalOpen: false,
             approveModalOpen: false,
             rejectModalOpen: false,
-            targetUser: null, 
+            targetUser: null,
             actionUrl: '',
             loading: false,
 
@@ -82,7 +82,7 @@
                     }
                 });
             },
-            
+
             openSuspendModal(user, url) {
                 this.targetUser = user;
                 this.actionUrl = url;
@@ -108,11 +108,11 @@
                 this.actionUrl = url;
                 this.rejectModalOpen = true;
             }
-        }" 
+        }"
         class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white relative group">
-        
+
         <!-- Loading Overlay -->
-        <div x-show="loading" 
+        <div x-show="loading"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
@@ -125,7 +125,7 @@
                 <span class="text-[10px] font-black text-[#03045E] uppercase tracking-widest animate-pulse">Memperbarui Data...</span>
             </div>
         </div>
-        
+
         <!-- Filters Area -->
         <div class="p-5 sm:p-8 border-b border-slate-50 bg-white rounded-t-[2.5rem]">
             <form x-ref="filterForm" action="{{ route('admin.users.index') }}" method="GET" @submit.prevent="fetchUsers()" class="flex flex-col lg:flex-row gap-6 auto-submit">
@@ -136,33 +136,33 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <input type="text" name="search" value="{{ request('search') }}" 
+                        <input type="text" name="search" value="{{ request('search') }}"
                             @input.debounce.300ms="$refs.filterForm.requestSubmit()"
-                            placeholder="Cari berdasarkan nama atau email..." 
+                            placeholder="Cari berdasarkan nama atau email..."
                             class="pl-12 block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-medium">
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <div class="w-full sm:w-48">
-                        <x-dropdown-select 
-                            name="role" 
-                            id="role" 
+                        <x-dropdown-select
+                            name="role"
+                            id="role"
                             placeholder="Semua Peran"
                             all-label="Semua Peran"
                             variant="light"
-                            :selected="request('role')" 
-                            :options="collect($roles)->mapWithKeys(fn($r) => [$r->name => ucfirst(str_replace('-', ' ', $r->name))])->toArray()" 
+                            :selected="request('role')"
+                            :options="collect($roles)->mapWithKeys(fn($r) => [$r->name => ucfirst(str_replace('-', ' ', $r->name))])->toArray()"
                         />
                     </div>
                     <div class="w-full sm:w-48">
-                        <x-dropdown-select 
-                            name="status" 
-                            id="status" 
+                        <x-dropdown-select
+                            name="status"
+                            id="status"
                             placeholder="Semua Status"
                             all-label="Semua Status"
                             variant="light"
-                            :selected="request('status')" 
-                            :options="['active' => 'Aktif', 'pending' => 'Menunggu Persetujuan', 'suspended' => 'Ditangguhkan']" 
+                            :selected="request('status')"
+                            :options="['active' => 'Aktif', 'pending' => 'Menunggu Persetujuan', 'suspended' => 'Ditangguhkan']"
                         />
                     </div>
                 </div>
@@ -174,21 +174,21 @@
         </div>
 
         <!-- ====== MODALS ====== -->
- 
+
         <!-- Suspend Modal -->
-        <div x-show="suspendModalOpen" style="display: none;"
+        <div x-show="suspendModalOpen" style="display: none;" x-cloak
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-50 overflow-y-auto">
-            
+            class="fixed inset-0 z-[110] overflow-y-auto">
+
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div @click="suspendModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
- 
+
                 <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
                     <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
                         <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-amber-50 text-amber-600 mb-6 font-black text-2xl shadow-inner italic">!</div>
@@ -211,21 +211,21 @@
                 </div>
             </div>
         </div>
- 
+
            <!-- Unsuspend Modal -->
-        <div x-show="unsuspendModalOpen" style="display: none;"
+        <div x-show="unsuspendModalOpen" style="display: none;" x-cloak
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-50 overflow-y-auto">
-            
+            class="fixed inset-0 z-[110] overflow-y-auto">
+
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div @click="unsuspendModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
- 
+
                 <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
                     <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
                         <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-emerald-50 text-emerald-600 mb-6">
@@ -252,19 +252,19 @@
         </div>
 
         <!-- Verify Modal -->
-        <div x-show="verifyModalOpen" style="display: none;"
+        <div x-show="verifyModalOpen" style="display: none;" x-cloak
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-50 overflow-y-auto">
-            
+            class="fixed inset-0 z-[110] overflow-y-auto">
+
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div @click="verifyModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
- 
+
                 <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-white">
                     <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
                         <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-sky-50 text-sky-600 mb-6">
@@ -291,14 +291,14 @@
         </div>
 
         <!-- Approve Modal -->
-        <div x-show="approveModalOpen" style="display: none;"
+        <div x-show="approveModalOpen" style="display: none;" x-cloak
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-50 overflow-y-auto">
+            class="fixed inset-0 z-[110] overflow-y-auto">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div @click="approveModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
@@ -328,14 +328,14 @@
         </div>
 
         <!-- Reject Modal -->
-        <div x-show="rejectModalOpen" style="display: none;"
+        <div x-show="rejectModalOpen" style="display: none;" x-cloak
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-50 overflow-y-auto">
+            class="fixed inset-0 z-[110] overflow-y-auto">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div @click="rejectModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>

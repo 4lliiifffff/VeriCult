@@ -11,7 +11,7 @@
 
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="flex items-center gap-5 sm:gap-8">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-[1.5rem] sm:rounded-[2rem] bg-[#03045E] flex items-center justify-center text-white shadow-xl shadow-blue-900/20 font-black text-xl sm:text-2xl uppercase">
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     @endif
-                    
+
                     @if($user->profile?->no_hp)
                     <div class="space-y-1.5">
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Nomor Handphone</p>
@@ -262,14 +262,14 @@
         </div>
 
     {{-- Approve Modal --}}
-    <div x-show="approveModalOpen" style="display: none;"
+    <div x-show="approveModalOpen" style="display: none;" x-cloak
         x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-50 overflow-y-auto">
+        class="fixed inset-0 z-[110] overflow-y-auto">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div @click="approveModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+            <div @click="approveModalOpen = false" class="fixed inset-0 z-0 bg-slate-900/75 transition-opacity"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl sm:my-8 sm:align-middle sm:max-w-lg w-full">
+            <div class="relative z-10 inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl sm:my-8 sm:align-middle sm:max-w-lg w-full">
                 <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
                     <div class="mx-auto sm:mx-0 flex items-center justify-center h-16 w-16 rounded-3xl bg-emerald-50 text-emerald-600 mb-6">
                         <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -291,14 +291,14 @@
     </div>
 
     {{-- Reject Modal --}}
-    <div x-show="rejectModalOpen" style="display: none;"
+    <div x-show="rejectModalOpen" style="display: none;" x-cloak
         x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-50 overflow-y-auto">
+        class="fixed inset-0 z-[110] overflow-y-auto">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div @click="rejectModalOpen = false" class="fixed inset-0 bg-slate-900/75 transition-opacity"></div>
+            <div @click="rejectModalOpen = false" class="fixed inset-0 z-0 bg-slate-900/75 transition-opacity"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl sm:my-8 sm:align-middle sm:max-w-lg w-full">
+            <div class="relative z-10 inline-block align-bottom bg-white rounded-[2.5rem] text-left overflow-hidden shadow-2xl sm:my-8 sm:align-middle sm:max-w-lg w-full">
                 <form action="{{ route('super-admin.pengusul-desa.reject', $user) }}" method="POST">
                     @csrf
                     <div class="bg-white px-8 pt-10 pb-4 sm:p-10 sm:pb-4 text-center sm:text-left">
