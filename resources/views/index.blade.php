@@ -56,14 +56,14 @@
     <!-- Hero Section -->
     <section class="hero-gradient min-h-[90vh] flex items-center pt-24 md:pt-32 relative overflow-hidden">
 
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-16 md:py-28 text-center reveal reveal-up">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 sm:py-16 md:py-28 text-center reveal reveal-up">
             <!-- Main Heading -->
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-[#03045E] mb-6 leading-[1.1] tracking-tight">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-[#03045E] mb-4 sm:mb-6 leading-[1.1] tracking-tight">
                 {!! $content['hero_title'] ?? 'Lestarikan Budaya<br><span class="text-[#0077B6]">Melalui Verifikasi Digital</span>' !!}
             </h1>
 
             <!-- Subtitle -->
-            <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed font-normal">
+            <p class="text-base sm:text-lg md:text-xl text-slate-500 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed font-normal">
                 {{ $content['hero_subtitle'] ?? 'Platform digital terintegrasi untuk pengajuan dan validasi objek kebudayaan Indonesia dengan sistem verifikasi berjenjang yang akurat.' }}
             </p>
 
@@ -83,12 +83,12 @@
     </section>
 
     <!-- Cultural Profile Gallery Section -->
-    <section class="py-24 bg-[#FCFDFF] border-y border-slate-50">
+    <section class="py-16 md:py-24 bg-[#FCFDFF] border-y border-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 reveal reveal-up">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 reveal reveal-up">
                 <div class="max-w-2xl">
                     <div class="text-[#0077B6] text-[11px] font-bold uppercase tracking-[0.3em] mb-4">Profil Kebudayaan</div>
-                    <h2 class="text-3xl md:text-5xl font-bold text-[#03045E] mb-6 tracking-tight">
+                    <h2 class="text-2xl sm:text-3xl md:text-5xl font-bold text-[#03045E] mb-4 sm:mb-6 tracking-tight">
                         {{ $content['gallery_title'] ?? 'Warisan Budaya Terverifikasi' }}
                     </h2>
                     <p class="text-slate-500 text-lg">
@@ -156,80 +156,22 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="py-24 bg-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="reveal reveal-up">
-                    <div class="text-[#0077B6] text-[11px] font-bold uppercase tracking-[0.3em] mb-4">Statistik Platform</div>
-                    <h2 class="text-3xl md:text-5xl font-bold text-[#03045E] mb-8 tracking-tight leading-tight">
-                        Ekosistem Digital yang<br>Terus Bertumbuh
-                    </h2>
-                    <p class="text-slate-500 text-lg mb-10 leading-relaxed">
-                        VeriCult menghubungkan institusi, pengusul, dan validator dalam satu alur kerja yang terintegrasi untuk pendataan budaya yang berkelanjutan.
-                    </p>
-                    <div class="grid grid-cols-2 gap-8">
-                        <div>
-                            <div class="text-4xl font-bold text-[#03045E] mb-1">{{ $stats['total'] }}</div>
-                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Objek</div>
-                        </div>
-                        <div>
-                            <div class="text-4xl font-bold text-[#0077B6] mb-1">{{ $stats[\App\Models\CulturalSubmission::STATUS_PUBLISHED] }}</div>
-                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Tervalidasi</div>
-                        </div>
-                        <div>
-                            <div class="text-4xl font-bold text-[#03045E] mb-1">{{ $stats['users'] }}</div>
-                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Kontributor</div>
-                        </div>
-                        <div>
-                            <div class="text-4xl font-bold text-[#00B4D8] mb-1">100%</div>
-                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Akurasi Audit</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="reveal reveal-up" style="transition-delay: 200ms;">
-                    <div class="bg-slate-50 rounded-[2.5rem] p-10 md:p-16 relative overflow-hidden border border-slate-100">
-                        <div class="absolute -top-20 -right-20 w-64 h-64 bg-white rounded-full opacity-50"></div>
-                        <div class="relative z-10 space-y-10">
-                            <div class="flex items-start gap-6">
-                                <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-[#03045E] uppercase tracking-wide mb-2">Audit Digital Berjenjang</h4>
-                                    <p class="text-slate-500 text-xs leading-relaxed uppercase tracking-widest font-bold opacity-70">Memastikan integritas data dari tingkat desa hingga pusat.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-6">
-                                <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-[#0077B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-[#03045E] uppercase tracking-wide mb-2">Keamanan Aset Budaya</h4>
-                                    <p class="text-slate-500 text-xs leading-relaxed uppercase tracking-widest font-bold opacity-70">Enkripsi tingkat tinggi untuk melindungi dokumentasi berharga.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- CTA Section -->
-    <section class="py-24 bg-[#03045E] relative overflow-hidden">
+    <section class="py-16 md:py-24 bg-[#03045E] relative overflow-hidden">
         <div class="absolute inset-0 opacity-10">
-            <div class="grid grid-cols-8 h-full">
+            <div class="grid grid-cols-4 md:grid-cols-8 h-full">
                 @for($i=0; $i<64; $i++)
                     <div class="border-[0.5px] border-white/20"></div>
                 @endfor
             </div>
         </div>
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 reveal reveal-up">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-8 leading-tight tracking-tight">
+            <h2 class="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-tight">
                 {!! $content['cta_bottom_title'] ?? 'Siap Melestarikan Warisan<br><span class="text-[#00B4D8]">Budaya Melalui VeriCult?</span>' !!}
             </h2>
-            <p class="text-slate-300 text-lg mb-12 max-w-2xl mx-auto">
+            <p class="text-base sm:text-lg text-slate-300 mb-10 md:mb-12 max-w-2xl mx-auto">
                 {{ $content['cta_bottom_subtitle'] ?? 'Bergabunglah dengan komunitas pengusul lainnya dan pastikan setiap warisan budaya tervalidasi dengan standar tertinggi.' }}
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">

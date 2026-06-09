@@ -80,9 +80,10 @@
             "form_factor": "wide"
         },
         {
-            "src": "/screenshots/mobile.png",
+            "src": "/screenshots/mobile.png?v=2",
             "sizes": "576x1024",
-            "type": "image/png"
+            "type": "image/png",
+            "form_factor": "narrow"
         }
     ],
     "shortcuts": [
