@@ -91,7 +91,7 @@
                 </div>
 
                 <!-- Search & Year -->
-                <div class="bg-white rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/50 relative group z-10 overflow-hidden">
+                <div class="bg-white rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/50 relative group z-10">
                     <div class="absolute -right-24 -top-24 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
                     <div class="absolute -left-24 -bottom-24 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
 
