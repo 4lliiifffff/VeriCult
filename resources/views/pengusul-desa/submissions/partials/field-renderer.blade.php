@@ -36,8 +36,8 @@
     if ($field['type'] === 'radio') {
         // Look for a field that depends on this radio being 'Ya'
         foreach ($categoryFields as $otherKey => $otherField) {
-            if (isset($otherField['condition']) && 
-                ($otherField['condition']['field'] ?? '') === $fieldKey && 
+            if (isset($otherField['condition']) &&
+                ($otherField['condition']['field'] ?? '') === $fieldKey &&
                 ($otherField['condition']['value'] ?? '') === 'Ya') {
                 $otherValue = $categoryDataValues[$otherKey] ?? '';
                 if (!empty($otherValue)) {
@@ -58,7 +58,7 @@
         @php
             $isYaCondition = !is_array($conditionValue) && $conditionValue === 'Ya';
         @endphp
-        x-show="@js($conditionValue).includes(getFieldValue('{{ $conditionField }}')) || 
+        x-show="@js($conditionValue).includes(getFieldValue('{{ $conditionField }}')) ||
                 ({{ $isYaCondition ? 'true' : 'false' }} && getFieldValue('{{ $fieldKey }}') !== '')"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 -translate-y-2"
@@ -74,7 +74,7 @@
             {{ $field['label'] }}
             @if($isActuallyRequired) <span class="text-red-500">*</span> @endif
         </label>
-        
+
         @if($isLainnyaField)
             <span class="px-3 py-1 bg-amber-50 text-amber-600 rounded-lg text-[9px] font-black uppercase tracking-widest border border-amber-100">Detail Tambahan</span>
         @endif
@@ -85,7 +85,7 @@
             {{-- TEXT INPUT --}}
             @case('text')
                 <div class="relative group/input">
-                    <input type="text" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" 
+                    <input type="text" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}"
                         value="{{ $fieldValue }}"
                         data-category-field
                         x-on:input="setFieldValue('{{ $fieldKey }}', $event.target.value)"
@@ -108,8 +108,8 @@
                         }
                     }
                 @endphp
-                <div x-data="{ 
-                        open: false, 
+                <div x-data="{
+                        open: false,
                         search: {{ json_encode($fieldValue) }},
                         allOptions: @js($datalistOptions),
                         get filteredOptions() {
@@ -125,9 +125,9 @@
                      x-init="$watch('open', val => { if(val) openField = '{{ $fieldKey }}'; else if(openField === '{{ $fieldKey }}') openField = null; })"
                      @click.away="open = false"
                      class="relative group/input">
-                    
+
                     <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="search" data-category-field @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif>
-                    
+
                     <div class="relative">
                         <input type="text"
                             x-model="search"
@@ -138,7 +138,7 @@
                             placeholder="{{ $field['placeholder'] ?? 'Cari atau ketik nama desa...' }}"
                             @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                             autocomplete="off">
-                            
+
                         <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0077B6] transition-colors pointer-events-none">
                             <svg class="w-5 h-5 transition-transform duration-300" :class="open ? 'rotate-180 text-[#0077B6]' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -146,16 +146,16 @@
                         </div>
                     </div>
 
-                    <div x-show="open" 
+                    <div x-show="open"
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 scale-95 translate-y-2"
                          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                          class="absolute z-[60] w-full mt-3 bg-white border border-slate-100 rounded-3xl shadow-2xl overflow-hidden py-3 max-h-64 overflow-y-auto"
                          style="display: none;">
-                        
+
                         <template x-if="filteredOptions.length > 0">
                             <template x-for="option in filteredOptions" :key="option">
-                                <button type="button" 
+                                <button type="button"
                                     @click="selectOption(option)"
                                     class="w-full text-left px-6 py-3.5 text-sm font-black transition-all duration-200 flex items-center justify-between group/opt"
                                     :class="search === option ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
@@ -185,7 +185,7 @@
             {{-- DATE INPUT (Standard HTML Date Picker) --}}
             @case('date')
                 <div class="relative group/input">
-                    <input type="date" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" 
+                    <input type="date" name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}"
                         value="{{ $fieldValue }}"
                         data-category-field
                         x-on:input="setFieldValue('{{ $fieldKey }}', $event.target.value)"
@@ -200,7 +200,7 @@
 
             {{-- TEXTAREA --}}
             @case('textarea')
-                <textarea name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" rows="4" 
+                <textarea name="category_data[{{ $fieldKey }}]" id="category_data_{{ $fieldKey }}" rows="4"
                     data-category-field
                     x-on:input="setFieldValue('{{ $fieldKey }}', $event.target.value)"
                     @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
@@ -210,8 +210,8 @@
 
             {{-- SELECT DROPDOWN --}}
             @case('select')
-                <div x-data="{ 
-                        open: false, 
+                <div x-data="{
+                        open: false,
                         selected: {{ json_encode($fieldValue) }},
                         options: @json($field['options'] ?? []),
                         selectOption(option) {
@@ -223,10 +223,10 @@
                      x-init="$watch('open', val => { if(val) openField = '{{ $fieldKey }}'; else if(openField === '{{ $fieldKey }}') openField = null; })"
                      @click.away="open = false"
                      class="relative">
-                    
+
                     <input type="hidden" name="category_data[{{ $fieldKey }}]" :value="selected" data-category-field @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif>
-                    
-                    <button type="button" 
+
+                    <button type="button"
                         @click="open = !open"
                         class="w-full flex items-center justify-between px-6 py-4 bg-white border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-[6px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 outline-none shadow-sm group-hover/field:shadow-md"
                         :class="open ? 'border-[#0077B6] ring-[6px] ring-[#0077B6]/5' : ''">
@@ -236,14 +236,14 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" 
+                    <div x-show="open"
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 scale-95 translate-y-2"
                          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                          class="absolute z-[60] w-full mt-3 bg-white border border-slate-100 rounded-3xl shadow-2xl overflow-hidden py-3 max-h-64 overflow-y-auto"
                          style="display: none;">
                         <template x-for="option in options">
-                            <button type="button" 
+                            <button type="button"
                                 @click="selectOption(option)"
                                 class="w-full text-left px-6 py-3.5 text-sm font-black transition-all duration-200 flex items-center justify-between group/opt"
                                 :class="selected === option ? 'bg-[#0077B6]/5 text-[#0077B6]' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]'">
@@ -270,7 +270,7 @@
                                 x-on:change="setFieldValue('{{ $fieldKey }}', {{ json_encode($option) }})"
                                 @if(isset($subKey)) :disabled="activeSubCategory !== '{{ $subKey }}'" @endif
                                 @if((is_array($fieldValueRaw) ? in_array($option, $fieldValueRaw, true) : $fieldValue === $option)) checked @endif>
-                            <div class="px-6 py-3 rounded-2xl border-2 border-slate-100 bg-white text-sm font-black text-slate-500 
+                            <div class="px-6 py-3 rounded-2xl border-2 border-slate-100 bg-white text-sm font-black text-slate-500
                                 peer-checked:border-[#0077B6] peer-checked:bg-[#0077B6]/5 peer-checked:text-[#0077B6] peer-checked:shadow-lg peer-checked:shadow-blue-500/5
                                 hover:border-slate-200 transition-all duration-300 active:scale-95">
                                 {{ $option }}
@@ -323,7 +323,7 @@
                                     <div class="grid gap-0 border-b border-slate-50 last:border-0 hover:bg-slate-50/30 transition-colors" style="grid-template-columns: repeat({{ count($columns) }}, minmax(180px, 1fr)) 60px;">
                                         @foreach($columnKeys as $colIdx => $colKey)
                                             <div class="px-2 py-2 border-r border-slate-50/50">
-                                                <input type="text" 
+                                                <input type="text"
                                                     :name="'category_data[{{ $fieldKey }}][' + rowIndex + '][{{ $colKey }}]'"
                                                     x-model="row.{{ $colKey }}"
                                                     data-category-field
