@@ -5,8 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'VeriCult') }}</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
+        <!-- PWA -->
+        @include('partials.pwa-head')
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -86,5 +89,8 @@
         <style>
             #auth-card { transform: translateY(20px); }
         </style>
+
+        <!-- PWA Install Banner -->
+        @include('partials.pwa-install-banner')
     </body>
 </html>

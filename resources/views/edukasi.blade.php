@@ -7,6 +7,9 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <meta name="description" content="Pelajari lebih dalam mengenai Objek Pemajuan Kebudayaan, Cagar Budaya, dan pentingnya pelestarian budaya Indonesia melalui VeriCult.">
     
+    <!-- PWA -->
+    @include('partials.pwa-head')
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=outfit:300,400,500,600,700,800&display=swap" rel="stylesheet" />
@@ -224,5 +227,8 @@
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
     </script>
+
+    <!-- PWA Install Banner -->
+    @include('partials.pwa-install-banner')
 </body>
 </html>

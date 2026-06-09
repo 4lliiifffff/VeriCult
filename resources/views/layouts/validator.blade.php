@@ -8,6 +8,9 @@
         <title>{{ config('app.name', 'VeriCult') }} - Validator</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
+        <!-- PWA -->
+        @include('partials.pwa-head')
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,5 +91,8 @@
         </div>
         <x-change-phone-modal />
         @stack('scripts')
+
+        <!-- PWA Install Banner -->
+        @include('partials.pwa-install-banner')
     </body>
 </html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Offline - VeriCult</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#03045E">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #03045E;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .icon-wrap {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            border: 1px solid rgba(255,255,255,0.12);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.85; }
+        }
+        .icon-wrap img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        h1 span { color: #00B4D8; }
+        p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            max-width: 380px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #03045E;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            padding: 0.875rem 2rem;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            letter-spacing: 0.01em;
+        }
+        .btn:hover {
+            background: #00B4D8;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 180, 216, 0.3);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: inline-block;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+        }
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            opacity: 0.04;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+        .content { position: relative; z-index: 1; }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="content">
+        <div class="icon-wrap">
+            <img src="/icons/icon-192x192.png" alt="VeriCult Logo">
+        </div>
+
+        <div class="status-bar">
+            <span class="status-dot"></span>
+            <span>Tidak ada koneksi internet</span>
+        </div>
+
+        <h1>Kamu sedang<br><span>Offline</span></h1>
+        <p>
+            Sepertinya koneksi internetmu terputus. Periksa jaringanmu dan coba lagi untuk mengakses VeriCult.
+        </p>
+
+        <button class="btn" onclick="window.location.reload()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Coba Lagi
+        </button>
+    </div>
+
+    <script>
+        // Auto-reload saat koneksi kembali
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>

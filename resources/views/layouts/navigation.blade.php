@@ -39,6 +39,50 @@
                 </div>
             </div>
 
+            <!-- PWA Install Button (Desktop) -->
+            <div 
+                x-data="{ 
+                    showInstallBtn: false,
+                    init() {
+                        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                            return;
+                        }
+                        document.addEventListener('pwa-installable', () => { this.showInstallBtn = true; });
+                        if (window.__pwaInstallPrompt) { this.showInstallBtn = true; }
+                        document.addEventListener('pwa-installed', () => { this.showInstallBtn = false; });
+                    },
+                    installApp() {
+                        if (window.__pwaInstallPrompt) {
+                            window.__pwaInstallPrompt.prompt().catch(err => {
+                                console.error('[PWA] Prompt error:', err);
+                                alert('Prompt instalasi tidak dapat dimunculkan. Silakan klik ikon install (⊕) di address bar browser Anda.');
+                            });
+                            window.__pwaInstallPrompt.userChoice.then(choice => {
+                                if (choice.outcome === 'accepted') {
+                                    this.showInstallBtn = false;
+                                }
+                                window.__pwaInstallPrompt = null;
+                            }).catch(err => console.error(err));
+                        } else {
+                            alert('Aplikasi siap diinstal. Silakan klik ikon install (⊕) di ujung kanan address bar browser Anda.');
+                        }
+                    }
+                }"
+                x-show="showInstallBtn"
+                x-cloak
+                class="hidden sm:flex items-center me-4"
+            >
+                <button 
+                    @click="installApp()"
+                    class="inline-flex items-center px-4 py-2 border border-[#00B4D8]/50 text-xs font-bold rounded-full text-white bg-[#0077B6]/30 hover:bg-[#00B4D8]/40 hover:text-white focus:outline-none transition ease-in-out duration-300 shadow-sm backdrop-blur-md gap-1.5 active:scale-95 cursor-pointer"
+                >
+                    <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    <span>Pasang Aplikasi</span>
+                </button>
+            </div>
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -124,6 +168,50 @@
                 <x-responsive-nav-link :href="route('profile.edit')" class="text-slate-300 hover:text-white hover:bg-[#03045E]">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                <!-- PWA Install Link (Mobile) -->
+                <div
+                    x-data="{ 
+                        showInstallLink: false,
+                        init() {
+                            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                                return;
+                            }
+                            document.addEventListener('pwa-installable', () => { this.showInstallLink = true; });
+                            if (window.__pwaInstallPrompt) { this.showInstallLink = true; }
+                            document.addEventListener('pwa-installed', () => { this.showInstallLink = false; });
+                        },
+                        installApp() {
+                            if (window.__pwaInstallPrompt) {
+                                window.__pwaInstallPrompt.prompt().catch(err => {
+                                    console.error('[PWA] Prompt error:', err);
+                                    alert('Prompt instalasi tidak dapat dimunculkan. Silakan klik ikon install (⊕) di address bar browser Anda.');
+                                });
+                                window.__pwaInstallPrompt.userChoice.then(choice => {
+                                    if (choice.outcome === 'accepted') {
+                                        this.showInstallLink = false;
+                                    }
+                                    window.__pwaInstallPrompt = null;
+                                }).catch(err => console.error(err));
+                            } else {
+                                alert('Aplikasi siap diinstal. Silakan buka menu browser dan pilih "Add to Home Screen" atau "Install App".');
+                            }
+                        }
+                    }"
+                    x-show="showInstallLink"
+                    x-cloak
+                    class="border-b border-[#0077B6]/30 pb-2 mb-2"
+                >
+                    <button 
+                        @click="installApp()"
+                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-slate-300 hover:text-white hover:bg-[#03045E] transition-colors font-bold text-sm"
+                    >
+                        <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span>Pasang Aplikasi</span>
+                    </button>
+                </div>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

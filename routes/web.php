@@ -32,6 +32,11 @@ Route::get('/', function () {
     return view('index', compact('stats', 'recentDiscoveries', 'content'));
 })->name('beranda');
 
+// PWA Offline Fallback
+Route::get('/offline', function () {
+    return response()->file(public_path('offline.html'));
+})->name('offline');
+
 Route::get('/tentang', function () {
     $content = \Illuminate\Support\Facades\Cache::remember('site_content_tentang', 3600, function() {
         return \App\Models\SiteContent::getContentForPage('tentang');
