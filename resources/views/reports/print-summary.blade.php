@@ -133,32 +133,52 @@
             }
         }
         
-        .btn-print { 
-            display: block; 
-            margin: 0 auto 30px; 
-            padding: 12px 24px; 
-            font-size: 14px; 
+        .actions-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .btn-print, .btn-back {
+            padding: 12px 24px;
+            font-size: 14px;
             font-weight: 700;
-            background: var(--secondary); 
-            color: #fff; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            text-align: center; 
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
             transition: all 0.3s ease;
         }
-        .btn-print:hover { 
-            background: var(--primary); 
+        .btn-print {
+            background: var(--secondary);
+            color: #fff;
+            box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
+        }
+        .btn-print:hover {
+            background: var(--primary);
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-back {
+            background: var(--bg-light);
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .btn-back:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
             transform: translateY(-2px);
         }
     </style>
 </head>
 <body onload="window.print()">
-    <button class="btn-print" onclick="window.print()">Cetak Laporan</button>
+    <div class="actions-wrapper no-print">
+        <a href="{{ route('reports.index', ['category' => $activeCategory]) }}" class="btn-back" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Kembali</a>
+        <button class="btn-print" onclick="window.print()">Cetak Laporan</button>
+    </div>
 
     <div class="header">
         <h1>REKAPITULASI DATA KEBUDAYAAN TERVALIDASI</h1>
