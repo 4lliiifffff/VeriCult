@@ -35,7 +35,6 @@
                         <form action="{{ route('super-admin.notifications.mark-all-read') }}" method="POST" class="w-full md:w-auto">
                             @csrf
                             <button type="submit" class="w-full px-6 py-4 bg-[#03045E] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0077B6] transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-95 group/btn">
-                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                                 Tandai Semua Terbaca
                             </button>
                         </form>

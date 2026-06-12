@@ -118,6 +118,7 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
     Route::get('/notifications/{id}/redirect', [\App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
     Route::post('/notifications/{id}/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
     Route::post('/notifications/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::delete('/notifications/delete-all', [\App\Http\Controllers\NotificationController::class, 'deleteAll'])->name('notifications.delete-all');
 
     // Wilayah Management
     Route::resource('kecamatans', \App\Http\Controllers\SuperAdmin\KecamatanController::class);
@@ -154,6 +155,7 @@ Route::middleware(['auth', 'verified', 'role:validator'])
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
         Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+        Route::delete('/notifications/delete-all', [App\Http\Controllers\NotificationController::class, 'deleteAll'])->name('notifications.delete-all');
     });
 
 // Pengusul Routes (only pengusul)
@@ -192,8 +194,9 @@ Route::middleware(['auth', 'verified', 'role:pengusul'])
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
         Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+        Route::delete('/notifications/delete-all', [App\Http\Controllers\NotificationController::class, 'deleteAll'])->name('notifications.delete-all');
     });
-    
+
 // Admin Routes (New Role)
 Route::middleware(['auth', 'verified', 'role:admin'])
     ->prefix('admin')
@@ -223,6 +226,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
         Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+        Route::delete('/notifications/delete-all', [App\Http\Controllers\NotificationController::class, 'deleteAll'])->name('notifications.delete-all');
 
         // Wilayah Management
         Route::resource('kecamatans', \App\Http\Controllers\Admin\KecamatanController::class);
@@ -272,6 +276,7 @@ Route::middleware(['auth', 'role:pengusul-desa', \App\Http\Middleware\CheckAdmin
         Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.read-and-redirect');
         Route::post('/notifications/{id}/mark-read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
         Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+        Route::delete('/notifications/delete-all', [App\Http\Controllers\NotificationController::class, 'deleteAll'])->name('notifications.delete-all');
     });
 
 
