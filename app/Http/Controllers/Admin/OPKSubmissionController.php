@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CulturalSubmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\SubmissionNotification;
 
 class OPKSubmissionController extends Controller
@@ -14,7 +15,7 @@ class OPKSubmissionController extends Controller
      */
     public function index(Request $request)
     {
-        $query = CulturalSubmission::where('submission_type', 'opk')
+        $query = CulturalSubmission::query()
             ->with(['user', 'reviewedBy']);
 
         if ($request->filled('status')) {
@@ -46,14 +47,10 @@ class OPKSubmissionController extends Controller
     }
 
     /**
-     * Display the specific OPK submission.
+     * Display the specific cultural submission.
      */
     public function show(CulturalSubmission $submission)
     {
-        if ($submission->submission_type !== 'opk') {
-            abort(403, 'Akses ditolak. Pengolah ini hanya untuk data opk.');
-        }
-
         $submission->load(['user', 'files', 'reviewedBy', 'administrativeReviews', 'fieldVerifications']);
         return view('admin.opk-submissions.show', compact('submission'));
     }
@@ -63,10 +60,6 @@ class OPKSubmissionController extends Controller
      */
     public function updateStatus(Request $request, CulturalSubmission $submission)
     {
-        if ($submission->submission_type !== 'opk') {
-            abort(403);
-        }
-
         $validated = $request->validate([
             'status' => 'required|string|in:' . implode(',', [
                 CulturalSubmission::STATUS_PUBLISHED,
@@ -75,21 +68,23 @@ class OPKSubmissionController extends Controller
         ]);
 
         $submission->status = $validated['status'];
-        $submission->reviewed_by = auth()->id();
+        $submission->reviewed_by = Auth::id();
         $submission->save();
 
         // Notify the Pengusul
         $actionTitles = [
-            CulturalSubmission::STATUS_PUBLISHED => 'Laporan opk Dipublikasikan',
-            CulturalSubmission::STATUS_VERIFIED => 'Publikasi opk Ditarik'
+            CulturalSubmission::STATUS_PUBLISHED => 'Pengajuan Dipublikasikan',
+            CulturalSubmission::STATUS_VERIFIED => 'Publikasi Ditarik'
         ];
-        
-        $title = $actionTitles[$submission->status] ?? 'Update Status opk';
-        $message = 'Laporan opk "' . $submission->name . '" telah ' . ($submission->status === CulturalSubmission::STATUS_PUBLISHED ? 'dipublikasikan' : 'ditarik dari publikasi') . ' oleh Admin.';
-        $url = route('pengusul-desa.opk-submissions.show', $submission);
-        
+
+        $title = $actionTitles[$submission->status] ?? 'Update Status Pengajuan';
+        $message = 'Pengajuan "' . $submission->name . '" telah ' . ($submission->status === CulturalSubmission::STATUS_PUBLISHED ? 'dipublikasikan' : 'ditarik dari publikasi') . ' oleh Admin.';
+        $url = $submission->submission_type === 'opk'
+            ? route('pengusul-desa.opk-submissions.show', $submission)
+            : route('pengusul.submissions.show', $submission);
+
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
 
-        return back()->with('success', 'Status publikasi laporan opk berhasil diperbarui.');
+        return back()->with('success', 'Status publikasi pengajuan berhasil diperbarui.');
     }
 }

@@ -50,9 +50,13 @@ class UserController extends Controller
         }
 
         $users = $query->latest()->paginate(10)->withQueryString();
-        
+
         // Only roles that Admin can manage
         $roles = Role::whereIn('name', ['validator', 'pengusul', 'pengusul-desa'])->get();
+
+        if ($request->ajax()) {
+            return view('admin.users._table', compact('users', 'roles'))->render();
+        }
 
         return view('admin.users.index', compact('users', 'roles'));
     }

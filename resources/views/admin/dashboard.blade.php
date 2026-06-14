@@ -5,7 +5,7 @@
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <!-- Subtle Background Pattern -->
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -20,7 +20,7 @@
                     </h2>
                     <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Pantau aktivitas registrasi wilayah dan validasi laporan objek pemajuan kebudayaan.</p>
                 </div>
-                
+
                 <!-- <div class="bg-slate-50 px-6 sm:px-8 py-4 sm:py-5 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 shadow-inner relative z-20 self-start md:self-auto">
                     <p class="text-[8px] sm:text-[9px] font-black text-[#0077B6] uppercase tracking-[0.2em] mb-1">Periode Aktif</p>
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -81,10 +81,10 @@
                     <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-[#00B4D8] group-hover:bg-[#00B4D8] group-hover:text-white transition-all duration-500 shadow-inner mb-4 sm:mb-6">
                         <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">OPK Siap Publikasi</p>
+                    <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Data Kebudayaan Siap Publikasi</p>
                     <div class="flex items-end gap-2">
                         <h3 class="text-3xl sm:text-4xl font-black text-[#03045E] tabular-nums tracking-tight">{{ number_format($pendingPublicationCount) }}</h3>
-                        <span class="text-sm font-bold text-slate-400 mb-1">/ {{ $totalOPK }} OPK</span>
+                        <span class="text-sm font-bold text-slate-400 mb-1">/ {{ $totalOPK }} Data</span>
                     </div>
                 </div>
             </div>
@@ -96,8 +96,8 @@
             <div class="lg:col-span-2 bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/30 border border-white">
                 <div class="flex items-center justify-between mb-8 sm:mb-10">
                     <div>
-                        <h3 class="text-base sm:text-lg font-black text-[#03045E]">Distribusi OPK Kecamatan</h3>
-                        <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Total OPK per Wilayah</p>
+                        <h3 class="text-base sm:text-lg font-black text-[#03045E]">Distribusi Data Kebudayaan per Kecamatan</h3>
+                        <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Total data kebudayaan per wilayah</p>
                     </div>
                     <a href="{{ route('admin.kecamatans.index') }}" class="px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[9px] sm:text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all whitespace-nowrap">
                         Kelola Wilayah
@@ -155,8 +155,8 @@
                 <div class="p-6 sm:p-8 border-b border-slate-50 flex items-center justify-between bg-white relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mt-6 -mr-6 w-24 h-24 bg-cyan-50/50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
                     <div class="relative z-10">
-                        <h3 class="text-lg sm:text-xl font-black text-[#03045E]">Laporan OPK</h3>
-                        <p class="text-slate-400 font-medium text-[10px] sm:text-xs mt-1">Data wilayah siap publikasi.</p>
+                        <h3 class="text-lg sm:text-xl font-black text-[#03045E]">Data Kebudayaan</h3>
+                        <p class="text-slate-400 font-medium text-[10px] sm:text-xs mt-1">Semua pengajuan kebudayaan wilayah siap publikasi.</p>
                     </div>
                     <a href="{{ route('admin.opk-submissions.index') }}" class="relative z-10 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-[8px] sm:text-[10px] tracking-widest uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] transition-all group/btn">
                         Semua
@@ -207,7 +207,7 @@
                 // Base Chart Options
                 Chart.defaults.font.family = "'Outfit', sans-serif";
                 Chart.defaults.color = '#94a3b8';
-                
+
                 const chartOptions = {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -230,7 +230,7 @@
                     }
                 };
 
-                // Kecamatan OPK Distribution
+                // Cultural Submission Distribution by Kecamatan
                 const kecamatanCtx = document.getElementById('kecamatanChart');
                 if (kecamatanCtx) {
                     const ctx = kecamatanCtx.getContext('2d');
@@ -241,7 +241,7 @@
                             labels: kecamatanData.map(v => v.name.replace('Kecamatan ', '')),
                             datasets: [
                                 {
-                                    label: 'Total OPK',
+                                    label: 'Total Data Kebudayaan',
                                     data: kecamatanData.map(v => v.count),
                                     backgroundColor: '#00B4D8',
                                     borderRadius: 5,

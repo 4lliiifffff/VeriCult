@@ -1,20 +1,20 @@
-<aside class="fixed inset-y-0 left-0 z-50 bg-white border-r border-slate-100 transition-all duration-300 transform flex flex-col" 
+<aside class="fixed inset-y-0 left-0 z-50 bg-white border-r border-slate-100 transition-all duration-300 transform flex flex-col"
        :class="[
            sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
            sidebarMinimized ? 'w-20' : 'w-64'
        ]">
     <!-- Logo/Toggle Area -->
-    <div @click="toggleMinimize()" 
+    <div @click="toggleMinimize()"
          class="flex items-center h-20 bg-white border-b border-slate-50 transition-all duration-300 cursor-pointer hover:bg-slate-50 group overflow-hidden relative shrink-0"
          :class="sidebarMinimized ? 'justify-center px-0' : 'justify-start px-6'">
-        
+
         <div class="flex items-center gap-3 transition-all duration-300 transform"
              :class="sidebarMinimized ? 'scale-110' : 'scale-100'">
             <!-- Icon -->
             <div class="bg-gradient-to-br from-[#03045E] to-[#0077B6] p-2 rounded-xl shadow-lg shadow-blue-900/20 flex-shrink-0 transition-all duration-300 group-hover:scale-105">
                 <img class="w-6 h-6" src="{{ asset('Logo/Putih/Logo-Sistem-W.png') }}" alt="Logo VeriCult">
             </div>
-            
+
             <!-- Text -->
             <div x-show="!sidebarMinimized"
                  x-transition:enter="transition ease-out duration-300 delay-100"
@@ -44,7 +44,7 @@
             </h3>
 
             <!-- Dashboard -->
-            <a href="{{ route('admin.dashboard') }}" 
+            <a href="{{ route('admin.dashboard') }}"
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -61,7 +61,7 @@
             </a>
 
             <!-- User Management -->
-            <a href="{{ route('admin.users.index') }}" 
+            <a href="{{ route('admin.users.index') }}"
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -84,7 +84,7 @@
             </h3>
 
             <!-- Data OPK -->
-            <a href="{{ route('admin.opk-submissions.index') }}" 
+            <a href="{{ route('admin.opk-submissions.index') }}"
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -96,12 +96,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                 </div>
-                <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Data OPK</span>
-                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Data OPK</div>
+                <span x-show="!sidebarMinimized" class="ml-3 whitespace-nowrap transition-colors">Data Kebudayaan</span>
+                <div x-show="sidebarMinimized" class="absolute left-full top-1/2 transform -translate-y-1/2 ml-4 px-3 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-50 shadow-2xl">Data Kebudayaan</div>
             </a>
 
             <!-- Kecamatan -->
-            <a href="{{ route('admin.kecamatans.index') }}" 
+            <a href="{{ route('admin.kecamatans.index') }}"
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',
@@ -118,7 +118,7 @@
             </a>
 
             <!-- Desa -->
-            <a href="{{ route('admin.villages.index') }}" 
+            <a href="{{ route('admin.villages.index') }}"
                :class="sidebarMinimized ? 'justify-center !px-0' : ''"
                @class([
                    'flex items-center px-4 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 group relative',

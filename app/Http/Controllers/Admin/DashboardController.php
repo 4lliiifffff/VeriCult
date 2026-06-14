@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\CulturalSubmission;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -13,26 +12,24 @@ class DashboardController extends Controller
     public function index()
     {
         // 1. General Metrics
-        $totalUsers = User::count();
-        
+        $totalUsers = User::count('*');
+
         $pendingApprovalsCount = User::role('pengusul-desa')
             ->whereHas('pengusulDesaProfile', fn($q) => $q->where('is_approved_by_admin', false))
             ->count();
 
-        // 2. OPK Metrics
-        $totalOPK = CulturalSubmission::where('submission_type', 'opk')->count();
-        
-        $pendingPublicationCount = CulturalSubmission::where('submission_type', 'opk')
-            ->where('status', CulturalSubmission::STATUS_VERIFIED)
-            ->count();
+        // 2. Cultural Submission Metrics
+        $totalOPK = CulturalSubmission::count('*');
 
-        $publishedOPKCount = CulturalSubmission::where('submission_type', 'opk')
-            ->where('status', CulturalSubmission::STATUS_PUBLISHED)
-            ->count();
+        $pendingPublicationCount = CulturalSubmission::where('status', '=', CulturalSubmission::STATUS_VERIFIED, 'and')
+            ->count('*');
+
+        $publishedOPKCount = CulturalSubmission::where('status', '=', CulturalSubmission::STATUS_PUBLISHED, 'and')
+            ->count('*');
 
         // 3. Wilayah Metrics
-        $totalKecamatan = \App\Models\Kecamatan::count();
-        $totalDesa = \App\Models\Village::count();
+        $totalKecamatan = \App\Models\Kecamatan::count('*');
+        $totalDesa = \App\Models\Village::count('*');
 
         // 4. OPK Distribution by Kecamatan
         $kecamatanOPKDistribution = DB::table('kecamatans')
@@ -47,9 +44,8 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
-        // 5. Recent OPK Submissions
-        $recentOPKSubmissions = CulturalSubmission::where('submission_type', 'opk')
-            ->with(['user', 'village'])
+        // 5. Recent Cultural Submissions
+        $recentOPKSubmissions = CulturalSubmission::with(['user', 'village'])
             ->latest()
             ->take(5)
             ->get();

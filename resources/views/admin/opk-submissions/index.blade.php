@@ -1,114 +1,111 @@
 <x-layouts.admin>
     <x-slot name="header">
-        <nav class="flex items-center gap-2 text-[10px] sm:text-sm font-medium text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
             <a href="{{ route('admin.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
-            <svg class="w-3 h-3 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            <span class="text-[#03045E]">Data opk</span>
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-[#03045E]">Data Kebudayaan</span>
         </nav>
 
-        <div class="relative bg-gradient-to-r from-[#03045E] to-[#0077B6] rounded-[2rem] p-8 overflow-hidden shadow-2xl shadow-blue-900/20 mb-8">
-            <div class="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none">
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-[#00B4D8]/20 rounded-full blur-2xl"></div>
-            </div>
-            
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase bg-white/10 text-white border border-white/20 backdrop-blur-xl">
-                            Publikasi Data
-                        </span>
+        <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
+                <div class="space-y-2 sm:space-y-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[8px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-[#03045E] text-white shadow-lg shadow-blue-900/20">Data Management</div>
+                        <div class="h-3 sm:h-4 w-[1px] bg-slate-200"></div>
+                        <span class="text-slate-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest">Publikasi Kebudayaan</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                        Manajemen <span class="text-[#00B4D8]">opk</span>
-                    </h2>
-                    <p class="text-blue-100/70 text-base sm:text-lg font-medium">Review dan publikasi laporan opk kebudayaan dari desa.</p>
+                    <h2 class="text-3xl sm:text-5xl font-black text-[#03045E] tracking-tight leading-tight">Daftar <span class="text-[#0077B6]">Kebudayaan</span></h2>
+                    <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Pantau, tinjau, dan publikasi data kebudayaan dari setiap desa dalam satu tampilan yang konsisten.</p>
                 </div>
             </div>
         </div>
     </x-slot>
 
-    <!-- Filters -->
-    <div class="bg-white p-6 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white mb-8">
-        <form action="{{ route('admin.opk-submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori</label>
-                <select name="category" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 text-sm font-bold transition-all duration-300">
-                    <option value="">Semua Kategori</option>
-                    @foreach($categories as $cat)
-                        <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Status</label>
-                <select name="status" class="w-full rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 text-sm font-bold transition-all duration-300">
-                    <option value="">Semua Status (Verifikasi/Publik)</option>
-                    <option value="{{ \App\Models\CulturalSubmission::STATUS_VERIFIED }}" {{ request('status') == \App\Models\CulturalSubmission::STATUS_VERIFIED ? 'selected' : '' }}>Terverifikasi</option>
-                    <option value="{{ \App\Models\CulturalSubmission::STATUS_PUBLISHED }}" {{ request('status') == \App\Models\CulturalSubmission::STATUS_PUBLISHED ? 'selected' : '' }}>Dipublikasikan</option>
-                </select>
-            </div>
-            <div class="flex items-end gap-3">
-                <button type="submit" class="flex-1 h-11 bg-[#03045E] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#023E8A] transition-all shadow-lg shadow-blue-900/10">Filter</button>
-                <a href="{{ route('admin.opk-submissions.index') }}" class="flex-1 h-11 bg-slate-100 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center hover:bg-slate-200 transition-all">Reset</a>
-            </div>
-        </form>
-    </div>
-
-    <!-- Table -->
-    <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-max responsive-table">
-                <thead>
-                    <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
-                        <th class="px-8 py-5">Nama Objek</th>
-                        <th class="px-8 py-5">Desa</th>
-                        <th class="px-8 py-5 text-center">Status</th>
-                        <th class="px-8 py-5 text-right">Opsi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($submissions as $submission)
-                        <tr class="hover:bg-slate-50/30 transition-all duration-200">
-                            <td class="px-8 py-5">
-                                <p class="font-bold text-sm text-[#03045E] leading-tight mb-1">{{ $submission->name }}</p>
-                                <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">{{ $submission->category }}</p>
-                            </td>
-                            <td class="px-8 py-5">
-                                <p class="text-xs font-bold text-slate-600">{{ $submission->village?->name }}</p>
-                                <p class="text-[10px] text-slate-400">{{ $submission->user?->name }}</p>
-                            </td>
-                            <td class="px-8 py-5 text-center">
-                                <span @class([
-                                    'px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest',
-                                    'bg-amber-50 text-amber-600 border border-amber-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_VERIFIED,
-                                    'bg-emerald-50 text-emerald-600 border border-emerald-100' => $submission->status === \App\Models\CulturalSubmission::STATUS_PUBLISHED,
-                                ])>
-                                    {{ $submission->status_label }}
-                                </span>
-                            </td>
-                            <td class="px-8 py-5 text-right">
-                                <a href="{{ route('admin.opk-submissions.show', $submission) }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-slate-50 text-slate-600 hover:bg-[#03045E] hover:text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 group">
-                                    Detail
-                                    <svg class="ml-2 w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="px-8 py-24 text-center">
-                                <p class="text-slate-400 font-bold uppercase text-xs">Kosong</p>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+    <div class="space-y-8">
+        <div class="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white relative z-30">
+            <form action="{{ route('admin.opk-submissions.index') }}" method="GET" class="space-y-5 auto-submit">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Cari Nama Objek</label>
+                        <div class="relative">
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Contoh: Batik..." class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0077B6] focus:ring-0 transition-all font-bold text-slate-600">
+                            <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <x-dropdown-select name="category" id="category" label="Kategori" placeholder="Semua Kategori" all-label="Semua Kategori" variant="light" :selected="request('category')" :options="collect($categories)->mapWithKeys(fn($c) => [$c => $c])->toArray()" />
+                    </div>
+                    <div>
+                        <x-dropdown-select name="status" id="status" label="Status" placeholder="Semua Status" all-label="Semua Status" variant="light" :selected="request('status')" :options="collect($statuses)->mapWithKeys(fn($s) => [$s => \App\Models\CulturalSubmission::getStatusLabel($s)])->toArray()" />
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-end gap-3 pt-2">
+                    @if(request()->anyFilled(['search', 'category', 'status']))
+                        <a href="{{ route('admin.opk-submissions.index') }}" class="w-full sm:w-auto px-8 py-4 sm:py-3 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all text-center">Reset Filter</a>
+                    @endif
+                    <button type="submit" class="w-full sm:w-auto px-10 py-4 sm:py-3 bg-[#03045E] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0077B6] transition-all shadow-lg shadow-blue-900/20 active:scale-95">Terapkan Filter</button>
+                </div>
+            </form>
         </div>
-        @if ($submissions->hasPages())
-            <div class="px-8 py-8 border-t border-slate-50 bg-slate-50/30">
-                {{ $submissions->links() }}
+
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-max responsive-table">
+                    <thead>
+                        <tr class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50/50 border-b border-slate-100">
+                            <th class="px-6 sm:px-8 py-4 sm:py-6">Objek Kebudayaan</th>
+                            <th class="px-6 sm:px-8 py-4 sm:py-6">Kategori</th>
+                            <th class="px-6 sm:px-8 py-4 sm:py-6">Pengusul</th>
+                            <th class="px-6 sm:px-8 py-4 sm:py-6 text-center">Status</th>
+                            <th class="px-6 sm:px-8 py-4 sm:py-6 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        @forelse($submissions as $submission)
+                            <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
+                                <td class="px-6 sm:px-8 py-4 sm:py-6">
+                                    <div class="font-black text-sm sm:text-base text-[#03045E] group-hover:text-[#0077B6] transition-colors break-words">{{ $submission->name }}</div>
+                                    <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">ID: #{{ str_pad($submission->id, 5, '0', STR_PAD_LEFT) }}</div>
+                                </td>
+                                <td class="px-6 sm:px-8 py-4 sm:py-6">
+                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-50 text-[#0077B6] border border-blue-100">{{ $submission->category }}</span>
+                                </td>
+                                <td class="px-6 sm:px-8 py-4 sm:py-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">{{ substr($submission->user?->name ?? 'U', 0, 1) }}</div>
+                                        <div class="text-xs font-bold text-slate-600 truncate max-w-[160px]">{{ $submission->user?->name }}</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 sm:px-8 py-4 sm:py-6 text-center">
+                                    <span class="px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest {{ $submission->status_color }}">{{ $submission->status_label }}</span>
+                                </td>
+                                <td class="px-6 sm:px-8 py-4 sm:py-6 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.opk-submissions.show', $submission) }}" class="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-[#03045E] hover:text-white transition-all" title="Lihat Detail">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-8 py-20 text-center">
+                                    <div class="flex flex-col items-center gap-4">
+                                        <div class="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center text-slate-200">
+                                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                                        </div>
+                                        <div class="text-slate-400 font-bold uppercase tracking-widest text-xs">Tidak ada data ditemukan</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-        @endif
+            @if($submissions->hasPages())
+                <div class="px-8 py-6 border-t border-slate-50">{{ $submissions->links() }}</div>
+            @endif
+        </div>
     </div>
 </x-layouts.admin>
