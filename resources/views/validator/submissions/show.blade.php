@@ -153,35 +153,39 @@
 
                             <!-- Active Culture Summary (The 3 Ws) -->
                             @if($submission->isActiveCulture())
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                    <div class="bg-indigo-50/50 rounded-[2.5rem] p-10 border border-indigo-100/30 group hover:bg-indigo-50/80 transition-all duration-300 shadow-sm hover:shadow-indigo-100/50">
-                                        <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-6">Apa (Aktivitas)</p>
-                                        <div class="flex items-start gap-5">
+                                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8">
+                                    <div class="bg-indigo-50/50 rounded-[2.5rem] p-6 sm:p-8 border border-indigo-100/30 group hover:bg-indigo-50/80 transition-all duration-300 shadow-sm hover:shadow-indigo-100/50 flex flex-col min-w-0 w-full">
+                                        <div class="flex items-start justify-between gap-4 mb-6">
                                             <div class="w-12 h-12 rounded-2xl bg-white shadow-xl shadow-indigo-100 flex items-center justify-center text-indigo-600 shrink-0 border border-indigo-50">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                             </div>
-                                            <p class="text-[#03045E] font-black text-xl leading-tight tracking-tight">{{ $submission->category_data['nama_dan_jenis_kebudayaan'] ?? '-' }}</p>
+                                            <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] text-right mt-1 flex-1 min-w-0 break-words">Apa<br class="hidden xl:block">(Aktivitas)</p>
+                                        </div>
+                                        <div class="flex-1 min-w-0 mt-auto">
+                                            <p class="text-[#03045E] font-black text-lg sm:text-xl leading-tight tracking-tight break-words">{{ $submission->category_data['nama_dan_jenis_kebudayaan'] ?? '-' }}</p>
                                         </div>
                                     </div>
-                                    <div class="bg-emerald-50/50 rounded-[2.5rem] p-10 border border-emerald-100/30 group hover:bg-emerald-50/80 transition-all duration-300 shadow-sm hover:shadow-emerald-100/50">
-                                        <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-6">Di Mana (Lokasi)</p>
-                                        <div class="flex items-start gap-5">
+                                    <div class="bg-emerald-50/50 rounded-[2.5rem] p-6 sm:p-8 border border-emerald-100/30 group hover:bg-emerald-50/80 transition-all duration-300 shadow-sm hover:shadow-emerald-100/50 flex flex-col min-w-0 w-full">
+                                        <div class="flex items-start justify-between gap-4 mb-6">
                                             <div class="w-12 h-12 rounded-2xl bg-white shadow-xl shadow-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 border border-emerald-50">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                             </div>
-                                            <div class="space-y-1">
-                                                <p class="text-[#03045E] font-black text-xl leading-tight tracking-tight">{{ $submission->category_data['desa_lokasi'] ?? '-' }}</p>
-                                                <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">{{ $submission->category_data['detail_lokasi'] ?? '' }}</p>
-                                            </div>
+                                            <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] text-right mt-1 flex-1 min-w-0 break-words">Di Mana<br class="hidden xl:block">(Lokasi)</p>
+                                        </div>
+                                        <div class="space-y-1 flex-1 min-w-0 mt-auto">
+                                            <p class="text-[#03045E] font-black text-lg sm:text-xl leading-tight tracking-tight break-words">{{ $submission->category_data['desa_lokasi'] ?? '-' }}</p>
+                                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider break-words">{{ $submission->category_data['detail_lokasi'] ?? '' }}</p>
                                         </div>
                                     </div>
-                                    <div class="bg-amber-50/50 rounded-[2.5rem] p-10 border border-amber-100/30 group hover:bg-amber-50/80 transition-all duration-300 shadow-sm hover:shadow-amber-100/50">
-                                        <p class="text-[10px] font-black text-amber-400 uppercase tracking-[0.2em] mb-6">Kapan (Pelaksanaan)</p>
-                                        <div class="flex items-start gap-5">
+                                    <div class="bg-amber-50/50 rounded-[2.5rem] p-6 sm:p-8 border border-amber-100/30 group hover:bg-amber-50/80 transition-all duration-300 shadow-sm hover:shadow-amber-100/50 flex flex-col md:col-span-2 xl:col-span-1 min-w-0 w-full">
+                                        <div class="flex items-start justify-between gap-4 mb-6">
                                             <div class="w-12 h-12 rounded-2xl bg-white shadow-xl shadow-amber-100 flex items-center justify-center text-amber-600 shrink-0 border border-amber-50">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                             </div>
-                                            <p class="text-[#03045E] font-black text-xl leading-tight tracking-tight">
+                                            <p class="text-[10px] font-black text-amber-400 uppercase tracking-[0.2em] text-right mt-1 flex-1 min-w-0 break-words">Kapan<br class="hidden xl:block">(Pelaksanaan)</p>
+                                        </div>
+                                        <div class="flex-1 min-w-0 mt-auto">
+                                            <p class="text-[#03045E] font-black text-lg sm:text-xl leading-tight tracking-tight break-words">
                                                 {{ !empty($submission->category_data['tanggal_pelaksanaan']) ? \Carbon\Carbon::parse($submission->category_data['tanggal_pelaksanaan'])->translatedFormat('d F Y') : '-' }}
                                             </p>
                                         </div>
