@@ -304,7 +304,7 @@
                     if (filesInput) {
                         const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
                         const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
-                        if (!hasNewFiles && !hasExistingFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
+                        if (!hasNewFiles && !hasExistingFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video)');
                     }
                     if (emptyRequired.length > 0) {
                         this.emptyFieldsList = emptyRequired;

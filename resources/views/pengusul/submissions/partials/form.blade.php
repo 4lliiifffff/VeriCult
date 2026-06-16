@@ -175,7 +175,6 @@
     {{-- ================================================================== --}}
     {{-- SECTION C: Deskripsi --}}
     {{-- ================================================================== --}}
-    @if($categorySlug !== 'laporan-kebudayaan-aktif')
     <div class="space-y-6">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0077B6] to-[#03045E] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
@@ -185,16 +184,36 @@
             <div class="flex-1 h-px bg-slate-100"></div>
         </div>
 
-        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative" x-data="{ descCount: {{ strlen(old('description', $submission->description ?? '')) }} }">
-            <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em] mb-4">Deskripsi Kebudayaan <span class="text-red-500">*</span></label>
+        <div class="bg-gradient-to-br from-white to-slate-50/50 rounded-[2.5rem] p-8 sm:p-10 border border-slate-100 shadow-xl shadow-slate-200/40 relative">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mb-6">
+                <label for="description" class="block text-xs font-black text-slate-500 uppercase tracking-[0.15em]">
+                    @if($categorySlug === 'laporan-kebudayaan-aktif')
+                        Deskripsi Kebudayaan Aktif <span class="text-slate-400">(Diisi otomatis)</span>
+                    @else
+                        Deskripsi Kebudayaan <span class="text-red-500">*</span>
+                    @endif
+                </label>
+                @if($categorySlug === 'laporan-kebudayaan-aktif')
+                    <button type="button"
+                        @click="autoPopulateDescription(categoryData)"
+                        class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#03045E] to-[#0077B6] text-white font-black text-[10px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-2xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 active:scale-95 flex items-center justify-center sm:justify-start gap-2 whitespace-nowrap">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>Isi Otomatis</span>
+                    </button>
+                @endif
+            </div>
             <div class="relative group">
-                <textarea name="description" id="description" rows="10" 
-                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover:shadow-md"
-                    placeholder="Ceritakan sejarah, filosofi, dan karakteristik kebudayaan ini secara mendalam (Minimal 50 karakter)..."
-                    required
-                    @input="descCount = $el.value.length"
+                <textarea name="description" id="description" rows="10"
+                    x-model="autoDescription"
+                    @input="descCount = $el.value.length; $el.dispatchEvent(new Event('input', { bubbles: true }))"
+                    class="w-full px-8 py-8 bg-white border-2 border-slate-100 rounded-[2.5rem] focus:border-[#0077B6] focus:ring-[8px] focus:ring-[#0077B6]/5 hover:border-slate-200 transition-all duration-300 font-bold text-slate-700 placeholder:text-slate-300 outline-none resize-none leading-relaxed shadow-sm group-hover:shadow-md @if($categorySlug === 'laporan-kebudayaan-aktif')cursor-not-allowed bg-slate-50 @endif"
+                    placeholder="@if($categorySlug === 'laporan-kebudayaan-aktif')Deskripsi akan otomatis diisi berdasarkan data laporan kebudayaan aktif Anda...@else Ceritakan sejarah, filosofi, dan karakteristik kebudayaan ini secara mendalam (Minimal 50 karakter)...@endif"
+                    @if($categorySlug !== 'laporan-kebudayaan-aktif')required @endif
+                    @if($categorySlug === 'laporan-kebudayaan-aktif')readonly @endif
                     data-category-field>{{ old('description', $submission->description ?? '') }}</textarea>
-                
+
                 <div class="absolute bottom-6 right-8 flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest border border-slate-100">
                     <span x-text="descCount"></span>/50 Karakter
                 </div>
@@ -207,7 +226,6 @@
             @enderror
         </div>
     </div>
-    @endif
 
     {{-- ================================================================== --}}
     {{-- SECTION D: Data Dukung --}}
@@ -500,6 +518,8 @@ function categoryForm() {
         activeSubCategory: @json($categoryDataValues[$categoryConfig['sub_field'] ?? ''] ?? ''),
         categoryData: @json($categoryDataValues),
         submissionName: @js(old('name', $submission->name ?? '')),
+        autoDescription: @js(old('description', $submission->description ?? '')),
+        descCount: 0,
         dragover: false,
         files: [],
         showPreviewModal: false,
@@ -522,6 +542,14 @@ function categoryForm() {
         },
         
         initData() {
+            // Inisialisasi counter karakter
+            this.descCount = this.autoDescription.length;
+
+            // Watch perubahan deskripsi untuk memperbarui counter
+            this.$watch('autoDescription', (newVal) => {
+                this.descCount = newVal.length;
+            });
+
             // Listen to any changes in specific fields that should populate name
             this.$watch('categoryData', (value) => {
                 const isLaporanAktif = '{{ $categorySlug }}' === 'laporan-kebudayaan-aktif';
@@ -530,6 +558,44 @@ function categoryForm() {
                     this.submissionName = value[nameField];
                 }
             }, { deep: true });
+        },
+
+        autoPopulateDescription(categoryData) {
+            // Build description from available data
+            let description = '';
+
+            const nama = categoryData['nama_dan_jenis_kebudayaan'] || '';
+            const desa = categoryData['desa_lokasi'] || '';
+            const detail = categoryData['detail_lokasi'] || '';
+            const tanggal = categoryData['tanggal_pelaksanaan'] || '';
+            const estimasi = categoryData['estimasi_penonton'] || '';
+
+            // Format the date if available
+            let formattedDate = '';
+            if (tanggal) {
+                try {
+                    const dateObj = new Date(tanggal);
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    formattedDate = dateObj.toLocaleDateString('id-ID', options);
+                } catch(e) {
+                    formattedDate = tanggal;
+                }
+            }
+
+            // Build description in Indonesian
+            const parts = [];
+            if (nama) parts.push(`${nama}`);
+            if (formattedDate) parts.push(`dilaksanakan pada ${formattedDate}`);
+            if (desa) parts.push(`di Desa ${desa}`);
+            if (detail) parts.push(`tepatnya di ${detail}`);
+            if (estimasi) parts.push(`dengan estimasi peserta/penonton ${estimasi}`);
+
+            if (parts.length > 0) {
+                description = parts.join(', ') + '.';
+            }
+
+            // Update the reactive description property
+            this.autoDescription = description;
         },
 
         getFieldValue(key) {

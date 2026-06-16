@@ -287,7 +287,7 @@
                     const filesInput = document.getElementById('files');
                     if (filesInput) {
                         const hasFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
-                        if (!hasFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video/Dokumen)');
+                        if (!hasFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video)');
                     }
                     if (emptyRequired.length > 0) {
                         this.emptyFieldsList = emptyRequired;
