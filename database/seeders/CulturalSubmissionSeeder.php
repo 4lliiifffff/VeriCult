@@ -89,11 +89,13 @@ class CulturalSubmissionSeeder extends Seeder
                             'slug' => Str::slug($name) . '-' . uniqid(),
                             'category' => $category,
                             'description' => "Deskripsi untuk data $name. Data ini dihasilkan oleh seeder untuk perbandingan tahun $year.",
-                            'category_data' => $this->generateCategoryData($category),
+                            'category_data' => $this->generateCategoryData($category, $village),
                             'address' => 'Jl. Kebudayaan No. ' . rand(1, 100),
                             'status' => $status,
                             'period_year' => $year,
                             'submission_type' => $type,
+                            'reviewed_by' => $status !== CulturalSubmission::STATUS_DRAFT ? $validator->id : null,
+                            'review_started_at' => $status !== CulturalSubmission::STATUS_DRAFT ? $submittedAt : null,
                             'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? $submittedAt : null,
                             'verified_at' => $verifiedAt,
                             'published_at' => $publishedAt,
@@ -125,6 +127,7 @@ class CulturalSubmissionSeeder extends Seeder
                     'category_data' => [
                         'kategori_opk' => $opkCategories[array_rand($opkCategories)],
                         'nama_dan_jenis_kebudayaan' => 'Kegiatan ' . $name,
+                        'kecamatan_lokasi' => $village->kecamatan->name ?? 'Subang',
                         'desa_lokasi' => $village->name,
                         'detail_lokasi' => 'Area ' . $village->name,
                         'tanggal_pelaksanaan' => $year . '-' . rand(1, 12) . '-' . rand(1, 28),
@@ -133,6 +136,8 @@ class CulturalSubmissionSeeder extends Seeder
                     'status' => $status,
                     'period_year' => $year,
                     'submission_type' => 'aktif',
+                    'reviewed_by' => $status !== CulturalSubmission::STATUS_DRAFT ? $validator->id : null,
+                    'review_started_at' => $status !== CulturalSubmission::STATUS_DRAFT ? $submittedAt : null,
                     'submitted_at' => $status !== CulturalSubmission::STATUS_DRAFT ? $submittedAt : null,
                     'verified_at' => $verifiedAt,
                     'published_at' => $publishedAt,
@@ -215,14 +220,19 @@ class CulturalSubmissionSeeder extends Seeder
         }
     }
 
-    private function generateCategoryData(string $category): array
+    private function generateCategoryData(string $category, $village): array
     {
         $faker = \Faker\Factory::create('id_ID');
         $periodes = ['Prasejarah', 'Masa Klasik (Hindu-Buddha)', 'Masa Islam', 'Masa Kolonial', 'Kemerdekaan', 'Kontemporer'];
         $kondisi = ['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat', 'Kurang Terawat', 'Terawat'];
         $etnis = ['Jawa', 'Sunda', 'Madura', 'Bugis', 'Minangkabau', 'Batak', 'Bali', 'Dayak', 'Sasak', 'Melayu'];
 
-        return match($category) {
+        $baseData = [
+            'kecamatan_lokasi' => $village->kecamatan->name ?? 'Subang',
+            'desa_lokasi' => $village->name,
+        ];
+
+        $specificData = match($category) {
             CulturalSubmission::CATEGORY_TRADISI_LISAN => [
                 'sub_kategori_tradisi_lisan' => $faker->randomElement(['cerita_rakyat', 'mitos', 'legenda', 'dongeng', 'pepatah', 'pantun']),
                 'nama_objek' => 'Tradisi Lisan ' . $faker->words(2, true),
@@ -316,5 +326,7 @@ class CulturalSubmissionSeeder extends Seeder
                 'lokasi' => $faker->city(),
             ]
         };
+
+        return array_merge($baseData, $specificData);
     }
 }

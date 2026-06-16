@@ -194,7 +194,7 @@
                                     window.__pwaInstallPrompt = null;
                                 }).catch(err => console.error(err));
                             } else {
-                                alert('Aplikasi siap diinstal. Silakan buka menu browser dan pilih "Add to Home Screen" atau "Install App".');
+                                alert('Aplikasi siap diinstal. Silakan buka menu browser dan pilih \'Add to Home Screen\' atau \'Install App\'.');
                             }
                         }
                     }"

@@ -13,22 +13,42 @@ class VillageSeeder extends Seeder
      */
     public function run(): void
     {
-        // Give each village a valid kecamatan_id
-        $kecamatanSubang = Kecamatan::where('name', 'Subang')->first() ?? Kecamatan::first();
-
-        $villages = [
-            'Cidahu',
-            'Sukamaju',
-            'Karanganyar',
-            'Mekarsari',
-            'Bojongloa',
+        $kecamatanDesa = [
+            'Subang' => ['Cigadung', 'Karanganyar', 'Parung', 'Pasirkareumbi', 'Soklat', 'Sukamelang', 'Dangdeur', 'Wanareja'],
+            'Cibogo' => ['Cibogo', 'Belendung', 'Padaasih', 'Sadawarna', 'Sumurbarang', 'Cidahu'],
+            'Kalijati' => ['Kalijati Barat', 'Kalijati Timur', 'Marengmang', 'Tanggulun Barat', 'Bojongloa'],
+            'Jalancagak' => ['Jalancagak', 'Tambakmekar', 'Bunihayu', 'Curugrendeng'],
+            'Ciater' => ['Ciater', 'Sanca', 'Palasari', 'Cisaat'],
+            'Pamanukan' => ['Pamanukan', 'Pamanukan Sebrang', 'Rancasari', 'Lengkongjaya'],
+            'Blanakan' => ['Blanakan', 'Cilamaya Girang', 'Rawameneng', 'Muaracikadu'],
+            'Ciasem' => ['Ciasem Hilir', 'Ciasem Tengah', 'Sukamandijaya', 'Pinangsari'],
+            'Pagaden' => ['Pagaden', 'Sukamelang', 'Gunungsari', 'Gambarsari'],
+            'Kasomalang' => ['Kasomalang Wetan', 'Kasomalang Kulon', 'Sindangsari', 'Tenjolaya'],
         ];
 
-        foreach ($villages as $name) {
-            Village::firstOrCreate(
-                ['name' => $name],
-                ['kecamatan_id' => $kecamatanSubang ? $kecamatanSubang->id : null]
-            );
+        foreach ($kecamatanDesa as $kecamatanName => $villages) {
+            $kecamatan = Kecamatan::where('name', $kecamatanName)->first();
+            
+            if ($kecamatan) {
+                foreach ($villages as $name) {
+                    Village::firstOrCreate(
+                        ['name' => $name],
+                        ['kecamatan_id' => $kecamatan->id]
+                    );
+                }
+            }
+        }
+        
+        // Pastikan beberapa desa default lama tetap ada untuk fallback jika diperlukan
+        $defaultKecamatan = Kecamatan::first();
+        if ($defaultKecamatan) {
+            $oldVillages = ['Sukamaju', 'Mekarsari'];
+            foreach ($oldVillages as $name) {
+                Village::firstOrCreate(
+                    ['name' => $name],
+                    ['kecamatan_id' => $defaultKecamatan->id]
+                );
+            }
         }
     }
 }
