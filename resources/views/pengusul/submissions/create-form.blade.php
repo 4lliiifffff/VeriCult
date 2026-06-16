@@ -434,13 +434,52 @@
                     }
                     
                     // 2. Category Specific Fields (including required from config)
+                    const seenRadioNames = new Set();
                     document.querySelectorAll('[data-category-field]').forEach(field => {
                         // Skip if not visible
                         if (!this.isVisible(field)) return;
                         
                         const container = field.closest('[data-required="true"]');
-                        if ((container || field.hasAttribute('required')) && !field.value) {
-                            // Find label
+                        if (!container && !field.hasAttribute('required')) return;
+
+                        // Radio: check if any option in the group is checked
+                        if (field.type === 'radio') {
+                            if (seenRadioNames.has(field.name)) return;
+                            seenRadioNames.add(field.name);
+                            const anyChecked = document.querySelector(`input[name="${field.name}"]:checked`);
+                            if (!anyChecked) {
+                                let labelText = '';
+                                if (container) {
+                                    const containerLabel = container.querySelector('label');
+                                    if (containerLabel) labelText = containerLabel.innerText.replace('*', '').trim();
+                                }
+                                if (labelText && !emptyRequired.includes(labelText)) {
+                                    emptyRequired.push(labelText);
+                                }
+                            }
+                            return;
+                        }
+
+                        // Checkbox group: check if at least one is checked
+                        if (field.type === 'checkbox') {
+                            if (seenRadioNames.has(field.name)) return;
+                            seenRadioNames.add(field.name);
+                            const anyChecked = document.querySelector(`input[name="${field.name}"]:checked, input[name="${field.name}[]"]:checked`);
+                            if (!anyChecked) {
+                                let labelText = '';
+                                if (container) {
+                                    const containerLabel = container.querySelector('label');
+                                    if (containerLabel) labelText = containerLabel.innerText.replace('*', '').trim();
+                                }
+                                if (labelText && !emptyRequired.includes(labelText)) {
+                                    emptyRequired.push(labelText);
+                                }
+                            }
+                            return;
+                        }
+
+                        // Text, textarea, select, date, hidden
+                        if (!field.value || field.value.trim() === '') {
                             let labelText = '';
                             const label = field.id ? document.querySelector(`label[for="${field.id}"]`) : null;
                             if (label) {

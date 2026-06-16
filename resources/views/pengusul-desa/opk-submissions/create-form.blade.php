@@ -298,23 +298,74 @@
 
                 openConfirm() {
                     let emptyRequired = [];
+
+                    // 1. Basic Identity (Name)
                     const nameEl = document.getElementById('name');
                     if (nameEl) {
                         this.submissionName = nameEl.value;
                         if (!this.submissionName || this.submissionName.trim() === '') emptyRequired.push('Identitas Umum (Nama Objek / Kebudayaan)');
                     }
+
+                    // 2. Category Specific Fields (including required from config)
+                    const seenRadioNames = new Set();
+                    const isVisible = (el) => {
+                        let cur = el;
+                        while (cur && cur !== document.body) {
+                            if (window.getComputedStyle(cur).display === 'none') return false;
+                            cur = cur.parentElement;
+                        }
+                        return true;
+                    };
+                    document.querySelectorAll('[data-category-field]').forEach(field => {
+                        if (!isVisible(field)) return;
+                        const container = field.closest('[data-required="true"]');
+                        if (!container && !field.hasAttribute('required')) return;
+
+                        if (field.type === 'radio') {
+                            if (seenRadioNames.has(field.name)) return;
+                            seenRadioNames.add(field.name);
+                            if (!document.querySelector(`input[name="${field.name}"]:checked`)) {
+                                const lbl = container && container.querySelector('label');
+                                const text = lbl ? lbl.innerText.replace('*', '').trim() : '';
+                                if (text && !emptyRequired.includes(text)) emptyRequired.push(text);
+                            }
+                            return;
+                        }
+                        if (field.type === 'checkbox') {
+                            if (seenRadioNames.has(field.name)) return;
+                            seenRadioNames.add(field.name);
+                            const checked = document.querySelector(`input[name="${field.name}"]:checked, input[name="${field.name}[]"]:checked`);
+                            if (!checked) {
+                                const lbl = container && container.querySelector('label');
+                                const text = lbl ? lbl.innerText.replace('*', '').trim() : '';
+                                if (text && !emptyRequired.includes(text)) emptyRequired.push(text);
+                            }
+                            return;
+                        }
+                        if (!field.value || field.value.trim() === '') {
+                            const label = field.id ? document.querySelector(`label[for="${field.id}"]`) : null;
+                            const lbl = label || (container && container.querySelector('label'));
+                            const text = lbl ? lbl.innerText.replace('*', '').trim() : '';
+                            if (text && !emptyRequired.includes(text)) emptyRequired.push(text);
+                        }
+                    });
+
+                    // 3. Description
                     const descEl = document.getElementById('description');
                     if (descEl) {
-                        let isVisible = true, p = descEl.parentElement;
-                        while(p && p !== document.body) { if(window.getComputedStyle(p).display === 'none') { isVisible = false; break; } p = p.parentElement; }
-                        if (isVisible && (!descEl.value || descEl.value.trim() === '')) emptyRequired.push('Deskripsi Kebudayaan');
+                        let descVisible = true, p = descEl.parentElement;
+                        while(p && p !== document.body) { if(window.getComputedStyle(p).display === 'none') { descVisible = false; break; } p = p.parentElement; }
+                        if (descVisible && (!descEl.value || descEl.value.trim() === '')) emptyRequired.push('Deskripsi Kebudayaan');
                     }
+
+                    // 4. Files
                     const filesInput = document.getElementById('files');
                     if (filesInput) {
                         const hasNewFiles = (filesInput.files && filesInput.files.length > 0) || (this.files && this.files.length > 0);
                         const hasExistingFiles = document.querySelectorAll('[class*="group/file"]:not([x-show])').length > 0;
                         if (!hasNewFiles && !hasExistingFiles) emptyRequired.push('Data Dukung (Minimal 1 Foto/Video)');
                     }
+
                     if (emptyRequired.length > 0) {
                         this.emptyFieldsList = emptyRequired;
                         this.$dispatch('open-modal', 'validation-warning-modal');
