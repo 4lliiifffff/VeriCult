@@ -201,6 +201,169 @@ php artisan test
 
 ---
 
+## Panduan Developer: Mengelola Field Formulir Pengajuan
+
+Semua field/pertanyaan pada formulir pengajuan kebudayaan didefinisikan secara terpusat di **satu file konfigurasi**:
+
+```
+config/category_fields.php
+```
+
+Mengubah file ini cukup untuk menambah, mengubah, atau menghapus field di semua formulir pengajuan (Pengusul, Pengusul Desa, tampilan Validator, dan Super Admin).
+
+---
+
+### Struktur File Konfigurasi
+
+File ini adalah array PHP dengan kunci berupa nama kategori (sesuai `CulturalSubmission::CATEGORIES`). Ada dua pola struktur:
+
+**Pola 1 — Kategori tanpa sub-kategori** (misal: Bahasa, Ritus):
+
+```php
+'Bahasa' => [
+    'has_sub' => false,
+    'fields' => [
+        'nama_objek' => [
+            'label'       => 'Nama Objek Bahasa',   // teks label yang tampil di form
+            'type'        => 'text',                 // tipe input (lihat daftar di bawah)
+            'placeholder' => 'Masukkan nama objek bahasa',
+            'required'    => true,                   // wajib diisi atau tidak
+        ],
+        // field berikutnya...
+    ],
+],
+```
+
+**Pola 2 — Kategori dengan sub-kategori** (misal: Seni, Pengetahuan Tradisional):
+
+```php
+'Seni' => [
+    'has_sub'     => true,
+    'sub_field'   => 'sub_kategori_seni',       // key hidden input untuk menyimpan pilihan sub
+    'sub_label'   => 'Pilih Jenis Seni',        // label dropdown pemilih sub-kategori
+    'sub_options' => [
+        'seni_rupa' => 'Seni Rupa',             // key => label pilihan sub
+        'lagu'      => 'Lagu',
+        // ...
+    ],
+    'fields' => [
+        'seni_rupa' => [                        // field milik sub-kategori 'seni_rupa'
+            'nama_objek' => ['label' => '...', 'type' => 'text', 'required' => true],
+        ],
+        'lagu' => [
+            'nama_objek' => ['label' => '...', 'type' => 'text', 'required' => true],
+        ],
+    ],
+],
+```
+
+---
+
+### Tipe Field yang Tersedia
+
+| Tipe             | Deskripsi                                          | Properti tambahan                          |
+|------------------|----------------------------------------------------|--------------------------------------------|
+| `text`           | Input teks satu baris                              | `placeholder`                              |
+| `textarea`       | Input teks multi-baris                             | `placeholder`                              |
+| `select`         | Dropdown pilihan tunggal                           | `options` (array), `placeholder`           |
+| `radio`          | Pilihan radio button                               | `options` (array)                          |
+| `checkbox_group` | Pilihan centang (multi-select)                     | `options` (array)                          |
+| `date`           | Date picker                                        | `placeholder`                              |
+| `datalist`       | Input teks dengan autocomplete dari daftar desa    | `placeholder`                              |
+| `dynamic_table`  | Tabel dengan baris yang bisa ditambah/dihapus      | `columns` (array label), `column_keys` (array key) |
+
+---
+
+### Cara Menambah Field Baru
+
+Tambahkan entri baru di dalam array `fields` kategori/sub-kategori yang sesuai. Key field harus menggunakan `snake_case`.
+
+```php
+// Contoh: menambah field 'sumber_dana' pada sub-kategori 'seni_pertunjukan'
+'seni_pertunjukan' => [
+    // ...field yang sudah ada...
+    'sumber_dana' => [
+        'label'       => 'Sumber Dana Pertunjukan',
+        'type'        => 'select',
+        'options'     => ['Mandiri', 'Sponsor', 'Pemerintah', 'Hibah'],
+        'placeholder' => 'Pilih sumber dana',
+        'required'    => false,
+    ],
+],
+```
+
+---
+
+### Cara Mengubah Label atau Placeholder
+
+Langsung ubah nilai `'label'` atau `'placeholder'` pada field yang bersangkutan:
+
+```php
+// Sebelum
+'etnis' => ['label' => 'Etnis yang melaksanakan', 'type' => 'text', ...],
+
+// Sesudah
+'etnis' => ['label' => 'Suku Bangsa Pelaksana', 'type' => 'text', ...],
+```
+
+---
+
+### Cara Mengubah Status Wajib (Required)
+
+Tambah atau hapus properti `'required' => true` pada field:
+
+```php
+// Menjadikan field wajib
+'lokasi' => ['label' => 'Lokasi', 'type' => 'text', 'required' => true],
+
+// Menjadikan field opsional (hapus 'required' atau set ke false)
+'lokasi' => ['label' => 'Lokasi', 'type' => 'text'],
+```
+
+> **Catatan:** Properti `required` hanya mengontrol validasi sisi server dan tampilan tanda `*` di form. Validasi frontend (client-side) juga menggunakan atribut ini melalui `data-required="true"` yang di-render otomatis.
+
+---
+
+### Cara Menghapus Field
+
+Hapus seluruh entri field dari array. Pastikan tidak ada submission data lama yang bergantung pada field tersebut jika ingin menjaga konsistensi tampilan data historis.
+
+```php
+// Hapus field ini dari array fields kategori
+// 'nama_field_lama' => [...],
+```
+
+---
+
+### Field dengan Kondisi Tampil (Conditional)
+
+Field bisa dikonfigurasi agar hanya muncul ketika field lain bernilai tertentu:
+
+```php
+'nama_pencipta' => [
+    'label'     => 'Nama pencipta manuskrip',
+    'type'      => 'text',
+    'condition' => [
+        'field' => 'mengetahui_pencipta',  // key field pemicu
+        'value' => 'Ya',                   // nilai yang memicu tampilnya field ini
+    ],
+],
+```
+
+---
+
+### File Terkait Lainnya
+
+| File | Fungsi |
+|------|--------|
+| `app/Models/CulturalSubmission.php` | Method `getCategoryFields()` dan `getFlatCategoryFields()` — digunakan controller untuk memuat config |
+| `resources/views/pengusul/submissions/partials/field-renderer.blade.php` | Merender field untuk Pengusul Umum |
+| `resources/views/pengusul-desa/submissions/partials/field-renderer.blade.php` | Merender field untuk Pengusul Desa |
+
+> **Penting:** Jangan mengubah key field (misal `nama_objek`) yang sudah dipakai di data submission yang tersimpan di database, karena data historis akan kehilangan nilai field tersebut saat ditampilkan.
+
+---
+
 ## Catatan Tambahan
 
 - Untuk opsi cepat, Anda bisa gunakan SQLite dengan `DB_CONNECTION=sqlite` dan membuat file `database/database.sqlite`.
