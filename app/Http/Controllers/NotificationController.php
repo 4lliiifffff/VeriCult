@@ -17,10 +17,10 @@ class NotificationController extends Controller
 
         // Search Filter
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = strtolower($request->search);
             $query->where(function($q) use ($search) {
-                $q->where('data->title', 'like', "%{$search}%")
-                  ->orWhere('data->message', 'like', "%{$search}%");
+                $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.title"))) LIKE ?', ["%{$search}%"])
+                  ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.message"))) LIKE ?', ["%{$search}%"]);
             });
         }
 
