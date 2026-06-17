@@ -22,9 +22,14 @@ class CheckSuspendedUser
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->withErrors([
-                'email' => 'Akun Anda telah ditangguhkan. Silakan hubungi administrator.',
-            ]);
+            $rememberCookie = Auth::guard('web')->getRecallerName();
+
+            return redirect()->route('login')
+                ->withCookie(cookie()->forget($rememberCookie))
+                ->withCookie(cookie()->forget(config('session.cookie')))
+                ->withErrors([
+                    'email' => 'Akun Anda telah ditangguhkan. Silakan hubungi administrator.',
+                ]);
         }
 
         return $next($request);
