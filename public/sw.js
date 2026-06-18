@@ -106,7 +106,7 @@ self.addEventListener('fetch', (event) => {
 async function networkFirstStrategy(request) {
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        if (networkResponse.status === 200) {
             const cache = await caches.open(DYNAMIC_CACHE);
             // Jangan cache halaman yang butuh auth
             const url = new URL(request.url);
@@ -139,7 +139,7 @@ async function cacheFirstStrategy(request) {
 
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        if (networkResponse.status === 200) {
             const cache = await caches.open(STATIC_CACHE);
             cache.put(request, networkResponse.clone());
         }

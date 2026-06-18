@@ -18,11 +18,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        .hero-gradient {
+        /* .hero-gradient {
             background: radial-gradient(circle at 70% 30%, rgba(0, 119, 182, 0.15) 0%, transparent 50%),
                         radial-gradient(circle at 20% 70%, rgba(3, 4, 94, 0.05) 0%, transparent 50%),
                         #FFFFFF;
-        }
+        } */
         .reveal {
             opacity: 0;
             transition: opacity 0.8s cubic-bezier(0.2, 0, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);

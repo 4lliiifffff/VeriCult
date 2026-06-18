@@ -42,8 +42,8 @@
             <!-- Right Actions Section -->
             <div class="flex items-center gap-4">
                 <!-- PWA Install Button (Desktop) -->
-                <div 
-                    x-data="{ 
+                <div
+                    x-data="{
                         showInstallBtn: false,
                         init() {
                             if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
@@ -74,11 +74,11 @@
                     x-cloak
                     class="hidden sm:flex items-center"
                 >
-                    <button 
+                    <button
                         @click="installApp()"
                         class="inline-flex items-center px-4 py-2 border border-[#00B4D8]/50 text-xs font-bold rounded-full text-white bg-[#03045E] hover:bg-[#023E8A] hover:text-white focus:outline-none transition ease-in-out duration-300 shadow-md gap-1.5 active:scale-95 cursor-pointer"
                     >
-                        <svg class="w-4 h-4 text-[#00B4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-[#FFFFFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                         </svg>
                         <span>Pasang Aplikasi</span>
@@ -170,13 +170,13 @@
             <a href="{{ route('fitur') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Fitur</a>
             <a href="{{ route('edukasi') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Edukasi</a>
             <a href="{{ route('profil-kebudayaan.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6]" @click="mobileMenu = false">Profil Budaya</a>
-            <a href="{{ route('kebudayaan-aktif.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] flex items-center gap-2" @click="mobileMenu = false">Budaya Aktif<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span></a>
+            <a href="{{ route('kebudayaan-aktif.index') }}" class="px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-[#0077B6] flex items-center gap-2" @click="mobileMenu = false">Budaya Aktif</a>
 
 
             <div class="pt-4 mt-2 border-t border-slate-100 flex flex-col space-y-3">
                 <!-- PWA Install Link (Mobile) -->
                 <div
-                    x-data="{ 
+                    x-data="{
                         showInstallLink: false,
                         init() {
                             if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
@@ -206,7 +206,7 @@
                     x-show="showInstallLink"
                     x-cloak
                 >
-                    <button 
+                    <button
                         @click="installApp()"
                         class="w-full bg-[#0077B6] hover:bg-[#00B4D8] text-white py-3 rounded-lg font-bold text-sm text-center shadow-md flex items-center justify-center gap-2"
                     >

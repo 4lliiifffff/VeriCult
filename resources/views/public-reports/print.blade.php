@@ -210,12 +210,12 @@
             transition: all 0.3s ease;
         }
         .btn-print {
-            background: var(--secondary);
+            background: var(--primary);
             color: #fff;
             box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
         }
         .btn-print:hover {
-            background: var(--primary);
+            background: var(--secondary);
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
             transform: translateY(-2px);
         }

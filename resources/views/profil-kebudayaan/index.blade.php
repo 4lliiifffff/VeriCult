@@ -69,25 +69,138 @@
 
             <!-- Filters & Search -->
             <div class="mb-16 space-y-8">
-                <!-- Category Filter & Print Button -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4">
-                    <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide w-full sm:w-auto">
-                        <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('category', 'page'), [])) }}"
-                           class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ !$activeCategory ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
-                            Semua
-                        </a>
+                <!-- Kategori Kebudayaan Panel -->
+                <div x-data="{
+                    categorySearch: '',
+                    showAll: {{ $activeCategory ? 'true' : 'false' }},
+                    categories: [
+                        { name: 'Semua Kategori', url: '{{ route('profil-kebudayaan.index', array_merge(request()->except('category', 'page'), [])) }}', active: {{ !$activeCategory ? 'true' : 'false' }}, desc: 'Lihat semua data kebudayaan tanpa batasan kategori.' },
                         @foreach($categories as $category)
-                            <a href="{{ route('profil-kebudayaan.index', array_merge(request()->except('page'), ['category' => $category])) }}"
-                               class="whitespace-nowrap shrink-0 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all {{ $activeCategory === $category ? 'filter-btn-active' : 'bg-slate-50 text-slate-400 hover:bg-slate-100' }}">
-                                {{ ucfirst(str_replace('scm-history-item:c%3A%5Claragon%5Cwww%5CVeriCult?%7B%22repositoryId%22%3A%22scm0%22%2C%22historyItemId%22%3A%2215d293af6b431fb6cc50d39846553e6c32b2eaba%22%2C%22historyItemParentId%22%3A%223b07889a4f96a6ebab0d7cb0cdc8489d84673726%22%2C%22historyItemDisplayId%22%3A%2215d293a%22%7D_', ' ', $category)) }}
-                            </a>
+                        {
+                            name: '{{ $category }}',
+                            url: '{{ route('profil-kebudayaan.index', array_merge(request()->except('page'), ['category' => $category])) }}',
+                            active: {{ $activeCategory === $category ? 'true' : 'false' }},
+                            desc: '{{ \App\Models\CulturalSubmission::CATEGORY_DESCRIPTIONS[$category] ?? '' }}'
+                        },
                         @endforeach
+                    ],
+                    get filteredCategories() {
+                        if (!this.categorySearch) return this.categories;
+                        return this.categories.filter(c =>
+                            c.name.toLowerCase().includes(this.categorySearch.toLowerCase()) ||
+                            c.desc.toLowerCase().includes(this.categorySearch.toLowerCase())
+                        );
+                    }
+                }" class="bg-white rounded-[2.5rem] p-6 sm:p-8 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group reveal reveal-up">
+                    <!-- Glassy backgrounds -->
+                    <div class="absolute -right-24 -top-24 w-64 h-64 bg-blue-50/40 rounded-full blur-3xl transition-transform duration-700 pointer-events-none"></div>
+                    <div class="absolute -left-24 -bottom-24 w-64 h-64 bg-indigo-50/40 rounded-full blur-3xl transition-transform duration-700 pointer-events-none"></div>
+
+                    <!-- Panel Header -->
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-100 relative z-10">
+                        <div>
+                            <h2 class="text-lg font-black text-[#03045E] flex items-center gap-2">
+                                Jelajahi Kategori Budaya
+                            </h2>
+                            <p class="text-xs text-slate-400 font-medium mt-1">Saring objek kebudayaan nusantara berdasarkan pengelompokan resmi</p>
+                        </div>
+
+                        <!-- Search & Action buttons -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+                            <!-- Search inside category -->
+                            <div class="relative w-full sm:w-64">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                </div>
+                                <input
+                                    type="text"
+                                    x-model="categorySearch"
+                                    placeholder="Cari kategori budaya..."
+                                    class="w-full bg-slate-50/80 border border-slate-200 rounded-2xl pl-10 pr-10 py-2.5 text-xs font-semibold text-slate-700 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-[#0077B6]/10 focus:border-[#0077B6] transition-all outline-none"
+                                >
+                                <!-- Clear Button -->
+                                <button
+                                    x-show="categorySearch"
+                                    @click="categorySearch = ''"
+                                    class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600"
+                                    style="display: none;"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+
+                            <!-- Unduh Laporan Button -->
+                            <a href="{{ route('public.reports.print', ['year' => $activeYear]) }}" class="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#03045E] hover:bg-[#0077B6] text-white rounded-2xl font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-blue-900/10 transition-all duration-300 hover:-translate-y-0.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                Unduh Rekap
+                            </a>
+                        </div>
                     </div>
 
-                    <a href="{{ route('public.reports.print', ['year' => $activeYear]) }}" class="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#03045E] hover:bg-[#03045E] text-white rounded-full font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 w-full sm:w-auto">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                        Unduh Rekap Laporan
-                    </a>
+                    <!-- Category Cards Grid -->
+                    <div class="relative z-10 pt-6">
+                        <!-- Desktop & Mobile Adaptive Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 transition-all duration-300">
+                            <template x-for="(cat, idx) in filteredCategories" :key="cat.name">
+                                <a
+                                    :href="cat.url"
+                                    x-show="showAll || idx < 4 || categorySearch || cat.active"
+                                    class="group/item flex flex-col p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-0.5"
+                                    :class="cat.active
+                                        ? 'bg-[#03045E] border-[#03045E] text-white shadow-lg shadow-blue-900/20 border-l-4 border-l-emerald-400'
+                                        : 'bg-slate-50/50 border-slate-100 text-slate-700 hover:bg-white hover:border-[#0077B6]/30 hover:shadow-md hover:shadow-slate-100 hover:border-l-4 hover:border-l-[#0077B6]/50'"
+                                >
+                                    <!-- Content -->
+                                    <div class="space-y-1.5 w-full">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <span class="text-xs font-bold tracking-tight" :class="cat.active ? 'text-white' : 'text-slate-800 group-hover/item:text-[#0077B6]'" x-text="cat.name"></span>
+                                            <span
+                                                x-show="cat.active"
+                                                class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"
+                                            ></span>
+                                        </div>
+                                        <p
+                                            class="text-[10px] leading-relaxed font-medium line-clamp-2"
+                                            :class="cat.active ? 'text-blue-100' : 'text-slate-400'"
+                                            x-text="cat.desc"
+                                        ></p>
+                                    </div>
+                                </a>
+                            </template>
+                        </div>
+
+                        <!-- No Categories Found -->
+                        <div
+                            x-show="filteredCategories.length === 0"
+                            class="py-8 text-center"
+                            style="display: none;"
+                        >
+                            <p class="text-xs font-bold text-slate-400">Kategori &ldquo;<span x-text="categorySearch" class="text-slate-600"></span>&rdquo; tidak ditemukan</p>
+                        </div>
+
+                        <!-- Expand / Collapse Button -->
+                        <div
+                            x-show="!categorySearch && filteredCategories.length > 4"
+                            class="flex justify-center mt-6 pt-4 border-t border-slate-100/50"
+                        >
+                            <button
+                                @click="showAll = !showAll"
+                                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-200 bg-white hover:border-[#0077B6]/30 text-[10px] font-black text-slate-500 hover:text-[#0077B6] uppercase tracking-widest transition-all duration-300"
+                            >
+                                <span x-text="showAll ? 'Sembunyikan Kategori' : 'Lihat Semua Kategori'"></span>
+                                <svg
+                                    class="w-3.5 h-3.5 transition-transform duration-300"
+                                    :class="showAll ? 'rotate-180' : ''"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2.5"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Search & Year -->
@@ -120,7 +233,7 @@
                         </div>
 
                         <div class="md:col-span-2">
-                            <button type="submit" class="w-full bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white rounded-2xl py-4 font-black text-[11px] uppercase tracking-[0.2em] hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-900/40 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                            <button type="submit" class="w-full bg-[#03045E] hover:bg-[#023E8A] text-white rounded-2xl py-4 font-black text-[11px] uppercase tracking-[0.2em] hover:shadow-2xl hover:shadow-blue-900/40 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                                 Cari Data
                             </button>
                         </div>

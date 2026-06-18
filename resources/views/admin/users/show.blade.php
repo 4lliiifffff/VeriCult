@@ -178,6 +178,13 @@
                         <p class="text-base font-bold text-[#03045E]">{{ $user->profile->instansi }}</p>
                     </div>
                     @endif
+
+                    @if($user->hasRole('pengusul') && $user->profile?->proposer_type)
+                    <div class="space-y-1.5">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Jenis Pengusul</p>
+                        <p class="text-base font-bold text-[#03045E]">{{ ucfirst($user->profile->proposer_type) }}</p>
+                    </div>
+                    @endif
                     <div class="space-y-1.5">
                         <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Tanggal Daftar</p>
                         <p class="text-base font-bold text-slate-700">{{ $user->created_at->translatedFormat('d F Y, H:i') }}</p>

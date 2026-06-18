@@ -66,6 +66,14 @@
             </div>
 
             {{-- Specialized Fields --}}
+            @if ($user->hasRole('pengusul'))
+                <div class="space-y-3 group">
+                    <x-input-label for="proposer_type" :value="__('Jenis Pengusul')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />
+                    <x-text-input id="proposer_type" type="text" class="block w-full bg-slate-100 text-slate-500 cursor-not-allowed opacity-80 font-bold" :value="$user->profile?->proposer_type === 'kelompok' ? 'Kelompok' : 'Individu'" readonly />
+                    <p class="text-[10px] text-slate-400 font-bold ml-1">Jenis pengusul tidak dapat diubah setelah pendaftaran.</p>
+                </div>
+            @endif
+
             @if ($user->hasRole(['validator', 'pengusul']))
                 <div class="space-y-3 group">
                     <x-input-label for="instansi" :value="__('Instansi')" class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#0077B6]" />

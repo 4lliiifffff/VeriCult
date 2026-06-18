@@ -17,89 +17,89 @@
             --border-light: #e2e8f0;
             --bg-light: #f8fafc;
         }
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            color: var(--text-dark); 
-            line-height: 1.5; 
-            padding: 40px; 
-            font-size: 13px; 
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding: 40px;
+            font-size: 13px;
             background: #fff;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
-        .header { 
-            text-align: center; 
-            border-bottom: 3px solid var(--primary); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }
-        .header h1 { 
-            margin: 0; 
-            font-size: 24px; 
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
             font-weight: 800;
-            text-transform: uppercase; 
-            color: var(--primary); 
+            text-transform: uppercase;
+            color: var(--primary);
             letter-spacing: 0.05em;
         }
-        .header p { 
-            margin: 8px 0 0; 
-            color: var(--text-muted); 
-            font-size: 14px; 
+        .header p {
+            margin: 8px 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
             font-weight: 500;
         }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-bottom: 30px; 
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
         }
-        table th, table td { 
-            padding: 12px 15px; 
-            border: 1px solid var(--border-light); 
-            text-align: left; 
-            vertical-align: middle; 
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            text-align: left;
+            vertical-align: middle;
         }
-        table th { 
-            background-color: var(--bg-light); 
-            font-weight: 700; 
-            font-size: 12px; 
-            text-transform: uppercase; 
+        table th {
+            background-color: var(--bg-light);
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--primary);
         }
         table tr:nth-child(even) {
             background-color: #fcfcfc;
         }
-        
-        .cat-title { 
-            font-size: 18px; 
-            font-weight: 800; 
-            margin: 40px 0 15px; 
-            border-bottom: 2px solid var(--border-light); 
-            padding-bottom: 8px; 
-            color: var(--primary); 
+
+        .cat-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin: 40px 0 15px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 8px;
+            color: var(--primary);
         }
-        
-        .footer { 
-            margin-top: 60px; 
-            text-align: right; 
-            font-size: 13px; 
+
+        .footer {
+            margin-top: 60px;
+            text-align: right;
+            font-size: 13px;
             color: var(--text-muted);
             page-break-inside: avoid;
         }
-        .footer .sign-area { 
-            margin-top: 80px; 
-            font-weight: 700; 
+        .footer .sign-area {
+            margin-top: 80px;
+            font-weight: 700;
             color: var(--text-dark);
         }
-        
+
         @media print {
-            @page { 
+            @page {
                 size: A4 portrait;
-                margin: 15mm 15mm 15mm 15mm; 
+                margin: 15mm 15mm 15mm 15mm;
             }
-            body { 
-                padding: 0 !important; 
+            body {
+                padding: 0 !important;
                 margin: 0 !important;
                 font-size: 11px !important;
                 background: #fff !important;
@@ -107,8 +107,8 @@
                 width: 100% !important;
                 max-width: 100% !important;
             }
-            .no-print, button { 
-                display: none !important; 
+            .no-print, button {
+                display: none !important;
             }
             .header {
                 margin-bottom: 20px !important;
@@ -124,15 +124,15 @@
             thead {
                 display: table-header-group !important;
             }
-            tr { 
-                page-break-inside: avoid !important; 
+            tr {
+                page-break-inside: avoid !important;
                 page-break-after: auto !important;
             }
             td, th {
                 padding: 8px 10px !important;
             }
         }
-        
+
         .actions-wrapper {
             display: flex;
             justify-content: center;
@@ -152,12 +152,12 @@
             transition: all 0.3s ease;
         }
         .btn-print {
-            background: var(--secondary);
+            background: var(--primary);
             color: #fff;
             box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
         }
         .btn-print:hover {
-            background: var(--primary);
+            background: var(--secondary);
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
             transform: translateY(-2px);
         }

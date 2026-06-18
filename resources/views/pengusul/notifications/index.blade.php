@@ -139,14 +139,17 @@
             <form x-ref="filterForm" action="{{ route('pengusul.notifications.index') }}" method="GET" @submit.prevent="fetchNotifications()" class="auto-submit grid gap-6">
                 <div class="flex flex-col">
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-2">Cari Pesan</label>
-                    <div class="relative group">
+                    <div class="relative group flex items-center">
                         <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 text-slate-400 group-focus-within:text-[#0077B6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                         <input type="text" name="search" value="{{ request('search') }}"
                             @input.debounce.500ms="fetchNotifications()"
                             placeholder="Ketik kata kunci..."
-                            class="pl-14 block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-bold text-[#03045E]">
+                            class="pl-14 pr-24 block w-full rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-bold text-[#03045E]">
+                        <button type="submit" class="absolute right-2 top-2 bottom-2 px-5 bg-[#03045E] hover:bg-[#0077B6] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all">
+                            Cari
+                        </button>
                     </div>
                 </div>
 

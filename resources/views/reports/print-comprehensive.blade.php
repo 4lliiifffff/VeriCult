@@ -18,66 +18,66 @@
             --border-light: #e2e8f0;
             --bg-light: #f8fafc;
         }
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            color: var(--text-dark); 
-            line-height: 1.6; 
-            padding: 40px; 
-            font-size: 13px; 
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 40px;
+            font-size: 13px;
             background: #fff;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
-        .header { 
-            text-align: center; 
-            border-bottom: 3px double var(--primary); 
-            padding-bottom: 20px; 
-            margin-bottom: 35px; 
+        .header {
+            text-align: center;
+            border-bottom: 3px double var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 35px;
         }
-        .header h1 { 
-            margin: 0; 
-            font-size: 26px; 
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
             font-weight: 800;
-            text-transform: uppercase; 
-            color: var(--primary); 
+            text-transform: uppercase;
+            color: var(--primary);
             letter-spacing: 0.05em;
         }
-        .header p { 
-            margin: 8px 0 0; 
-            color: var(--text-muted); 
-            font-size: 14px; 
+        .header p {
+            margin: 8px 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
             font-weight: 500;
         }
-        
-        .section-title { 
-            font-size: 20px; 
-            font-weight: 800; 
-            color: var(--secondary); 
-            border-bottom: 2px solid var(--secondary); 
-            padding-bottom: 8px; 
-            margin-top: 45px; 
-            margin-bottom: 20px; 
-            text-transform: uppercase; 
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 8px;
+            margin-top: 45px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        .analysis-box { 
-            background-color: var(--bg-light); 
-            border-left: 4px solid var(--accent); 
-            padding: 20px; 
-            margin-bottom: 25px; 
-            font-style: italic; 
-            color: #475569; 
+        .analysis-box {
+            background-color: var(--bg-light);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin-bottom: 25px;
+            font-style: italic;
+            color: #475569;
             border-radius: 0 12px 12px 0;
             line-height: 1.6;
         }
-        
-        .chart-container { 
+
+        .chart-container {
             position: relative;
-            width: 100%; 
-            max-width: 700px; 
-            height: 350px; 
-            margin: 30px auto 40px; 
-            text-align: center; 
+            width: 100%;
+            max-width: 700px;
+            height: 350px;
+            margin: 30px auto 40px;
+            text-align: center;
             page-break-inside: avoid;
         }
         .chart-container canvas {
@@ -85,50 +85,50 @@
             width: 100% !important;
             height: 100% !important;
         }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-bottom: 30px; 
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
         }
-        table th, table td { 
-            padding: 12px 15px; 
-            border: 1px solid var(--border-light); 
-            text-align: left; 
-            vertical-align: middle; 
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            text-align: left;
+            vertical-align: middle;
         }
-        table th { 
-            background-color: var(--bg-light); 
-            font-weight: 700; 
-            font-size: 12px; 
-            text-transform: uppercase; 
+        table th {
+            background-color: var(--bg-light);
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--primary); 
+            color: var(--primary);
         }
-        table tr:nth-child(even) { 
-            background-color: #fcfcfc; 
+        table tr:nth-child(even) {
+            background-color: #fcfcfc;
         }
-        
-        .footer { 
-            margin-top: 60px; 
-            text-align: right; 
-            font-size: 13px; 
+
+        .footer {
+            margin-top: 60px;
+            text-align: right;
+            font-size: 13px;
             color: var(--text-muted);
-            page-break-inside: avoid; 
+            page-break-inside: avoid;
         }
-        .footer .sign-area { 
-            margin-top: 80px; 
-            font-weight: 700; 
+        .footer .sign-area {
+            margin-top: 80px;
+            font-weight: 700;
             color: var(--text-dark);
         }
-        
+
         @media print {
-            @page { 
+            @page {
                 size: A4 portrait;
-                margin: 15mm 15mm 15mm 15mm; 
+                margin: 15mm 15mm 15mm 15mm;
             }
-            body { 
-                padding: 0 !important; 
+            body {
+                padding: 0 !important;
                 margin: 0 !important;
                 font-size: 11px !important;
                 background: #fff !important;
@@ -136,11 +136,11 @@
                 width: 100% !important;
                 max-width: 100% !important;
             }
-            .no-print, button { 
-                display: none !important; 
+            .no-print, button {
+                display: none !important;
             }
-            .page-break-before { 
-                page-break-before: always; 
+            .page-break-before {
+                page-break-before: always;
             }
             .header {
                 margin-bottom: 20px !important;
@@ -165,8 +165,8 @@
             thead {
                 display: table-header-group !important;
             }
-            tr { 
-                page-break-inside: avoid !important; 
+            tr {
+                page-break-inside: avoid !important;
                 page-break-after: auto !important;
             }
             td, th {
@@ -183,7 +183,7 @@
                 margin-bottom: 25px;
             }
         }
-        
+
         .actions-wrapper {
             display: flex;
             justify-content: center;
@@ -203,12 +203,12 @@
             transition: all 0.3s ease;
         }
         .btn-print {
-            background: var(--secondary);
+            background: var(--primary);
             color: #fff;
             box-shadow: 0 4px 6px -1px rgba(0, 119, 182, 0.2);
         }
         .btn-print:hover {
-            background: var(--primary);
+            background: var(--secondary);
             box-shadow: 0 10px 15px -3px rgba(3, 4, 94, 0.2);
             transform: translateY(-2px);
         }
@@ -223,7 +223,7 @@
             color: var(--text-dark);
             transform: translateY(-2px);
         }
-        
+
         .chart-print-image {
             display: none;
         }
@@ -258,7 +258,7 @@
     <!-- Bagian 1: Keseluruhan -->
     <div>
         <div class="section-title">1. Tinjauan Keseluruhan</div>
-        
+
         <div class="analysis-box">
             <strong>Deskripsi & Analisis:</strong><br>
             {{ $analysisText['overall'] }} Dari total data tersebut, distribusi berdasarkan kategori menunjukkan fokus pelestarian atau pengajuan pada area tertentu.
@@ -269,7 +269,7 @@
             <canvas id="overallChart"></canvas>
             <img id="overallChartImage" class="chart-print-image" alt="Chart Tinjauan Keseluruhan">
         </div>
-        
+
         <table>
             <thead>
                 <tr>
@@ -301,7 +301,7 @@
     <!-- Bagian 2: Kecamatan -->
     <div class="page-break-before">
         <div class="section-title">2. Distribusi Tingkat Kecamatan</div>
-        
+
         <div class="analysis-box">
             <strong>Deskripsi & Analisis:</strong><br>
             {{ $analysisText['kecamatan'] }} Pemetaan tingkat kecamatan ini penting untuk melihat konsentrasi program pemajuan kebudayaan di level daerah.
@@ -312,7 +312,7 @@
             <canvas id="kecamatanChart"></canvas>
             <img id="kecamatanChartImage" class="chart-print-image" alt="Chart Distribusi Tingkat Kecamatan">
         </div>
-        
+
         <table>
             <thead>
                 <tr>
@@ -338,7 +338,7 @@
     <!-- Bagian 3: Desa/Kelurahan -->
     <div class="page-break-before">
         <div class="section-title">3. Distribusi Tingkat Desa / Kelurahan</div>
-        
+
         <div class="analysis-box">
             <strong>Deskripsi & Analisis:</strong><br>
             {{ $analysisText['desa'] }} Keterlibatan desa menunjukkan partisipasi aktif akar rumput dalam pendataan kebudayaan lokal.
@@ -349,7 +349,7 @@
             <canvas id="desaChart"></canvas>
             <img id="desaChartImage" class="chart-print-image" alt="Chart Distribusi Tingkat Desa">
         </div>
-        
+
         <table>
             <thead>
                 <tr>
@@ -380,7 +380,7 @@
     <div class="footer">
         <p>Laporan Resmi Dicetak Oleh: <strong>{{ auth()->user()->name }} (Validator)</strong></p>
         <p>Tanggal Cetak: {{ \Carbon\Carbon::now()->translatedFormat('d F Y H:i:s') }}</p>
-        
+
         <div class="sign-area">
             ( ____________________________ )<br>
             <span style="font-weight: normal; margin-top: 5px; display: inline-block;">Tanda Tangan Validator</span>
@@ -391,7 +391,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             Chart.defaults.animation = false;
             const isMobile = window.innerWidth < 640 || window.matchMedia('(max-width: 640px)').matches;
-            
+
             // 1. Overall Category Chart
             @if(!$categoryStats->isEmpty())
             const overallChartInstance = new Chart(document.getElementById('overallChart').getContext('2d'), {
@@ -408,12 +408,12 @@
                         ],
                     }]
                 },
-                options: { 
-                    responsive: true, 
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     devicePixelRatio: 2,
                     plugins: {
-                        legend: { 
+                        legend: {
                             position: isMobile ? 'bottom' : 'right',
                             labels: {
                                 font: {
@@ -443,11 +443,11 @@
                         borderRadius: 4
                     }]
                 },
-                options: { 
-                    responsive: true, 
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     devicePixelRatio: 2,
-                    scales: { 
+                    scales: {
                         y: { beginAtZero: true, ticks: { precision: 0 } },
                         x: {
                             ticks: {
@@ -488,12 +488,12 @@
                         borderRadius: 4
                     }]
                 },
-                options: { 
-                    responsive: true, 
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     devicePixelRatio: 2,
                     indexAxis: 'y',
-                    scales: { 
+                    scales: {
                         x: { beginAtZero: true, ticks: { precision: 0 } },
                         y: {
                             ticks: {
