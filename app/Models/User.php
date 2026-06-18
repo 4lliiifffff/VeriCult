@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -52,6 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail
             'is_suspended'      => 'boolean',
             'suspended_at'      => 'datetime',
         ];
+    }
+
+    /**
+     * Send the email verification notification using our custom branded template.
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotification());
     }
 
     protected static function booted()

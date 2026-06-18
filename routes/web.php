@@ -318,3 +318,58 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// ── Email Preview Routes (Development Only) ──────────────────────────────────
+if (config('app.debug')) {
+    Route::prefix('_preview/email')->name('preview.email.')->group(function () {
+        Route::get('/verify', function () {
+            return (new \App\Notifications\VerifyEmailNotification())
+                ->toMail(new class {
+                    public $name  = 'Budi Santoso';
+                    public $email = 'budi@example.com';
+                })
+                ->render();
+        })->name('verify');
+
+        Route::get('/verify-desa', function () {
+            return (new \App\Notifications\PengusulDesaVerifyEmailNotification())
+                ->toMail(new class {
+                    public $name  = 'Siti Rahayu';
+                    public $email = 'siti@example.com';
+                })
+                ->render();
+        })->name('verify-desa');
+
+        Route::get('/approved', function () {
+            $user = new \App\Models\User([
+                'name'  => 'Budi Santoso',
+                'email' => 'budi@example.com',
+            ]);
+            return (new \App\Mail\PenguslDesaApprovedNotification($user))->render();
+        })->name('approved');
+
+        Route::get('/rejected', function () {
+            $user = new \App\Models\User([
+                'name'  => 'Budi Santoso',
+                'email' => 'budi@example.com',
+            ]);
+            return (new \App\Mail\PenguslDesaRejectedNotification($user, 'Dokumen surat pengajuan tidak lengkap dan tidak memenuhi persyaratan yang ditetapkan.'))->render();
+        })->name('rejected');
+
+        Route::get('/otp', function () {
+            return (new \App\Mail\PhoneVerificationMail('847291'))->render();
+        })->name('otp');
+
+        Route::get('/admin-notification', function () {
+            $user = new \App\Models\User([
+                'name'  => 'Admin VeriCult',
+                'email' => 'admin@example.com',
+            ]);
+            return (new \App\Mail\AdminNotification(
+                $user,
+                'Pemberitahuan Sistem',
+                'Mohon segera tinjau pengajuan budaya terbaru dari Desa Sukamaju yang memerlukan validasi Anda.'
+            ))->render();
+        })->name('admin-notification');
+    });
+}

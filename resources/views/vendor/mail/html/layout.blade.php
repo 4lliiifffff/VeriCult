@@ -6,26 +6,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
+{{-- Google Fonts: Inter --}}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" type="text/css">
 <style>
-@media only screen and (max-width: 600px) {
-.inner-body {
-width: 100% !important;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-.footer {
-width: 100% !important;
-}
+@media only screen and (max-width: 600px) {
+    .inner-body {
+        width: 100% !important;
+        border-radius: 0 !important;
+    }
+    .footer {
+        width: 100% !important;
+    }
+    .content-cell {
+        padding: 28px 24px !important;
+    }
 }
 
 @media only screen and (max-width: 500px) {
-.button {
-width: 100% !important;
-}
+    .button {
+        width: 100% !important;
+        text-align: center !important;
+    }
 }
 </style>
 {!! $head ?? '' !!}
 </head>
-<body>
+<body style="background-color: #EBF5FB; padding: 24px 0 40px;">
 
 <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
 <tr>

@@ -5,7 +5,7 @@ namespace App\Notifications;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PengusulDesaVerifyEmailNotification extends VerifyEmail
+class VerifyEmailNotification extends VerifyEmail
 {
     /**
      * Build the mail representation of the notification.
@@ -16,8 +16,8 @@ class PengusulDesaVerifyEmailNotification extends VerifyEmail
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
-            ->subject('Verifikasi Email — Pendaftaran Pengusul Desa VeriCult')
-            ->markdown('emails.verify-email-pengusul-desa', [
+            ->subject('Verifikasi Alamat Email Anda — VeriCult')
+            ->markdown('emails.verify-email', [
                 'url' => $url,
             ]);
     }

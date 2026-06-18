@@ -1,20 +1,22 @@
 @component('mail::message')
 # Pengajuan Akun Pengusul Desa Ditolak
 
-Halo {{ $userName }},
+Halo **{{ $userName }}**,
 
-Kami berterima kasih atas pengajuan akun Pengusul Desa Anda. Namun, sayangnya pengajuan Anda **ditolak** oleh Super Admin.
+Terima kasih atas pengajuan pendaftaran akun Pengusul Desa Anda di VeriCult. Setelah melalui proses peninjauan, kami mohon menyampaikan bahwa pengajuan Anda **belum dapat kami setujui** pada saat ini.
 
 **Alasan Penolakan:**
 
+@component('mail::panel')
 {{ $rejectionReason }}
+@endcomponent
 
 ---
 
-Jika Anda merasa bahwa ini adalah kesalahan atau ingin mengetahui informasi lebih lanjut, silahkan hubungi Tim VeriCult melalui kontak yang tersedia di website kami.
+Jika Anda memiliki pertanyaan lebih lanjut atau membutuhkan klarifikasi mengenai keputusan ini, silakan hubungi Tim VeriCult melalui kontak yang tersedia di website kami.
 
-Kami menghargai dukungan Anda dalam upaya pelestarian warisan budaya Indonesia.
+Kami menghargai dukungan Anda dalam upaya pelestarian warisan budaya Indonesia dan berharap dapat bekerja sama di masa mendatang.
 
-Salam,
+Salam hormat,<br>
 **Tim VeriCult**
 @endcomponent
