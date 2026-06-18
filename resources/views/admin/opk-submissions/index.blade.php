@@ -72,9 +72,9 @@
                                     <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-50 text-[#0077B6] border border-blue-100">{{ $submission->category }}</span>
                                 </td>
                                 <td class="px-6 sm:px-8 py-4 sm:py-6">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">{{ substr($submission->user?->name ?? 'U', 0, 1) }}</div>
-                                        <div class="text-xs font-bold text-slate-600 truncate max-w-[160px]">{{ $submission->user?->name }}</div>
+                                    {{-- <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">{{ substr($submission->user?->name ?? 'U', 0, 1) }}</div> --}}
+                                        <div class="text-xs font-bold text-slate-600 break-words">{{ $submission->user?->name }}</div>
                                     </div>
                                 </td>
                                 <td class="px-6 sm:px-8 py-4 sm:py-6 text-center">

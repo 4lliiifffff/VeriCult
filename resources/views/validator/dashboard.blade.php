@@ -308,7 +308,7 @@
                                         <div class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-slate-100 text-[#03045E] flex items-center justify-center font-black text-[10px] sm:text-xs">
                                             {{ substr($submission->user->name, 0, 2) }}
                                         </div>
-                                        <div class="text-[10px] sm:text-xs font-bold text-slate-600 line-clamp-1">{{ $submission->user->name }}</div>
+                                        <div class="text-[10px] sm:text-xs font-bold text-slate-600 break-words">{{ $submission->user->name }}</div>
                                     </div>
                                 </div>
                             </td>

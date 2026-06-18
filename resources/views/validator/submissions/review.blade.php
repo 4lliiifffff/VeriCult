@@ -160,10 +160,10 @@
                             if (!empty($fieldDef['condition'])) {
                                 $cField = $fieldDef['condition']['field'] ?? null;
                                 $cValue = $fieldDef['condition']['value'] ?? null;
-                                
+
                                 if ($cField) {
                                     $currentVal = $submission->category_data[$cField] ?? null;
-                                    
+
                                     // Check if condition is met
                                     $isMet = false;
                                     if (is_array($cValue)) {
@@ -171,7 +171,7 @@
                                     } else {
                                         $isMet = ($currentVal == $cValue);
                                     }
-                                    
+
                                     // If condition not met, skip this field (not required)
                                     if (!$isMet) continue;
                                 }
@@ -395,7 +395,7 @@
                         {{ substr($submission->user->name, 0, 1) }}
                     </div>
                     <div class="min-w-0">
-                        <p class="text-sm font-black text-[#03045E] truncate">{{ $submission->user->name }}</p>
+                        <p class="text-sm font-black text-[#03045E] break-words">{{ $submission->user->name }}</p>
                         <p class="text-xs font-bold text-slate-400 mt-0.5 truncate">{{ $submission->user->email }}</p>
                         @if($submission->user->no_hp)
                             <p class="text-xs font-bold text-slate-400 mt-0.5 truncate">{{ $submission->user->no_hp }}</p>
@@ -521,7 +521,7 @@
                         <form id="reviewForm" action="{{ route('validator.submissions.field-verification', $submission) }}" method="POST" class="space-y-6" @submit.prevent="confirmSubmit">
                             @csrf
                             @if($categorySlug === 'laporan-kebudayaan-aktif')
-                                <div class="p-4 sm:p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer" 
+                                <div class="p-4 sm:p-6 bg-emerald-50 border-2 border-emerald-100 rounded-2xl group/direct transition-all hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer"
                                      @click="toggleDirectValidation()">
                                     <div class="flex items-center justify-between gap-3">
                                         <div class="flex items-center gap-3 min-w-0">

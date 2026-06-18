@@ -16,28 +16,28 @@
                 <td class="px-6 sm:px-8 py-4 sm:py-5" data-label="Profil User">
                     <div class="flex flex-col text-left">
                         <div class="flex items-center">
-                            <div class="h-10 w-10 sm:h-11 sm:w-11 rounded-[12px] sm:rounded-[14px] bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white flex items-center justify-center font-black text-[10px] sm:text-sm shadow-lg shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-300">
+                            {{-- <div class="h-10 w-10 sm:h-11 sm:w-11 rounded-[12px] sm:rounded-[14px] bg-gradient-to-br from-[#03045E] to-[#0077B6] text-white flex items-center justify-center font-black text-[10px] sm:text-sm shadow-lg shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-300">
                                 {{ substr($user->name, 0, 2) }}
-                            </div>
+                            </div> --}}
                             <div class="ml-3 sm:ml-4 min-w-0">
-                                <div class="font-bold text-xs sm:text-sm text-[#03045E] group-hover/u:text-[#0077B6] transition-colors truncate">{{ $user->name }}</div>
+                                <div class="font-bold text-xs sm:text-sm text-[#03045E] group-hover/u:text-[#0077B6] transition-colors break-words">{{ $user->name }}</div>
                                 <div class="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">{{ $user->email }}</div>
                                 <div class="text-[9px] sm:text-[10px] text-slate-400 font-medium truncate mt-1 flex items-center gap-2">
                                     @if($user->profile?->no_hp)
                                         <span class="flex items-center gap-1 text-slate-500" title="Nomor HP">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> 
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                             {{ $user->profile->no_hp }}
                                         </span>
                                         <div class="w-1 h-1 rounded-full bg-slate-300"></div>
                                     @endif
                                     @if($user->hasRole('pengusul-desa') && $user->village)
                                         <span class="flex items-center gap-1 text-[#0077B6]" title="Desa">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg> 
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                                             {{ $user->village->name }}
                                         </span>
                                     @elseif($user->profile?->instansi)
                                         <span class="flex items-center gap-1 text-indigo-500" title="Instansi">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg> 
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                                             {{ $user->profile->instansi }}
                                         </span>
                                     @endif
@@ -52,7 +52,7 @@
                             <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border shadow-sm
                                 {{ $role->name == 'super-admin' ? 'bg-rose-50 text-rose-700 border-rose-100' :
                                 ($role->name == 'admin' ? 'bg-red-50 text-red-700 border-red-100' :
-                                ($role->name == 'validator' ? 'bg-yellow-50 text-yellow-700 border-yellow-100' : 
+                                ($role->name == 'validator' ? 'bg-yellow-50 text-yellow-700 border-yellow-100' :
                                 ($role->name == 'pengusul-desa' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' :
                                 ($role->name == 'pengusul' ? 'bg-sky-50 text-sky-700 border-sky-100' :
                                 'bg-sky-50 text-sky-700 border-sky-100')))) }}">
@@ -103,7 +103,7 @@
                             @endif
 
                             {{-- Notify Button --}}
-                            <button @click="openNotifyModal({{ json_encode($user) }}, '{{ route('super-admin.users.notify', $user) }}')" 
+                            <button @click="openNotifyModal({{ json_encode($user) }}, '{{ route('super-admin.users.notify', $user) }}')"
                                 class="w-9 h-9 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-sm border border-indigo-100" title="Kirim Notifikasi">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                             </button>
@@ -138,7 +138,7 @@
                         </a>
 
                         @if($user->id !== auth()->id() && $user->id !== 1)
-                            <button @click="openDeleteModal({{ json_encode($user) }}, '{{ route('super-admin.users.destroy', $user) }}')" 
+                            <button @click="openDeleteModal({{ json_encode($user) }}, '{{ route('super-admin.users.destroy', $user) }}')"
                                 class="w-9 h-9 flex items-center justify-center rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm border border-red-100" title="Hapus User Permenant">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>

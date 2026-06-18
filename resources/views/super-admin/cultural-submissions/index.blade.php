@@ -9,7 +9,7 @@
 
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -41,27 +41,27 @@
                         </div>
                     </div>
                     <div>
-                        <x-dropdown-select 
-                            name="category" 
-                            id="category" 
-                            label="Kategori" 
+                        <x-dropdown-select
+                            name="category"
+                            id="category"
+                            label="Kategori"
                             placeholder="Semua Kategori"
                             all-label="Semua Kategori"
                             variant="light"
-                            :selected="request('category')" 
-                            :options="collect($categories)->mapWithKeys(fn($c) => [$c => $c])->toArray()" 
+                            :selected="request('category')"
+                            :options="collect($categories)->mapWithKeys(fn($c) => [$c => $c])->toArray()"
                         />
                     </div>
                     <div>
-                        <x-dropdown-select 
-                            name="status" 
-                            id="status" 
-                            label="Status" 
+                        <x-dropdown-select
+                            name="status"
+                            id="status"
+                            label="Status"
                             placeholder="Semua Status"
                             all-label="Semua Status"
                             variant="light"
-                            :selected="request('status')" 
-                            :options="collect($statuses)->mapWithKeys(fn($s) => [$s => \App\Models\CulturalSubmission::getStatusLabel($s)])->toArray()" 
+                            :selected="request('status')"
+                            :options="collect($statuses)->mapWithKeys(fn($s) => [$s => \App\Models\CulturalSubmission::getStatusLabel($s)])->toArray()"
                         />
                     </div>
                 </div>
@@ -103,10 +103,10 @@
                             </td>
                             <td class="px-6 sm:px-8 py-4 sm:py-6">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">
+                                    {{-- <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">
                                         {{ substr($submission->user->name, 0, 1) }}
-                                    </div>
-                                    <div class="text-xs font-bold text-slate-600 truncate max-w-[120px]">{{ $submission->user->name }}</div>
+                                    </div> --}}
+                                    <div class="text-xs font-bold text-slate-600 break-words">{{ $submission->user->name }}</div>
                                 </div>
                             </td>
                             <td class="px-6 sm:px-8 py-4 sm:py-6 text-center">

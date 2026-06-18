@@ -11,7 +11,7 @@
 
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 overflow-hidden group mb-8">
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full transition-transform duration-1000 group-hover:scale-110"></div>
-            
+
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
@@ -27,7 +27,7 @@
                     </h2>
                     <p class="text-slate-500 text-sm sm:text-lg font-medium max-w-2xl leading-relaxed">Validasi akses bagi pendaftar Pengusul Desa sebelum masuk ekosistem VeriCult.</p>
                 </div>
-                    
+
                 <div class="flex items-center gap-4 bg-slate-50 p-4 sm:p-5 rounded-[2rem] border border-slate-100 shadow-inner w-full md:w-auto self-start md:self-auto">
                     <a href="{{ route('admin.users.index') }}" class="w-full justify-center bg-white text-[#03045E] px-6 py-4 sm:py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-900/5 transition-transform active:scale-95 group border border-slate-100">
                         <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,17 +52,17 @@
         </div>
     @endif
 
-    <div x-data="{ 
+    <div x-data="{
             actionUrl: '',
             targetName: '',
-            
+
             openActionModal(modalName, url, name) {
                 this.actionUrl = url;
                 this.targetName = name;
                 $dispatch('open-modal', modalName);
             }
         }">
-        
+
         <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden relative group mb-20">
             <!-- Search Area -->
             <div class="p-5 sm:p-8 border-b border-slate-50 bg-white">
@@ -74,8 +74,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" name="search" value="{{ request('search') }}" 
-                                placeholder="Cari pengusul berdasarkan nama atau email..." 
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Cari pengusul berdasarkan nama atau email..."
                                 class="pl-12 block w-full rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-[#0077B6]/10 sm:text-sm transition-all duration-300 h-14 font-bold text-[#03045E] placeholder:text-slate-300">
                         </div>
                     </div>
@@ -101,11 +101,11 @@
                             <tr class="hover:bg-slate-50/30 transition-all duration-300 group/u">
                                 <td class="px-8 py-6">
                                     <div class="flex items-center gap-5">
-                                        <div class="h-14 w-14 rounded-2xl bg-[#03045E] text-white flex items-center justify-center font-black text-sm shadow-xl shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-500 uppercase">
+                                        {{-- <div class="h-14 w-14 rounded-2xl bg-[#03045E] text-white flex items-center justify-center font-black text-sm shadow-xl shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-500 uppercase">
                                             {{ substr($user->name, 0, 2) }}
-                                        </div>
+                                        </div> --}}
                                         <div class="min-w-0">
-                                            <div class="font-black text-base text-[#03045E] group-hover/u:text-[#0077B6] transition-colors truncate mb-0.5 tracking-tight leading-tight">{{ $user->name }}</div>
+                                            <div class="font-black text-base text-[#03045E] group-hover/u:text-[#0077B6] transition-colors break-words mb-0.5 tracking-tight leading-tight">{{ $user->name }}</div>
                                             <div class="text-[11px] text-slate-400 font-bold tracking-tight truncate uppercase">{{ $user->email }}</div>
                                         </div>
                                     </div>
@@ -213,7 +213,7 @@
                     <p class="text-slate-500 font-bold text-sm leading-relaxed mb-8 uppercase tracking-tight">
                         Anda akan menolak akses untuk <span x-text="targetName" class="text-red-600 underline"></span>. Pengguna akan disuspend.
                     </p>
-                    
+
                     <div class="space-y-3">
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Alasan Penolakan</label>
                         <textarea name="rejection_reason" rows="4"

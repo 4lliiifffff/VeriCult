@@ -201,7 +201,7 @@
                                 {{ strtoupper(substr($post->user->name ?? 'U', 0, 1)) }}
                             </div>
                             <div class="min-w-0">
-                                <p class="text-[11px] font-black text-slate-700 truncate">{{ $post->user->name ?? 'Pengusul' }}</p>
+                                <p class="text-[11px] font-black text-slate-700 break-words">{{ $post->user->name ?? 'Pengusul' }}</p>
                                 <p class="text-[10px] text-slate-400 font-medium">{{ $publishedAgo }}</p>
                             </div>
                             @if($post->village)

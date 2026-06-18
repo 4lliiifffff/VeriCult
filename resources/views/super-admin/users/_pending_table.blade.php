@@ -14,11 +14,11 @@
                 <tr class="hover:bg-slate-50/30 transition-all duration-300 group/u">
                     <td class="px-8 py-6">
                         <div class="flex items-center gap-5">
-                            <div class="h-14 w-14 rounded-2xl bg-[#03045E] text-white flex items-center justify-center font-black text-sm shadow-xl shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-500 uppercase">
+                            {{-- <div class="h-14 w-14 rounded-2xl bg-[#03045E] text-white flex items-center justify-center font-black text-sm shadow-xl shadow-blue-900/10 group-hover/u:scale-110 transition-transform duration-500 uppercase">
                                 {{ substr($user->name, 0, 2) }}
-                            </div>
+                            </div> --}}
                             <div class="min-w-0">
-                                <div class="font-black text-base text-[#03045E] group-hover/u:text-[#0077B6] transition-colors truncate mb-0.5 tracking-tight leading-tight">{{ $user->name }}</div>
+                                <div class="font-black text-base text-[#03045E] group-hover/u:text-[#0077B6] transition-colors break-words mb-0.5 tracking-tight leading-tight">{{ $user->name }}</div>
                                 <div class="text-[11px] text-slate-400 font-bold tracking-tight truncate uppercase">{{ $user->email }}</div>
                             </div>
                         </div>

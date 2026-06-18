@@ -131,7 +131,7 @@
                                     {{ substr($user->name, 0, 2) }}
                                 </div>
                                 <div class="max-w-[120px] sm:max-w-[200px]">
-                                    <p class="text-xs sm:text-sm font-bold text-[#03045E] leading-none mb-1 truncate group-hover/row:text-[#0077B6] transition-colors">{{ $user->name }}</p>
+                                    <p class="text-xs sm:text-sm font-bold text-[#03045E] leading-tight mb-1 break-words group-hover/row:text-[#0077B6] transition-colors">{{ $user->name }}</p>
                                     <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest truncate">{{ $user->profile?->village?->name ?? 'Desa' }}</p>
                                 </div>
                             </div>
