@@ -38,8 +38,8 @@
       x-data="{ 
         showPreviewModal: false,
         previewFile: null,
-        openPreview(url, type, name) {
-            this.previewFile = { url, type, name };
+        openPreview(url, type, name, size) {
+            this.previewFile = { url, type, name, size };
             this.showPreviewModal = true;
         },
         closePreview() {
@@ -51,33 +51,50 @@
     
     <!-- Fullscreen Preview Modal -->
     <template x-teleport="body">
-        <div x-show="showPreviewModal" 
-             x-cloak
-             class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-10"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100">
-            <div class="absolute inset-0 bg-slate-900/95 backdrop-blur-md" @click="closePreview()"></div>
-            
-            <div class="relative w-full max-w-5xl max-h-full flex flex-col items-center"
-                 x-transition:enter="transition ease-out duration-300 delay-100"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100">
-                
-                <div class="absolute -top-12 left-0 right-0 flex items-center justify-between text-white">
-                    <p class="text-sm font-bold truncate max-w-xs" x-text="previewFile?.name"></p>
-                    <button @click="closePreview()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <div class="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6" x-show="showPreviewModal" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+            <div class="absolute inset-0 bg-slate-900/80" @click="closePreview()"></div>
+            <div class="relative w-full max-w-6xl max-h-full bg-slate-900 rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/10 flex flex-col">
+                <!-- Modal Header -->
+                <div class="p-4 sm:p-6 md:p-8 flex items-center justify-between border-b border-white/5 bg-slate-900/50 backdrop-blur-md">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 flex items-center justify-center text-[#00B4D8] shrink-0">
+                            <template x-if="previewFile?.type === 'image'">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </template>
+                            <template x-if="previewFile?.type === 'video'">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </template>
+                            <template x-if="previewFile?.type === 'pdf'">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            </template>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="text-white font-black text-sm sm:text-base md:text-lg tracking-tight truncate max-w-[200px] sm:max-w-xs md:max-w-md" x-text="previewFile?.name"></h3>
+                            <p class="text-white/40 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em]" x-text="previewFile?.size"></p>
+                        </div>
+                    </div>
+                    <button type="button" @click="closePreview()" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group shrink-0">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
 
-                <div class="w-full bg-black rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
+                <!-- Content Container -->
+                <div class="w-full bg-black/20 rounded-[1.5rem] sm:rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center relative group/inner min-h-[300px]">
                     <template x-if="previewFile?.type === 'image'">
-                        <img :src="previewFile?.url" class="max-w-full max-h-[80vh] object-contain">
+                        <img :src="previewFile?.url" class="max-w-full max-h-[70vh] object-contain select-none">
                     </template>
                     <template x-if="previewFile?.type === 'video'">
-                        <video :src="previewFile?.url" controls class="max-w-full max-h-[80vh]"></video>
+                        <video :src="previewFile?.url" controls autoplay class="max-w-full max-h-[70vh]"></video>
                     </template>
+                    <template x-if="previewFile?.type === 'pdf'">
+                        <iframe :src="previewFile?.url" class="w-full h-[70vh] border-0 bg-white"></iframe>
+                    </template>
+
+                    <!-- Floating Download Link -->
+                    <a :href="previewFile?.url" target="_blank" class="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 px-4 py-2.5 sm:px-6 sm:py-3 bg-white text-[#03045E] rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-xl hover:bg-[#00B4D8] hover:text-white transition-all opacity-0 group-hover/inner:opacity-100 translate-y-4 group-hover/inner:translate-y-0 flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Unduh Berkas
+                    </a>
                 </div>
             </div>
         </div>
@@ -316,9 +333,6 @@
                         <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#00B4D8]/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                         
                         <div class="relative z-10">
-                            <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-inner">
-                                <svg class="w-7 h-7 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            </div>
                             <h4 class="text-2xl font-black mb-3 tracking-tight">Terverifikasi Resmi</h4>
                             <p class="text-blue-100 text-sm leading-relaxed mb-8 font-medium">
                                 Data warisan budaya ini telah melalui proses verifikasi berjenjang dan dijamin keasliannya oleh sistem VeriCult.
@@ -354,7 +368,7 @@
                                         @if($isImage)
                                             <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110">
                                             <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
-                                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ $file->original_name }}')"
+                                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ addslashes($file->original_name) }}', '{{ $file->file_size_human }}')"
                                                     class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                                 </button>
@@ -362,7 +376,7 @@
                                         @elseif($isVideo)
                                             <video src="{{ $file->url }}" @loadedmetadata="$el.currentTime = 0.1;" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata" muted playsinline></video>
                                             <div class="absolute inset-0 bg-black/20 group-hover/file:bg-black/40 transition-colors flex items-center justify-center">
-                                                <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ $file->original_name }}')"
+                                                <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ addslashes($file->original_name) }}', '{{ $file->file_size_human }}')"
                                                     class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover/file:scale-110 transition-transform border border-white/30">
                                                     <svg class="w-6 h-6 text-white translate-x-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                                                 </button>
