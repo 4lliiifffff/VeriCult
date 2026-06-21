@@ -158,8 +158,8 @@
 <x-layouts.validator>
     <x-slot name="header">
         <div class="relative bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-slate-200/100 border border-slate-100 z-40 group">
-            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-500 rounded-full transition-transform duration-1000 group-hover:scale-110 overflow-hidden"></div>
-            
+            <!-- <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div> -->
+
             <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
                 <div class="space-y-2 sm:space-y-3">
                     <div class="flex items-center gap-2 sm:gap-3">
