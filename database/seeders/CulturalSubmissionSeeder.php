@@ -83,7 +83,7 @@ class CulturalSubmissionSeeder extends Seeder
                         $publishedAt = $status === CulturalSubmission::STATUS_PUBLISHED ? (clone $verifiedAt)->addDays(rand(2, 7)) : null;
 
                         $submission = CulturalSubmission::create([
-                            'user_id' => $pengusul->id,
+                            'user_id' => $pengusulDesa ? $pengusulDesa->id : $pengusul->id,
                             'village_id' => $village->id,
                             'name' => $name,
                             'slug' => Str::slug($name) . '-' . uniqid(),
@@ -118,7 +118,7 @@ class CulturalSubmissionSeeder extends Seeder
                 $publishedAt = $status === CulturalSubmission::STATUS_PUBLISHED ? (clone $verifiedAt)->addDays(rand(2, 7)) : null;
 
                 $submission = CulturalSubmission::create([
-                    'user_id' => $pengusulDesa ? $pengusulDesa->id : $pengusul->id,
+                    'user_id' => ($i % 2 === 0) ? $pengusul->id : ($pengusulDesa ? $pengusulDesa->id : $pengusul->id),
                     'village_id' => $village->id,
                     'name' => $name,
                     'slug' => Str::slug($name) . '-' . uniqid(),

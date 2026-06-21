@@ -152,28 +152,36 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
         ]);
         $categoryFields = CulturalSubmission::getFlatCategoryFields($submission->category, $submission->getSubCategory());
 
+        // Build chronological timeline
         $timeline = collect();
+
+        // 1. Draft Created
         $timeline->push([
             'type' => 'status',
             'status' => CulturalSubmission::STATUS_DRAFT,
             'title' => 'Draf Disimpan',
+            'display_status' => 'Draf',
             'date' => $submission->created_at,
+            'description' => null,
             'icon' => 'draf',
             'color' => 'gray'
         ]);
 
+        // 2. Submitted
         if ($submission->submitted_at) {
             $timeline->push([
                 'type' => 'status',
                 'status' => CulturalSubmission::STATUS_SUBMITTED,
-                'title' => 'Dikirim untuk Review',
+                'title' => 'Pengajuan Dikirim',
+                'display_status' => 'Diajukan',
                 'date' => $submission->submitted_at,
-                'icon' => 'submitted',
+                'description' => null,
+                'icon' => 'diajukan',
                 'color' => 'blue'
             ]);
         }
 
-        // Claimed & Mulai Diproses
+        // 2b. Claimed & Mulai Diproses
         if ($submission->review_started_at && $submission->reviewedBy) {
             $timeline->push([
                 'type' => 'status',
@@ -187,31 +195,82 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             ]);
         }
 
+        // 3. Administrative Reviews
         foreach ($submission->administrativeReviews as $review) {
-            $actionTitles = ['forwarded' => 'Lolos Review Administratif', 'revision' => 'Butuh Revisi', 'rejected' => 'Ditolak'];
+            $actionTitles = [
+                'forwarded' => 'Diteruskan ke Lapangan (Review Administratif)',
+                'revision' => 'Butuh Revisi (Review Administratif)',
+                'rejected' => 'Ditolak (Review Administratif)'
+            ];
+            $actionColors = [
+                'forwarded' => 'indigo',
+                'revision' => 'amber',
+                'rejected' => 'red'
+            ];
             $timeline->push([
                 'type' => 'review',
+                'status' => $review->action,
                 'title' => $actionTitles[$review->action] ?? 'Review Administratif',
                 'date' => $review->created_at,
-                'description' => $review->notes ?? $review->feedback ?? null,
+                'description' => $review->notes,
                 'reviewer' => $review->validator->name ?? 'Validator',
-                'color' => match($review->action) { 'forwarded' => 'indigo', 'revision' => 'amber', 'rejected' => 'red', default => 'gray' }
+                'icon' => $review->action,
+                'color' => $actionColors[$review->action] ?? 'indigo'
             ]);
         }
 
-        foreach ($submission->fieldVerifications as $verification) {
-            $actionTitles = ['verified' => 'Terverifikasi (Cagar Budaya)', 'revision' => 'Butuh Revisi', 'rejected' => 'Ditolak'];
+        // 4. Field Verifications
+        foreach ($submission->fieldVerifications as $review) {
+            $actionTitles = [
+                'verified' => 'Verifikasi Lapangan Disetujui',
+                'revision' => 'Butuh Revisi (Verifikasi Lapangan)',
+                'rejected' => 'Ditolak (Verifikasi Lapangan)'
+            ];
+            $actionColors = [
+                'verified' => 'emerald',
+                'revision' => 'amber',
+                'rejected' => 'red'
+            ];
             $timeline->push([
-                'type' => 'verification',
-                'title' => $actionTitles[$verification->recommendation] ?? 'Verifikasi Lapangan',
-                'date' => $verification->created_at,
-                'description' => $verification->notes ?? $verification->feedback ?? null,
-                'verifier' => $verification->validator->name ?? 'Validator',
-                'color' => match($verification->recommendation) { 'verified' => 'green', 'revision' => 'amber', 'rejected' => 'red', default => 'gray' }
+                'type' => 'review',
+                'status' => $review->recommendation,
+                'title' => $actionTitles[$review->recommendation] ?? 'Verifikasi Lapangan',
+                'date' => $review->created_at,
+                'description' => $review->notes,
+                'verifier' => $review->validator->name ?? 'Validator',
+                'icon' => $review->recommendation,
+                'color' => $actionColors[$review->recommendation] ?? 'emerald'
             ]);
         }
 
-        $timeline = $timeline->sortBy('date');
+        // 5. Publisher / Verified At
+        if ($submission->verified_at) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => CulturalSubmission::STATUS_VERIFIED,
+                'title' => 'Diverifikasi',
+                'date' => $submission->verified_at,
+                'description' => null,
+                'icon' => 'verified',
+                'color' => 'emerald'
+            ]);
+        }
+
+        if ($submission->published_at) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => CulturalSubmission::STATUS_PUBLISHED,
+                'title' => 'Data Diterbitkan',
+                'display_status' => 'Diterbitkan',
+                'date' => $submission->published_at,
+                'description' => null,
+                'icon' => 'diterbitkan',
+                'color' => 'green'
+            ]);
+        }
+
+        // Sort timeline by date ascending
+        $timeline = $timeline->sortBy('date')->values();
 
         return view('pengusul-desa.cagar-budaya-submissions.show', compact('submission', 'categoryFields', 'timeline'));
     }

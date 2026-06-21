@@ -38,6 +38,13 @@
         <!-- Filter Card -->
         <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-10 relative z-30">
             <form action="{{ route('validator.submissions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-submit">
+                <div class="md:col-span-4">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Pencarian</label>
+                    <div class="relative">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Ketik nama kebudayaan, kategori, atau pengusul..." class="w-full bg-slate-50 border border-slate-100 text-[#03045E] text-sm rounded-xl focus:ring-[#00B4D8]/20 focus:border-[#00B4D8] px-4 py-3 pl-11 transition-all font-bold placeholder-slate-400">
+                        <svg class="w-4 h-4 text-slate-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                </div>
                 <div>
                     <x-dropdown-select 
                         name="status" 

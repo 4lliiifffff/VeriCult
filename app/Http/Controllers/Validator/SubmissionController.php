@@ -51,6 +51,17 @@ class SubmissionController extends Controller
             $query->where('reviewed_by', Auth::id());
         }
 
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
         $submissions = $query->latest()->paginate(10)->withQueryString();
 
         return view('validator.submissions.index', compact('submissions'));

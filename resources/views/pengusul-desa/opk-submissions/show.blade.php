@@ -4,7 +4,7 @@
         <nav class="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-2 uppercase tracking-widest">
             <a href="{{ route('pengusul-desa.dashboard') }}" class="hover:text-[#0077B6] transition-colors">Dashboard</a>
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan OPK</a>
+            <a href="{{ route('pengusul-desa.submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Pengajuan Saya</a>
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E] truncate max-w-[150px] sm:max-w-none">{{ $submission->name }}</span>
         </nav>
@@ -42,7 +42,7 @@
                 </div>
                     
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('pengusul-desa.opk-submissions.index') }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-slate-50 text-slate-400 rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#03045E] hover:text-white hover:-translate-x-1 transition-all duration-300 shadow-sm active:scale-95 gap-3">
+                    <a href="{{ route('pengusul-desa.submissions.index') }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-slate-50 text-slate-400 rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#03045E] hover:text-white hover:-translate-x-1 transition-all duration-300 shadow-sm active:scale-95 gap-3">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         <span>Kembali</span>
                     </a>
@@ -410,30 +410,7 @@
                     </div>
                     <div class="p-10 pt-8">
                         <div class="space-y-10">
-                            @forelse($timeline as $event)
-                                <div class="relative pl-10 group/item">
-                                    @if(!$loop->last)
-                                        <div class="absolute left-[7px] top-6 bottom-[-32px] w-px bg-slate-100 group-hover/item:bg-[#0077B6]/30 transition-colors"></div>
-                                    @endif
-                                    <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-white bg-{{ $event['color'] }}-500 shadow-[0_0_0_4px_rgba(var(--bg-{{ $event['color'] }}-500),0.1)] group-hover/item:scale-125 transition-transform"></div>
-                                    <div class="space-y-2">
-                                        <p class="text-xs font-black text-[#03045E] uppercase tracking-tight">{{ $event['title'] }}</p>
-                                        <p class="text-[10px] font-bold text-slate-400 tracking-widest">{{ $event['date']->translatedFormat('d M Y, H:i') }}</p>
-                                        @if($event['description'])
-                                            <div class="mt-3 p-4 rounded-2xl bg-slate-50 border border-slate-100/50 text-[11px] text-slate-600 font-bold leading-relaxed shadow-sm">
-                                                {{ $event['description'] }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="text-center py-10">
-                                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300 border border-slate-100 shadow-inner">
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    </div>
-                                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Belum ada aktivitas</p>
-                                </div>
-                            @endforelse
+                            @include('pengusul-desa.submissions.partials.timeline')
                         </div>
                     </div>
                 </div>

@@ -348,13 +348,13 @@ class SubmissionController extends Controller
             ];
             $timeline->push([
                 'type' => 'review',
-                'status' => $review->action,
-                'title' => $actionTitles[$review->action] ?? 'Verifikasi Lapangan',
+                'status' => $review->recommendation,
+                'title' => $actionTitles[$review->recommendation] ?? 'Verifikasi Lapangan',
                 'date' => $review->created_at,
                 'description' => $review->notes,
                 'verifier' => $review->validator->name ?? 'Validator',
-                'icon' => $review->action,
-                'color' => $actionColors[$review->action] ?? 'emerald'
+                'icon' => $review->recommendation,
+                'color' => $actionColors[$review->recommendation] ?? 'emerald'
             ]);
         }
 

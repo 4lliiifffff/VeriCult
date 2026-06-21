@@ -219,11 +219,11 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             'type' => 'status',
             'status' => CulturalSubmission::STATUS_DRAFT,
             'title' => 'Draf Disimpan',
-            'status' => 'Draf',
-            'icon' => 'draf',
-            'color' => 'gray',
+            'display_status' => 'Draf',
             'date' => $submission->created_at,
             'description' => null,
+            'icon' => 'draf',
+            'color' => 'gray'
         ]);
 
         // 2. Submitted
@@ -231,10 +231,11 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             $timeline->push([
                 'type' => 'status',
                 'status' => CulturalSubmission::STATUS_SUBMITTED,
-                'title' => 'Dikirim untuk Review',
+                'title' => 'Pengajuan Dikirim',
+                'display_status' => 'Diajukan',
                 'date' => $submission->submitted_at,
                 'description' => null,
-                'icon' => 'submitted',
+                'icon' => 'diajukan',
                 'color' => 'blue'
             ]);
         }
@@ -265,59 +266,70 @@ class OPKSubmissionController extends Controller implements HasMiddleware
                 'revision' => 'amber',
                 'rejected' => 'red'
             ];
-
             $timeline->push([
                 'type' => 'review',
-                'action' => $review->action,
+                'status' => $review->action,
                 'title' => $actionTitles[$review->action] ?? 'Review Administratif',
                 'date' => $review->created_at,
-                'description' => $review->notes ?? $review->feedback ?? null,
+                'description' => $review->notes,
                 'reviewer' => $review->validator->name ?? 'Validator',
-                'icon' => 'review',
-                'color' => $actionColors[$review->action] ?? 'gray'
+                'icon' => $review->action,
+                'color' => $actionColors[$review->action] ?? 'indigo'
             ]);
         }
 
         // 4. Field Verifications
-        foreach ($submission->fieldVerifications as $verification) {
+        foreach ($submission->fieldVerifications as $review) {
             $actionTitles = [
-                'verified' => 'Terverifikasi (Verifikasi Lapangan)',
+                'verified' => 'Verifikasi Lapangan Disetujui',
                 'revision' => 'Butuh Revisi (Verifikasi Lapangan)',
                 'rejected' => 'Ditolak (Verifikasi Lapangan)'
             ];
             $actionColors = [
-                'verified' => 'green',
+                'verified' => 'emerald',
                 'revision' => 'amber',
                 'rejected' => 'red'
             ];
-
             $timeline->push([
-                'type' => 'verification',
-                'action' => $verification->action ?? $verification->recommendation ?? null,
-                'title' => $actionTitles[$verification->action ?? $verification->recommendation ?? ''] ?? 'Verifikasi Lapangan',
-                'date' => $verification->created_at,
-                'description' => $verification->notes ?? $verification->feedback ?? null,
-                'verifier' => $verification->validator->name ?? 'Validator',
-                'icon' => 'verification',
-                'color' => $actionColors[$verification->action ?? $verification->recommendation ?? ''] ?? 'gray'
+                'type' => 'review',
+                'status' => $review->recommendation,
+                'title' => $actionTitles[$review->recommendation] ?? 'Verifikasi Lapangan',
+                'date' => $review->created_at,
+                'description' => $review->notes,
+                'verifier' => $review->validator->name ?? 'Validator',
+                'icon' => $review->recommendation,
+                'color' => $actionColors[$review->recommendation] ?? 'emerald'
             ]);
         }
 
-        // 5. Published
-        if ($submission->status === CulturalSubmission::STATUS_PUBLISHED) {
+        // 5. Publisher / Verified At
+        if ($submission->verified_at) {
+            $timeline->push([
+                'type' => 'status',
+                'status' => CulturalSubmission::STATUS_VERIFIED,
+                'title' => 'Diverifikasi',
+                'date' => $submission->verified_at,
+                'description' => null,
+                'icon' => 'verified',
+                'color' => 'emerald'
+            ]);
+        }
+
+        if ($submission->published_at) {
             $timeline->push([
                 'type' => 'status',
                 'status' => CulturalSubmission::STATUS_PUBLISHED,
-                'title' => 'Pengajuan Dikirim',
-                'status' => 'Diajukan',
-                'color' => 'blue',
-                'icon' => 'diajukan',
-                'date' => $submission->updated_at,
+                'title' => 'Data Diterbitkan',
+                'display_status' => 'Diterbitkan',
+                'date' => $submission->published_at,
                 'description' => null,
+                'icon' => 'diterbitkan',
+                'color' => 'green'
             ]);
         }
 
-        $timeline = $timeline->sortBy('date');
+        // Sort timeline by date ascending
+        $timeline = $timeline->sortBy('date')->values();
 
         return view('pengusul-desa.opk-submissions.show', compact(
             'submission',

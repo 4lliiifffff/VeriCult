@@ -59,7 +59,10 @@ class UserSeeder extends Seeder
         $pengusul->assignRole('pengusul');
         \App\Models\PengusulProfile::firstOrCreate(
             ['user_id' => $pengusul->id],
-            ['proposer_type' => 'individu']
+            [
+                'proposer_type' => 'individu',
+                'no_hp' => '081234567890'
+            ]
         );
 
         // 5. Pengusul Desa
@@ -82,6 +85,7 @@ class UserSeeder extends Seeder
                     'village_id' => $village->id,
                     'is_approved_by_admin' => true,
                     'approved_by_admin_at' => now(),
+                    'no_hp' => '089876543210'
                 ]
             );
         }
