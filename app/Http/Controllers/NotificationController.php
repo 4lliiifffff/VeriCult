@@ -15,12 +15,14 @@ class NotificationController extends Controller
         $user = Auth::user();
         $query = $user->notifications();
 
-        // Search Filter
-        if ($request->filled('search')) {
-            $search = strtolower($request->search);
-            $query->where(function ($q) use ($search) {
-                $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.title"))) LIKE ?', ["%{$search}%"])
-                    ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.message"))) LIKE ?', ["%{$search}%"]);
+        // Search Filter — minimum 2 karakter, gunakan generated columns (indexed)
+        // agar tidak terjadi full table scan pada setiap request pencarian.
+        $search = trim($request->input('search', ''));
+        if (strlen($search) >= 2) {
+            $term = '%' . strtolower($search) . '%';
+            $query->where(function ($q) use ($term) {
+                $q->where('notif_title', 'LIKE', $term)
+                  ->orWhere('notif_message', 'LIKE', $term);
             });
         }
 
