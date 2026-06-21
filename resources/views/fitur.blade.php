@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $site_seo['title_fitur'] ?? 'Fitur - VeriCult' }}</title>
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=1.1" type="image/x-icon">
     <meta name="description" content="{{ $site_seo['desc_fitur'] ?? 'Fitur Utama Sistem Verifikasi Kebudayaan Digital VeriCult' }}">
     
     <!-- PWA -->
