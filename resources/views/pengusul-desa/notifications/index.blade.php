@@ -37,11 +37,10 @@
                             </div>
                             <div class="h-3 w-[1px] bg-slate-200"></div>
                             <span
-                                class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">Update
-                                Pengajuan</span>
+                                class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">Notifikasi</span>
                         </div>
                         <h2 class="text-xl sm:text-4xl font-black text-[#03045E] tracking-tight leading-tight">
-                            Pusat <span class="text-[#00B4D8]">Notifikasi</span>
+                            Pesan <span class="text-[#00B4D8]">Sistem</span>
                         </h2>
                     </div>
                 </div>
