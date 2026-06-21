@@ -227,6 +227,8 @@ class CulturalSubmissionSeeder extends Seeder
         $kondisi = ['Baik', 'Rusak Ringan', 'Rusak Sedang', 'Rusak Berat', 'Kurang Terawat', 'Terawat'];
         $etnis = ['Jawa', 'Sunda', 'Madura', 'Bugis', 'Minangkabau', 'Batak', 'Bali', 'Dayak', 'Sasak', 'Melayu'];
 
+        $lokasiLengkap = "Desa " . $village->name . ", Kecamatan " . ($village->kecamatan->name ?? 'Subang');
+
         $baseData = [
             'kecamatan_lokasi' => $village->kecamatan->name ?? 'Subang',
             'desa_lokasi' => $village->name,
@@ -258,12 +260,14 @@ class CulturalSubmissionSeeder extends Seeder
                 'bahasa' => $faker->randomElement(['Jawa Kuno', 'Melayu Kuno', 'Sunda Kuno', 'Arab']),
                 'jumlah' => (string)$faker->numberBetween(1, 10),
                 'satuan' => $faker->randomElement(['Buku', 'Gulungan', 'Lembar']),
+                'nama_tempat' => $lokasiLengkap,
+                'alamat_penyimpanan' => $lokasiLengkap,
             ],
             CulturalSubmission::CATEGORY_RITUS => [
                 'nama_objek' => 'Upacara ' . $faker->words(2, true),
                 'jenis' => $faker->randomElement(['Kelahiran', 'Pernikahan', 'Kematian', 'Panen', 'Tolak Bala']),
                 'etnis' => $faker->randomElement($etnis),
-                'lokasi' => 'Desa ' . $faker->city(),
+                'lokasi' => $lokasiLengkap,
                 'masih_dilaksanakan' => $faker->randomElement(['Ya, secara terbuka', 'Ya, tertutup', 'Jarang', 'Sudah Punah']),
             ],
             CulturalSubmission::CATEGORY_SENI => [
@@ -278,7 +282,7 @@ class CulturalSubmissionSeeder extends Seeder
                 'nama_objek' => 'Adat ' . $faker->words(2, true),
                 'jenis' => $faker->randomElement(['Hukum Adat', 'Sistem Kekerabatan', 'Sistem Ekonomi Tradisional']),
                 'etnis' => $faker->randomElement($etnis),
-                'lokasi' => 'Wilayah ' . $faker->city(),
+                'lokasi' => $lokasiLengkap,
             ],
             CulturalSubmission::CATEGORY_PENGETAHUAN_TRADISIONAL => [
                 'nama_objek' => 'Pengetahuan ' . $faker->words(2, true),
@@ -297,23 +301,27 @@ class CulturalSubmissionSeeder extends Seeder
                 'jenis' => $faker->randomElement(['Ketangkasan', 'Strategi', 'Hiburan']),
                 'peralatan' => $faker->randomElement(['Bambu', 'Kayu', 'Tanpa Alat']),
                 'jumlah_pemain' => (string)$faker->numberBetween(2, 20),
+                'lokasi' => $lokasiLengkap,
             ],
             CulturalSubmission::CATEGORY_OLAHRAGA_TRADISIONAL => [
                 'nama_objek' => 'Olahraga ' . $faker->words(2, true),
                 'jenis' => $faker->randomElement(['Bela Diri', 'Adu Ketangkasan', 'Lomba Fisik']),
                 'peralatan' => $faker->word(),
                 'jumlah_pemain' => (string)$faker->numberBetween(2, 50),
+                'lokasi' => $lokasiLengkap,
             ],
             CulturalSubmission::CATEGORY_CAGAR_BUDAYA => [
                 'jenis_objek' => $faker->randomElement(['Situs Arkeologi', 'Bangunan Bersejarah', 'Benda Purbakala', 'Struktur Cagar Budaya']),
                 'periode_sejarah' => $faker->randomElement($periodes),
                 'kondisi' => $faker->randomElement($kondisi),
                 'bahan_material' => $faker->randomElement(['Batu Andesit', 'Bata Merah', 'Kayu Jati', 'Tanah Liat', 'Logam']),
+                'lokasi_penemuan' => $lokasiLengkap,
             ],
             CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => [
                 'nama_objek' => 'Potensi CB ' . $faker->words(2, true),
                 'perkiraan_zaman' => $faker->randomElement($periodes),
                 'kondisi_saat_ini' => $faker->randomElement($kondisi),
+                'lokasi_penemuan' => $lokasiLengkap,
             ],
             CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => [
                 'kategori_potensi' => $faker->randomElement(['Tenaga Kebudayaan', 'Lembaga Kebudayaan', 'Sarana Prasarana']),
@@ -323,7 +331,7 @@ class CulturalSubmissionSeeder extends Seeder
             default => [
                 'nama_objek' => $category . ' Sample',
                 'etnis' => $faker->randomElement($etnis),
-                'lokasi' => $faker->city(),
+                'lokasi' => $lokasiLengkap,
             ]
         };
 

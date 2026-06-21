@@ -336,8 +336,8 @@
                 </tr>
                 @foreach($kecamatanData->groupBy(fn($sub) => $sub->village?->name ?? 'Tidak Terdata') as $desa => $desaData)
                 <tr>
-                    <td style="padding-left: 30px;">{{ $desa }}</td>
-                    <td style="text-align: center;">-</td>
+                    <td></td>
+                    <td>{{ $desa }}</td>
                     <td style="text-align: center;">{{ $desaData->count() }} Data</td>
                 </tr>
                 @endforeach
