@@ -217,9 +217,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::post('/users/{user}/verify-email', [App\Http\Controllers\Admin\UserController::class, 'verifyEmail'])->name('users.verify-email');
 
         // Cultural Submissions Publication
-        Route::get('/cultural-submissions', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'index'])->name('cultural-submissions.index');
-        Route::get('/cultural-submissions/{submission}', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'show'])->name('cultural-submissions.show');
-        Route::post('/cultural-submissions/{submission}/update-status', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'updateStatus'])->name('cultural-submissions.update-status');
+        Route::get('/cultural-submissions', [App\Http\Controllers\Admin\CulturalSubmissionController::class, 'index'])->name('cultural-submissions.index');
+        Route::get('/cultural-submissions/{submission}', [App\Http\Controllers\Admin\CulturalSubmissionController::class, 'show'])->name('cultural-submissions.show');
+        Route::post('/cultural-submissions/{submission}/update-status', [App\Http\Controllers\Admin\CulturalSubmissionController::class, 'updateStatus'])->name('cultural-submissions.update-status');
 
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\SubmissionNotification;
 
-class OPKSubmissionController extends Controller
+class CulturalSubmissionController extends Controller
 {
     /**
      * Display a listing of OPK submissions.
