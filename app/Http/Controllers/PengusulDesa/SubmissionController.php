@@ -228,7 +228,12 @@ class SubmissionController extends Controller
             'description' => $submissionDescription,
             'category_data' => !empty($categoryData) ? $categoryData : null,
             'status' => CulturalSubmission::STATUS_DRAFT,
-            'submission_type' => $request->input('category') === CulturalSubmission::CATEGORY_LAPORAN_AKTIF ? 'aktif' : 'opk',
+            'submission_type' => match ($request->input('category')) {
+                CulturalSubmission::CATEGORY_LAPORAN_AKTIF => 'aktif',
+                CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'cagar-budaya',
+                CulturalSubmission::CATEGORY_POTENSI_KESENIAN, CulturalSubmission::CATEGORY_POTENSI_RITUAL, CulturalSubmission::CATEGORY_POTENSI_PENGETAHUAN, CulturalSubmission::CATEGORY_POTENSI_TEKNOLOGI => 'potensi-kebudayaan',
+                default => 'opk'
+            },
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : date('Y'),
         ]);
 
@@ -246,15 +251,14 @@ class SubmissionController extends Controller
      */
     public function show(CulturalSubmission $submission)
     {
-        // Handle redirection based on type
+        // Allow handling all types here
+        $viewName = 'pengusul-desa.submissions.show';
         if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul-desa.opk-submissions.show', $submission);
-        }
-        if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission);
-        }
-        if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul-desa.potensi-submissions.show', $submission);
+            $viewName = 'pengusul-desa.opk-submissions.show';
+        } elseif ($submission->submission_type === 'cagar-budaya') {
+            $viewName = 'pengusul-desa.cagar-budaya-submissions.show';
+        } elseif ($submission->submission_type === 'potensi-kebudayaan') {
+            $viewName = 'pengusul-desa.potensi-submissions.show';
         }
 
         $this->authorize('view', $submission);
@@ -389,7 +393,7 @@ class SubmissionController extends Controller
         // Sort timeline by date ascending
         $timeline = $timeline->sortBy('date')->values();
 
-        return view('pengusul-desa.submissions.show', compact('submission', 'categoryFields', 'timeline'));
+        return view($viewName, compact('submission', 'categoryFields', 'timeline'));
     }
 
     /**
@@ -397,15 +401,14 @@ class SubmissionController extends Controller
      */
     public function edit(CulturalSubmission $submission)
     {
-        // Handle redirection based on type
+        // Handle all types
+        $viewName = 'pengusul-desa.submissions.edit';
         if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul-desa.opk-submissions.edit', $submission);
-        }
-        if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul-desa.cagar-budaya-submissions.edit', $submission);
-        }
-        if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul-desa.potensi-submissions.edit', $submission);
+            $viewName = 'pengusul-desa.opk-submissions.edit';
+        } elseif ($submission->submission_type === 'cagar-budaya') {
+            $viewName = 'pengusul-desa.cagar-budaya-submissions.edit';
+        } elseif ($submission->submission_type === 'potensi-kebudayaan') {
+            $viewName = 'pengusul-desa.potensi-submissions.edit';
         }
 
         $this->authorize('update', $submission);
@@ -422,7 +425,7 @@ class SubmissionController extends Controller
 
         $villages = \App\Models\Village::orderBy('name')->get();
 
-        return view('pengusul-desa.submissions.edit', compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription', 'villages'));
+        return view($viewName, compact('submission', 'categorySlug', 'categoryFields', 'categoryDescription', 'villages'));
     }
 
     /**
@@ -601,9 +604,15 @@ class SubmissionController extends Controller
         ]);
 
         // Notify Validators and Super Admins
-        $admins = User::role(['super-admin', 'validator'])->get();
-        $title = 'Pengajuan Baru: ' . $submission->name;
-        $message = 'Objek budaya baru "' . $submission->name . '" telah dikirim oleh ' . Auth::user()->name . ' dan menunggu review.';
+        $typeNames = [
+            'opk' => 'OPK',
+            'cagar-budaya' => 'Cagar Budaya',
+            'potensi-kebudayaan' => 'Potensi Kebudayaan',
+            'aktif' => 'Aktif'
+        ];
+        $typeName = $typeNames[$submission->submission_type] ?? 'Kebudayaan';
+        $title = "Laporan {$typeName} Baru: " . $submission->name;
+        $message = "Laporan {$typeName} \"{$submission->name}\" telah dikirim oleh " . Auth::user()->name . " dan menunggu review.";
         // Don't hardcode URL - let NotificationController route based on role and submission_type
         $url = null;
 

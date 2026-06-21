@@ -6,7 +6,7 @@
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
             <a href="{{ route('pengusul-desa.cagar-budaya-submissions.index') }}" class="hover:text-[#0077B6] transition-colors">Laporan Cagar Budaya</a>
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-            <a href="{{ route('pengusul-desa.cagar-budaya-submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">{{ $submission->name }}</a>
+            <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="hover:text-[#0077B6] transition-colors">{{ $submission->name }}</a>
             <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
             <span class="text-[#03045E]">Ubah Data</span>
         </nav>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('pengusul-desa.cagar-budaya-submissions.show', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-slate-50 text-slate-400 rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#03045E] hover:text-white hover:-translate-x-1 transition-all duration-300 shadow-sm active:scale-95 gap-3">
+                    <a href="{{ route('pengusul-desa.submissions.show', $submission) }}" class="inline-flex items-center justify-center px-8 py-4 sm:py-5 bg-slate-50 text-slate-400 rounded-2xl font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-[#03045E] hover:text-white hover:-translate-x-1 transition-all duration-300 shadow-sm active:scale-95 gap-3">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         <span>Batal</span>
                     </a>
@@ -59,13 +59,13 @@
             <div class="lg:col-span-8 space-y-12">
                 <div class="bg-white rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl shadow-slate-200/50 border border-white overflow-hidden group/form transition-all duration-700">
                     <div class="p-8 sm:p-14">
-                        <form action="{{ route('pengusul-desa.cagar-budaya-submissions.update', $submission) }}" method="POST" enctype="multipart/form-data" x-ref="editForm" @submit.prevent="openConfirm()">
+                        <form action="{{ route('pengusul-desa.submissions.update', $submission) }}" method="POST" enctype="multipart/form-data" x-ref="editForm" @submit.prevent="openConfirm()">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="category" value="Cagar Budaya">
                             <input type="hidden" name="address" value="{{ $submission->address }}">
                             
-                            @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => 'Cagar Budaya', 'submission' => $submission, 'fileDestroyRoute' => 'pengusul-desa.cagar-budaya-submissions.files.destroy', 'hideUnesco' => true])
+                            @include('pengusul-desa.submissions.partials.form', ['categoryFields' => $categoryFields, 'categoryName' => 'Cagar Budaya', 'submission' => $submission, 'fileDestroyRoute' => 'pengusul-desa.submissions.files.destroy', 'hideUnesco' => true])
 
                             <div class="mt-16 pt-10 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-8">
                                 <div class="flex items-center gap-4 bg-slate-50 px-6 py-4 rounded-[1.5rem] border border-slate-100">

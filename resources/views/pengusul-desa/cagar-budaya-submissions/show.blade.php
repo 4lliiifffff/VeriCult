@@ -241,7 +241,7 @@
                                         </div>
                                     </div>
                                     @if($submission->status === \App\Models\CulturalSubmission::STATUS_REVISION)
-                                        <a href="{{ route('pengusul-desa.cagar-budaya-submissions.edit', $submission) }}"
+                                        <a href="{{ route('pengusul-desa.submissions.edit', $submission) }}"
                                             class="inline-flex items-center justify-center px-8 py-4 bg-white {{ $submission->status === \App\Models\CulturalSubmission::STATUS_REVISION ? 'text-amber-600 border-amber-100 hover:bg-amber-50' : 'text-rose-600 border-rose-100 hover:bg-rose-50' }} border-2 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-sm active:scale-95 gap-3 group/btn">
                                             <span>Perbaiki Sekarang</span>
                                             <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none"
@@ -527,7 +527,7 @@
 
                         <div class="grid grid-cols-1 gap-5">
                             @if($submission->isEditable())
-                                <a href="{{ route('pengusul-desa.cagar-budaya-submissions.edit', $submission) }}"
+                                <a href="{{ route('pengusul-desa.submissions.edit', $submission) }}"
                                     class="flex items-center justify-center gap-4 w-full px-8 py-5 rounded-2xl bg-slate-50 border-2 border-slate-100 text-[#03045E] font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-[#0077B6] hover:text-[#0077B6] hover:shadow-xl hover:shadow-blue-500/10 transition-all active:scale-[0.98]">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -537,7 +537,7 @@
                                     Perbarui Data
                                 </a>
 
-                                <form action="{{ route('pengusul-desa.cagar-budaya-submissions.submit', $submission) }}"
+                                <form action="{{ route('pengusul-desa.submissions.submit', $submission) }}"
                                     method="POST">
                                     @csrf
                                     <button type="submit" @click="submitting = true"
@@ -583,7 +583,7 @@
                                                 Batal
                                             </button>
                                             <form
-                                                action="{{ route('pengusul-desa.cagar-budaya-submissions.destroy', $submission) }}"
+                                                action="{{ route('pengusul-desa.submissions.destroy', $submission) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')

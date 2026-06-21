@@ -47,7 +47,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             ->paginate(10)
             ->withQueryString();
 
-        return view('pengusul-desa.opk-submissions.index', compact('submissions'));
+        return view('pengusul-desa.submissions.index', compact('submissions'));
     }
 
     /**
@@ -187,7 +187,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             $this->handleFileUploads($submission, $request->file('files'));
         }
 
-        return redirect()->route('pengusul-desa.opk-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Draft laporan OPK berhasil dibuat.');
     }
 
@@ -331,7 +331,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
         // Sort timeline by date ascending
         $timeline = $timeline->sortBy('date')->values();
 
-        return view('pengusul-desa.opk-submissions.show', compact(
+        return view('pengusul-desa.submissions.show', compact(
             'submission',
             'categoryFields',
             'timeline'
@@ -458,7 +458,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : ($submission->period_year ?? date('Y')),
         ]);
 
-        return redirect()->route('pengusul-desa.opk-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Laporan OPK berhasil diperbarui.');
     }
 
@@ -481,7 +481,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
 
         $submission->delete();
 
-        return redirect()->route('pengusul-desa.opk-submissions.index')
+        return redirect()->route('pengusul-desa.submissions.index')
             ->with('success', 'Laporan OPK berhasil dihapus.');
     }
 
@@ -517,7 +517,7 @@ class OPKSubmissionController extends Controller implements HasMiddleware
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
         }
 
-        return redirect()->route('pengusul-desa.opk-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Laporan OPK telah dikirim untuk ditinjau.');
     }
 

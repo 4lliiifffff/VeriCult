@@ -42,7 +42,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             ->paginate(10)
             ->withQueryString();
 
-        return view('pengusul-desa.potensi-submissions.index', compact('submissions'));
+        return view('pengusul-desa.submissions.index', compact('submissions'));
     }
 
     /**
@@ -129,7 +129,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             $this->handleFileUploads($submission, $request->file('files'));
         }
 
-        return redirect()->route('pengusul-desa.potensi-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Draft Potensi Kebudayaan berhasil dibuat.');
     }
 
@@ -271,7 +271,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
         // Sort timeline by date ascending
         $timeline = $timeline->sortBy('date')->values();
 
-        return view('pengusul-desa.potensi-submissions.show', compact('submission', 'categoryFields', 'timeline'));
+        return view('pengusul-desa.submissions.show', compact('submission', 'categoryFields', 'timeline'));
     }
 
     /**
@@ -364,7 +364,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : $submission->period_year,
         ]);
 
-        return redirect()->route('pengusul-desa.potensi-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Potensi Kebudayaan berhasil diperbarui.');
     }
 
@@ -380,7 +380,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
         $this->authorize('delete', $submission);
         $submission->delete();
 
-        return redirect()->route('pengusul-desa.potensi-submissions.index')
+        return redirect()->route('pengusul-desa.submissions.index')
             ->with('success', 'Laporan Potensi Kebudayaan berhasil dihapus.');
     }
 
@@ -415,7 +415,7 @@ class PotensiSubmissionController extends Controller implements HasMiddleware
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
         }
 
-        return redirect()->route('pengusul-desa.potensi-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Laporan Potensi Kebudayaan telah dikirim untuk ditinjau.');
     }
 

@@ -112,12 +112,9 @@ class SubmissionController extends Controller
         // Notify the Pengusul
         $title = 'Pengajuan Diproses';
         $message = 'Pengajuan "' . $submission->name . '" Anda sedang ditinjau oleh Validator.';
-        // Determine the correct redirect URL based on category
-        $routeName = match($submission->category) {
-            CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'pengusul-desa.cagar-budaya-submissions.show',
-            CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => 'pengusul-desa.potensi-submissions.show',
-            default => 'pengusul-desa.submissions.show',
-        };
+        // Determine the correct redirect URL based on user role
+        $prefix = $submission->user->hasRole('pengusul') ? 'pengusul' : 'pengusul-desa';
+        $routeName = "{$prefix}.submissions.show";
         
         $url = route($routeName, $submission);
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
@@ -236,12 +233,9 @@ class SubmissionController extends Controller
             $title = $actionTitles[$request->action] ?? 'Update Review';
             $message = 'Hasil Review Administratif untuk "' . $submission->name . '" telah diperbarui.';
             
-            // Determine the correct redirect URL based on category
-            $routeName = match($submission->category) {
-                CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'pengusul-desa.cagar-budaya-submissions.show',
-                CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => 'pengusul-desa.potensi-submissions.show',
-                default => 'pengusul-desa.submissions.show',
-            };
+            // Determine the correct redirect URL based on user role
+            $prefix = $submission->user->hasRole('pengusul') ? 'pengusul' : 'pengusul-desa';
+            $routeName = "{$prefix}.submissions.show";
             
             $url = route($routeName, $submission);
             
@@ -389,12 +383,9 @@ class SubmissionController extends Controller
             $title = $actionTitles[$request->recommendation] ?? 'Update Verifikasi';
             $message = 'Hasil Verifikasi Lapangan untuk "' . $submission->name . '" telah diperbarui.';
             
-            // Determine the correct redirect URL based on category
-            $routeName = match($submission->category) {
-                CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'pengusul-desa.cagar-budaya-submissions.show',
-                CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => 'pengusul-desa.potensi-submissions.show',
-                default => 'pengusul-desa.submissions.show',
-            };
+            // Determine the correct redirect URL based on user role
+            $prefix = $submission->user->hasRole('pengusul') ? 'pengusul' : 'pengusul-desa';
+            $routeName = "{$prefix}.submissions.show";
             
             $url = route($routeName, $submission);
             
@@ -446,12 +437,9 @@ class SubmissionController extends Controller
         $title = 'Pengajuan Dipublikasikan!';
         $message = 'Selamat! Objek budaya "' . $submission->name . '" telah resmi dipublikasikan.';
         
-        // Determine the correct redirect URL based on category
-        $routeName = match($submission->category) {
-            CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'pengusul-desa.cagar-budaya-submissions.show',
-            CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => 'pengusul-desa.potensi-submissions.show',
-            default => 'pengusul-desa.submissions.show',
-        };
+        // Determine the correct redirect URL based on user role
+        $prefix = $submission->user->hasRole('pengusul') ? 'pengusul' : 'pengusul-desa';
+        $routeName = "{$prefix}.submissions.show";
             
         $url = route($routeName, $submission);
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'success', $submission->id));
@@ -496,12 +484,9 @@ class SubmissionController extends Controller
         $title = 'Publikasi Pengajuan Ditarik';
         $message = 'Validator telah menarik objek budaya "' . $submission->name . '" dari halaman publik.';
         
-        // Determine the correct redirect URL based on category
-        $routeName = match($submission->category) {
-            CulturalSubmission::CATEGORY_CAGAR_BUDAYA, CulturalSubmission::CATEGORY_POTENSI_CAGAR_BUDAYA => 'pengusul-desa.cagar-budaya-submissions.show',
-            CulturalSubmission::CATEGORY_POTENSI_KEBUDAYAAN => 'pengusul-desa.potensi-submissions.show',
-            default => 'pengusul-desa.submissions.show',
-        };
+        // Determine the correct redirect URL based on user role
+        $prefix = $submission->user->hasRole('pengusul') ? 'pengusul' : 'pengusul-desa';
+        $routeName = "{$prefix}.submissions.show";
             
         $url = route($routeName, $submission);
         $submission->user->notify(new SubmissionNotification($title, $message, $url, 'warning', $submission->id));

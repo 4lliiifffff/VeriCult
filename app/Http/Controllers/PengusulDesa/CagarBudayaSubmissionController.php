@@ -42,7 +42,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             ->paginate(10)
             ->withQueryString();
 
-        return view('pengusul-desa.cagar-budaya-submissions.index', compact('submissions'));
+        return view('pengusul-desa.submissions.index', compact('submissions'));
     }
 
     /**
@@ -130,7 +130,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             $this->handleFileUploads($submission, $request->file('files'));
         }
 
-        return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Draft potensi Cagar Budaya berhasil dibuat.');
     }
 
@@ -272,7 +272,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
         // Sort timeline by date ascending
         $timeline = $timeline->sortBy('date')->values();
 
-        return view('pengusul-desa.cagar-budaya-submissions.show', compact('submission', 'categoryFields', 'timeline'));
+        return view('pengusul-desa.submissions.show', compact('submission', 'categoryFields', 'timeline'));
     }
 
     /**
@@ -355,7 +355,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             'period_year' => !empty($validated['period_year']) ? date('Y', strtotime($validated['period_year'])) : $submission->period_year,
         ]);
 
-        return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Potensi Cagar Budaya berhasil diperbarui.');
     }
 
@@ -371,7 +371,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
         $this->authorize('delete', $submission);
         $submission->delete();
 
-        return redirect()->route('pengusul-desa.cagar-budaya-submissions.index')
+        return redirect()->route('pengusul-desa.submissions.index')
             ->with('success', 'Laporan potensi Cagar Budaya berhasil dihapus.');
     }
 
@@ -406,7 +406,7 @@ class CagarBudayaSubmissionController extends Controller implements HasMiddlewar
             $admin->notify(new SubmissionNotification($title, $message, $url, 'info', $submission->id));
         }
 
-        return redirect()->route('pengusul-desa.cagar-budaya-submissions.show', $submission)
+        return redirect()->route('pengusul-desa.submissions.show', $submission)
             ->with('success', 'Laporan potensi Cagar Budaya telah dikirim untuk ditinjau.');
     }
 

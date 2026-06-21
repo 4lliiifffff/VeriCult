@@ -76,7 +76,7 @@ class SubmissionController extends Controller
         }
 
         // Regular Pengusul shouldn't access other categories directly anymore
-        if (!Auth::user()->hasRole('pengusul')) {
+        if ($category !== 'laporan-kebudayaan-aktif') {
             return redirect()->route('pengusul.submissions.create-form', 'laporan-kebudayaan-aktif');
         }
 
@@ -246,16 +246,7 @@ class SubmissionController extends Controller
      */
     public function show(CulturalSubmission $submission)
     {
-        // Handle redirection based on type
-        if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul.opk-submissions.show', $submission);
-        }
-        if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul.cagar-budaya-submissions.show', $submission);
-        }
-        if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul.dashboard')->with('error', 'Akses tidak diizinkan.');
-        }
+        // Use the unified view for all submission types
 
         $this->authorize('view', $submission);
 
@@ -397,16 +388,7 @@ class SubmissionController extends Controller
      */
     public function edit(CulturalSubmission $submission)
     {
-        // Handle redirection based on type
-        if ($submission->submission_type === 'opk') {
-            return redirect()->route('pengusul.opk-submissions.edit', $submission);
-        }
-        if ($submission->submission_type === 'cagar-budaya') {
-            return redirect()->route('pengusul.cagar-budaya-submissions.edit', $submission);
-        }
-        if ($submission->submission_type === 'potensi-kebudayaan') {
-            return redirect()->route('pengusul.dashboard')->with('error', 'Akses tidak diizinkan.');
-        }
+        // Use the unified view for all submission types
 
         $this->authorize('update', $submission);
 

@@ -127,10 +127,6 @@ Route::middleware(['auth', 'verified', 'role:super-admin'])->prefix('super-admin
 
 
 
-Route::middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
-    Route::post('/users/{user}/suspend', [SuperAdminController::class, 'suspend'])->name('users.suspend');
-    Route::post('/users/{user}/unsuspend', [SuperAdminController::class, 'unsuspend'])->name('users.unsuspend');
-});
 
 Route::middleware(['auth', 'verified', 'role:validator'])
     ->prefix('validator')

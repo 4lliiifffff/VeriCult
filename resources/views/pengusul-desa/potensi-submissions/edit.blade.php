@@ -55,7 +55,7 @@
         <div class="lg:col-span-8 space-y-12">
             <div class="bg-white rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl shadow-slate-200/50 border border-white overflow-hidden">
                 <div class="p-8 sm:p-14">
-                    <form action="{{ route('pengusul-desa.potensi-submissions.update', $submission) }}" 
+                    <form action="{{ route('pengusul-desa.submissions.update', $submission) }}" 
                         method="POST" 
                         enctype="multipart/form-data" 
                         x-ref="mainForm" 
