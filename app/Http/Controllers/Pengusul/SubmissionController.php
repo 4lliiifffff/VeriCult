@@ -37,6 +37,11 @@ class SubmissionController extends Controller
             $query->where('submission_type', $request->query('type'));
         }
 
+        // Status filter
+        if ($request->filled('status') && $request->query('status') !== 'all') {
+            $query->where('status', $request->query('status'));
+        }
+
         $submissions = $query->latest()
             ->paginate(10)
             ->withQueryString();

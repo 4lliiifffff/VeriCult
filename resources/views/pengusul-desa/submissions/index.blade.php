@@ -83,49 +83,72 @@
         </div>
 
         <!-- Filter & Search Bar -->
-        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white space-y-6 sm:space-y-8">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div class="relative flex-1 max-w-2xl group">
-                    <form action="{{ route('pengusul-desa.submissions.index') }}" method="GET">
-                        @if(request('type'))
-                            <input type="hidden" name="type" value="{{ request('type') }}">
-                        @endif
-                        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-slate-400 group-focus-within:text-[#0077B6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        <input type="text" name="search" value="{{ request('search') }}" 
-                               placeholder="Cari nama pengajuan, alamat, atau kategori..." 
-                               class="w-full pl-14 pr-32 py-4 bg-slate-50 border-2 border-transparent rounded-2xl text-sm font-medium focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-blue-500/5 transition-all outline-none">
-                        <button type="submit" class="absolute right-3 top-2.5 px-6 py-2 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#0077B6] transition-colors shadow-lg">Cari</button>
-                    </form>
+        <div class="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-200/30 border border-white">
+            <form action="{{ route('pengusul-desa.submissions.index') }}" method="GET" class="space-y-4">
+                <!-- Baris 1: Cari -->
+                <div class="relative w-full group">
+                    <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-slate-400 group-focus-within:text-[#0077B6] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                           placeholder="Cari nama pengajuan, alamat, atau kategori..." 
+                           class="w-full pl-14 pr-4 py-4 bg-slate-50 border-2 border-transparent rounded-2xl text-sm font-medium focus:bg-white focus:border-[#0077B6] focus:ring-4 focus:ring-blue-500/5 transition-all outline-none">
                 </div>
 
-                <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
-                    @php
-                        $currentType = request('type', 'all');
-                        $types = [
-                            'all' => ['label' => 'Semua', 'color' => 'slate'],
-                            'aktif' => ['label' => 'Aktif', 'color' => 'blue'],
-                            'opk' => ['label' => 'OPK', 'color' => 'indigo'],
-                            'cagar-budaya' => ['label' => 'Cagar Budaya', 'color' => 'amber'],
-                            'potensi-kebudayaan' => ['label' => 'Potensi', 'color' => 'emerald'],
-                        ];
-                    @endphp
+                <!-- Baris 2: Filter -->
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <div class="w-full sm:w-2/5">
+                        <x-dropdown-select
+                            name="type"
+                            id="type"
+                            placeholder="Semua Jenis Kebudayaan"
+                            variant="light"
+                            :selected="request('type', 'all')"
+                            :options="[
+                                'all' => 'Semua Jenis Kebudayaan',
+                                'aktif' => 'Laporan Aktif',
+                                'opk' => 'OPK',
+                                'cagar-budaya' => 'Cagar Budaya',
+                                'potensi-kebudayaan' => 'Potensi Budaya'
+                            ]"
+                        />
+                    </div>
+                    
+                    <div class="w-full sm:w-2/5">
+                        <x-dropdown-select
+                            name="status"
+                            id="status"
+                            placeholder="Semua Status Pengajuan"
+                            variant="light"
+                            :selected="request('status', 'all')"
+                            :options="[
+                                'all' => 'Semua Status Pengajuan',
+                                'draf' => 'Draf',
+                                'diajukan' => 'Diajukan',
+                                'tinjauan_administratif' => 'Review Administratif',
+                                'verifikasi_lapangan' => 'Verifikasi Lapangan',
+                                'diverifikasi' => 'Diverifikasi',
+                                'diterbitkan' => 'Dipublikasikan',
+                                'revisi' => 'Butuh Revisi',
+                                'ditolak' => 'Ditolak'
+                            ]"
+                        />
+                    </div>
 
-                    @foreach($types as $key => $type)
-                        <a href="{{ route('pengusul-desa.submissions.index', array_merge(request()->query(), ['type' => $key])) }}" 
-                           @class([
-                               'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shrink-0 border-2',
-                               'bg-[#03045E] text-white border-[#03045E] shadow-lg shadow-blue-900/20' => $currentType === $key,
-                               'bg-white text-slate-400 border-slate-100 hover:border-[#0077B6] hover:text-[#0077B6]' => $currentType !== $key,
-                           ])>
-                            {{ $type['label'] }}
+                    <div class="w-full sm:w-1/5 flex gap-2">
+                        <button type="submit" class="flex-1 px-4 py-4 bg-[#03045E] text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#0077B6] transition-colors shadow-lg shadow-blue-900/20 text-center">
+                            Terapkan
+                        </button>
+                        @if(request()->hasAny(['search', 'type', 'status']) && (request('type') != 'all' || request('status') != 'all' || request('search') != ''))
+                        <a href="{{ route('pengusul-desa.submissions.index') }}" class="flex-none px-4 py-4 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-red-100 transition-colors shadow-inner flex items-center justify-center">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </a>
-                    @endforeach
+                        @endif
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- Submissions Table Card -->
@@ -135,7 +158,13 @@
                     <h3 class="text-xl sm:text-2xl font-black text-[#03045E]">Riwayat Pengajuan</h3>
                     <p class="text-slate-400 font-medium text-xs sm:text-sm mt-1 uppercase tracking-widest">
                         @if(request('type') && request('type') !== 'all')
-                            Kategori: {{ $types[request('type')]['label'] }}
+                            Kategori: {{ match(request('type')) {
+                                'aktif' => 'Laporan Aktif',
+                                'opk' => 'OPK',
+                                'cagar-budaya' => 'Cagar Budaya',
+                                'potensi-kebudayaan' => 'Potensi Budaya',
+                                default => 'Semua'
+                            } }}
                         @else
                             Seluruh Jenis Inventarisasi
                         @endif
