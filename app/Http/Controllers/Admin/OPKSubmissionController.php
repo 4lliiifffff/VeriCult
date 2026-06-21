@@ -43,7 +43,7 @@ class OPKSubmissionController extends Controller
             CulturalSubmission::STATUS_PUBLISHED,
         ];
 
-        return view('admin.opk-submissions.index', compact('submissions', 'categories', 'statuses'));
+        return view('admin.cultural-submissions.index', compact('submissions', 'categories', 'statuses'));
     }
 
     /**
@@ -52,7 +52,7 @@ class OPKSubmissionController extends Controller
     public function show(CulturalSubmission $submission)
     {
         $submission->load(['user', 'files', 'reviewedBy', 'administrativeReviews', 'fieldVerifications']);
-        return view('admin.opk-submissions.show', compact('submission'));
+        return view('admin.cultural-submissions.show', compact('submission'));
     }
 
     /**

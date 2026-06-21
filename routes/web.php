@@ -216,10 +216,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::post('/users/{user}/unsuspend', [App\Http\Controllers\Admin\UserController::class, 'unsuspend'])->name('users.unsuspend');
         Route::post('/users/{user}/verify-email', [App\Http\Controllers\Admin\UserController::class, 'verifyEmail'])->name('users.verify-email');
 
-        // OPK Submissions Publication
-        Route::get('/opk-submissions', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'index'])->name('opk-submissions.index');
-        Route::get('/opk-submissions/{submission}', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'show'])->name('opk-submissions.show');
-        Route::post('/opk-submissions/{submission}/update-status', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'updateStatus'])->name('opk-submissions.update-status');
+        // Cultural Submissions Publication
+        Route::get('/cultural-submissions', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'index'])->name('cultural-submissions.index');
+        Route::get('/cultural-submissions/{submission}', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'show'])->name('cultural-submissions.show');
+        Route::post('/cultural-submissions/{submission}/update-status', [App\Http\Controllers\Admin\OPKSubmissionController::class, 'updateStatus'])->name('cultural-submissions.update-status');
 
         // Notifications
         Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');

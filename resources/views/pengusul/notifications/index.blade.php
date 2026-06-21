@@ -19,7 +19,7 @@
                     <div class="space-y-1 sm:space-y-2">
                         <div class="flex items-center gap-2 sm:gap-3">
                             <div class="px-2.5 py-1 rounded-full text-[7px] sm:text-[10px] font-black tracking-[0.2em] uppercase bg-blue-50 text-[#0077B6] border border-blue-100">
-                                Proposer Portal
+                                Pusat Notifikasi
                             </div>
                             <div class="h-3 w-[1px] bg-slate-200"></div>
                             <span class="text-slate-400 text-[7px] sm:text-[10px] font-bold uppercase tracking-widest">Update Pengajuan</span>

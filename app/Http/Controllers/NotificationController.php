@@ -18,9 +18,9 @@ class NotificationController extends Controller
         // Search Filter
         if ($request->filled('search')) {
             $search = strtolower($request->search);
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.title"))) LIKE ?', ["%{$search}%"])
-                  ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.message"))) LIKE ?', ["%{$search}%"]);
+                    ->orWhereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(data, "$.message"))) LIKE ?', ["%{$search}%"]);
             });
         }
 
@@ -103,7 +103,7 @@ class NotificationController extends Controller
                 // Route admin to appropriate submission view based on type
                 if ($submission) {
                     if ($submission->submission_type === 'opk') {
-                        return redirect()->route('admin.opk-submissions.show', $submissionId);
+                        return redirect()->route('admin.cultural-submissions.show', $submissionId);
                     }
                     // For other types, let them view in super-admin or use default
                 }
