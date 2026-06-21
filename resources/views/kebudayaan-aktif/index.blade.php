@@ -54,11 +54,11 @@
             <div class="mt-10 flex flex-wrap items-center justify-center gap-4 reveal reveal-up" style="transition-delay: 300ms;">
                 <div class="bg-white rounded-2xl border border-blue-100 px-8 py-4 shadow-sm shadow-blue-500/5 text-center">
                     <div class="text-3xl font-black text-[#03045E]">{{ $totalCount }}</div>
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Kebudayaan Aktif</div>
+                    <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Total Kebudayaan Aktif</div>
                 </div>
                 <div class="bg-white rounded-2xl border border-blue-100 px-8 py-4 shadow-sm shadow-blue-500/5 text-center">
                     <div class="text-3xl font-black text-[#03045E]">{{ $kecamatans->count() }}</div>
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Kecamatan Terlibat</div>
+                    <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Kecamatan Terlibat</div>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
                                placeholder="Cari nama kebudayaan, lokasi..."
                                class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl pl-10 pr-4 py-3.5 text-sm font-bold text-slate-600 focus:bg-white focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#00B4D8] transition-all outline-none">
                     </div>
-                    <button type="submit" class="bg-[#03045E] text-white rounded-2xl px-5 py-3.5 text-[11px] font-black uppercase tracking-widest hover:bg-[#0077B6] transition-all active:scale-95 whitespace-nowrap md:hidden flex items-center justify-center shrink-0">
+                    <button type="submit" aria-label="Cari" class="bg-[#03045E] text-white rounded-2xl px-5 py-3.5 text-[11px] font-black uppercase tracking-widest hover:bg-[#0077B6] transition-all active:scale-95 whitespace-nowrap md:hidden flex items-center justify-center shrink-0">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </button>
                 </div>

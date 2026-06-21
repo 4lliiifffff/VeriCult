@@ -10,7 +10,7 @@
             <div class="flex items-center">
                 <a href="{{ route('beranda') }}" class="flex items-center space-x-3 group">
                     <div class="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                        <img class="w-8 h-9" src="{{ asset('Logo/Dinas/Logo-Dinas.png') }}" alt="Logo VeriCult">
+                        <img class="w-8 h-9" src="{{ asset('Logo/Dinas/Logo-Dinas.png') }}?v=1.1" alt="Logo VeriCult" fetchpriority="high">
                     </div>
 
                     <!-- <div class="w-9 h-9 bg-brand-dark rounded-lg flex items-center justify-center shadow-md shadow-brand-primary/20 group-hover:scale-105 transition-transform duration-300">

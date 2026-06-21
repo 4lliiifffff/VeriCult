@@ -186,7 +186,7 @@
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 {{ $videos->count() > 2 ? 'sm:grid-cols-3' : '' }} gap-3 sm:gap-4">
                     @foreach($videos as $vid)
-                    <button type="button"
+                    <button type="button" aria-label="Lihat Video"
                         @click="openPreview('{{ $vid->url }}', 'video', '{{ addslashes($vid->original_name) }}', '{{ $vid->file_size_human }}')"
                         class="group relative overflow-hidden rounded-xl sm:rounded-2xl aspect-video bg-slate-900 block w-full focus:outline-none">
                         <video src="{{ $vid->url }}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" muted playsinline preload="metadata"></video>
@@ -319,7 +319,7 @@
                             <p class="text-white/40 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em]" x-text="previewFile?.size"></p>
                         </div>
                     </div>
-                    <button type="button" @click="closePreview()" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group shrink-0">
+                    <button type="button" @click="closePreview()" aria-label="Tutup Pratinjau" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group shrink-0">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>

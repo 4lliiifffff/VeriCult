@@ -45,10 +45,10 @@
     <body class="antialiased text-slate-900 auth-bg">
         <div class="min-h-screen flex flex-col items-center justify-center p-6 sm:p-12">
             <!-- Logo Section -->
-            <div class="mb-12 text-center reveal" id="auth-logo">
+            <div class="mb-12 text-center" id="auth-logo">
                 <a href="/" class="inline-flex flex-col items-center gap-4 group">
                     <div class="w-16 h-16 bg-[#03045E] rounded-2xl flex items-center justify-center shadow-2xl shadow-blue-900/20 group-hover:scale-110 transition-transform duration-500">
-                        <img class="w-12 h-12" src="{{ asset('Logo/Putih/Logo-Sistem-W.png') }}" alt="Logo VeriCult">
+                        <img class="w-12 h-12" src="{{ asset('Logo/Putih/Logo-Sistem-W.png') }}" alt="Logo VeriCult" fetchpriority="high">
                     </div>
                     <h1 class="text-3xl font-bold text-[#03045E] tracking-tight">Veri<span class="text-[#0077B6]">Cult</span></h1>
                 </a>
@@ -78,12 +78,9 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
-                    document.getElementById('auth-logo').classList.add('reveal-visible');
-                }, 100);
-                setTimeout(() => {
                     document.getElementById('auth-card').classList.add('reveal-visible');
                     document.getElementById('auth-card').style.transform = 'translateY(0)';
-                }, 300);
+                }, 100);
             });
         </script>
         <style>

@@ -73,7 +73,7 @@
                             <p class="text-white/40 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em]" x-text="previewFile?.size"></p>
                         </div>
                     </div>
-                    <button type="button" @click="closePreview()" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group shrink-0">
+                    <button type="button" @click="closePreview()" aria-label="Tutup Pratinjau" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 text-white/50 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all group shrink-0">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
@@ -368,7 +368,7 @@
                                         @if($isImage)
                                             <img src="{{ $file->url }}" alt="{{ $file->original_name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110">
                                             <div class="absolute inset-0 bg-black/0 group-hover/file:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover/file:opacity-100">
-                                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ addslashes($file->original_name) }}', '{{ $file->file_size_human }}')"
+                                                <button type="button" @click="openPreview('{{ $file->url }}', 'image', '{{ addslashes($file->original_name) }}', '{{ $file->file_size_human }}')" aria-label="Lihat Gambar"
                                                     class="w-12 h-12 rounded-2xl bg-white text-[#03045E] shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
                                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                                 </button>
@@ -376,7 +376,7 @@
                                         @elseif($isVideo)
                                             <video src="{{ $file->url }}" @loadedmetadata="$el.currentTime = 0.1;" class="w-full h-full object-cover transition-transform duration-700 group-hover/file:scale-110" preload="metadata" muted playsinline></video>
                                             <div class="absolute inset-0 bg-black/20 group-hover/file:bg-black/40 transition-colors flex items-center justify-center">
-                                                <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ addslashes($file->original_name) }}', '{{ $file->file_size_human }}')"
+                                                <button type="button" @click="openPreview('{{ $file->url }}', 'video', '{{ addslashes($file->original_name) }}', '{{ $file->file_size_human }}')" aria-label="Lihat Video"
                                                     class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover/file:scale-110 transition-transform border border-white/30">
                                                     <svg class="w-6 h-6 text-white translate-x-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                                                 </button>

@@ -119,8 +119,10 @@
                                 >
                                 <!-- Clear Button -->
                                 <button
+                                    type="button"
                                     x-show="categorySearch"
                                     @click="categorySearch = ''"
+                                    aria-label="Bersihkan pencarian"
                                     class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600"
                                     style="display: none;"
                                 >
