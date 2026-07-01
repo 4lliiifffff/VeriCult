@@ -13,14 +13,25 @@ Route::get('/', function () {
         return redirect('/');
     }
 
-    $stats = [
-        'total' => \App\Models\CulturalSubmission::whereIn('status', [\App\Models\CulturalSubmission::STATUS_PUBLISHED, \App\Models\CulturalSubmission::STATUS_VERIFIED])->count(),
-        \App\Models\CulturalSubmission::STATUS_PUBLISHED => \App\Models\CulturalSubmission::published()->count(),
-        'users' => \App\Models\User::role('pengusul')->count(),
-        'pending' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_SUBMITTED)->count(),
-        'revision' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_REVISION)->count(),
-        'validators' => \App\Models\User::role('validator')->count(),
-    ];
+    try {
+        $stats = [
+            'total' => \App\Models\CulturalSubmission::whereIn('status', [\App\Models\CulturalSubmission::STATUS_PUBLISHED, \App\Models\CulturalSubmission::STATUS_VERIFIED])->count(),
+            \App\Models\CulturalSubmission::STATUS_PUBLISHED => \App\Models\CulturalSubmission::published()->count(),
+            'users' => \App\Models\User::role('pengusul')->count(),
+            'pending' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_SUBMITTED)->count(),
+            'revision' => \App\Models\CulturalSubmission::where('status', \App\Models\CulturalSubmission::STATUS_REVISION)->count(),
+            'validators' => \App\Models\User::role('validator')->count(),
+        ];
+    } catch (\Spatie\Permission\Exceptions\RoleDoesNotExist $e) {
+        $stats = [
+            'total' => 0,
+            \App\Models\CulturalSubmission::STATUS_PUBLISHED => 0,
+            'users' => 0,
+            'pending' => 0,
+            'revision' => 0,
+            'validators' => 0,
+        ];
+    }
 
     $recentDiscoveries = \App\Models\CulturalSubmission::published()->with('files')->latest('published_at')->take(3)->get();
 
